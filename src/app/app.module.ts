@@ -13,18 +13,18 @@ import { environment } from '../environments/environment';
 import { ExerciseComponent } from './exercise/exercise.component';
 
 @NgModule({
-  declarations: [AppComponent, ExerciseComponent],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(),
-    AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
-  ],
-  providers: [
-    StatusBar,
-    SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
-  ],
-  bootstrap: [AppComponent]
+    'declarations': [AppComponent, ExerciseComponent],
+    'imports': [
+        BrowserModule,
+        IonicModule.forRoot(),
+        AppRoutingModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { 'enabled': environment.production })
+    ],
+    'providers': [
+        StatusBar,
+        SplashScreen,
+        { 'provide': RouteReuseStrategy, 'useClass': IonicRouteStrategy }
+    ],
+    'bootstrap': [AppComponent]
 })
 export class AppModule {}

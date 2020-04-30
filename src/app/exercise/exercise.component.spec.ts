@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { ExerciseComponent } from './exercise.component';
@@ -8,15 +8,19 @@ describe('ExerciseComponent', () => {
     let component: ExerciseComponent;
     let element: HTMLElement;
 
-    beforeEach(async (() => {
-        TestBed.configureTestingModule({
-            declarations: [ExerciseComponent],
-            imports: [IonicModule]
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            'declarations': [ExerciseComponent],
+            'imports': [IonicModule]
         }).compileComponents();
         fixture = TestBed.createComponent(ExerciseComponent);
         component = fixture.componentInstance;
         element = fixture.nativeElement;
-    }));
+    });
+
+    afterEach(() => {
+        element.remove();
+    });
 
     it('should create', () => {
         expect(component).toBeDefined();

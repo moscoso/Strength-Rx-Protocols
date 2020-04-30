@@ -9,12 +9,12 @@ import { FolderPageRoutingModule } from './folder-routing.module';
 import { FolderPage } from './folder.page';
 
 @NgModule({
-  imports: [
+  'imports': [
     CommonModule,
     FormsModule,
     IonicModule,
     FolderPageRoutingModule
   ],
-  declarations: [FolderPage]
+  'declarations': [FolderPage]
 })
 export class FolderPageModule {}
