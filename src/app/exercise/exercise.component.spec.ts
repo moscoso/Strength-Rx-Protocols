@@ -16,6 +16,7 @@ describe('ExerciseComponent', () => {
         fixture = TestBed.createComponent(ExerciseComponent);
         component = fixture.componentInstance;
         element = fixture.nativeElement;
+        fixture.detectChanges();
     });
 
     afterEach(() => {
@@ -26,9 +27,17 @@ describe('ExerciseComponent', () => {
         expect(component).toBeDefined();
     });
 
-    it('should have urls', () => {
-        const paragraph: NodeListOf < HTMLParagraphElement > = element.querySelectorAll('p');
-        expect(paragraph[0].textContent).toContain('wow');
+    it('should contain PushUp in the name element', () => {
+        const name: HTMLCollectionOf<Element> = element.getElementsByClassName('name');
+        expect(name[0]).toBeDefined();
+        expect(name[0].textContent).toContain('PushUp');
+    });
+
+    it('should contain a link to a youtube video in the video src', () => {
+        const video: HTMLVideoElement = element.querySelector('video');
+        expect(video).toBeDefined();
+        expect(video.hasAttribute('src'));
+        expect(video.getAttribute('src')).toContain('https://www.youtube.com/watch?v=IODxDxX7oi4');
     });
 
 });
