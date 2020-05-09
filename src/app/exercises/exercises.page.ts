@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { CreateExercisePage } from '../create-exercise/create-exercise.page';
 
 @Component({
     'selector': 'app-exercises',
@@ -7,8 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExercisesPage implements OnInit {
 
-    constructor() {}
+    constructor(
+        public modalController: ModalController
+    ) {
+    }
 
-    ngOnInit() {}
+    ngOnInit(): void {}
 
+    async presentModal(): Promise < void > {
+        const modal = await this.modalController.create({
+            'id': 'create-exercise',
+            'component': CreateExercisePage
+        });
+        await modal.present();
+        return;
+    }
 }

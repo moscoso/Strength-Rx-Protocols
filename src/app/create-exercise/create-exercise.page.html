@@ -1,0 +1,47 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="end">
+            <ion-button (click)="dismiss()">Dismiss</ion-button>
+        </ion-buttons>
+        <ion-title>New Exercise Form</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form #form>
+        <ion-card>
+            <ion-card-header>Exercise Name</ion-card-header>
+            <ion-card-content>
+                <input type="text" [(ngModel)]="name" name="name" placeholder="Push-Up"
+                       clearInput="true" required
+                       color="primary" enterKeyHint="next" #x>
+                <ion-label *ngIf="x.errors && x.errors.required">
+                    Name is required.
+                </ion-label>
+            </ion-card-content>
+        </ion-card>
+        <ion-card>
+            <ion-card-header>Video URL</ion-card-header>
+            <ion-card-content>
+                <input type="text" [(ngModel)]="videoURL" name="videoURL" placeholder="http:"
+                       required clearInput="true"
+                       color="primary" enterKeyHint="next" #y>
+                <ion-label *ngIf="y.errors && y.errors.required">
+                    VideoURL is required.
+                </ion-label>
+            </ion-card-content>
+        </ion-card>
+        <ion-card>
+            <ion-card-header>Exercise Instructions</ion-card-header>
+            <ion-card-content>
+                <input type="text" [(ngModel)]="instructions" name="instructions" placeholder="Push your body up"
+                       required clearInput="true"
+                       color="primary" enterKeyHint="done" #z>
+                <ion-label *ngIf="z.errors && z.errors.required">
+                    Instructions is required.
+                </ion-label>
+            </ion-card-content>
+        </ion-card>
+        <button type="submit" (click)="onSubmit()" [disabled]="form.invalid">SUBMIT</button>
+    </form>
+</ion-content>

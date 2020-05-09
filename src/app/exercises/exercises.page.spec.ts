@@ -1,17 +1,29 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { IonicModule, ModalController } from '@ionic/angular';
 
 import { ExercisesPage } from './exercises.page';
+import { click } from 'testing';
+import { ExerciseComponent } from '../exercise/exercise.component';
+import { CreateExercisePage } from '../create-exercise/create-exercise.page';
 
 describe('ExercisesPage', () => {
     let component: ExercisesPage;
     let fixture: ComponentFixture < ExercisesPage > ;
     let element: HTMLElement;
 
+
+    const modalSpy = jasmine.createSpyObj('Modal', ['present']);
+    const modalControllerSpy = jasmine.createSpyObj('ModalController', {'create': modalSpy});
+
     beforeEach(async () => {
         TestBed.configureTestingModule({
-            'declarations': [ExercisesPage],
-            'imports': [IonicModule]
+            'declarations': [ExercisesPage, ExerciseComponent],
+            'imports': [IonicModule],
+            'providers': [
+            {
+                'provide': ModalController,
+                'useValue': modalControllerSpy
+            }],
         }).compileComponents();
 
         fixture = TestBed.createComponent(ExercisesPage);
@@ -24,12 +36,35 @@ describe('ExercisesPage', () => {
         element.remove();
     });
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
-    });
-
-    it('should contain Exercises in the title', () => {
+    it('has the word Exercises in the title', () => {
         const title = element.querySelector('ion-title');
         expect(title.textContent).toContain('Exercises');
     });
+
+    it('has a #create-exercise button', () => {
+        const button = element.querySelector('ion-button');
+        expect(button).toBeTruthy();
+        expect(button.getAttribute('id')).toEqual('create-exercise');
+    });
+
+
+    it('creates and presents a modal when the create-new button is clicked', async () => {
+        const button: HTMLElement = element.querySelector('ion-button');
+        click(button);
+        await fixture.whenStable();
+        expect(modalControllerSpy.create).toHaveBeenCalled();
+        expect(modalSpy.present).toHaveBeenCalled();
+    });
+
+    it('the presents modal is called with id: create-exercise', async () => {
+        const button: HTMLElement = element.querySelector('ion-button');
+        click(button);
+        await fixture.whenStable();
+        expect(modalControllerSpy.create).toHaveBeenCalledWith({
+            'id' : 'create-exercise',
+            'component': CreateExercisePage,
+        });
+    });
+
+
 });

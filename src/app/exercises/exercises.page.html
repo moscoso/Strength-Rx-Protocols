@@ -1,9 +1,38 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Exercises</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Exercises</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="presentModal()"
+                        id="create-exercise"
+                        slot="end">New<ion-icon name="add"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <exercise></exercise>
+
+    <ion-row>
+        <ion-col>
+            <exercise name="Push-up"
+                      instructions="Push your body off the ground"
+                      videoURL="https://www.youtube.com/embed/IODxDxX7oi4"></exercise>
+        </ion-col>
+        <ion-col>
+            <exercise name="Pull-up"
+                      instructions="Pull your body up on the bar"
+                      videoURL="https://www.youtube.com/embed/IODxDxX7oi4"></exercise>
+        </ion-col>
+        <ion-col>
+            <exercise name="Pull-up"
+                      instructions="Pull your body up on the bar"
+                      videoURL="https://www.youtube.com/embed/IODxDxX7oi4"></exercise>
+        </ion-col>
+    </ion-row>
+
+
+
 </ion-content>
