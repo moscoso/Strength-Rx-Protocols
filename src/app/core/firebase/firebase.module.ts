@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AngularFireModule } from '@angular/fire';
-
+import { AuthService } from './auth.service';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 
 @NgModule({
@@ -18,6 +19,10 @@ import { AngularFireModule } from '@angular/fire';
             'appId': '1:71599561823:web:4bec2e15b7ee4ad547cfea',
             'measurementId': 'G-90WG2D041V'
         }),
+        AngularFireAuthModule,
+    ],
+    'providers': [
+        AuthService,
     ]
 })
 export class FirebaseModule {}
