@@ -3,7 +3,7 @@ export interface AuthState {
     userData: UserInfo | null; // firebase user model
     isAuthenticated: boolean;
     isFetching: boolean;
-    error ?: any;
+    error?: any;
 }
 
 export const AUTH_INIT_STATE: AuthState = {
@@ -14,7 +14,12 @@ export const AUTH_INIT_STATE: AuthState = {
     'error': null,
 };
 
-
+/**
+ * Represents a collection of standard profile information for a user.
+ * Can be used to expose profile information returned by an identity provider,
+ * such as Google Sign-In or Facebook Login.
+ * https://firebase.google.com/docs/reference/android/com/google/firebase/auth/UserInfo
+ */
 export interface UserInfo {
     displayName: string | null;
     email: string | null;

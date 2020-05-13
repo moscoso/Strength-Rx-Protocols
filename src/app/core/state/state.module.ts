@@ -6,6 +6,7 @@ import { FirebaseModule } from '../firebase/firebase.module';
 import { authReducer } from './auth/auth.reducer';
 import { AuthEffects } from './auth/auth.effects';
 import { AuthStoreDispatcher } from './auth/auth.dispatcher';
+import { ExerciseReducer } from './exercise/exercise.reducer';
 
 @NgModule({
     'imports': [
@@ -16,6 +17,7 @@ import { AuthStoreDispatcher } from './auth/auth.dispatcher';
 
         StoreModule.forRoot({
             'auth': authReducer,
+            'exercise': ExerciseReducer,
         }),
 
         FirebaseModule,
