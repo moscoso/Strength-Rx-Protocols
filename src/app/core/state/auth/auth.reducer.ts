@@ -26,11 +26,11 @@ export function authReducer(state = AUTH_INIT_STATE, action: AuthAction): AuthSt
         case AuthActionType.LOGIN_WITH_GOOGLE:
         case AuthActionType.SIGNUP:
         case AuthActionType.RESET_PASSWORD:
-        case AuthActionType.LOGIN_SUCCESS:
-        case AuthActionType.SIGNUP_SUCCESS: {
+        case AuthActionType.LOGIN_COMPLETED:
+        case AuthActionType.SIGNUP_COMPLETED: {
             return { ...state, 'error': null, 'isFetching': true };
         }
-        case AuthActionType.RESET_PASSWORD_SUCCESS: {
+        case AuthActionType.RESET_PASSWORD_COMPLETED: {
             return { ...state, 'error': null, 'isFetching': false };
         }
         case AuthActionType.AUTH_ERROR:

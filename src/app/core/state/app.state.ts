@@ -1,8 +1,8 @@
 import { AuthState } from './auth/auth.state';
-import { ExerciseState } from './exercise/exercise.state';
+import { ExercisesState } from './exercises/exercises.state';
 
 
 export interface AppState {
     auth: AuthState;
-    exercise: ExerciseState;
+    exercise: ExercisesState;
 }
