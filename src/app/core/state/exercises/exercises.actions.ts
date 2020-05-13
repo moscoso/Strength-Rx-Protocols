@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Exercise } from './exercise.state';
+import { Exercise } from './exercises.state';
 
 export enum ExerciseActionType {
     Load_Initiated = '[Exercise Service] Exercises Load Initiated',

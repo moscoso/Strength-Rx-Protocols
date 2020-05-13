@@ -15,6 +15,6 @@ export interface Exercise {
  * includes a dictionary of exercises and the
  * list of ids that corresponds to each exercise
  */
-export interface Exercises extends EntityState < Exercise > {
+export interface ExercisesState extends EntityState < Exercise > {
     loading: boolean;
 }

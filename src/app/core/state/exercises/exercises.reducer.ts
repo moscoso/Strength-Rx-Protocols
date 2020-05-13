@@ -1,7 +1,7 @@
 import { createEntityAdapter } from '@ngrx/entity';
 import { createFeatureSelector } from '@ngrx/store';
-import { ExerciseAction, ExerciseActionType } from './exercise.actions';
-import { ExercisesState, Exercise } from './exercise.state';
+import { ExerciseAction, ExerciseActionType } from './exercises.actions';
+import { ExercisesState, Exercise } from './exercises.state';
 
 const exerciseAdapter = createEntityAdapter < Exercise > ({
     'selectId': exercise => exercise.id,
