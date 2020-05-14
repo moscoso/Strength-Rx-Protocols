@@ -16,5 +16,6 @@ export interface Exercise {
  * list of ids that corresponds to each exercise
  */
 export interface ExercisesState extends EntityState < Exercise > {
-    loading: boolean;
+    requestInProgress: boolean;
+    error: any | null;
 }

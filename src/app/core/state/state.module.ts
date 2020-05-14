@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { FirebaseModule } from '../firebase/firebase.module';
-import { authReducer } from './auth/auth.reducer';
 import { AuthEffects } from './auth/auth.effects';
 import { AuthStoreDispatcher } from './auth/auth.dispatcher';
-import { ExerciseReducer } from './exercises/exercises.reducer';
-
+import { appReducers } from './app.reducer';
 @NgModule({
     'imports': [
 
@@ -15,13 +14,8 @@ import { ExerciseReducer } from './exercises/exercises.reducer';
             AuthEffects,
         ]),
 
-        StoreModule.forRoot({
-            'auth': authReducer,
-            'exercise': ExerciseReducer,
-        }),
-
-        FirebaseModule,
-
+        StoreModule.forRoot(appReducers),
+        StoreRouterConnectingModule.forRoot({ 'stateKey': 'router' }),
         StoreDevtoolsModule.instrument({ 'maxAge': 25, 'name': `Strength Rx Protocols` }),
     ],
     'providers': [
