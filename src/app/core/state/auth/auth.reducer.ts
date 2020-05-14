@@ -3,7 +3,7 @@ import { AuthState, AUTH_INIT_STATE, UserInfo } from './auth.state';
 
 export function authReducer(state = AUTH_INIT_STATE, action: AuthAction): AuthState {
     switch (action.type) {
-        case AuthActionType.AUTHENTICATED: {
+        case AuthActionType.Authenticated: {
             const userData: UserInfo = action.payload.userData;
             return {
                 ...state,
@@ -14,29 +14,29 @@ export function authReducer(state = AUTH_INIT_STATE, action: AuthAction): AuthSt
                 'error': null
             };
         }
-        case AuthActionType.LOGOUT: {
+        case AuthActionType.LogoutRequested: {
             return { ...state, 'userData': null, 'isAuthenticated': false, 'isFetching': false };
         }
-        case AuthActionType.NOT_AUTHENTICATED: {
+        case AuthActionType.NotAuthenticated: {
             return { ...state, 'userData': null, 'isAuthenticated': false, 'isFetching': false };
         }
-        case AuthActionType.LOGIN_WITH_EMAIL_AND_PASSWORD:
-        case AuthActionType.LOGIN_AS_GUEST:
-        case AuthActionType.LOGIN_WITH_FACEBOOK:
-        case AuthActionType.LOGIN_WITH_GOOGLE:
-        case AuthActionType.SIGNUP:
-        case AuthActionType.RESET_PASSWORD:
-        case AuthActionType.LOGIN_COMPLETED:
-        case AuthActionType.SIGNUP_COMPLETED: {
+        case AuthActionType.LoginWithEmailAndPassword:
+        case AuthActionType.LoginAsGuest:
+        case AuthActionType.LoginWithFacebook:
+        case AuthActionType.LoginWithGoogle:
+        case AuthActionType.SignupRequested:
+        case AuthActionType.ResetPasswordRequested:
+        case AuthActionType.LoginCompleted:
+        case AuthActionType.SignupCompleted: {
             return { ...state, 'error': null, 'isFetching': true };
         }
-        case AuthActionType.RESET_PASSWORD_COMPLETED: {
+        case AuthActionType.ResetPasswordCompleted: {
             return { ...state, 'error': null, 'isFetching': false };
         }
-        case AuthActionType.AUTH_ERROR:
-        case AuthActionType.RESET_PASSWORD_FAILED:
-        case AuthActionType.SIGNUP_FAILED:
-        case AuthActionType.LOGIN_FAILED: {
+        case AuthActionType.AuthFailed:
+        case AuthActionType.ResetPasswordFailed:
+        case AuthActionType.SignupFailed:
+        case AuthActionType.LoginFailed: {
             return { ...state, 'isFetching': false, 'isAuthenticated': false, 'error': action.payload.error };
         }
         default:

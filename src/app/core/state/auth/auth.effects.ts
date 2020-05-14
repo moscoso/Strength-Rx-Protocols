@@ -37,7 +37,7 @@ import { AppState } from '../app.state';
 export class AuthEffects {
 
     @Effect() loginWithEmailAction$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.LOGIN_WITH_EMAIL_AND_PASSWORD),
+        ofType(AuthActionType.LoginWithEmailAndPassword),
         pluck('payload'),
         switchMap((payload: any) => {
             return from(this.authService.signInWithEmailAndPassword(payload.email, payload.password)
@@ -54,7 +54,7 @@ export class AuthEffects {
     );
 
     @Effect() loginAsGuestAction$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.LOGIN_AS_GUEST),
+        ofType(AuthActionType.LoginAsGuest),
         pluck('payload'),
         switchMap(payload => {
             return from(this.authService.signInAsGuest()
@@ -71,7 +71,7 @@ export class AuthEffects {
     );
 
     @Effect() logoutAction$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.LOGOUT),
+        ofType(AuthActionType.LogoutRequested),
         switchMap(_ => {
             return from(this.authService.signOut()
                 .then(() => {
@@ -87,7 +87,7 @@ export class AuthEffects {
     );
 
     @Effect() resetPasswordAction$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.RESET_PASSWORD),
+        ofType(AuthActionType.ResetPasswordRequested),
         pluck('payload'),
         switchMap((payload: any) => {
             return from(this.authService.sendPasswordResetEmail(payload.email)
@@ -104,7 +104,7 @@ export class AuthEffects {
     );
 
     @Effect() signupAction$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.SIGNUP),
+        ofType(AuthActionType.SignupRequested),
         pluck('payload'),
         switchMap((payload: any) => {
             return from(this.authService.createUserWithEmailAndPassword(payload.email, payload.password)
