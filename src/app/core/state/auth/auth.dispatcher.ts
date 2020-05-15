@@ -48,7 +48,6 @@ export class AuthStoreDispatcher {
         this.store.dispatch(new LoginWithGoogleAction());
     }
 
-    /**  Returns the ID of the authenticated user */
     public getUserID(): Promise < string > {
         return this.getUserData().pipe(
             map(userData => userData ? userData.uid : ''),
@@ -62,6 +61,13 @@ export class AuthStoreDispatcher {
             filter(authState => authState.userData != null),
             pluck('userData')
         );
+    }
+
+    public isAuthenticated(): Promise < boolean > {
+        return this.getState().pipe(
+            map(auth => auth.userData != null),
+            take(1),
+        ).toPromise();
     }
 
     public getState(): Observable < AuthState > {

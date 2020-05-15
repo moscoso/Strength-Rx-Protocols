@@ -14,36 +14,33 @@ export function authReducer(state = AUTH_INIT_STATE, action: AuthAction): AuthSt
                 'error': null
             };
         }
-        case AuthActionType.LogoutRequested: {
+        case AuthActionType.LogoutRequested:
             return { ...state, 'userData': null, 'isAuthenticated': false, 'isInProgress': false };
-        }
-        case AuthActionType.NotAuthenticated: {
+
+        case AuthActionType.NotAuthenticated:
             return { ...state, 'userData': null, 'isAuthenticated': false, 'isInProgress': false };
-        }
+
         case AuthActionType.LoginWithEmailAndPassword:
         case AuthActionType.LoginAsGuest:
         case AuthActionType.LoginWithFacebook:
         case AuthActionType.LoginWithGoogle:
         case AuthActionType.SignupRequested:
-        case AuthActionType.ResetPasswordRequested: {
+        case AuthActionType.ResetPasswordRequested:
             return { ...state, 'error': null, 'isInProgress': true };
-        }
+
         case AuthActionType.LoginCompleted:
-        case AuthActionType.SignupCompleted: {
+        case AuthActionType.SignupCompleted:
             return { ...state, 'error': null, 'isInProgress': false, 'credential': action.credential };
-        }
-        case AuthActionType.ResetPasswordCompleted: {
+        case AuthActionType.ResetPasswordCompleted:
             return { ...state, 'error': null, 'isInProgress': false };
-        }
+
         case AuthActionType.AuthFailed:
         case AuthActionType.ResetPasswordFailed:
         case AuthActionType.SignupFailed:
-        case AuthActionType.LoginFailed: {
+        case AuthActionType.LoginFailed:
             return { ...state, 'isInProgress': false, 'isAuthenticated': false, 'error': action.error };
-        }
+
         default:
-        {
             return state;
-        }
     }
 }
