@@ -27,6 +27,8 @@ import {
     SignupErrorAction,
     SignupSuccessAction,
     AuthenticatedAction,
+    LoginWithEmailAction,
+    SignupAction,
 } from './auth.actions';
 import { AuthService } from '../../firebase/auth.service';
 import { Store } from '@ngrx/store';
@@ -38,11 +40,10 @@ export class AuthEffects {
 
     @Effect() loginWithEmailAction$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.LoginWithEmailAndPassword),
-        pluck('payload'),
-        switchMap((payload: any) => {
-            return from(this.authService.signInWithEmailAndPassword(payload.email, payload.password)
+        switchMap((action: LoginWithEmailAction) => {
+            return from(this.authService.signInWithEmailAndPassword(action.email, action.password)
                 .then(credential => {
-                    return new LoginSuccessAction();
+                    return new LoginSuccessAction(credential);
                 })
                 .catch(error => {
                     return new LoginFailedAction({
@@ -55,11 +56,10 @@ export class AuthEffects {
 
     @Effect() loginAsGuestAction$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.LoginAsGuest),
-        pluck('payload'),
-        switchMap(payload => {
+        switchMap(action => {
             return from(this.authService.signInAsGuest()
                 .then(credential => {
-                    return new LoginSuccessAction();
+                    return new LoginSuccessAction(credential);
                 })
                 .catch(error => {
                     return new LoginFailedAction({
@@ -105,11 +105,10 @@ export class AuthEffects {
 
     @Effect() signupAction$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.SignupRequested),
-        pluck('payload'),
-        switchMap((payload: any) => {
-            return from(this.authService.createUserWithEmailAndPassword(payload.email, payload.password)
-                .then(_ => {
-                    return new SignupSuccessAction();
+        switchMap((action: SignupAction) => {
+            return from(this.authService.createUserWithEmailAndPassword(action.email, action.password)
+                .then(credential => {
+                    return new SignupSuccessAction(credential);
                 })
                 .catch(error => {
                     return new SignupErrorAction(error);
@@ -125,9 +124,7 @@ export class AuthEffects {
     ) {
         this.authService.getUser().subscribe(async (authenticatedUser: any) => {
             if (authenticatedUser) {
-                this.store.dispatch(new AuthenticatedAction({
-                    'userData': authenticatedUser
-                }));
+                this.store.dispatch(new AuthenticatedAction(authenticatedUser));
             } else {
                 this.store.dispatch(new NotAuthenticatedAction());
             }
