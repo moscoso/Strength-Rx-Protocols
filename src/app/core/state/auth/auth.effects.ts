@@ -1,20 +1,8 @@
-import {
-    Injectable
-} from '@angular/core';
-import {
-    Actions,
-    Effect,
-    ofType
-} from '@ngrx/effects';
-
-import {
-    Observable,
-    from
-} from 'rxjs';
-import {
-    switchMap,
-    pluck
-} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Observable, from } from 'rxjs';
+import { switchMap, pluck } from 'rxjs/operators';
 import {
     AuthActionType,
     AuthAction,
@@ -31,9 +19,7 @@ import {
     SignupAction,
 } from './auth.actions';
 import { AuthService } from '../../firebase/auth.service';
-import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
-
 
 @Injectable()
 export class AuthEffects {
