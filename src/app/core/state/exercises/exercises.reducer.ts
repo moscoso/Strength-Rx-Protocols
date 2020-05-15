@@ -34,7 +34,7 @@ export function exercisesReducer(state: ExercisesState = initialState, action: E
             return {
                 ...state,
                 'error': action.error,
-                'requestInProgress': false,
+                    'requestInProgress': false,
             };
         default:
             return state;
@@ -42,12 +42,12 @@ export function exercisesReducer(state: ExercisesState = initialState, action: E
 }
 
 /**
- * Gets the top-level Exercise state property of the state tree.
- *
- * Note: createFeatureSelector allows us to get a top-level feature state
+ * Gets the top-level store property named 'exercises' of the state tree.
+ */
+/* Note: createFeatureSelector allows us to get a top-level feature state
  * property of the state tree simply by calling it out by its feature name.
  */
-export const getState = createFeatureSelector < ExercisesState > ('exercise');
+export const getState = createFeatureSelector < ExercisesState > ('exercises');
 export const {
     selectIds,
     selectEntities,

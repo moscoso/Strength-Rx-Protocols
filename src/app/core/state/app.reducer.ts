@@ -7,6 +7,6 @@ import { exercisesReducer } from './exercises/exercises.reducer';
 
 export const appReducers: ActionReducerMap < AppState > = {
     'auth': authReducer,
-    'exercise': exercisesReducer,
+    'exercises': exercisesReducer,
     'router': routerReducer,
 };

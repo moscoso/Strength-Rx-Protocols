@@ -6,6 +6,6 @@ import { ExercisesState } from './exercises/exercises.state';
 
 export interface AppState {
     auth: AuthState;
-    exercise: ExercisesState;
+    exercises: ExercisesState;
     router: RouterReducerState;
 }

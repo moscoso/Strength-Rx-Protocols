@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { Exercise } from './exercises.state';
 
 export enum ExerciseActionType {
-    AllExercisesRequested = '[Exercise Page] Exercises Requested',
+    ALL_EXERCISES_REQUESTED = '[Exercise Page] Exercises Requested',
         AllExercisesLoaded = '[Exercise Service] All Exercises Loaded',
         RequestFailed = '[Exercise Service] Requested Failed',
         Selected = '[Exercisesz Page] Exercise Selected',
@@ -12,7 +12,7 @@ export enum ExerciseActionType {
 }
 
 export class AllExercisesRequested implements Action {
-    readonly type = ExerciseActionType.AllExercisesRequested;
+    readonly type = ExerciseActionType.ALL_EXERCISES_REQUESTED;
     constructor() {}
 }
 
