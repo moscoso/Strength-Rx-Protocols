@@ -1,14 +1,11 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-
-import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
+import { filter, pluck, map, take } from 'rxjs/operators';
 
 import {
-    AuthenticatedAction,
     LoginWithEmailAction,
     LogoutAction,
-    NotAuthenticatedAction,
     ResetPasswordAction,
     SignupAction,
     LoginAsGuestAction,
@@ -16,7 +13,6 @@ import {
     LoginWithGoogleAction
 } from './auth.actions';
 import { AuthState, UserInfo } from './auth.state';
-import { filter, pluck, map, take } from 'rxjs/operators';
 import { AppState } from '../app.state';
 
 @Injectable()

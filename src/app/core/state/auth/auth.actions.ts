@@ -1,24 +1,23 @@
 import { Action } from '@ngrx/store';
-import { UserInfo } from 'firebase';
-import { UserCredential } from './auth.state';
+import { UserInfo, UserCredential } from './auth.state';
 
 export enum AuthActionType {
     Authenticated = '[Firebase Auth API] Authenticated',
-        NotAuthenticated = '[Firebase Auth API] Not Authenticated',
-        LoginWithEmailAndPassword = '[Auth Service] Email Login Attempted',
-        LoginAsGuest = '[Auth Service] Login As Guest Attempted',
-        LoginWithFacebook = '[Auth Service] Login With Facebook Attempted',
-        LoginWithGoogle = '[Auth Service] Login With Google Attempted',
-        LoginCompleted = '[Auth Service] Login Completed Successfully',
-        LoginFailed = '[Auth Service] Login Failed',
-        SignupRequested = '[Auth Service] Signup Attempt',
-        SignupCompleted = '[Auth Service] Signup Completed Successfully',
-        SignupFailed = '[Auth Service] Signup Error',
-        LogoutRequested = '[Auth Service] Logout',
-        ResetPasswordRequested = '[Auth Service] Reset Password Attempt',
-        ResetPasswordCompleted = '[Auth Service] Reset Password Completed Successfully',
-        ResetPasswordFailed = '[Auth Service] Reset Password Error',
-        AuthFailed = '[Firebase Auth API] Authentication Failed with Error'
+    NotAuthenticated = '[Firebase Auth API] Not Authenticated',
+    LoginWithEmailAndPassword = '[Auth Service] Email Login Attempted',
+    LoginAsGuest = '[Auth Service] Login As Guest Attempted',
+    LoginWithFacebook = '[Auth Service] Login With Facebook Attempted',
+    LoginWithGoogle = '[Auth Service] Login With Google Attempted',
+    LoginCompleted = '[Auth Service] Login Completed Successfully',
+    LoginFailed = '[Auth Service] Login Failed',
+    SignupRequested = '[Auth Service] Signup Attempt',
+    SignupCompleted = '[Auth Service] Signup Completed Successfully',
+    SignupFailed = '[Auth Service] Signup Error',
+    LogoutRequested = '[Auth Service] Logout',
+    ResetPasswordRequested = '[Auth Service] Reset Password Attempt',
+    ResetPasswordCompleted = '[Auth Service] Reset Password Completed Successfully',
+    ResetPasswordFailed = '[Auth Service] Reset Password Error',
+    AuthFailed = '[Firebase Auth API] Authentication Failed with Error'
 }
 
 

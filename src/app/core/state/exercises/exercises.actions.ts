@@ -2,17 +2,17 @@ import { Action } from '@ngrx/store';
 import { Exercise } from './exercises.state';
 
 export enum ExerciseActionType {
-    ALL_EXERCISES_REQUESTED = '[Exercise Page] Exercises Requested',
-        AllExercisesLoaded = '[Exercise Service] All Exercises Loaded',
-        RequestFailed = '[Exercise Service] Requested Failed',
-        Selected = '[Exercisesz Page] Exercise Selected',
-        Created = '[Create Exercise Page] Exercise Created',
-        Updated = '[Edit Exercise Page] Exercise Updated',
-        Deleted = '[Exercise Page] Exercise Deleted',
+    AllExercisesRequested = '[Exercise Page] Exercises Requested',
+    AllExercisesLoaded = '[Exercise Service] All Exercises Loaded',
+    RequestFailed = '[Exercise Service] Requested Failed',
+    Selected = '[Exercisesz Page] Exercise Selected',
+    Created = '[Create Exercise Page] Exercise Created',
+    Updated = '[Edit Exercise Page] Exercise Updated',
+    Deleted = '[Exercise Page] Exercise Deleted',
 }
 
 export class AllExercisesRequested implements Action {
-    readonly type = ExerciseActionType.ALL_EXERCISES_REQUESTED;
+    readonly type = ExerciseActionType.AllExercisesRequested;
     constructor() {}
 }
 
@@ -50,6 +50,9 @@ export class DeletedExercise implements Action {
     ) {}
 }
 
+/**
+ * All of the actions related to Exercises
+ */
 export type ExerciseAction =
     AllExercisesRequested |
     AllExercisesLoaded |
