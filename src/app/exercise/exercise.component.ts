@@ -15,7 +15,9 @@ export class ExerciseComponent implements OnInit {
 
     exercises$: Observable<any>;
 
-    constructor(public store: Store) {}
+    constructor(
+        // public store: Store
+    ) {}
 
     ngOnInit() {
         // this.exercises$ = this.store.select(
