@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 @Component({
     'selector': 'exercise',
@@ -11,8 +13,14 @@ export class ExerciseComponent implements OnInit {
     @Input() videoURL = 'https://www.youtube.com/embed/IODxDxX7oi4';
     @Input() instructions: string;
 
-    constructor() {}
+    exercises$: Observable<any>;
 
-    ngOnInit() {}
+    constructor(public store: Store) {}
+
+    ngOnInit() {
+        // this.exercises$ = this.store.select(
+        //   getExerciseByID
+        // );
+    }
 
 }

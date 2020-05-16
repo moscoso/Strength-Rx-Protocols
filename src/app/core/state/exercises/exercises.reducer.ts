@@ -1,9 +1,9 @@
 import { createEntityAdapter } from '@ngrx/entity';
-import { createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ExerciseAction, ExerciseActionType } from './exercises.actions';
 import { ExercisesState, Exercise } from './exercises.state';
 
-const exerciseAdapter = createEntityAdapter < Exercise > ({
+export const exerciseAdapter = createEntityAdapter < Exercise > ({
     'selectId': exercise => exercise.id,
     'sortComparer': (exerciseA, exerciseB) => exerciseA.name.localeCompare(exerciseB.name)
 });
@@ -34,23 +34,10 @@ export function exercisesReducer(state: ExercisesState = initialState, action: E
             return {
                 ...state,
                 'error': action.error,
-                    'requestInProgress': false,
+                'requestInProgress': false,
             };
         default:
             return state;
     }
 }
 
-/**
- * Gets the top-level store property named 'exercises' of the state tree.
- */
-/* Note: createFeatureSelector allows us to get a top-level feature state
- * property of the state tree simply by calling it out by its feature name.
- */
-export const getState = createFeatureSelector < ExercisesState > ('exercises');
-export const {
-    selectIds,
-    selectEntities,
-    selectAll,
-    selectTotal
-} = exerciseAdapter.getSelectors(getState);
