@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AngularFireModule } from '@angular/fire';
 import { AuthService } from './auth.service';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { ExerciseService } from './entity/exercise.service';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     ],
     'providers': [
         AuthService,
+        ExerciseService,
     ]
 })
 export class FirebaseModule {}

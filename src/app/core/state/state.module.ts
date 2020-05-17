@@ -9,11 +9,9 @@ import { AuthStoreDispatcher } from './auth/auth.dispatcher';
 import { appReducers } from './app.reducer';
 @NgModule({
     'imports': [
-
         EffectsModule.forRoot([
             AuthEffects,
         ]),
-
         StoreModule.forRoot(appReducers),
         StoreRouterConnectingModule.forRoot({ 'stateKey': 'router' }),
         StoreDevtoolsModule.instrument({ 'maxAge': 25, 'name': `Strength Rx Protocols` }),

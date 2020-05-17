@@ -7,7 +7,7 @@ import { switchMap } from 'rxjs/operators';
 import { AppState } from '../app.state';
 import { ExerciseAction, ExerciseActionType} from './exercises.actions';
 import * as Exercises from './exercises.actions';
-import { ExerciseService } from '../../firebase/exercise.service';
+import { ExerciseService } from '../../firebase/entity/exercise.service';
 
 @Injectable()
 export class AuthEffects {
