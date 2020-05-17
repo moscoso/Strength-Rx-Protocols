@@ -2,22 +2,25 @@ import { Action } from '@ngrx/store';
 import { Exercise } from './exercises.state';
 
 export enum ExerciseActionType {
-    AllExercisesRequested = '[Exercise Page] Exercises Requested',
-    AllExercisesLoaded = '[Exercise Service] All Exercises Loaded',
-    RequestFailed = '[Exercise Service] Requested Failed',
-    Selected = '[Exercisesz Page] Exercise Selected',
-    Created = '[Create Exercise Page] Exercise Created',
+    AllRequested = '[Exercise Page] Exercises Requested',
+    AllLoaded = '[Exercise Service] All Exercises Loaded',
+    Selected = '[Exercises Page] Exercise Selected',
+    CreateRequested = '[Exercise Service] Create Exercise Requested',
+    Created = '[Exercises Effect] Exercise Created',
+    UpdateRequested = '[Exercise Service] Edit Exercise Requested',
     Updated = '[Edit Exercise Page] Exercise Updated',
+    DeleteRequested = '[Exercise Service] Delete Exercise Requested',
     Deleted = '[Exercise Page] Exercise Deleted',
+    RequestFailed = '[Exercise Service] Requested Failed',
 }
 
 export class AllExercisesRequested implements Action {
-    readonly type = ExerciseActionType.AllExercisesRequested;
+    readonly type = ExerciseActionType.AllRequested;
     constructor() {}
 }
 
 export class AllExercisesLoaded implements Action {
-    readonly type = ExerciseActionType.AllExercisesLoaded;
+    readonly type = ExerciseActionType.AllLoaded;
     constructor(
         public exercises: Exercise[],
     ) {}
@@ -28,23 +31,38 @@ export class RequestFailed implements Action {
     constructor(public error: any) {}
 }
 
-export class CreatedExercise implements Action {
+export class Created implements Action {
     readonly type = ExerciseActionType.Created;
+    constructor() {}
+}
+
+export class CreateRequested implements Action {
+    readonly type = ExerciseActionType.CreateRequested;
     constructor(
         public exercise: Exercise,
     ) {}
 }
 
-export class UpdatedExercise implements Action {
+export class Updated implements Action {
     readonly type = ExerciseActionType.Updated;
+    constructor() {}
+}
+
+export class UpdateRequested implements Action {
+    readonly type = ExerciseActionType.UpdateRequested;
     constructor(
         public id: string,
         public changes: Partial < Exercise > ,
     ) {}
 }
 
-export class DeletedExercise implements Action {
+export class Deleted implements Action {
     readonly type = ExerciseActionType.Deleted;
+    constructor() {}
+}
+
+export class DeleteRequested implements Action {
+    readonly type = ExerciseActionType.DeleteRequested;
     constructor(
         public id: string,
     ) {}
@@ -56,7 +74,10 @@ export class DeletedExercise implements Action {
 export type ExerciseAction =
     AllExercisesRequested |
     AllExercisesLoaded |
-    CreatedExercise |
-    UpdatedExercise |
-    DeletedExercise |
+    CreateRequested |
+    Created |
+    Updated |
+    UpdateRequested |
+    Deleted |
+    DeleteRequested |
     RequestFailed;

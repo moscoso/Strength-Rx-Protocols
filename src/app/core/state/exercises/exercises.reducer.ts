@@ -13,22 +13,30 @@ const initialState: ExercisesState = exerciseAdapter.getInitialState({
 });
 export function exercisesReducer(state: ExercisesState = initialState, action: ExerciseAction): ExercisesState {
     switch (action.type) {
-        case ExerciseActionType.AllExercisesRequested:
+        case ExerciseActionType.AllRequested:
             return {
                 ...state,
                 'requestInProgress': true,
                 'error': null,
             };
-        case ExerciseActionType.AllExercisesLoaded:
+        case ExerciseActionType.AllLoaded:
             return exerciseAdapter.setAll(action.exercises, {
                 ...state,
                 'requestInProgress': false,
             });
         case ExerciseActionType.Created:
-            return exerciseAdapter.addOne(action.exercise, state);
         case ExerciseActionType.Updated:
-            return exerciseAdapter.updateOne({ 'id': action.id, 'changes': action.changes }, state);
         case ExerciseActionType.Deleted:
+            return {
+                ...state,
+                'requestInProgress': false,
+                'error': null,
+            };
+        case ExerciseActionType.CreateRequested:
+            return exerciseAdapter.addOne(action.exercise, state);
+        case ExerciseActionType.UpdateRequested:
+            return exerciseAdapter.updateOne({ 'id': action.id, 'changes': action.changes }, state);
+        case ExerciseActionType.DeleteRequested:
             return exerciseAdapter.removeOne(action.id, state);
         case ExerciseActionType.RequestFailed:
             return {
@@ -40,4 +48,3 @@ export function exercisesReducer(state: ExercisesState = initialState, action: E
             return state;
     }
 }
-

@@ -14,7 +14,9 @@ export class ExercisesPage implements OnInit {
     ) {
     }
 
-    ngOnInit(): void {}
+    ngOnInit(
+        // public dispatch: ExerciseDispatcher,
+    ): void {}
 
     async presentModal(): Promise < void > {
         const modal = await this.modalController.create({
