@@ -10,15 +10,20 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { FirebaseModule } from './core/firebase/firebase.module';
 import { StateModule } from './core/state/state.module';
+import { MaterialsModule } from './materials.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
     'declarations': [AppComponent],
     'imports': [
         BrowserModule,
+        BrowserAnimationsModule,
         IonicModule.forRoot(),
         AppRoutingModule,
         FirebaseModule,
         StateModule,
+        MaterialsModule,
         ServiceWorkerModule.register('ngsw-worker.js', { 'enabled': environment.production })
     ],
     'providers': [

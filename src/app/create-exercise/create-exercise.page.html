@@ -8,40 +8,42 @@
 </ion-header>
 
 <ion-content>
-    <form #form (ngSubmit)=onSubmit()>
-        <ion-card>
-            <ion-card-header>Exercise Name</ion-card-header>
-            <ion-card-content>
-                <ion-input type="text" [(ngModel)]="name" name="name" placeholder="Push-Up"
-                       clearInput="true" required
-                       color="primary" enterKeyHint="next" #x></ion-input>
-                <ion-label *ngIf="x.errors && x.errors.required">
-                    Name is required.
-                </ion-label>
-            </ion-card-content>
-        </ion-card>
-        <ion-card>
-            <ion-card-header>Video URL</ion-card-header>
-            <ion-card-content>
-                <ion-input type="text" [(ngModel)]="videoURL" name="videoURL" placeholder="http:"
-                       required clearInput="true"
-                       color="primary" enterKeyHint="next" #y></ion-input>
-                <ion-label *ngIf="y.errors && y.errors.required">
-                    VideoURL is required.
-                </ion-label>
-            </ion-card-content>
-        </ion-card>
-        <ion-card>
-            <ion-card-header>Exercise Instructions</ion-card-header>
-            <ion-card-content>
-                <ion-input type="text" [(ngModel)]="instructions" name="instructions" placeholder="Push your body up"
-                       required clearInput="true"
-                       color="primary" enterKeyHint="done" #z></ion-input>
-                <ion-label *ngIf="z.errors && z.errors.required">
-                    Instructions is required.
-                </ion-label>
-            </ion-card-content>
-        </ion-card>
-        <ion-button type="submit" [disabled]="form.invalid">SUBMIT</ion-button>
-    </form>
+    <ion-grid>
+        <form [formGroup]=form (ngSubmit)=onSubmit(form.value)>
+            <ion-row>
+                <mat-form-field appearance="fill">
+                    <mat-label for='name'>Exercise Name</mat-label>
+                    <input matInput type="text" [formControl]="name" name="name" placeholder="Push-Up"
+                           clearInput="true" required
+                           color="primary" enterKeyHint="next">
+
+                    <mat-error *ngIf="name.hasError('required')">Name is required.</mat-error>
+                </mat-form-field>
+            </ion-row>
+
+            <ion-row>
+                <mat-form-field class="example-full-width">
+                    <mat-label for="videoURL">Video Src URL</mat-label>
+                    <input matInput type="text" [formControl]="videoURL" name="videoURL" placeholder="http:"
+                           required clearInput="true"
+                           color="primary" enterKeyHint="next">
+                    <mat-error *ngIf="videoURL.hasError('required')">Video URL required</mat-error>
+                </mat-form-field>
+            </ion-row>
+
+            <ion-row>
+                <mat-form-field class="example-full-width">
+                    <mat-label for='instructions'>Instructions</mat-label>
+                    <textarea matInput type="text" [formControl]="instructions" name="instructions"
+                           placeholder="Push your body up"
+                           required clearInput="true"
+                           color="primary" enterKeyHint="done" #z></textarea>
+                    
+                           <mat-error *ngIf="instructions.hasError('required')">Instructions required</mat-error>
+                </mat-form-field>
+            </ion-row>
+
+            <ion-button type="submit" [disabled]="form.invalid">SUBMIT</ion-button>
+        </form>
+    </ion-grid>
 </ion-content>

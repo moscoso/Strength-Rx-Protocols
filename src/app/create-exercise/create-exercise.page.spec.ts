@@ -2,10 +2,8 @@ import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testin
 import { IonicModule } from '@ionic/angular';
 
 import { CreateExercisePage } from './create-exercise.page';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
-import { getIonInputByName } from 'testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { getInputByName, getTextareaByName } from 'testing';
 
 describe('CreateExercisePage', () => {
     let component: CreateExercisePage;
@@ -17,6 +15,7 @@ describe('CreateExercisePage', () => {
             'declarations': [CreateExercisePage],
             'imports': [
                 FormsModule,
+                ReactiveFormsModule,
                 IonicModule.forRoot({
                     '_testing': true,
                 }),
@@ -41,29 +40,25 @@ describe('CreateExercisePage', () => {
     });
 
     describe('form example: Push-Up', () => {
-        it('updates the name in the input for name', fakeAsync(() => {
-            const input = getIonInputByName(fixture, 'name');
-            input.value = 'Push-Up';
-            tick(1000);
-            fixture.detectChanges();
-            expect(component.name).toContain('Push-Up');
-        }));
 
-        it('updates the videoURL in the input for videoURL', fakeAsync(() => {
-            const input = getIonInputByName(fixture, 'videoURL');
-            input.value = 'videoURL';
-            tick(1000);
-            fixture.detectChanges();
-            expect(component.videoURL).toContain('videoURL');
-        }));
+        it('form invalid when empty', () => {
+            expect(component.form.valid).toBeFalsy();
+        });
 
-        it('updates the instructions in the input for instructions', fakeAsync(() => {
-            const input = getIonInputByName(fixture, 'instructions');
-            input.value = 'Push your body up';
-            tick(1000);
-            fixture.detectChanges();
-            expect(component.instructions).toContain('Push your body up');
-        }));
+        it('inputing any string for name makes the form control valid', async () => {
+            component.form.get('name').setValue('Push-Up');
+            expect(component.form.get('name').valid).toBe(true);
+        });
+
+        it('inputing any string for videoURL makes the form control valid', async () => {
+            component.form.get('videoURL').setValue('Push-Up');
+            expect(component.form.get('videoURL').valid).toBe(true);
+        });
+
+        it('inputing any text for instructions makes the form control valid', async () => {
+            component.form.get('name').setValue('Push-Up');
+            expect(component.form.get('name').valid).toBe(true);
+        });
     });
 
 

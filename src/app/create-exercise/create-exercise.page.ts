@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
     'selector': 'app-create-exercise',
@@ -8,25 +9,33 @@ import { ModalController } from '@ionic/angular';
 })
 export class CreateExercisePage implements OnInit {
 
+    name = new FormControl('', [Validators.required]);
+    videoURL = new FormControl('', [Validators.required]);
+    instructions = new FormControl('', [Validators.required]);
 
-    videoURL = '';
-    name = '';
-    instructions = '';
+    form: FormGroup;
 
     constructor(
         public modalController: ModalController
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.form = new FormGroup({
+            'name': this.name,
+            'videoURL': this.videoURL,
+            'instructions': this.instructions,
+        });
+    }
 
     dismiss() {
         this.modalController.dismiss('create-exercise');
     }
 
-    onSubmit() {
-        console.log(this.videoURL);
-        console.log(this.name);
-        console.log(this.instructions);
+    onSubmit(form) {
+        console.log(form);
+        console.log(this.videoURL.value);
+        console.log(this.name.value);
+        console.log(this.instructions.value);
     }
 
 }
