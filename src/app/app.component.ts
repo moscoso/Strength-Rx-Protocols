@@ -39,7 +39,6 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.store.select(selectURL).subscribe(url => {
             this.selectedRoute = url;
-            console.log(url);
         });
     }
 }
