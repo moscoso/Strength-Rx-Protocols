@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, DebugElement } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { Platform } from '@ionic/angular';
@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { ExerciseComponent } from './exercise/exercise.component';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 describe('AppComponent', () => {
     let fixture: ComponentFixture < AppComponent > ;
@@ -52,12 +53,9 @@ describe('AppComponent', () => {
         expect(storeSpy.select).toHaveBeenCalled();
     });
 
-    xit('the current route highlights the corresponding menu item', () => {
 
-    });
 
     it('has labels for each menu item', async () => {
-        fixture.detectChanges();
         const menuItems = element.querySelectorAll('ion-label');
         expect(menuItems.length).toEqual(component.items.length);
     });
@@ -66,6 +64,13 @@ describe('AppComponent', () => {
         fixture.detectChanges();
         const menuItems = element.querySelectorAll('ion-item');
         expect(menuItems[0].getAttribute('ng-reflect-router-link')).toEqual('/exercises');
+    });
+
+    it('when the current route url is /exercises the first menu item has a class of ".selected"', () => {
+        component.selectedRoute = '/exercises';
+        fixture.detectChanges();
+        const menuItems = element.querySelectorAll('ion-item');
+        expect(menuItems[0].getAttribute('class')).toContain('selected');
     });
 
 });

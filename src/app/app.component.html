@@ -8,7 +8,8 @@
                     <ion-menu-toggle auto-hide="false">
                         <ion-item *ngFor="let item of items"
                                   routerDirection="root"
-                                  [routerLink]="item.link">
+                                  [routerLink]="item.link"
+                                  [ngClass]="{'selected': selectedRoute === item.link}">
                             <ion-icon slot="start" [icon]="item.icon"></ion-icon>
                             <ion-label>{{item.label}}</ion-label>
                         </ion-item>

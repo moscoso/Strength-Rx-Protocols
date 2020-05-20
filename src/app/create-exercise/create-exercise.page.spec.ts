@@ -3,7 +3,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { CreateExercisePage } from './create-exercise.page';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { getInputByName, getTextareaByName } from 'testing';
+import { MaterialsModule } from '../materials.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CreateExercisePage', () => {
     let component: CreateExercisePage;
@@ -16,6 +17,8 @@ describe('CreateExercisePage', () => {
             'imports': [
                 FormsModule,
                 ReactiveFormsModule,
+                BrowserAnimationsModule,
+                MaterialsModule,
                 IonicModule.forRoot({
                     '_testing': true,
                 }),
