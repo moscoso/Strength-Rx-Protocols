@@ -6,14 +6,21 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
 import { ExerciseComponent } from './exercise/exercise.component';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
 describe('AppComponent', () => {
     let fixture: ComponentFixture < AppComponent > ;
     let component: AppComponent;
     let element: HTMLElement;
 
-    const platformReadySpy = Promise.resolve();
-    const platformSpy = jasmine.createSpyObj('Platform', { 'ready': platformReadySpy });
+    const voidPromise = Promise.resolve();
+    const platformSpy = jasmine.createSpyObj('Platform', { 'ready': voidPromise });
+
+    const routeObservable = of ({
+        'state': { 'router': { 'state': '/exercises' } }
+    });
+    const storeSpy = jasmine.createSpyObj('Store', { 'select': routeObservable });
 
     beforeEach(async () => {
         TestBed.configureTestingModule({
@@ -21,12 +28,14 @@ describe('AppComponent', () => {
             'schemas': [CUSTOM_ELEMENTS_SCHEMA],
             'providers': [
                 { 'provide': Platform, 'useValue': platformSpy },
+                { 'provide': Store, 'useValue': storeSpy },
             ],
             'imports': [RouterTestingModule.withRoutes([])],
         }).compileComponents();
         fixture = TestBed.createComponent(AppComponent);
         component = fixture.componentInstance;
         element = fixture.nativeElement;
+        fixture.detectChanges();
     });
 
     afterEach(() => {
@@ -36,7 +45,15 @@ describe('AppComponent', () => {
 
     it('calls for the platform to be ready', async () => {
         expect(platformSpy.ready).toHaveBeenCalled();
-        await platformReadySpy;
+        await voidPromise;
+    });
+
+    it('calls select on the store onNgInit', async () => {
+        expect(storeSpy.select).toHaveBeenCalled();
+    });
+
+    xit('the current route highlights the corresponding menu item', () => {
+
     });
 
     it('has labels for each menu item', async () => {

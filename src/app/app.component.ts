@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
+import { Store } from '@ngrx/store';
+import { AppState } from './core/state/app.state';
+import { selectURL } from './core/state/router/router.selectors';
 
 @Component({
     'selector': 'app-root',
@@ -8,8 +11,7 @@ import { Platform } from '@ionic/angular';
     'styleUrls': ['app.component.scss']
 })
 export class AppComponent implements OnInit {
-    public selectedIndex = 0;
-
+    public selectedRoute = '';
     public items: MenuItem[] = [
         {
             'label': 'Exercises',
@@ -25,6 +27,7 @@ export class AppComponent implements OnInit {
 
     constructor(
         private platform: Platform,
+        private store: Store<AppState>,
     ) {
         this.initializeApp();
     }
@@ -34,7 +37,10 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-
+        this.store.select(selectURL).subscribe(url => {
+            this.selectedRoute = url;
+            console.log(url);
+        });
     }
 }
 
