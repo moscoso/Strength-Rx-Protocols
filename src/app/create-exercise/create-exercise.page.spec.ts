@@ -1,20 +1,25 @@
-import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { CreateExercisePage } from './create-exercise.page';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+import { getIonInputByName } from 'testing';
 
 describe('CreateExercisePage', () => {
     let component: CreateExercisePage;
     let fixture: ComponentFixture < CreateExercisePage > ;
     let element: HTMLElement;
 
-    beforeEach(async (() => {
+    beforeEach(async () => {
         TestBed.configureTestingModule({
             'declarations': [CreateExercisePage],
             'imports': [
-                IonicModule,
                 FormsModule,
+                IonicModule.forRoot({
+                    '_testing': true,
+                }),
             ],
         }).compileComponents();
 
@@ -22,7 +27,9 @@ describe('CreateExercisePage', () => {
         component = fixture.componentInstance;
         element = fixture.nativeElement;
         fixture.detectChanges();
-    }));
+        await fixture.whenRenderingDone();
+        await fixture.whenStable();
+    });
 
     afterEach(() => {
         element.remove();
@@ -34,32 +41,29 @@ describe('CreateExercisePage', () => {
     });
 
     describe('form example: Push-Up', () => {
-        it('updates the name in the input for name', async () => {
-            const input: HTMLInputElement = element.querySelectorAll('input')[0];
+        it('updates the name in the input for name', fakeAsync(() => {
+            const input = getIonInputByName(fixture, 'name');
             input.value = 'Push-Up';
-            input.dispatchEvent(new Event('input'));
+            tick(1000);
             fixture.detectChanges();
-            await fixture.whenStable();
             expect(component.name).toContain('Push-Up');
-        });
+        }));
 
-        it('updates the videoURL in the input for videoURL', async () => {
-            const input: HTMLInputElement = element.querySelectorAll('input')[1];
+        it('updates the videoURL in the input for videoURL', fakeAsync(() => {
+            const input = getIonInputByName(fixture, 'videoURL');
             input.value = 'videoURL';
-            input.dispatchEvent(new Event('input'));
+            tick(1000);
             fixture.detectChanges();
-            await fixture.whenStable();
             expect(component.videoURL).toContain('videoURL');
-        });
+        }));
 
-        it('updates the instructions in the input for instructions', async () => {
-            const input: HTMLInputElement = element.querySelectorAll('input')[2];
+        it('updates the instructions in the input for instructions', fakeAsync(() => {
+            const input = getIonInputByName(fixture, 'instructions');
             input.value = 'Push your body up';
-            input.dispatchEvent(new Event('input'));
+            tick(1000);
             fixture.detectChanges();
-            await fixture.whenStable();
             expect(component.instructions).toContain('Push your body up');
-          });
+        }));
     });
 
 
