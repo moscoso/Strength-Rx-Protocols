@@ -1,0 +1,43 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Login</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <form [formGroup]=form (ngSubmit)=onSubmit(form.value)>
+            <ion-row>
+                <mat-form-field>
+                    <mat-label for='name'>Email</mat-label>
+                    <input matInput type="text" [formControl]="email" name="email"
+                           autocomplete="email"
+                           clearInput="true" required
+                           color="primary" enterKeyHint="next">
+                    <mat-error *ngIf="email.hasError('required') || email.hasError('email')">Please enter a valid email
+                    </mat-error>
+                </mat-form-field>
+            </ion-row>
+            <ion-row>
+                <mat-form-field>
+                    <mat-label for="password">Password </mat-label>
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" [formControl]="password" name="password"
+                           required clearInput="true"
+                           color="primary" enterKeyHint="go">
+                    <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                            [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hidePassword">
+                        <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="password.hasError('required')">Please enter your password</mat-error>
+                    <mat-error *ngIf="password.hasError('maxlength')">Password must be a maximum of 128 characters
+                    </mat-error>
+                </mat-form-field>
+            </ion-row>
+            <ion-button type="submit" [disabled]="form.invalid">Log In</ion-button>
+        </form>
+    </ion-grid>
+</ion-content>
