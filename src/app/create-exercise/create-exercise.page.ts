@@ -20,7 +20,7 @@ export class CreateExercisePage implements OnInit {
 
     form: FormGroup;
 
-    requestInProgress: Observable<boolean>;
+    requestInProgress$: Observable<boolean>;
 
     constructor(
         public modalController: ModalController,
@@ -34,7 +34,7 @@ export class CreateExercisePage implements OnInit {
             'instructions': this.instructions,
         });
 
-        this.requestInProgress = this.store.select((state: AppState) => state.exercises.requestInProgress);
+        this.requestInProgress$ = this.store.select((state: AppState) => state.exercises.requestInProgress);
     }
 
     dismiss() {
