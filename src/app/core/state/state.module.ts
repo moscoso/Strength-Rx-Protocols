@@ -3,14 +3,15 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { FirebaseModule } from '../firebase/firebase.module';
 import { AuthEffects } from './auth/auth.effects';
 import { AuthStoreDispatcher } from './auth/auth.dispatcher';
 import { appReducers } from './app.reducer';
+import { ExerciseEffects } from './exercises/exercises.effects';
 @NgModule({
     'imports': [
         EffectsModule.forRoot([
             AuthEffects,
+            ExerciseEffects,
         ]),
         StoreModule.forRoot(appReducers),
         StoreRouterConnectingModule.forRoot({ 'stateKey': 'router' }),

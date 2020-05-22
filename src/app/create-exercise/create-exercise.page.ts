@@ -6,6 +6,7 @@ import { CreateRequested } from '../core/state/exercises/exercises.actions';
 import { Exercise } from '../core/state/exercises/exercises.state';
 import { AppState } from '../core/state/app.state';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
     'selector': 'app-create-exercise',
@@ -24,7 +25,7 @@ export class CreateExercisePage implements OnInit {
 
     constructor(
         public modalController: ModalController,
-        public store: Store,
+        public store: Store<AppState>,
     ) {}
 
     ngOnInit() {

@@ -1,8 +1,5 @@
 <ion-header>
     <ion-toolbar>
-        <ion-buttons slot="end">
-            <ion-button (click)="dismiss()">Dismiss</ion-button>
-        </ion-buttons>
         <ion-title>New Exercise Form</ion-title>
     </ion-toolbar>
 </ion-header>
@@ -24,7 +21,7 @@
             <ion-row>
                 <mat-form-field class="example-full-width">
                     <mat-label for="videoURL">Video Src URL</mat-label>
-                    <input matInput type="text" [formControl]="videoURL" name="videoURL" placeholder="http:"
+                    <input matInput type="text" [formControl]="videoURL" name="videoURL" placeholder=""
                            required clearInput="true"
                            color="primary" enterKeyHint="next">
                 </mat-form-field>
@@ -34,9 +31,9 @@
                 <mat-form-field class="example-full-width">
                     <mat-label for='instructions'>Instructions</mat-label>
                     <textarea matInput type="text" [formControl]="instructions" name="instructions"
-                           placeholder="Push your body up"
-                           required clearInput="true"
-                           color="primary" enterKeyHint="done"></textarea>
+                              placeholder="Push your body up"
+                              required clearInput="true"
+                              color="primary" enterKeyHint="done"></textarea>
                 </mat-form-field>
             </ion-row>
 
