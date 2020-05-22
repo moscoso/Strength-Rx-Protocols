@@ -4,6 +4,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AuthService } from './auth.service';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { ExerciseService } from './entity/exercise.service';
+import { AngularFirestoreModule } from '@angular/fire/firestore/firestore.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { ExerciseService } from './entity/exercise.service';
             'measurementId': 'G-90WG2D041V'
         }),
         AngularFireAuthModule,
+        AngularFirestoreModule.enablePersistence(),
     ],
     'providers': [
         AuthService,
