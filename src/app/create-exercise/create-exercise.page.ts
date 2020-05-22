@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { CreateRequested } from '../core/state/exercises/exercises.actions';
+import { Exercise } from '../core/state/exercises/exercises.state';
+import { AppState } from '../core/state/app.state';
+import { Observable } from 'rxjs';
 
 @Component({
     'selector': 'app-create-exercise',
@@ -10,13 +15,16 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 export class CreateExercisePage implements OnInit {
 
     name = new FormControl('', [Validators.required]);
-    videoURL = new FormControl('', [Validators.required]);
-    instructions = new FormControl('', [Validators.required]);
+    videoURL = new FormControl('', []);
+    instructions = new FormControl('', []);
 
     form: FormGroup;
 
+    requestInProgress: Observable<boolean>;
+
     constructor(
-        public modalController: ModalController
+        public modalController: ModalController,
+        public store: Store,
     ) {}
 
     ngOnInit() {
@@ -25,6 +33,8 @@ export class CreateExercisePage implements OnInit {
             'videoURL': this.videoURL,
             'instructions': this.instructions,
         });
+
+        this.requestInProgress = this.store.select((state: AppState) => state.exercises.requestInProgress);
     }
 
     dismiss() {
@@ -32,10 +42,13 @@ export class CreateExercisePage implements OnInit {
     }
 
     onSubmit(form) {
-        console.log(form);
-        console.log(this.videoURL.value);
-        console.log(this.name.value);
-        console.log(this.instructions.value);
+        const exercise: Exercise = {
+            'id': form.name,
+            'name': form.name,
+            'videoURL': form.videoURL,
+            'instructions': form.instructions,
+        };
+        this.store.dispatch(new CreateRequested(exercise));
     }
 
 }

@@ -27,7 +27,6 @@
                     <input matInput type="text" [formControl]="videoURL" name="videoURL" placeholder="http:"
                            required clearInput="true"
                            color="primary" enterKeyHint="next">
-                    <mat-error *ngIf="videoURL.hasError('required')">Video URL required</mat-error>
                 </mat-form-field>
             </ion-row>
 
@@ -37,13 +36,11 @@
                     <textarea matInput type="text" [formControl]="instructions" name="instructions"
                            placeholder="Push your body up"
                            required clearInput="true"
-                           color="primary" enterKeyHint="done" #z></textarea>
-                    
-                           <mat-error *ngIf="instructions.hasError('required')">Instructions required</mat-error>
+                           color="primary" enterKeyHint="done"></textarea>
                 </mat-form-field>
             </ion-row>
 
-            <ion-button type="submit" [disabled]="form.invalid">SUBMIT</ion-button>
+            <ion-button type="submit" [disabled]="form.invalid || (requestInProgress$ | async)">SUBMIT</ion-button>
         </form>
     </ion-grid>
 </ion-content>
