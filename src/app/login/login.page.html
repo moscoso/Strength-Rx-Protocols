@@ -25,6 +25,7 @@
                 <mat-form-field>
                     <mat-label for="password">Password </mat-label>
                     <input matInput [type]="hidePassword ? 'password' : 'text'" [formControl]="password" name="password"
+                            autocomplete="current-password"
                            required clearInput="true"
                            color="primary" enterKeyHint="go">
                     <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
