@@ -34,25 +34,16 @@
 
         <ion-row>
             <ion-col>
-                <exercise name="Push-up"
-                          instructions="Push your body off the ground"
-                          videoURL="https://www.youtube.com/embed/IODxDxX7oi4"></exercise>
+                <exercise [exercise]='{name: "Push-up", instructions:"Push your body off the ground", 
+                          videoURL:"https://www.youtube.com/embed/IODxDxX7oi4"}'></exercise>
             </ion-col>
             <ion-col>
-                <exercise name="Pull-up"
-                          instructions="Pull your body up on the bar"
-                          videoURL="https://www.youtube.com/embed/IODxDxX7oi4"></exercise>
-            </ion-col>
-            <ion-col>
-                <exercise name="Pull-up"
-                          instructions="Pull your body up on the bar"
-                          videoURL="https://www.youtube.com/embed/IODxDxX7oi4"></exercise>
+                <exercise [exercise]='{name: "Pull-up", instructions:"Pull your body up on the bar", 
+                          videoURL:"https://www.youtube.com/embed/IODxDxX7oi4"}'></exercise>
             </ion-col>
             <ion-col>
                 <exercise *ngFor="let exercise of exercises$ | async"
-                          name="exercise.name"
-                          instructions="exercise.instructions"
-                          videoURL="exercise.videoURL"></exercise>
+                          exercise="exercise"></exercise>
             </ion-col>
 
         </ion-row>

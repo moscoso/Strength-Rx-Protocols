@@ -29,6 +29,7 @@ describe('ExerciseComponent', () => {
         let debugElement: DebugElement;
 
         const pushUp = {
+            'id': 'Push-up',
             'name': 'Push-up',
             'videoURL': 'https://www.youtube.com/embed/IODxDxX7oi4',
             'instructions': 'Push your body up off the ground',
@@ -36,9 +37,7 @@ describe('ExerciseComponent', () => {
 
         beforeEach(() => {
             debugElement = fixture.debugElement;
-            component.name = pushUp.name;
-            component.instructions = pushUp.instructions;
-            component.videoURL = pushUp.videoURL;
+            component.exercise = pushUp;
             fixture.detectChanges();
         });
 
