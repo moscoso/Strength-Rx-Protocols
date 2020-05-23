@@ -20,6 +20,7 @@ import {
 } from './auth.actions';
 import { AuthService } from '../../firebase/auth.service';
 import { AppState } from '../app.state';
+import { UserInfo } from './auth.state';
 
 @Injectable()
 export class AuthEffects {
@@ -108,9 +109,17 @@ export class AuthEffects {
         private actions$: Actions,
         private store: Store < AppState >
     ) {
-        this.authService.getUser().subscribe(async (authenticatedUser: any) => {
+        this.authService.getUser().subscribe(async (authenticatedUser: firebase.User) => {
             if (authenticatedUser) {
-                this.store.dispatch(new AuthenticatedAction(authenticatedUser));
+                const userInfo: UserInfo = {
+                    'displayName': authenticatedUser.displayName,
+                    'email': authenticatedUser.email,
+                    'phoneNumber': authenticatedUser.phoneNumber,
+                    'providerId': authenticatedUser.providerId,
+                    'uid': authenticatedUser.uid,
+                    'photoURL': authenticatedUser.photoURL,
+                };
+                this.store.dispatch(new AuthenticatedAction(userInfo));
             } else {
                 this.store.dispatch(new NotAuthenticatedAction());
             }

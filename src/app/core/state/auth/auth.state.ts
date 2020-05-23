@@ -51,7 +51,8 @@ export const AUTH_INIT_STATE: AuthState = {
  * Note: This is just a re-export of Firebase's UserCredential type.
  * It is essential to this project's state management for auth.
  */
-export type UserCredential = firebase.auth.UserCredential;
+// tslint:disable-next-line: no-empty-interface
+export interface UserCredential extends firebase.auth.UserCredential {}
 
 /**
  *  User profile information, visible only to the Firebase project's apps.
@@ -60,4 +61,6 @@ export type UserCredential = firebase.auth.UserCredential;
  *  Note: This is just a re-export of Firebase's UserInfo type.
  *  It is essential to this project's state management for auth
  */
-export type UserInfo = FirebaseUserInfo;
+// tslint:disable-next-line: no-empty-interface
+export interface UserInfo extends FirebaseUserInfo {}
+
