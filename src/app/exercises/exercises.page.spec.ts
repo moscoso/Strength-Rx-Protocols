@@ -5,6 +5,7 @@ import { ExercisesPage } from './exercises.page';
 import { click } from 'testing';
 import { ExerciseComponent } from '../exercise/exercise.component';
 import { CreateExercisePage } from '../create-exercise/create-exercise.page';
+import { Store } from '@ngrx/store';
 
 describe('ExercisesPage', () => {
     let component: ExercisesPage;
@@ -14,7 +15,7 @@ describe('ExercisesPage', () => {
 
     const modalSpy = jasmine.createSpyObj('Modal', ['present']);
     const modalControllerSpy = jasmine.createSpyObj('ModalController', {'create': modalSpy});
-
+    const storeSpy = jasmine.createSpyObj('Store', ['select', 'dispatch']);
     beforeEach(async () => {
         TestBed.configureTestingModule({
             'declarations': [ExercisesPage, ExerciseComponent],
@@ -23,6 +24,9 @@ describe('ExercisesPage', () => {
             {
                 'provide': ModalController,
                 'useValue': modalControllerSpy
+            }, {
+                'provide': Store,
+                'useValue': storeSpy
             }],
         }).compileComponents();
 

@@ -1,5 +1,13 @@
 :host {
-    
+    ion-card {
+        transition: all .5s;
+        cursor: pointer;
+    }
+
+    ion-card:hover{
+        border: 2px solid var(--ion-color-primary);
+        transform: scale(1.1);
+    }
 }
 
 

@@ -8,32 +8,39 @@
     <ion-grid>
         <form [formGroup]=form (ngSubmit)=onSubmit(form.value)>
             <ion-row>
-                <mat-form-field appearance="fill">
+                <mat-form-field>
                     <mat-label for='name'>Exercise Name</mat-label>
-                    <input matInput type="text" [formControl]="name" name="name" placeholder="Push-Up"
-                           clearInput="true" required
-                           color="primary" enterKeyHint="next">
-
+                    <input matInput type="text" [formControl]="name" name="name"
+                           placeholder="Barbell Back Squat"
+                           enterKeyHint="next"
+                           required>
                     <mat-error *ngIf="name.hasError('required')">Name is required.</mat-error>
                 </mat-form-field>
             </ion-row>
 
             <ion-row>
-                <mat-form-field class="example-full-width">
-                    <mat-label for="videoURL">Video Src URL</mat-label>
-                    <input matInput type="text" [formControl]="videoURL" name="videoURL" placeholder=""
-                           required clearInput="true"
-                           color="primary" enterKeyHint="next">
+                <mat-form-field>
+                    <mat-label for="youtubeURL">Youtube Video URL</mat-label>
+                    <input matInput type="text" [formControl]="youtubeURL" name="youtubeURL"
+                           placeholder="https://www.youtube.com/watch?v=sN8AGGLzuUw"
+                           color="primary"
+                           enterKeyHint="next"
+                           required>
+                    <mat-icon *ngIf="youtubeURL.dirty">{{youtubeURL.valid ? 'check' : 'cancel'}}</mat-icon>
+                    <mat-error *ngIf="youtubeURL.hasError('required')">A valid Youtube URL is required.</mat-error>
+                    <mat-error *ngIf="youtubeURL.hasError('pattern')">The URL you provided is not a valid Youtube link
+                    </mat-error>
                 </mat-form-field>
             </ion-row>
 
             <ion-row>
-                <mat-form-field class="example-full-width">
+                <mat-form-field>
                     <mat-label for='instructions'>Instructions</mat-label>
                     <textarea matInput type="text" [formControl]="instructions" name="instructions"
                               placeholder="Push your body up"
-                              required clearInput="true"
-                              color="primary" enterKeyHint="done"></textarea>
+                              required 
+                              color="primary" 
+                              enterKeyHint="done"></textarea>
                 </mat-form-field>
             </ion-row>
 

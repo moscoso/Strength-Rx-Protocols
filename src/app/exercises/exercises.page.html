@@ -22,7 +22,7 @@
 
         <ion-spinner *ngIf="(requestInProgress$ | async)"></ion-spinner>
 
-        <ion-row *ngIf="!(requestInProgress$ | async) && (exercises$ | async).length === 0">
+        <ion-row *ngIf="!(requestInProgress$ | async) && (exercises$ | async) && (exercises$ | async).length === 0">
             <ion-card>
                 <ion-card-header>No exercises found! Create one!</ion-card-header>
                 <ion-card-content>
@@ -33,19 +33,9 @@
         </ion-row>
 
         <ion-row>
-            <ion-col>
-                <exercise [exercise]='{name: "Push-up", instructions:"Push your body off the ground", 
-                          videoURL:"https://www.youtube.com/embed/IODxDxX7oi4"}'></exercise>
+            <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12" *ngFor="let exercise of exercises$ | async">
+                <exercise [exercise]="exercise"></exercise>
             </ion-col>
-            <ion-col>
-                <exercise [exercise]='{name: "Pull-up", instructions:"Pull your body up on the bar", 
-                          videoURL:"https://www.youtube.com/embed/IODxDxX7oi4"}'></exercise>
-            </ion-col>
-            <ion-col>
-                <exercise *ngFor="let exercise of exercises$ | async"
-                          exercise="exercise"></exercise>
-            </ion-col>
-
         </ion-row>
     </ion-grid>
 

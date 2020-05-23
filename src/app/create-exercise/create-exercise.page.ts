@@ -6,7 +6,6 @@ import { CreateRequested } from '../core/state/exercises/exercises.actions';
 import { Exercise } from '../core/state/exercises/exercises.state';
 import { AppState } from '../core/state/app.state';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
     'selector': 'app-create-exercise',
@@ -15,23 +14,28 @@ import { map } from 'rxjs/operators';
 })
 export class CreateExercisePage implements OnInit {
 
+    /**
+     * Regex for Youtube Video URLs: http://www.regexr.com/556et
+     */
+    private youtubeURLRegExp = new RegExp('^(https?\:\/\/)?(www\.youtube\.com\/watch\?v\=|youtu\.be\/).{11,}$');
+
     name = new FormControl('', [Validators.required]);
-    videoURL = new FormControl('', []);
+    youtubeURL = new FormControl('', [Validators.required, Validators.pattern(this.youtubeURLRegExp)]);
     instructions = new FormControl('', []);
 
     form: FormGroup;
 
-    requestInProgress$: Observable<boolean>;
+    requestInProgress$: Observable < boolean > ;
 
     constructor(
         public modalController: ModalController,
-        public store: Store<AppState>,
+        public store: Store < AppState > ,
     ) {}
 
     ngOnInit() {
         this.form = new FormGroup({
             'name': this.name,
-            'videoURL': this.videoURL,
+            'youtubeURL': this.youtubeURL,
             'instructions': this.instructions,
         });
 
@@ -46,10 +50,19 @@ export class CreateExercisePage implements OnInit {
         const exercise: Exercise = {
             'id': form.name,
             'name': form.name,
-            'videoURL': form.videoURL,
+            'youtubeID': form.youtubeURL,
             'instructions': form.instructions,
         };
         this.store.dispatch(new CreateRequested(exercise));
     }
 
+    scrapeIDfromYoutubeURL(youtubeURL: string): string {
+        const seperators = ['v=', '.be/'];
+        for (const seperator of seperators) {
+            if (youtubeURL.indexOf(seperator) > -1) {
+                return youtubeURL.split(seperator).pop();
+            }
+        }
+        throw Error('Failed to scrape ID. No seperator tokens matched the provided URL');
+    }
 }

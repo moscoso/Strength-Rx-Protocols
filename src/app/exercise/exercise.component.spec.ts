@@ -31,7 +31,7 @@ describe('ExerciseComponent', () => {
         const pushUp = {
             'id': 'Push-up',
             'name': 'Push-up',
-            'videoURL': 'https://www.youtube.com/embed/IODxDxX7oi4',
+            'youtubeID': 'IODxDxX7oi4',
             'instructions': 'Push your body up off the ground',
         };
 
@@ -46,16 +46,16 @@ describe('ExerciseComponent', () => {
             expect(names[0].textContent).toContain(pushUp.name);
         });
 
-        it(`displays the videoURL: ${pushUp.videoURL}`, () => {
+        it(`displays the videoURL: ${pushUp.youtubeID}`, () => {
             const videoURLs: HTMLCollectionOf < Element > = element.getElementsByClassName('videoURL');
-            expect(videoURLs[0].textContent).toContain(pushUp.videoURL);
+            expect(videoURLs[0].textContent).toContain(pushUp.youtubeID);
         });
 
-        xit(`has an iframe embedded youtube video with video src: ${pushUp.videoURL}`, () => {
+        xit(`has an iframe embedded youtube video with video src: ${pushUp.youtubeID}`, () => {
             const iframe: HTMLIFrameElement = element.querySelector('iframe');
             expect(iframe).toBeDefined();
             expect(iframe.hasAttribute('src'));
-            expect(iframe.getAttribute('src')).toContain(pushUp.videoURL);
+            expect(iframe.getAttribute('src')).toContain(pushUp.youtubeID);
         });
 
         it('has an instructions label', () => {
