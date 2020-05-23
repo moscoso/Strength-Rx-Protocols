@@ -17,7 +17,7 @@ export class CreateExercisePage implements OnInit {
     /**
      * Regex for Youtube Video URLs: http://www.regexr.com/556et
      */
-    private youtubeURLRegExp = new RegExp('^(https?\:\/\/)?(www\.youtube\.com\/watch\?v\=|youtu\.be\/).{11,}$');
+    private youtubeURLRegExp = '^(https?\:\/\/)?(www\.youtube\.com\/watch\?v\=|youtu\.be\/).{11,}$';
 
     name = new FormControl('', [Validators.required]);
     youtubeURL = new FormControl('', [Validators.required, Validators.pattern(this.youtubeURLRegExp)]);
@@ -50,7 +50,7 @@ export class CreateExercisePage implements OnInit {
         const exercise: Exercise = {
             'id': form.name,
             'name': form.name,
-            'youtubeID': form.youtubeURL,
+            'youtubeID': this.scrapeIDfromYoutubeURL(form.youtubeURL),
             'instructions': form.instructions,
         };
         this.store.dispatch(new CreateRequested(exercise));
@@ -63,6 +63,6 @@ export class CreateExercisePage implements OnInit {
                 return youtubeURL.split(seperator).pop();
             }
         }
-        throw Error('Failed to scrape ID. No seperator tokens matched the provided URL');
+        throw Error('Failed to scrape ID. No seperator tokens found in the provided URL');
     }
 }
