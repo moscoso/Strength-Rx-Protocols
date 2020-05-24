@@ -1,7 +1,6 @@
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Update } from '@ngrx/entity';
 
 export abstract class EntityService < T > {
 
@@ -37,7 +36,7 @@ export abstract class EntityService < T > {
      * @param entityID the ID of the entity that corresponds to the matching document ID in Firestore
      * @param entity the partial object that represents the entity data to update
      */
-    async update(entityID: string, entity: Update < T > ): Promise < void > {
+    async update(entityID: string, entity: Partial < T > ): Promise < void > {
         return this.entityCollection.doc(entityID).update(entity);
     }
 
