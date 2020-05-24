@@ -14,12 +14,12 @@ export enum ExerciseActionType {
     RequestFailed = '[Exercise Service] Requested Failed',
 }
 
-export class AllExercisesRequested implements Action {
+export class AllRequested implements Action {
     readonly type = ExerciseActionType.AllRequested;
     constructor() {}
 }
 
-export class AllExercisesLoaded implements Action {
+export class AllLoaded implements Action {
     readonly type = ExerciseActionType.AllLoaded;
     constructor(
         public exercises: Exercise[],
@@ -72,8 +72,8 @@ export class DeleteRequested implements Action {
  * All of the actions related to Exercises
  */
 export type ExerciseAction =
-    AllExercisesRequested |
-    AllExercisesLoaded |
+    AllRequested |
+    AllLoaded |
     CreateRequested |
     Created |
     Updated |

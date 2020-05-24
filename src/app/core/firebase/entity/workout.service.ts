@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { EntityService } from './entity.service';
-import { Exercise } from '../../state/exercises/exercises.state';
+import { Workout } from '../../state/workouts/workouts.state';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable()
-export class ExerciseService extends EntityService<Exercise> {
+export class WorkoutService extends EntityService<Workout> {
     constructor(
         firestore: AngularFirestore,
     ) {
-        super(firestore, 'exercises');
+        super(firestore, 'workouts');
     }
 }

@@ -23,6 +23,15 @@ const routes: Routes = [
     'path': 'register',
     'loadChildren': () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
+  {
+    'path': 'workouts',
+    'loadChildren': () => import('./workouts/workouts.module').then( m => m.WorkoutsPageModule)
+  },  {
+    path: 'create-workout',
+    loadChildren: () => import('./create-workout/create-workout.module').then( m => m.CreateWorkoutPageModule)
+  },
+
+
 ];
 
 @NgModule({

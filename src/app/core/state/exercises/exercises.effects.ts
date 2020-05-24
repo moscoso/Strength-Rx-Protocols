@@ -10,12 +10,12 @@ import { ExerciseService } from '../../firebase/entity/exercise.service';
 @Injectable()
 export class ExerciseEffects {
 
-    @Effect() allExercisesRequested$: Observable < ExerciseAction > = this.actions$.pipe(
+    @Effect() allRequested$: Observable < ExerciseAction > = this.actions$.pipe(
         ofType<ExerciseAction>(ExerciseActionType.AllRequested),
-        switchMap((action: Exercises.AllExercisesRequested) => {
+        switchMap((action: Exercises.AllRequested) => {
             return from(this.exerciseService.getAll()
                 .then(exercises => {
-                    return new Exercises.AllExercisesLoaded(exercises);
+                    return new Exercises.AllLoaded(exercises);
                 })
                 .catch(error => {
                     return new Exercises.RequestFailed({

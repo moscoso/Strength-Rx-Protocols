@@ -19,6 +19,11 @@ export class AppComponent implements OnInit {
             'link': '/exercises'
         },
         {
+            'label': 'Workouts',
+            'icon': 'fitness',
+            'link': '/workouts'
+        },
+        {
             'label': 'Login',
             'icon': '',
             'link': '/login'

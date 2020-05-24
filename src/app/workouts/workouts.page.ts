@@ -1,23 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { CreateExercisePage } from '../create-exercise/create-exercise.page';
-import * as fromExercises from '../core/state/exercises/exercises.selector';
-import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { Exercise } from '../core/state/exercises/exercises.state';
-import { AllRequested } from '../core/state/exercises/exercises.actions';
+import { ModalController } from '@ionic/angular';
+import { Store } from '@ngrx/store';
 import { AppState } from '../core/state/app.state';
-import { take, filter } from 'rxjs/operators';
-
+import { filter, take } from 'rxjs/operators';
+import { Workout } from '../core/state/workouts/workouts.state';
+import * as fromWorkouts from '../core/state/workouts/workouts.selector';
+import { AllRequested } from '../core/state/workouts/workouts.actions';
+import { CreateWorkoutPage } from '../create-workout/create-workout.page';
 @Component({
-    'selector': 'app-exercises',
-    'templateUrl': './exercises.page.html',
-    'styleUrls': ['./exercises.page.scss'],
+    'selector': 'app-workouts',
+    'templateUrl': './workouts.page.html',
+    'styleUrls': ['./workouts.page.scss'],
 })
-export class ExercisesPage implements OnInit {
+export class WorkoutsPage implements OnInit {
 
-    exercises$: Observable<Exercise[]> = of([]);
-    requestInProgress$: Observable<boolean> = of(false);
+    workouts$: Observable < Workout[] > = of ([]);
+    requestInProgress$: Observable < boolean > = of (false);
 
     constructor(
         public modalController: ModalController,
@@ -26,7 +25,7 @@ export class ExercisesPage implements OnInit {
 
     ngOnInit(): void {
         this.store.dispatch(new AllRequested());
-        this.exercises$ = this.store.select(fromExercises.selectAll);
+        this.workouts$ = this.store.select(fromWorkouts.selectAll);
         this.requestInProgress$ = this.store.select((state: AppState) => state.exercises.requestInProgress);
     }
 
@@ -42,10 +41,11 @@ export class ExercisesPage implements OnInit {
 
     async presentModal(): Promise < void > {
         const modal = await this.modalController.create({
-            'id': 'create-exercise',
-            'component': CreateExercisePage
+            'id': 'create-workout',
+            'component': CreateWorkoutPage
         });
         await modal.present();
         return;
     }
+
 }

@@ -6,6 +6,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { ExerciseService } from './entity/exercise.service';
 import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { WorkoutService } from './entity/workout.service';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     'providers': [
         AuthService,
         ExerciseService,
+        WorkoutService,
     ]
 })
 export class FirebaseModule {}

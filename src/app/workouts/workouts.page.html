@@ -1,0 +1,44 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Workouts</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="presentModal()"
+                        id="create-workout"
+                        slot="end">New<ion-icon name="add"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <ion-grid>
+
+        <ion-spinner *ngIf="(requestInProgress$ | async)"></ion-spinner>
+
+        <ion-row *ngIf="!(requestInProgress$ | async) && (workouts$ | async) && (workouts$ | async).length === 0">
+            <ion-card>
+                <ion-card-header>No workouts found! Create one!</ion-card-header>
+                <ion-card-content>
+                    <ion-button (click)="presentModal()">Create New Workout</ion-button>
+                </ion-card-content>
+            </ion-card>
+            <br />
+        </ion-row>
+
+        <ion-row>
+            <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12" *ngFor="let workout of workouts$ | async">
+                <!-- <exercise [exercise]="exercise"></exercise> -->
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+
+
+</ion-content>

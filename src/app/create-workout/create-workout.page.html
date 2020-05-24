@@ -1,0 +1,39 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Create a Workout</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="dismiss()">Dismiss</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <form [formGroup]=form (ngSubmit)=onSubmit(form.value)>
+            <ion-row>
+                <mat-form-field>
+                    <mat-label>Workout Name</mat-label>
+                    <input matInput type="text" [formControl]="name" name="name"
+                           placeholder=""
+                           autocomplete="off"
+                           enterKeyHint="next"
+                           required>
+                    <mat-error *ngIf="name.hasError('required')">Name is required.</mat-error>
+                </mat-form-field>
+            </ion-row>
+
+            <ion-row>
+                <ion-spinner [hidden]="exercises.dirty || (exerciseList$ | async).length !== 0" ></ion-spinner>
+                <mat-form-field [hidden]="(exerciseList$ | async).length === 0">
+                    <mat-label >Exercises</mat-label>
+                    <mat-select multiple [formControl]="exercises" name="exercises" >
+                        <mat-option *ngFor="let exercise of (exerciseList$ | async)" [value]="exercise">{{exercise.name}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="exercises.hasError('required')">At least one Exercise is required.</mat-error>
+                </mat-form-field>
+            </ion-row>
+
+            <ion-button type="submit" [disabled]="form.invalid || (requestInProgress$ | async)">Create Workout!</ion-button>
+        </form>
+    </ion-grid>
+</ion-content>

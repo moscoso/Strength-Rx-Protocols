@@ -7,11 +7,13 @@ import { AuthEffects } from './auth/auth.effects';
 import { AuthStoreDispatcher } from './auth/auth.dispatcher';
 import { appReducers } from './app.reducer';
 import { ExerciseEffects } from './exercises/exercises.effects';
+import { WorkoutEffects } from './workouts/workouts.effects';
 @NgModule({
     'imports': [
         EffectsModule.forRoot([
             AuthEffects,
             ExerciseEffects,
+            WorkoutEffects,
         ]),
         StoreModule.forRoot(appReducers),
         StoreRouterConnectingModule.forRoot({ 'stateKey': 'router' }),
