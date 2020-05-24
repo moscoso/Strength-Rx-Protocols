@@ -11,7 +11,7 @@ export enum ExerciseActionType {
     Updated = '[Edit Exercise Page] Exercise Updated',
     DeleteRequested = '[Exercise Service] Delete Exercise Requested',
     Deleted = '[Exercise Page] Exercise Deleted',
-    RequestFailed = '[Exercise Service] Requested Failed',
+    RequestFailed = '[Exercise Service] Request Failed',
 }
 
 export class AllRequested implements Action {

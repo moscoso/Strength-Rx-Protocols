@@ -26,12 +26,11 @@ const routes: Routes = [
   {
     'path': 'workouts',
     'loadChildren': () => import('./workouts/workouts.module').then( m => m.WorkoutsPageModule)
-  },  {
-    path: 'create-workout',
-    loadChildren: () => import('./create-workout/create-workout.module').then( m => m.CreateWorkoutPageModule)
   },
-
-
+  {
+    'path': 'create-workout',
+    'loadChildren': () => import('./create-workout/create-workout.module').then( m => m.CreateWorkoutPageModule)
+  },
 ];
 
 @NgModule({
