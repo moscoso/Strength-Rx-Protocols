@@ -30,7 +30,7 @@
                            autocomplete="off"
                            enterKeyHint="next"
                            required>
-                    <button *ngIf="youtubeURL.hasError('pattern')" mat-icon-button matSuffix>
+                    <button mat-icon-button matSuffix>
                         <mat-icon [ngStyle]="{'color':youtubeURL.valid ? 'green':'red'}">{{youtubeURL.valid ? 'check' : 'cancel'}}</mat-icon>
                     </button>
                     <mat-error *ngIf="youtubeURL.hasError('required')">A valid Youtube URL is required.</mat-error>

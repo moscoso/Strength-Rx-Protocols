@@ -46,11 +46,6 @@ describe('CreateExercisePage', () => {
         element.remove();
     });
 
-    it('has the word Exercises in the title', () => {
-        const title = element.querySelector('ion-title');
-        expect(title.textContent).toContain('New Exercise Form');
-    });
-
     describe('form example: Push-Up', () => {
 
         it('form invalid when empty', () => {

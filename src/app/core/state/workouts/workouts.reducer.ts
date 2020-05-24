@@ -32,11 +32,20 @@ export function workoutsReducer(state: WorkoutsState = initialState, action: Wor
                 'error': null,
             };
         case WorkoutActionType.CreateRequested:
-            return workoutsAdapter.addOne(action.workout, state);
+            return workoutsAdapter.addOne(action.workout, {
+                ...state,
+                'requestInProgress': true,
+            });
         case WorkoutActionType.UpdateRequested:
-            return workoutsAdapter.updateOne({ 'id': action.id, 'changes': action.changes }, state);
+            return workoutsAdapter.updateOne({ 'id': action.id, 'changes': action.changes }, {
+                ...state,
+                'requestInProgress': true,
+            });
         case WorkoutActionType.DeleteRequested:
-            return workoutsAdapter.removeOne(action.id, state);
+            return workoutsAdapter.removeOne(action.id, {
+                ...state,
+                'requestInProgress': true,
+            });
         case WorkoutActionType.RequestFailed:
             return {
                 ...state,

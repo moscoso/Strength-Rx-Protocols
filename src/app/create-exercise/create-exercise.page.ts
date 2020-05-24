@@ -17,8 +17,7 @@ export class CreateExercisePage implements OnInit {
     /**
      * Regex for Youtube Video URLs: http://www.regexr.com/556et
      */
-    private youtubeURLRegExp = '^(https?\:\/\/)?(www\.youtube\.com\/watch\?v\=|youtu\.be\/).{11,}$';
-
+    private youtubeURLRegExp = new RegExp('^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$');
     name = new FormControl('', [Validators.required]);
     youtubeURL = new FormControl('', [Validators.required, Validators.pattern(this.youtubeURLRegExp)]);
     instructions = new FormControl('', []);
