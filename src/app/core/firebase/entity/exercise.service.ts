@@ -4,10 +4,19 @@ import { Exercise } from '../../state/exercises/exercises.state';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable()
-export class ExerciseService extends EntityService<Exercise> {
+export class ExerciseService extends EntityService < Exercise > {
     constructor(
-        firestore: AngularFirestore,
+        public firestore: AngularFirestore,
     ) {
         super(firestore, 'exercises');
+    }
+
+    async create(entity: Exercise): Promise < Exercise > {
+        const doc = await this.firestore.doc(`exercises/${entity.name}`).ref.get();
+        if (doc.exists) {
+            throw new Error(`Exercises ${entity.name} already exists`);
+        }
+        await this.entityCollection.doc(`${entity.name}`).set(entity);
+        return entity;
     }
 }

@@ -18,7 +18,8 @@
                            autocomplete="off"
                            enterKeyHint="next"
                            required>
-                    <mat-error *ngIf="name.hasError('required')">Name is required.</mat-error>
+                    <mat-error *ngIf="name.hasError('required')">An exercise name is required.</mat-error>
+                    <mat-error *ngIf="name.hasError('exerciseIDTaken')">An exercise named {{name.value}} already exists</mat-error>
                 </mat-form-field>
             </ion-row>
 
@@ -30,7 +31,7 @@
                            autocomplete="off"
                            enterKeyHint="next"
                            required>
-                    <button mat-icon-button matSuffix>
+                    <button *ngIf="youtubeURL.dirty" mat-icon-button matSuffix>
                         <mat-icon [ngStyle]="{'color':youtubeURL.valid ? 'green':'red'}">{{youtubeURL.valid ? 'check' : 'cancel'}}</mat-icon>
                     </button>
                     <mat-error *ngIf="youtubeURL.hasError('required')">A valid Youtube URL is required.</mat-error>
@@ -44,7 +45,6 @@
                     <mat-label for='instructions'>Instructions</mat-label>
                     <textarea matInput type="text" [formControl]="instructions" name="instructions"
                               placeholder="Push your body up"
-                              required
                               autocomplete="off"
                               enterKeyHint="done"></textarea>
                 </mat-form-field>

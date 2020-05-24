@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { FormControl, Validators, FormGroup, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { CreateRequested } from '../core/state/exercises/exercises.actions';
 import { Exercise } from '../core/state/exercises/exercises.state';
 import { AppState } from '../core/state/app.state';
 import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
     'selector': 'app-create-exercise',
@@ -18,7 +19,8 @@ export class CreateExercisePage implements OnInit {
      * Regex for Youtube Video URLs: http://www.regexr.com/556et
      */
     private youtubeURLRegExp = new RegExp('^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$');
-    name = new FormControl('', [Validators.required]);
+    name = new FormControl('', [Validators.required], this.validateDocIDIsUnique
+        .bind(this));
     youtubeURL = new FormControl('', [Validators.required, Validators.pattern(this.youtubeURLRegExp)]);
     instructions = new FormControl('', []);
 
@@ -29,6 +31,7 @@ export class CreateExercisePage implements OnInit {
     constructor(
         public modalController: ModalController,
         public store: Store < AppState > ,
+        public firestore: AngularFirestore,
     ) {}
 
     ngOnInit() {
@@ -63,5 +66,15 @@ export class CreateExercisePage implements OnInit {
             }
         }
         throw Error('Failed to scrape ID. No seperator tokens found in the provided URL');
+    }
+
+    /**
+     * Validate that the document ID for exercises does not already exist!
+     */
+    // TODO: Optimize with debounce:
+    // https://stackoverflow.com/questions/36919011/how-to-add-debounce-time-to-an-async-validator-in-angular-2
+    async validateDocIDIsUnique(ctrl: AbstractControl): Promise < ValidationErrors | null > {
+        const doc = await this.firestore.doc(`exercises/${ctrl.value}`).ref.get();
+        return doc.exists ? { 'exerciseIDTaken': true } : null;
     }
 }
