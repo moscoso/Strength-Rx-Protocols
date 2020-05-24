@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialsModule } from '../materials.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Store } from '@ngrx/store';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 describe('CreateExercisePage', () => {
     let component: CreateExercisePage;
@@ -14,7 +15,7 @@ describe('CreateExercisePage', () => {
 
 
     const storeSpy = jasmine.createSpyObj('Store', ['select', 'dispatch']);
-
+    const firestoreSpy = jasmine.createSpyObj('AngualrFirestore', ['doc']);
     beforeEach(async () => {
         TestBed.configureTestingModule({
             'declarations': [CreateExercisePage],
@@ -27,10 +28,12 @@ describe('CreateExercisePage', () => {
                     '_testing': true,
                 }),
             ],
-            'providers': [
-            {
+            'providers': [{
                 'provide': Store,
                 'useValue': storeSpy
+            }, {
+                'provide': AngularFirestore,
+                'useValue': firestoreSpy,
             }]
         }).compileComponents();
 
@@ -44,28 +47,6 @@ describe('CreateExercisePage', () => {
 
     afterEach(() => {
         element.remove();
-    });
-
-    describe('form example: Push-Up', () => {
-
-        it('form invalid when empty', () => {
-            expect(component.form.valid).toBeFalsy();
-        });
-
-        it('inputing any string for name makes the form control valid', async () => {
-            component.form.get('name').setValue('Push-Up');
-            expect(component.form.get('name').valid).toBe(true);
-        });
-
-        it('inputing a non-url string for youtubeURL makes the form invalid', async () => {
-            component.form.get('youtubeURL').setValue('abc');
-            expect(component.form.get('youtubeURL').valid).toBe(false);
-        });
-
-        it('inputing any text for instructions makes the form control valid', async () => {
-            component.form.get('name').setValue('Push-Up');
-            expect(component.form.get('name').valid).toBe(true);
-        });
     });
 
     describe('scrape ID from youtube link', () => {
