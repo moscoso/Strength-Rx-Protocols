@@ -2,8 +2,11 @@ import { Injectable } from '@angular/core';
 import { EntityService } from './entity.service';
 import { Workout } from '../../state/workouts/workouts.state';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { FirebaseModule } from '../firebase.module';
 
-@Injectable()
+@Injectable({
+    'providedIn': FirebaseModule,
+})
 export class WorkoutService extends EntityService<Workout> {
     constructor(
         firestore: AngularFirestore,
