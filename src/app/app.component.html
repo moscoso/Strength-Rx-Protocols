@@ -9,7 +9,7 @@
                         <ion-item *ngFor="let item of items"
                                   routerDirection="root"
                                   [routerLink]="item.link"
-                                  [ngClass]="{'selected': selectedRoute === item.link}">
+                                  routerLinkActive="selected">
                             <ion-icon slot="start" [icon]="item.icon"></ion-icon>
                             <ion-label>{{item.label}}</ion-label>
                         </ion-item>
