@@ -18,7 +18,7 @@ import {
     LoginWithEmailAction,
     SignupAction,
 } from './auth.actions';
-import { AuthService } from '../../firebase/auth.service';
+import { AuthService } from '../../firebase/auth/auth.service';
 import { AppState } from '../app.state';
 import { UserInfo } from './auth.state';
 

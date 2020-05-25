@@ -2,6 +2,10 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
+/**
+ * The Default behavior to perform CRUD operations on an Entity in Firestore.
+ * An entity will be saved as a document in the root level collection specified by collectionName"
+ */
 export abstract class EntityService < T > {
 
     protected entityCollection: AngularFirestoreCollection < T > ;

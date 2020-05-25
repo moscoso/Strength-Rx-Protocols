@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EntityService } from './entity.service';
+import { EntityService } from '../entity/entity.service';
 import { Exercise } from '../../state/exercises/exercises.state';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FirebaseModule } from '../firebase.module';

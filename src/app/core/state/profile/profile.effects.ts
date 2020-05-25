@@ -5,7 +5,7 @@ import { switchMap } from 'rxjs/operators';
 
 import {  ProfileAction, ProfileActionType} from './profile.actions';
 import * as Profiles from './profile.actions';
-import { ProfileService } from '../../firebase/entity/profile.service';
+import { ProfileService } from '../../firebase/profile/profile.service';
 
 @Injectable()
 export class WorkoutEffects {

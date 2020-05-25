@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AngularFireModule } from '@angular/fire';
-import { AuthService } from './auth.service';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { ExerciseService } from './entity/exercise.service';
 import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { WorkoutService } from './entity/workout.service';
 
 
 @NgModule({
@@ -17,10 +14,6 @@ import { WorkoutService } from './entity/workout.service';
         AngularFireAuthModule,
         AngularFirestoreModule.enablePersistence(),
     ],
-    'providers': [
-        AuthService,
-        ExerciseService,
-        WorkoutService,
-    ]
+    'providers': []
 })
 export class FirebaseModule {}

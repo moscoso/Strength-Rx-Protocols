@@ -5,7 +5,7 @@ import { switchMap } from 'rxjs/operators';
 
 import { WorkoutAction, WorkoutActionType} from './workouts.actions';
 import * as Workouts from './workouts.actions';
-import { WorkoutService } from '../../firebase/entity/workout.service';
+import { WorkoutService } from '../../firebase/workout/workout.service';
 
 @Injectable()
 export class WorkoutEffects {
