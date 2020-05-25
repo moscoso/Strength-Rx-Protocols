@@ -2,7 +2,6 @@ import { AuthAction, AuthActionType } from './auth.actions';
 import { AuthState, AUTH_INIT_STATE, UserInfo } from './auth.state';
 
 export function authReducer(state = AUTH_INIT_STATE, action: AuthAction): AuthState {
-    console.log(action.type);
     switch (action.type) {
         case AuthActionType.Authenticated: {
             const userData: UserInfo = action.authenticatedUser;
