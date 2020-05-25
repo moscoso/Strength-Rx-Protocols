@@ -33,6 +33,11 @@ export class AppComponent implements OnInit {
             'icon': '',
             'link': '/register'
         },
+        {
+            'label': 'Profile',
+            'icon': '',
+            'link': '/profile'
+        },
     ];
 
     constructor(
