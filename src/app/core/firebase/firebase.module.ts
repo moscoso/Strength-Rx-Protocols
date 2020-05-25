@@ -12,7 +12,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
         CommonModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
-        AngularFirestoreModule.enablePersistence(),
+        AngularFirestoreModule.enablePersistence({'synchronizeTabs': true}),
     ],
     'providers': []
 })
