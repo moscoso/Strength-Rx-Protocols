@@ -20,13 +20,6 @@ export interface ExerciseRoutine {
     seconds?: number;
 }
 
-export const INIT_EXERCISE: Workout = {
-    'id': '',
-    'name': '',
-    'exercises': [],
-    'exerciseRoutines': {},
-};
-
 /**
  * Exercises are represented by an EntityState that
  * includes a dictionary of exercises and the

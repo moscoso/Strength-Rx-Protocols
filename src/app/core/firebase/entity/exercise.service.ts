@@ -14,12 +14,17 @@ export class ExerciseService extends EntityService < Exercise > {
         super(firestore, 'exercises');
     }
 
-    async create(entity: Exercise): Promise < Exercise > {
-        const doc = await this.firestore.doc(`exercises/${entity.name}`).ref.get();
+    /**
+     * Create a new Firestore document for the entity.
+     * The ID of the entity will be the exercise name.
+     * @param exercise the exercise entity being created
+     */
+    async create(exercise: Exercise): Promise < Exercise > {
+        const doc = await this.firestore.doc(`exercises/${exercise.name}`).ref.get();
         if (doc.exists) {
-            throw new Error(`Exercises ${entity.name} already exists`);
+            throw new Error(`Exercises ${exercise.name} already exists`);
         }
-        await this.entityCollection.doc(`${entity.name}`).set(entity);
-        return entity;
+        await this.entityCollection.doc(`${exercise.name}`).set(exercise);
+        return exercise;
     }
 }

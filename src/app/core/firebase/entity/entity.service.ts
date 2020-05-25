@@ -23,7 +23,8 @@ export abstract class EntityService < T > {
     }
 
     /**
-     * Create a new Firestore document for the entity
+     * Create a new Firestore document for the entity.
+     * The ID of the entity will be the automatically generated document Firebase ID.
      * @param entity the entity being created
      */
     async create(entity: T): Promise < T > {

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Exercise, INIT_EXERCISE } from '../core/state/exercises/exercises.state';
+import { Exercise } from '../core/state/exercises/exercises.state';
 
 @Component({
     'selector': 'exercise',
@@ -9,7 +9,7 @@ import { Exercise, INIT_EXERCISE } from '../core/state/exercises/exercises.state
 })
 export class ExerciseComponent implements OnInit {
 
-    @Input() exercise: Exercise = INIT_EXERCISE;
+    @Input() exercise: Exercise;
 
 
     exercises$: Observable<any>;
