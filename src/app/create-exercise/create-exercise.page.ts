@@ -40,7 +40,6 @@ export class CreateExercisePage implements OnInit {
             'youtubeURL': this.youtubeURL,
             'instructions': this.instructions,
         });
-
         this.requestInProgress$ = this.store.select((state: AppState) => state.exercises.requestInProgress);
     }
 
@@ -74,7 +73,8 @@ export class CreateExercisePage implements OnInit {
     // TODO: Optimize with debounce:
     // https://stackoverflow.com/questions/36919011/how-to-add-debounce-time-to-an-async-validator-in-angular-2
     async validateDocIDIsUnique(ctrl: AbstractControl): Promise < ValidationErrors | null > {
-        const doc = await this.firestore.doc(`exercises/${ctrl.value}`).ref.get();
-        return doc.exists ? { 'exerciseIDTaken': true } : null;
+        return this.firestore.doc(`exercises/${ctrl.value}`).ref.get({
+            'source': 'server',
+        }).then(doc => doc.exists ? { 'exerciseIDTaken': true } : null).catch(reason => ({ 'couldNotReachServer': reason }));
     }
 }
