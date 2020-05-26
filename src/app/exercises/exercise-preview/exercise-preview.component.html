@@ -1,0 +1,11 @@
+<ion-card [routerLink]="'./' + exercise.id">
+    <ng-container *ngIf="exercise.youtubeID && exercise.youtubeID != '' else noVideoURL">
+        <ion-img [src]="'http://i3.ytimg.com/vi/'+exercise.youtubeID+'/hqdefault.jpg'"></ion-img>
+    </ng-container>
+    <ng-template #noVideoURL>
+        <ion-note>No video URL ⚠️</ion-note>
+    </ng-template>
+    <ion-card-header>
+        <ion-card-title class="name">{{exercise.name}}</ion-card-title>
+    </ion-card-header>
+</ion-card>

@@ -34,7 +34,7 @@
 
         <ion-row>
             <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12" *ngFor="let exercise of exercises$ | async">
-                <exercise [exercise]="exercise"></exercise>
+                <exercise-preview [exercise]="exercise"></exercise-preview>
             </ion-col>
         </ion-row>
     </ion-grid>
