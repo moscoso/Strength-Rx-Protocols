@@ -8,6 +8,7 @@ import { AuthStoreDispatcher } from './auth/auth.dispatcher';
 import { appReducers } from './app.reducer';
 import { ExerciseEffects } from './exercises/exercises.effects';
 import { WorkoutEffects } from './workouts/workouts.effects';
+import { CustomSerializer } from './router/customSerializer';
 @NgModule({
     'imports': [
         EffectsModule.forRoot([
@@ -16,7 +17,7 @@ import { WorkoutEffects } from './workouts/workouts.effects';
             WorkoutEffects,
         ]),
         StoreModule.forRoot(appReducers),
-        StoreRouterConnectingModule.forRoot({ 'stateKey': 'router' }),
+        StoreRouterConnectingModule.forRoot({ 'stateKey': 'router', 'serializer': CustomSerializer}, ),
         StoreDevtoolsModule.instrument({ 'maxAge': 25, 'name': `Strength Rx Protocols` }),
     ],
     'providers': [

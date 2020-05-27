@@ -1,7 +1,6 @@
 
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { workoutsAdapter } from './workouts.reducer';
-import { selectRouterState } from '../router/router.selectors';
 import { Dictionary } from '@ngrx/entity';
 import { RouterReducerState } from '@ngrx/router-store';
 import { WorkoutsState, Workout } from './workouts.state';
@@ -32,10 +31,10 @@ export const selectWorkoutByID = (exerciseID: string) => createSelector(
 /**
  * Use the router state's URL to select an Exercise by ID.
  */
-export const selectWorkoutByRouteURL = createSelector(
-    selectEntities,
-    selectRouterState,
-    (entities: Dictionary<Workout>, router: RouterReducerState<any>) => {
-        return router.state && entities[router.state.params.orderID];
-    }
-);
+// export const selectWorkoutByRouteURL = createSelector(
+//     selectEntities,
+//     selectRouterState,
+//     (entities: Dictionary<Workout>, router: RouterReducerState<any>) => {
+//         return router.state && entities[router.state.params.orderID];
+//     }
+// );
