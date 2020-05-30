@@ -8,5 +8,57 @@
 </ion-header>
 
 <ion-content>
-
+    <ion-header>
+        <ion-toolbar></ion-toolbar>
+    </ion-header>
+    
+    <ion-content padding>
+    
+        <div class="container" *ngIf="profile else loading">
+            <img [src]='profile.photoURL' />
+    
+            <h1 [hidden] = "isEdit">
+                {{profile.displayName}}
+                <ion-icon [hidden] = "!canEdit" size="large" name="create" (click)="editName()"></ion-icon>
+            </h1>
+            <ion-item [hidden] = "!isEdit">
+                    <ion-input mode="md" type="text" [(ngModel)]="displayName"></ion-input>
+                    <div *ngIf=!isValidName>
+                        <p class='erro-show'>Invalid Name</p>
+                    </div>
+                    <ion-button color="primary" (click)="updateName()">Save</ion-button>
+            </ion-item>
+            <h6>USER ID: {{profile.shortID}}</h6>
+            <ion-list>
+                <ion-item detail (click)="setPhoto()">
+                    <ion-label>Set profile pic</ion-label>
+                    <ion-icon size="large" name="camera"></ion-icon>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Theme: {{lightThemeEnabled ? 'Light' : 'Dark'}}</ion-label>
+                    <ion-toggle (ionChange)="toggleTheme()" [(ngModel)]="lightThemeEnabled"></ion-toggle>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Test Push Notifications</ion-label>
+                    <ion-button color="primary" (click)="testPush()">Test</ion-button>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label>Test Touch ID Fingerprint Authentication</ion-label>
+                    <ion-button color="primary" (click)="testTouchID()">Test</ion-button>
+                </ion-item>
+            </ion-list>
+    
+            <!-- <div style="float:right">
+                <ion-icon style="color: #ffcc88; padding-top: 3px; font-size:2em;" name="arrow-forward"></ion-icon>
+            </div> -->
+        </div>
+    
+        <ng-template #loading>
+            <ion-spinner name="dots"></ion-spinner>
+        </ng-template>
+    
+        <ion-button expand="full" shape="round" color="primary" (click)="logout()">Log out</ion-button>
+    
+    </ion-content>
 </ion-content>
