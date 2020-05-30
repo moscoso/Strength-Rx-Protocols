@@ -7,12 +7,12 @@ import { profilesAdapter } from './profile.reducer';
 import { ProfilesState, Profile } from './profile.state';
 
 /**
- * Gets the top-level state property named 'exercises' of the store tree.
+ * Gets the top-level state property named 'profiles' of the store tree.
  */
 /* Note: createFeatureSelector allows us to get a top-level feature state
  * property of the state tree simply by calling it out by its feature name.
  */
-export const selectState = createFeatureSelector < ProfilesState > ('workouts');
+export const selectState = createFeatureSelector < ProfilesState > ('profiles');
 export const {
     selectIds,
     selectEntities,
@@ -21,16 +21,16 @@ export const {
 } = profilesAdapter.getSelectors(selectState);
 
 /**
- * Select an Exercise by ID
- * @param exerciseID the ID of the exercise
+ * Select a Profile by ID
+ * @param profileID the ID of the exercise
  */
-export const selectProfileByID = (exerciseID: string) => createSelector(
+export const selectProfileByID = (profileID: string) => createSelector(
     selectState,
-    (state: ProfilesState) => state.entities[exerciseID]
+    (state: ProfilesState) => state.entities[profileID]
 );
 
 /**
- * Use the router state's URL to select an Exercise by ID.
+ * Use the router state's URL to select an Profile by ID.
  */
 export const selectProfileByRouteURL = createSelector(
     selectEntities,
