@@ -48,7 +48,6 @@ const routes: Routes = [
         RouterModule.forRoot(routes, {
             'preloadingStrategy': PreloadAllModules,
             'anchorScrolling': 'enabled',
-            // 'paramsInheritanceStrategy': 'always'
         })
     ],
     'exports': [RouterModule]
