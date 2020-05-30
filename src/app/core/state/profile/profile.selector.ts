@@ -22,7 +22,7 @@ export const {
 
 /**
  * Select a Profile by ID
- * @param profileID the ID of the exercise
+ * @param profileID the ID of the profile
  */
 export const selectProfileByID = (profileID: string) => createSelector(
     selectState,
