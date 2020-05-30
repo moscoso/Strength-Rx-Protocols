@@ -2,7 +2,7 @@ import { EntityState } from '@ngrx/entity';
 import { Exercise } from '../exercises/exercises.state';
 
 /**
- * The main data model for an Exercise
+ * The main data model for a Profile
  */
 export interface Profile {
     id: string;
