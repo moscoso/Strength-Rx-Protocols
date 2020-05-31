@@ -22,7 +22,7 @@ import { AuthService } from '../../firebase/auth/auth.service';
 import { AppState } from '../app.state';
 import { UserInfo } from './auth.state';
 import { Router } from '@angular/router';
-import { ToastService } from 'src/app/shared/toast.service';
+import { ToastService } from 'src/app/shared/toast/toast.service';
 
 @Injectable()
 export class AuthEffects {
