@@ -15,6 +15,13 @@ export interface Exercise {
     instructions: string;
 }
 
+export const INIT_EXERCISE: Exercise = {
+    'id': '',
+    'name': '',
+    'youtubeID': '',
+    'instructions': '',
+};
+
 /**
  * Exercises are represented by an EntityState that
  * includes a dictionary of exercises and the

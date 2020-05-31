@@ -14,11 +14,18 @@ export interface Workout {
 }
 
 export interface ExerciseRoutine {
-    sets?: number;
-    reps?: number;
-    minutes?: number;
-    seconds?: number;
+    sets ?: number;
+    reps ?: number;
+    minutes ?: number;
+    seconds ?: number;
 }
+
+export const INIT_WORKOUT: Workout = {
+    'id': '',
+    'name': '',
+    'exercises': [],
+    'exerciseRoutines': {}
+};
 
 /**
  * Exercises are represented by an EntityState that
