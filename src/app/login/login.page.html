@@ -28,11 +28,11 @@
                             autocomplete="current-password"
                            required clearInput="true"
                            color="primary" enterKeyHint="go">
-                    <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                    <div mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
                             [attr.aria-label]="'Hide password'"
                             [attr.aria-pressed]="hidePassword">
                         <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
+                    </div>
                     <mat-error *ngIf="password.hasError('required')">Please enter your password</mat-error>
                     <mat-error *ngIf="password.hasError('maxlength')">Password must be a maximum of 128 characters
                     </mat-error>
