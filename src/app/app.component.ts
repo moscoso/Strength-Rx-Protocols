@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
+import { AuthStoreDispatcher } from './core/state/auth/auth.dispatcher';
+import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 
 @Component({
@@ -9,7 +12,7 @@ import { Platform } from '@ionic/angular';
     'styleUrls': ['app.component.scss']
 })
 export class AppComponent implements OnInit {
-    public items: MenuItem[] = [
+    public mainPages: MenuItem[] = [
         {
             'label': 'Exercises',
             'icon': 'fitness',
@@ -21,6 +24,14 @@ export class AppComponent implements OnInit {
             'link': '/workouts'
         },
         {
+            'label': 'Profile',
+            'icon': '',
+            'link': '/profile'
+        },
+    ];
+
+    public accountPages: MenuItem [] = [
+        {
             'label': 'Login',
             'icon': '',
             'link': '/login'
@@ -30,15 +41,13 @@ export class AppComponent implements OnInit {
             'icon': '',
             'link': '/register'
         },
-        {
-            'label': 'Profile',
-            'icon': '',
-            'link': '/profile'
-        },
     ];
+
+    public isAuthenticated: Observable<boolean> = of(false);
 
     constructor(
         private platform: Platform,
+        private authDispatcher: AuthStoreDispatcher,
     ) {
         this.initializeApp();
     }
@@ -47,7 +56,13 @@ export class AppComponent implements OnInit {
         this.platform.ready().then(() => {});
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.isAuthenticated = this.authDispatcher.getState().pipe(map(state => state.isAuthenticated));
+    }
+
+    logout() {
+        this.authDispatcher.logout();
+    }
 }
 
 interface MenuItem {
