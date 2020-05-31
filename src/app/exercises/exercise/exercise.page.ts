@@ -24,7 +24,6 @@ export class ExercisePage implements OnInit {
         this.exercise$ = this.store.select(
             fromExercises.selectExerciseByRouteURL
         );
-        this.exercise$.subscribe(x => console.log(x));
     }
 
     doRefresh(event): void {
