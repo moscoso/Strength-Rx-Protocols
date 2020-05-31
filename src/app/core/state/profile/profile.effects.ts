@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, from, of } from 'rxjs';
-import { switchMap, timeout, catchError } from 'rxjs/operators';
+import { switchMap, timeout, catchError, tap } from 'rxjs/operators';
 
 import { ProfileAction, ProfileActionType } from './profile.actions';
 import * as Profiles from './profile.actions';
 import { ProfileService } from '../../firebase/profile/profile.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ProfileEffects {
@@ -55,8 +56,16 @@ export class ProfileEffects {
         })
     );
 
+    @Effect({'dispatch': false}) createCompleted$: Observable < ProfileAction > = this.actions$.pipe(
+        ofType<ProfileAction>(ProfileActionType.Created),
+        tap((action: Profiles.CreateRequested) => {
+            this.router.navigateByUrl('/profile');
+        })
+    );
+
     constructor(
         private profileService: ProfileService,
         private actions$: Actions,
+        private router: Router,
     ) {}
 }
