@@ -26,14 +26,14 @@ import { ToastController } from '@ionic/angular';
 
 @Injectable()
 export class AuthEffects {
-    @Effect({ 'dispatch': false }) notAuthenticated$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.NotAuthenticated),
+    @Effect({ 'dispatch': false }) rerouteToHomePage$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(AuthActionType.NotAuthenticated, AuthActionType.LoginCompleted, AuthActionType.SignupCompleted),
         tap(() => {
             this.router.navigateByUrl('/');
         })
     );
 
-    @Effect() loginWithEmailAction$: Observable < AuthAction > = this.actions$.pipe(
+    @Effect() loginWithEmail$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.LoginWithEmailAndPassword),
         switchMap((action: LoginWithEmailAction) => {
             return from(this.authService.signInWithEmailAndPassword(action.email, action.password)
@@ -49,7 +49,7 @@ export class AuthEffects {
         })
     );
 
-    @Effect() loginAsGuestAction$: Observable < AuthAction > = this.actions$.pipe(
+    @Effect() loginAsGuest$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.LoginAsGuest),
         switchMap(action => {
             return from(this.authService.signInAsGuest()
@@ -65,7 +65,7 @@ export class AuthEffects {
         })
     );
 
-    @Effect() logoutAction$: Observable < AuthAction > = this.actions$.pipe(
+    @Effect() logout$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.LogoutRequested),
         switchMap(_ => {
             return from(this.authService.signOut()
@@ -81,7 +81,7 @@ export class AuthEffects {
         })
     );
 
-    @Effect() resetPasswordAction$: Observable < AuthAction > = this.actions$.pipe(
+    @Effect() resetPassword$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.ResetPasswordRequested),
         pluck('payload'),
         switchMap((payload: any) => {
@@ -98,7 +98,7 @@ export class AuthEffects {
         })
     );
 
-    @Effect() signupAction$: Observable < AuthAction > = this.actions$.pipe(
+    @Effect() signup$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.SignupRequested),
         switchMap((action: SignupAction) => {
             return from(this.authService.createUserWithEmailAndPassword(action.email, action.password)
