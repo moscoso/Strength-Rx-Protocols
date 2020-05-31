@@ -54,6 +54,13 @@ export class AuthEffects {
         })
     );
 
+    @Effect({ 'dispatch': false }) AuthFailed$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(AuthActionType.AuthFailed),
+        tap(async (action: AuthErrorAction) => {
+            this.toaster.failed('Something went wrong', action.error.error.code);
+        })
+    );
+
     @Effect({ 'dispatch': false }) signupFailed$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.SignupFailed),
         tap(async (action: SignupErrorAction) => {
