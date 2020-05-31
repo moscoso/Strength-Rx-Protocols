@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { take, filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { ToastController } from '@ionic/angular';
 import { selectUserProfile } from '../../state/profile/profile.selector';
+import { AppState } from '../../state/app.state';
 
 @Injectable({
     'providedIn': 'root'
@@ -16,10 +17,16 @@ export class ProfileGuard implements CanActivate {
     async canActivate(
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Promise < boolean | UrlTree > {
-        return this.store.select(selectUserProfile)
-            .pipe(take(1)).toPromise()
-            .then(async (profile) => {
-                if (profile == null) {
+        return this.store.select((appState: AppState) => appState)
+            .pipe(
+                filter(appState => appState.auth.userID != null && appState.profiles.initialized),
+                take(1),
+            ).toPromise()
+            .then(async (appState) => {
+                const profile = appState.profiles.entities[appState.auth.userID]; ;
+                if (profile) {
+                    return true;
+                } else {
                     const toast = await this.toaster.create({
                         'message': 'Please create your profile to continue!',
                         'duration': 3000,
@@ -32,8 +39,6 @@ export class ProfileGuard implements CanActivate {
                     });
                     toast.present();
                     return this.router.parseUrl('/create-profile');
-                } else {
-                    return true;
                 }
             }).catch((reason) => {
                 window.alert(`Something went wrong!`);
