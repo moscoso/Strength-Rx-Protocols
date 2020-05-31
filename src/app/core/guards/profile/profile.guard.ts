@@ -23,7 +23,7 @@ export class ProfileGuard implements CanActivate {
                 take(1),
             ).toPromise()
             .then(async (appState) => {
-                const profile = appState.profiles.entities[appState.auth.userID]; ;
+                const profile = appState.profiles.entities[appState.auth.userID];
                 if (profile) {
                     return true;
                 } else {
