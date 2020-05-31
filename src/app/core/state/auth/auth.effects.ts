@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, from } from 'rxjs';
-import { switchMap, pluck } from 'rxjs/operators';
+import { switchMap, pluck, tap, take, map } from 'rxjs/operators';
 import {
     AuthActionType,
     AuthAction,
@@ -21,9 +21,17 @@ import {
 import { AuthService } from '../../firebase/auth/auth.service';
 import { AppState } from '../app.state';
 import { UserInfo } from './auth.state';
+import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Injectable()
 export class AuthEffects {
+    @Effect({ 'dispatch': false }) notAuthenticated$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(AuthActionType.NotAuthenticated),
+        tap(() => {
+            this.router.navigateByUrl('/');
+        })
+    );
 
     @Effect() loginWithEmailAction$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.LoginWithEmailAndPassword),
@@ -107,22 +115,33 @@ export class AuthEffects {
     constructor(
         private authService: AuthService,
         private actions$: Actions,
-        private store: Store < AppState >
+        private store: Store < AppState > ,
+        private router: Router,
+        private toaster: ToastController,
     ) {
         this.authService.getUser().subscribe(async (authenticatedUser: firebase.User) => {
             if (authenticatedUser) {
-                const userInfo: UserInfo = {
-                    'displayName': authenticatedUser.displayName,
-                    'email': authenticatedUser.email,
-                    'phoneNumber': authenticatedUser.phoneNumber,
-                    'providerId': authenticatedUser.providerId,
-                    'uid': authenticatedUser.uid,
-                    'photoURL': authenticatedUser.photoURL,
-                };
+                const userInfo = this.scrapeUserInfo(authenticatedUser);
                 this.store.dispatch(new AuthenticatedAction(userInfo));
             } else {
                 this.store.dispatch(new NotAuthenticatedAction());
             }
         });
+    }
+
+    /**
+     * Scrape the provided firebase.User object into a POJO matching the UserInfo interface.
+     * @param authenticatedUser an authenticated user account
+     */
+    private scrapeUserInfo(authenticatedUser: firebase.User): UserInfo {
+        const userInfo: UserInfo = {
+            'displayName': authenticatedUser.displayName,
+            'email': authenticatedUser.email,
+            'phoneNumber': authenticatedUser.phoneNumber,
+            'providerId': authenticatedUser.providerId,
+            'uid': authenticatedUser.uid,
+            'photoURL': authenticatedUser.photoURL,
+        };
+        return userInfo;
     }
 }
