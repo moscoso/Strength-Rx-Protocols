@@ -10,8 +10,8 @@ import { AuthStoreDispatcher } from '../core/state/auth/auth.dispatcher';
 export class RegisterPage implements OnInit {
 
     email = new FormControl('', [Validators.required, Validators.email]);
-    password = new FormControl('', [Validators.required, Validators.maxLength(128)]);
-    confirmPassword = new FormControl('', [Validators.required, Validators.maxLength(128)]);
+    password = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(128)]);
+    confirmPassword = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(128)]);
 
     hidePassword = true;
 
