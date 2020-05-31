@@ -47,7 +47,7 @@ export class CreateWorkoutPage implements OnInit {
 
     onSubmit(form) {
         const workout: Workout = {
-            'id': form.id,
+            'id': form.name,
             'name': form.name,
             'exercises': form.exercises,
             'exerciseRoutines': {},

@@ -33,7 +33,15 @@
                 </mat-form-field>
             </ion-row>
 
-            <ion-button type="submit" [disabled]="form.invalid || (requestInProgress$ | async)">Create Workout!</ion-button>
+            <ion-row>
+                <ion-label>Selected Exercises:</ion-label>
+                <ion-note *ngFor="let exercise of exercises.value" style="display:inline">
+                    <span>{{exercise.name}},</span>
+                </ion-note>
+            </ion-row>
+
+            
+            <ion-button type="submit" expand="full" [disabled]="form.invalid || (requestInProgress$ | async)">Create Workout!</ion-button>
         </form>
     </ion-grid>
 </ion-content>
