@@ -25,6 +25,10 @@ export class ProfileGuard implements CanActivate {
                         'duration': 3000,
                         'color': 'primary',
                         'position': 'top',
+                        'buttons': [{
+                            'text': 'Ok',
+                            'role': 'cancel'
+                        }],
                     });
                     toast.present();
                     return this.router.parseUrl('/create-profile');
