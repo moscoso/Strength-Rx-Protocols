@@ -22,14 +22,57 @@ import { AuthService } from '../../firebase/auth/auth.service';
 import { AppState } from '../app.state';
 import { UserInfo } from './auth.state';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { ToastService } from 'src/app/shared/toast.service';
 
 @Injectable()
 export class AuthEffects {
     @Effect({ 'dispatch': false }) rerouteToHomePage$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.NotAuthenticated, AuthActionType.LoginCompleted, AuthActionType.SignupCompleted),
+        ofType(AuthActionType.LogoutRequested, AuthActionType.LoginCompleted, AuthActionType.SignupCompleted),
         tap(() => {
             this.router.navigateByUrl('/');
+        })
+    );
+
+    @Effect({ 'dispatch': false }) loginSuccess$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(AuthActionType.LoginCompleted),
+        tap(() => {
+            this.toaster.success('Welcome back!');
+        })
+    );
+
+    @Effect({ 'dispatch': false }) signupSuccess$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(AuthActionType.SignupCompleted),
+        tap(async () => {
+            this.toaster.success('Sign up completed!');
+        })
+    );
+
+    @Effect({ 'dispatch': false }) loginFailed$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(AuthActionType.LoginFailed),
+        tap(async (action: LoginFailedAction) => {
+            this.toaster.failed('Login Failed', action.error.error.code);
+        })
+    );
+
+    @Effect({ 'dispatch': false }) signupFailed$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(AuthActionType.SignupFailed),
+        tap(async (action: SignupErrorAction) => {
+            this.toaster.failed('Login Failed', action.error.error.code);
+        })
+    );
+
+    @Effect({ 'dispatch': false }) resetPasswordFailed$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(AuthActionType.ResetPasswordFailed),
+        tap(async (action: ResetPasswordFailedAction) => {
+            this.toaster.failed('Password Reset Failed', action.error.error.code);
+        })
+    );
+
+    @Effect({ 'dispatch': false }) paswordResetCompleted$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(AuthActionType.ResetPasswordCompleted),
+        tap(async (action: ResetPasswordSuccessAction) => {
+            this.toaster.success('Password Reset Successfully');
+            this.router.navigateByUrl('/login');
         })
     );
 
@@ -69,7 +112,8 @@ export class AuthEffects {
         ofType(AuthActionType.LogoutRequested),
         switchMap(_ => {
             return from(this.authService.signOut()
-                .then(() => {
+                .then(async () => {
+                    this.toaster.generic('Logged out');
                     return new NotAuthenticatedAction();
                 })
                 .catch(error => {
@@ -117,7 +161,7 @@ export class AuthEffects {
         private actions$: Actions,
         private store: Store < AppState > ,
         private router: Router,
-        private toaster: ToastController,
+        private toaster: ToastService,
     ) {
         this.authService.getUser().subscribe(async (authenticatedUser: firebase.User) => {
             if (authenticatedUser) {
