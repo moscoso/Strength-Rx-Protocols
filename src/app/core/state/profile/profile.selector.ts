@@ -33,8 +33,7 @@ export const selectProfileByID = (profileID: string) => createSelector(
 
 
 /**
- * Select a Profile by ID
- * @param profileID the ID of the profile
+ * Select the authenticated user's profile
  */
 export const selectUserProfile = createSelector(
     fromAuth.selectState,

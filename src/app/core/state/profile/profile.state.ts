@@ -37,6 +37,7 @@ export enum ClientApplicationStatus { 'NOT_STARTED', 'PENDING', 'APPROVED' }
 export interface ProfilesState extends EntityState < Profile > {
     requestInProgress: boolean;
     error: any | null;
+    initialized: boolean;
 }
 
 export const INIT_PROFILE: Profile = {

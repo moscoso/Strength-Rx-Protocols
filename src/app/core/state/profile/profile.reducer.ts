@@ -10,6 +10,7 @@ export const profilesAdapter = createEntityAdapter < Profile > ({
 const initialState: ProfilesState = profilesAdapter.getInitialState({
     'requestInProgress': false,
     'error': null,
+    'initialized': false,
 });
 export function profilesReducer(state: ProfilesState = initialState, action: ProfileAction): ProfilesState {
     switch (action.type) {
@@ -23,6 +24,7 @@ export function profilesReducer(state: ProfilesState = initialState, action: Pro
             return profilesAdapter.setAll(action.profiles, {
                 ...state,
                 'requestInProgress': false,
+                'initialized': true,
             });
         case ProfileActionType.Created:
         case ProfileActionType.Updated:
