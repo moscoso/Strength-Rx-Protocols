@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth/auth.guard';
 import { ProfileGuard } from './core/guards/profile/profile.guard';
+import { NoProfileGuard } from './core/guards/no-profile/no-profile.guard';
 
 const routes: Routes = [
 {
@@ -45,6 +46,7 @@ const routes: Routes = [
 {
     'path': 'create-profile',
     'loadChildren': () => import('./create-profile/create-profile.module').then(m => m.CreateProfilePageModule),
+    'canActivate': [AuthGuard, NoProfileGuard],
 },
 {
     'path': '**',

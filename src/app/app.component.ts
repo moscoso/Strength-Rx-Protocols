@@ -4,7 +4,8 @@ import { Platform } from '@ionic/angular';
 import { AuthStoreDispatcher } from './core/state/auth/auth.dispatcher';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-
+import { Store } from '@ngrx/store';
+import { AllRequested } from './core/state/profile/profile.actions';
 
 @Component({
     'selector': 'app-root',
@@ -48,8 +49,10 @@ export class AppComponent implements OnInit {
     constructor(
         private platform: Platform,
         private authDispatcher: AuthStoreDispatcher,
+        private store: Store,
     ) {
         this.initializeApp();
+        this.store.dispatch(new AllRequested());
     }
 
     initializeApp() {
