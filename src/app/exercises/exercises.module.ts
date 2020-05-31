@@ -10,12 +10,12 @@ import { ExercisesPage } from './exercises.page';
 import { ExercisePreviewComponent } from './exercise-preview/exercise-preview.component';
 
 @NgModule({
-  'imports': [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    ExercisesPageRoutingModule
-  ],
-  'declarations': [ExercisesPage, ExercisePreviewComponent]
+    'imports': [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        ExercisesPageRoutingModule
+    ],
+    'declarations': [ExercisesPage, ExercisePreviewComponent]
 })
 export class ExercisesPageModule {}

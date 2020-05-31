@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ExercisePageRoutingModule } from './exercise-routing.module';
 
 import { ExercisePage } from './exercise.page';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
     'imports': [
         CommonModule,
         FormsModule,
         IonicModule,
-        ExercisePageRoutingModule
+        SharedModule,
+        ExercisePageRoutingModule,
     ],
     'declarations': [ExercisePage]
 })
