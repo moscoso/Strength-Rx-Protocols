@@ -39,6 +39,22 @@ export class ProfileEffects {
         }),
     );
 
+    @Effect() createRequested$: Observable < ProfileAction > = this.actions$.pipe(
+        ofType<ProfileAction>(ProfileActionType.CreateRequested),
+        switchMap((action: Profiles.CreateRequested) => {
+            return from(this.profileService.create(action.profile)
+                .then(() => {
+                    return new Profiles.Created();
+                })
+                .catch(error => {
+                    return new Profiles.RequestFailed({
+                        'error': error
+                    });
+                })
+            );
+        })
+    );
+
     constructor(
         private profileService: ProfileService,
         private actions$: Actions,
