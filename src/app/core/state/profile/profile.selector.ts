@@ -5,6 +5,8 @@ import { Dictionary } from '@ngrx/entity';
 import { RouterReducerState } from '@ngrx/router-store';
 import { profilesAdapter } from './profile.reducer';
 import { ProfilesState, Profile } from './profile.state';
+import * as fromAuth from '../auth/auth.selector';
+import { AuthState } from '../auth/auth.state';
 
 /**
  * Gets the top-level state property named 'profiles' of the store tree.
@@ -28,6 +30,18 @@ export const selectProfileByID = (profileID: string) => createSelector(
     selectState,
     (state: ProfilesState) => state.entities[profileID]
 );
+
+
+/**
+ * Select a Profile by ID
+ * @param profileID the ID of the profile
+ */
+export const selectUserProfile = createSelector(
+    fromAuth.selectState,
+    selectState,
+    (auth: AuthState, profiles: ProfilesState) => profiles.entities[auth.userID]
+);
+
 
 /**
  * Use the router state's URL to select an Profile by ID.

@@ -1,6 +1,6 @@
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 
 /**
  * The Default behavior to perform CRUD operations on an Entity in Firestore.
@@ -10,6 +10,7 @@ export abstract class EntityService < T > {
 
     protected entityCollection: AngularFirestoreCollection < T > ;
     entities: Observable < T[] > ;
+    defaultEntity: T;
 
     constructor(
         firestore: AngularFirestore,
@@ -20,10 +21,22 @@ export abstract class EntityService < T > {
     }
 
     /**
-     * Retrieve all the entities of the Firestore collection as an array
+     * Retrieve all the entities of the Firestore collection as an array.
+     * If the default Entity is set, it will provide default values for any missing
+     * data fields for each entity.
      */
     async getAll(): Promise < T[] > {
-        return this.entities.pipe(take(1)).toPromise();
+        return this.entities.pipe(take(1), map((entities) => {
+            if (!this.defaultEntity) {
+                return entities;
+            }
+
+            const mappedEntities = [];
+            entities.forEach(entity => {
+                mappedEntities.push({ ...this.defaultEntity, ...entity});
+            });
+            return mappedEntities;
+        })).toPromise();
     }
 
     /**
@@ -51,5 +64,14 @@ export abstract class EntityService < T > {
      */
     async delete(entityID: string): Promise < void > {
         return this.entityCollection.doc(entityID).delete();
+    }
+
+    /**
+     * Set the default entity for the service.
+     * It will provide default values for missing data fields from Firestore documents.
+     * @param entity the initialized values that serve as the default for every entity
+     */
+    setDefaultEntity(entity: T) {
+        this.defaultEntity = entity;
     }
 }
