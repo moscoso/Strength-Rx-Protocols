@@ -41,7 +41,7 @@ export interface ProfilesState extends EntityState < Profile > {
 
 export const INIT_PROFILE: Profile = {
     'id': '',
-    'photoURL': undefined,
+    'photoURL': null,
     'firstName': '',
     'lastName': '',
     'birthday': new Date(),
