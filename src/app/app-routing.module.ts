@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './core/firebase/auth/auth.guard';
+import { AuthGuard } from './core/guards/auth/auth.guard';
+import { ProfileGuard } from './core/guards/profile/profile.guard';
 
 const routes: Routes = [
 {
@@ -18,8 +19,7 @@ const routes: Routes = [
 },
 {
     'path': 'create-exercise',
-    'loadChildren': () => import('./create-exercise/create-exercise.module').then(m => m
-        .CreateExercisePageModule)
+    'loadChildren': () => import('./create-exercise/create-exercise.module').then(m => m.CreateExercisePageModule)
 },
 {
     'path': 'login',
@@ -40,8 +40,17 @@ const routes: Routes = [
 {
     'path': 'profile',
     'loadChildren': () => import('./profile/profile.module').then(m => m.ProfilePageModule),
-    'canActivate': [AuthGuard],
-}, ];
+    'canActivate': [AuthGuard, ProfileGuard],
+},
+{
+    'path': 'create-profile',
+    'loadChildren': () => import('./create-profile/create-profile.module').then(m => m.CreateProfilePageModule),
+},
+{
+    'path': '**',
+    'redirectTo': 'exercises',
+}
+];
 
 @NgModule({
     'imports': [
