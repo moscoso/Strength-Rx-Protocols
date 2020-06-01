@@ -1,5 +1,4 @@
 import { createEntityAdapter } from '@ngrx/entity';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ExerciseAction, ExerciseActionType } from './exercises.actions';
 import { ExercisesState, Exercise } from './exercises.state';
 
