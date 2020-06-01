@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 import { Exercise } from '../core/state/exercises/exercises.state';
 import { AllRequested } from '../core/state/exercises/exercises.actions';
 import { AppState } from '../core/state/app.state';
-import { take, filter } from 'rxjs/operators';
+import { take, filter, map } from 'rxjs/operators';
 
 @Component({
     'selector': 'app-exercises',
@@ -16,8 +16,12 @@ import { take, filter } from 'rxjs/operators';
 })
 export class ExercisesPage implements OnInit {
 
-    exercises$: Observable<Exercise[]> = of([]);
-    requestInProgress$: Observable<boolean> = of(false);
+    exercises$: Observable < Exercise[] > = of ([]);
+    filteredList: Exercise[] = [];
+
+    searchTerm: string;
+
+    requestInProgress$: Observable < boolean > = of (false);
 
     constructor(
         public modalController: ModalController,
@@ -26,8 +30,8 @@ export class ExercisesPage implements OnInit {
 
     ngOnInit(): void {
         this.store.dispatch(new AllRequested());
-        this.exercises$ = this.store.select(fromExercises.selectAll);
         this.requestInProgress$ = this.store.select((state: AppState) => state.exercises.requestInProgress);
+        this.exercises$ = this.store.select(fromExercises.selectAll);
     }
 
     doRefresh(event): void {
@@ -47,5 +51,24 @@ export class ExercisesPage implements OnInit {
         });
         await modal.present();
         return;
+    }
+
+    async filterList(event) {
+        const searchTerm = event.srcElement.value;
+        this.searchTerm = searchTerm;
+        console.log(searchTerm);
+        if (!searchTerm) {
+            return;
+        }
+        this.filteredList = await this.exercises$.pipe(
+            map(exercises => {
+                return exercises.filter(exercise => {
+                    const strippedName = exercise.name.toLowerCase().replace('/\s/g', '');
+                    const strippedSearch = this.searchTerm.toLowerCase().replace('/\s/g', '');
+                    return true;
+                });
+            }),
+            take(1)
+        ).toPromise();
     }
 }

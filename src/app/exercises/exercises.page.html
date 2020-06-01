@@ -14,15 +14,15 @@
 </ion-header>
 
 <ion-content>
+
+    <!-- <ion-searchbar (ionchange)='filterList' autocorrect="off"></ion-searchbar> -->
+
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
     <ion-grid>
-
-        <ion-spinner *ngIf="(requestInProgress$ | async)"></ion-spinner>
-
-        <ion-row *ngIf="!(requestInProgress$ | async) && (exercises$ | async) && (exercises$ | async).length === 0">
+        <ion-row *ngIf="!(requestInProgress$ | async) && (exercises$ | async).length === 0">
             <ion-card>
                 <ion-card-header>No exercises found! Create one!</ion-card-header>
                 <ion-card-content>
@@ -32,10 +32,14 @@
             <br />
         </ion-row>
 
-        <ion-row>
-            <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12" *ngFor="let exercise of exercises$ | async">
+        <ion-row *ngIf="!(requestInProgress$ | async)">
+            <ion-col *ngFor="let exercise of exercises$ | async" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12" >
                 <exercise-preview  [routerLink]="'./' + exercise.id" [exercise]="exercise"></exercise-preview>
             </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="(requestInProgress$ | async) && (exercises$ | async).length === 0">
+            <ion-spinner></ion-spinner>
         </ion-row>
     </ion-grid>
 
