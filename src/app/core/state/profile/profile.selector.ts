@@ -32,6 +32,7 @@ export const selectProfileByID = (profileID: string) => createSelector(
 );
 
 
+
 /**
  * Select the authenticated user's profile
  */
@@ -40,6 +41,15 @@ export const selectUserProfile = createSelector(
     selectState,
     (auth: AuthState, profiles: ProfilesState) => profiles.entities[auth.userID]
 );
+
+/**
+ * Select the authenticated user to see if the user is a trainer
+ */
+export const selectUserIsTrainer =  createSelector(
+    selectUserProfile,
+    profile => profile.isTrainer
+);
+
 
 
 /**
