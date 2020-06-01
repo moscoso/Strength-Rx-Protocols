@@ -50,14 +50,9 @@ const routes: Routes = [
         'canActivate': [AuthGuard, NoProfileGuard],
     },
     {
-        'path': '**',
-        'redirectTo': 'exercises',
-    },
-    {
         'path': 'check-in',
         'loadChildren': () => import('./check-in/check-in.module').then(m => m.CheckInPageModule)
     }
-
 ];
 
 @NgModule({
