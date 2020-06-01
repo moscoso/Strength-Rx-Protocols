@@ -6,7 +6,7 @@ import { RouterReducerState } from '@ngrx/router-store';
 import { WorkoutsState, Workout } from './workouts.state';
 
 /**
- * Gets the top-level state property named 'exercises' of the store tree.
+ * Gets the top-level state property named 'workouts' of the store tree.
  */
 /* Note: createFeatureSelector allows us to get a top-level feature state
  * property of the state tree simply by calling it out by its feature name.
@@ -20,16 +20,16 @@ export const {
 } = workoutsAdapter.getSelectors(selectState);
 
 /**
- * Select an Exercise by ID
- * @param exerciseID the ID of the exercise
+ * Select an Workout by ID
+ * @param workoutID the ID of the workout
  */
-export const selectWorkoutByID = (exerciseID: string) => createSelector(
+export const selectWorkoutByID = (workoutID: string) => createSelector(
     selectState,
-    (state: WorkoutsState) => state.entities[exerciseID]
+    (state: WorkoutsState) => state.entities[workoutID]
 );
 
 /**
- * Use the router state's URL to select an Exercise by ID.
+ * Use the router state's URL to select an Workout by ID.
  */
 // export const selectWorkoutByRouteURL = createSelector(
 //     selectEntities,

@@ -2,7 +2,7 @@ import { EntityState } from '@ngrx/entity';
 import { Exercise } from '../exercises/exercises.state';
 
 /**
- * The main data model for an Exercise
+ * The main data model for an Workout
  */
 export interface Workout {
     id: string;
@@ -11,6 +11,7 @@ export interface Workout {
     exerciseRoutines: {
         [exerciseID: string]: ExerciseRoutine
     };
+    dateCreated: Date;
 }
 
 export interface ExerciseRoutine {
@@ -24,7 +25,8 @@ export const INIT_WORKOUT: Workout = {
     'id': '',
     'name': '',
     'exercises': [],
-    'exerciseRoutines': {}
+    'exerciseRoutines': {},
+    'dateCreated': new Date(),
 };
 
 /**

@@ -22,7 +22,7 @@ export class AllRequested implements Action {
 export class AllLoaded implements Action {
     readonly type = WorkoutActionType.AllLoaded;
     constructor(
-        public exercises: Workout[],
+        public workouts: Workout[],
     ) {}
 }
 

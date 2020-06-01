@@ -3,8 +3,8 @@ import { WorkoutAction, WorkoutActionType } from './workouts.actions';
 import { Workout, WorkoutsState } from './workouts.state';
 
 export const workoutsAdapter = createEntityAdapter < Workout > ({
-    'selectId': exercise => exercise.id,
-    'sortComparer': (exerciseA, exerciseB) => exerciseA.name.localeCompare(exerciseB.name)
+    'selectId': workout => workout.id,
+    'sortComparer': (workoutA, workoutB) => workoutA.name.localeCompare(workoutB.name)
 });
 const initialState: WorkoutsState = workoutsAdapter.getInitialState({
     'requestInProgress': false,
@@ -19,7 +19,7 @@ export function workoutsReducer(state: WorkoutsState = initialState, action: Wor
                 'error': null,
             };
         case WorkoutActionType.AllLoaded:
-            return workoutsAdapter.setAll(action.exercises, {
+            return workoutsAdapter.setAll(action.workouts, {
                 ...state,
                 'requestInProgress': false,
             });
