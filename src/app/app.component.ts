@@ -29,6 +29,11 @@ export class AppComponent implements OnInit {
             'icon': '',
             'link': '/profile'
         },
+        {
+            'label': 'Check In',
+            'icon': '',
+            'link': '/check-in',
+        },
     ];
 
     public accountPages: MenuItem [] = [
