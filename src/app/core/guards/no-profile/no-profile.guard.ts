@@ -37,7 +37,7 @@ export class NoProfileGuard implements CanActivate {
                         }],
                     });
                     toast.present();
-                    return this.router.parseUrl('/workouts');
+                    return this.router.parseUrl('/profile');
                 }
             }).catch((reason) => {
                 window.alert(`Something went wrong!`);
