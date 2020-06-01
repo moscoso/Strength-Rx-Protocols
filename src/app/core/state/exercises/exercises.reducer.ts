@@ -5,8 +5,14 @@ import { ExercisesState, Exercise } from './exercises.state';
 
 export const exerciseAdapter = createEntityAdapter < Exercise > ({
     'selectId': exercise => exercise.id,
-    'sortComparer': (exerciseA, exerciseB) => exerciseA.name.localeCompare(exerciseB.name)
+    'sortComparer': sortByName,
 });
+
+export function sortByName(a: Exercise, b: Exercise): number {
+    return a.name.localeCompare(b.name);
+}
+
+
 const initialState: ExercisesState = exerciseAdapter.getInitialState({
     'requestInProgress': false,
     'error': null,
