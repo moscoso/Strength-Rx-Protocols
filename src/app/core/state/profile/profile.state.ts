@@ -13,6 +13,7 @@ export interface Profile {
     isClient: boolean;
     isTrainer: boolean;
     photoURL: string;
+    assignedTrainerID: string;
     clientApplicationStatus: ClientApplicationStatus;
     sex: 'M' | 'F';
 }
@@ -50,6 +51,7 @@ export const INIT_PROFILE: Profile = {
     'height': { 'cm': 0 },
     'isClient': false,
     'isTrainer': false,
+    'assignedTrainerID': null,
     'clientApplicationStatus': ClientApplicationStatus.NOT_STARTED,
     'sex': 'M',
 };

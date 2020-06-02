@@ -47,10 +47,42 @@ export const selectUserProfile = createSelector(
  */
 export const selectUserIsTrainer =  createSelector(
     selectUserProfile,
-    profile => profile.isTrainer
+    profile => profile
+);
+
+/**
+ * Select all clients (essentially everyone who is not a trainer)
+ */
+export const selectAllClients = createSelector(
+    selectAll,
+    profiles => profiles.filter(profile => !profile.isTrainer),
 );
 
 
+/**
+ * Select all trainers (essentially everyone who is not a trainer)
+ */
+export const selectAllTrainers = createSelector(
+    selectAll,
+    profiles => profiles.filter(profile => profile.isTrainer),
+);
+
+/**
+ * Select all clients of the signed in user
+ */
+export const selectMyClients = createSelector(
+    selectAllClients,
+    selectUserProfile,
+    (profiles, user) => profiles.filter(profile => profile.assignedTrainerID === user.id)
+);
+
+/**
+ * Select all clients who do not have an assigned trainer
+ */
+export const selectUnassignedClients = createSelector(
+    selectAllClients,
+    profiles => profiles.filter(profile => profile.assignedTrainerID == null)
+);
 
 /**
  * Use the router state's URL to select an Profile by ID.
