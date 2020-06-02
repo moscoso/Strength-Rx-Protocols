@@ -1,7 +1,10 @@
 <ion-header>
     <ion-toolbar>
         <ion-buttons slot="start">
+            <ion-back-button *ngIf="routeID" defaultHref="/clients"></ion-back-button>
+            <ion-back-button *ngIf="!routeID" defaultHref="/"></ion-back-button>
             <ion-menu-button></ion-menu-button>
+
         </ion-buttons>
         <ion-title>Profile</ion-title>
     </ion-toolbar>

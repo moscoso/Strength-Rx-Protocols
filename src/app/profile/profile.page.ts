@@ -18,6 +18,8 @@ export class ProfilePage implements OnInit {
 
     public profile$: Observable < Profile > ;
     public isEdit = false;
+    public routeID = null;
+
 
     constructor(
         public store: Store,
@@ -33,6 +35,7 @@ export class ProfilePage implements OnInit {
         const router = await this.store.select(selectRouterState).pipe(take(1)).toPromise();
         const routeID = router.state.params.id;
         if (routeID) {
+            this.routeID = routeID;
             this.profile$ = this.store.select(fromProfile.selectProfileByID(routeID));
         } else {
             this.profile$ = this.store.select(fromProfile.selectUserProfile);
