@@ -5,10 +5,8 @@ import { Platform } from '@ionic/angular';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
-import { ExerciseComponent } from './exercise/exercise.component';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { By } from '@angular/platform-browser';
 
 describe('AppComponent', () => {
     let fixture: ComponentFixture < AppComponent > ;
@@ -25,7 +23,7 @@ describe('AppComponent', () => {
 
     beforeEach(async () => {
         TestBed.configureTestingModule({
-            'declarations': [AppComponent, ExerciseComponent],
+            'declarations': [AppComponent],
             'schemas': [CUSTOM_ELEMENTS_SCHEMA],
             'providers': [
                 { 'provide': Platform, 'useValue': platformSpy },
@@ -57,20 +55,6 @@ describe('AppComponent', () => {
 
     it('has labels for each menu item', async () => {
         const menuItems = element.querySelectorAll('ion-label');
-        expect(menuItems.length).toEqual(component.items.length);
+        expect(menuItems.length).toEqual(component.mainPages.length);
     });
-
-    it('has first menu item with link to /exercises', async () => {
-        fixture.detectChanges();
-        const menuItems = element.querySelectorAll('ion-item');
-        expect(menuItems[0].getAttribute('ng-reflect-router-link')).toEqual('/exercises');
-    });
-
-    it('when the current route url is /exercises the first menu item has a class of ".selected"', () => {
-        component.selectedRoute = '/exercises';
-        fixture.detectChanges();
-        const menuItems = element.querySelectorAll('ion-item');
-        expect(menuItems[0].getAttribute('class')).toContain('selected');
-    });
-
 });

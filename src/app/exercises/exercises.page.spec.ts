@@ -3,7 +3,6 @@ import { IonicModule, ModalController } from '@ionic/angular';
 
 import { ExercisesPage } from './exercises.page';
 import { click } from 'testing';
-import { ExerciseComponent } from '../exercise/exercise.component';
 import { CreateExercisePage } from '../create-exercise/create-exercise.page';
 import { Store } from '@ngrx/store';
 
@@ -18,7 +17,7 @@ describe('ExercisesPage', () => {
     const storeSpy = jasmine.createSpyObj('Store', ['select', 'dispatch']);
     beforeEach(async () => {
         TestBed.configureTestingModule({
-            'declarations': [ExercisesPage, ExerciseComponent],
+            'declarations': [ExercisesPage],
             'imports': [IonicModule],
             'providers': [
             {
