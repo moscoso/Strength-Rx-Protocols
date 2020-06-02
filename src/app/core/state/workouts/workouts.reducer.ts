@@ -23,28 +23,29 @@ export function workoutsReducer(state: WorkoutsState = initialState, action: Wor
                 ...state,
                 'requestInProgress': false,
             });
-        case WorkoutActionType.Created:
-        case WorkoutActionType.Updated:
-        case WorkoutActionType.Deleted:
+        case WorkoutActionType.CreateRequested:
+        case WorkoutActionType.UpdateRequested:
+        case WorkoutActionType.DeleteRequested:
             return {
                 ...state,
-                'requestInProgress': false,
+                'requestInProgress': true,
                 'error': null,
             };
-        case WorkoutActionType.CreateRequested:
+        case WorkoutActionType.Created:
+            console.log('sad');
             return workoutsAdapter.addOne(action.workout, {
                 ...state,
-                'requestInProgress': true,
+                'requestInProgress': false,
             });
-        case WorkoutActionType.UpdateRequested:
+        case WorkoutActionType.Updated:
             return workoutsAdapter.updateOne({ 'id': action.id, 'changes': action.changes }, {
                 ...state,
-                'requestInProgress': true,
+                'requestInProgress': false,
             });
-        case WorkoutActionType.DeleteRequested:
+        case WorkoutActionType.Deleted:
             return workoutsAdapter.removeOne(action.id, {
                 ...state,
-                'requestInProgress': true,
+                'requestInProgress': false,
             });
         case WorkoutActionType.RequestFailed:
             return {

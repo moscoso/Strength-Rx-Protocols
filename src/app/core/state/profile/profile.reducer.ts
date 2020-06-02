@@ -26,9 +26,9 @@ export function profilesReducer(state: ProfilesState = initialState, action: Pro
                 'requestInProgress': false,
                 'initialized': true,
             });
-        case ProfileActionType.Created:
-        case ProfileActionType.Updated:
-        case ProfileActionType.Deleted:
+        case ProfileActionType.CreateRequested:
+        case ProfileActionType.UpdateRequested:
+        case ProfileActionType.DeleteRequested:
             return {
                 ...state,
                 'requestInProgress': false,

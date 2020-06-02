@@ -23,28 +23,28 @@ export function foodsReducer(state: FoodsState = initialState, action: FoodActio
                 ...state,
                 'requestInProgress': false,
             });
-        case FoodActionType.Created:
-        case FoodActionType.Updated:
-        case FoodActionType.Deleted:
+        case FoodActionType.CreateRequested:
+        case FoodActionType.UpdateRequested:
+        case FoodActionType.DeleteRequested:
             return {
                 ...state,
-                'requestInProgress': false,
+                'requestInProgress': true,
                 'error': null,
             };
-        case FoodActionType.CreateRequested:
-            return foodsAdapter.addOne(action.food, {
+        case FoodActionType.Created:
+           return {
                 ...state,
-                'requestInProgress': true,
-            });
-        case FoodActionType.UpdateRequested:
+                'requestInProgress': false,
+            };
+        case FoodActionType.Updated:
             return foodsAdapter.updateOne({ 'id': action.id, 'changes': action.changes }, {
                 ...state,
-                'requestInProgress': true,
+                'requestInProgress': false,
             });
-        case FoodActionType.DeleteRequested:
+        case FoodActionType.Deleted:
             return foodsAdapter.removeOne(action.id, {
                 ...state,
-                'requestInProgress': true,
+                'requestInProgress': false,
             });
         case FoodActionType.RequestFailed:
             return {

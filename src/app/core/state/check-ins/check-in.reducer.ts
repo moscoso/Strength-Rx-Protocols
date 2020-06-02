@@ -33,29 +33,29 @@ export function checkInsReducer(state: CheckInsState = initialState, action: Che
                 ...state,
                 'requestInProgress': false,
             });
-        case CheckInActionType.Created:
-        case CheckInActionType.Updated:
-        case CheckInActionType.Deleted:
+        case CheckInActionType.CreateRequested:
+        case CheckInActionType.UpdateRequested:
+        case CheckInActionType.DeleteRequested:
             return {
                 ...state,
                 'requestInProgress': false,
                 'error': null,
             };
-        case CheckInActionType.CreateRequested:
-            return checkInsAdapter.addOne(action.checkIn, {
+        case CheckInActionType.Created:
+            return{
                 ...state,
                 'requestInProgress': true,
-            });
-        case CheckInActionType.UpdateRequested:
-            return checkInsAdapter.updateOne({ 'id': action.id, 'changes': action.changes }, {
+            };
+        case CheckInActionType.Updated:
+            return {
                 ...state,
                 'requestInProgress': true,
-            });
-        case CheckInActionType.DeleteRequested:
-            return checkInsAdapter.removeOne(action.id, {
+            };
+        case CheckInActionType.Deleted:
+            return {
                 ...state,
                 'requestInProgress': true,
-            });
+            };
         case CheckInActionType.RequestFailed:
             return {
                 ...state,

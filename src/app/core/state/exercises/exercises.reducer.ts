@@ -29,28 +29,28 @@ export function exercisesReducer(state: ExercisesState = initialState, action: E
                 ...state,
                 'requestInProgress': false,
             });
-        case ExerciseActionType.Created:
-        case ExerciseActionType.Updated:
-        case ExerciseActionType.Deleted:
+        case ExerciseActionType.CreateRequested:
+        case ExerciseActionType.UpdateRequested:
+        case ExerciseActionType.DeleteRequested:
             return {
                 ...state,
-                'requestInProgress': false,
+                'requestInProgress': true,
                 'error': null,
             };
-        case ExerciseActionType.CreateRequested:
+        case ExerciseActionType.Created:
             return exerciseAdapter.addOne(action.exercise, {
                 ...state,
-                'requestInProgress': true,
+                'requestInProgress': false,
             });
-        case ExerciseActionType.UpdateRequested:
+        case ExerciseActionType.Updated:
             return exerciseAdapter.updateOne({ 'id': action.id, 'changes': action.changes }, {
                 ...state,
-                'requestInProgress': true,
+                'requestInProgress': false,
             });
-        case ExerciseActionType.DeleteRequested:
+        case ExerciseActionType.Deleted:
             return exerciseAdapter.removeOne(action.id, {
                 ...state,
-                'requestInProgress': true,
+                'requestInProgress': false,
             });
         case ExerciseActionType.RequestFailed:
             return {

@@ -44,8 +44,8 @@ export class ProfileEffects {
         ofType<ProfileAction>(ProfileActionType.CreateRequested),
         switchMap((action: Profiles.CreateRequested) => {
             return from(this.profileService.create(action.profile)
-                .then(() => {
-                    return new Profiles.Created();
+                .then((profile) => {
+                    return new Profiles.Created(profile);
                 })
                 .catch(error => {
                     return new Profiles.RequestFailed({

@@ -33,7 +33,9 @@ export class RequestFailed implements Action {
 
 export class Created implements Action {
     readonly type = CheckInActionType.Created;
-    constructor() {}
+    constructor(
+        public checkIn: CheckIn,
+    ) {}
 }
 
 export class CreateRequested implements Action {
@@ -45,7 +47,10 @@ export class CreateRequested implements Action {
 
 export class Updated implements Action {
     readonly type = CheckInActionType.Updated;
-    constructor() {}
+    constructor(
+        public id: string,
+        public changes: Partial < CheckIn > ,
+    ) {}
 }
 
 export class UpdateRequested implements Action {
@@ -58,7 +63,9 @@ export class UpdateRequested implements Action {
 
 export class Deleted implements Action {
     readonly type = CheckInActionType.Deleted;
-    constructor() {}
+    constructor(
+        public id: string,
+    ) {}
 }
 
 export class DeleteRequested implements Action {

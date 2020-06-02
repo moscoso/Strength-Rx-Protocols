@@ -33,7 +33,7 @@ export class RequestFailed implements Action {
 
 export class Created implements Action {
     readonly type = ProfileActionType.Created;
-    constructor() {}
+    constructor(public profile: Profile) {}
 }
 
 export class CreateRequested implements Action {
@@ -45,7 +45,10 @@ export class CreateRequested implements Action {
 
 export class Updated implements Action {
     readonly type = ProfileActionType.Updated;
-    constructor() {}
+    constructor(
+        public id: string,
+        public changes: Partial < Profile >
+    ) {}
 }
 
 export class UpdateRequested implements Action {
@@ -58,7 +61,7 @@ export class UpdateRequested implements Action {
 
 export class Deleted implements Action {
     readonly type = ProfileActionType.Deleted;
-    constructor() {}
+    constructor(public id: string) {}
 }
 
 export class DeleteRequested implements Action {

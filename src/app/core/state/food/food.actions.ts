@@ -11,8 +11,7 @@ export enum FoodActionType {
     Updated = '[Edit Food Page] Food Updated',
     DeleteRequested = '[Food Service] Delete Food Requested',
     Deleted = '[Food Page] Food Deleted',
-    RequestFailed = '[Food Service] Request Failed',
-}
+    RequestFailed = '[Food Service] Request Failed', }
 
 export class AllRequested implements Action {
     readonly type = FoodActionType.AllRequested;
@@ -33,7 +32,9 @@ export class RequestFailed implements Action {
 
 export class Created implements Action {
     readonly type = FoodActionType.Created;
-    constructor() {}
+    constructor(
+        public food: Food,
+    ) {}
 }
 
 export class CreateRequested implements Action {
@@ -45,7 +46,10 @@ export class CreateRequested implements Action {
 
 export class Updated implements Action {
     readonly type = FoodActionType.Updated;
-    constructor() {}
+    constructor(
+        public id: string,
+        public changes: Partial < Food > ,
+    ) {}
 }
 
 export class UpdateRequested implements Action {
@@ -58,7 +62,9 @@ export class UpdateRequested implements Action {
 
 export class Deleted implements Action {
     readonly type = FoodActionType.Deleted;
-    constructor() {}
+    constructor(
+        public id: string,
+    ) {}
 }
 
 export class DeleteRequested implements Action {

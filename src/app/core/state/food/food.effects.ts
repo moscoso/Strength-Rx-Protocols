@@ -7,9 +7,17 @@ import { FoodAction, FoodActionType} from './food.actions';
 import * as Foods from './food.actions';
 import { ModalController } from '@ionic/angular';
 import { FoodService } from '../../firebase/food/food.service';
+import { ToastService } from 'src/app/shared/toast/toast.service';
 
 @Injectable()
 export class FoodEffects {
+
+    @Effect({'dispatch': false}) error$: Observable<FoodAction> = this.actions$.pipe(
+        ofType(FoodActionType.RequestFailed),
+        tap((action: Foods.RequestFailed) => {
+            this.toaster.failed('Something went wrong', action.error.error.code);
+        })
+    );
 
     @Effect() allRequested$: Observable < FoodAction > = this.actions$.pipe(
         ofType<FoodAction>(FoodActionType.AllRequested),
@@ -31,8 +39,8 @@ export class FoodEffects {
         ofType<FoodAction>(FoodActionType.CreateRequested),
         switchMap((action: Foods.CreateRequested) => {
             return from(this.foodService.create(action.food)
-                .then(() => {
-                    return new Foods.Created();
+                .then((food) => {
+                    return new Foods.Created(food);
                 })
                 .catch(error => {
                     return new Foods.RequestFailed({
@@ -46,7 +54,7 @@ export class FoodEffects {
     @Effect({'dispatch': false}) createCompleted$: Observable < FoodAction > = this.actions$.pipe(
         ofType<FoodAction>(FoodActionType.Created),
         tap((action: Foods.CreateRequested) => {
-            this.modalController.dismiss();
+            this.modalController.dismiss('create-food');
         })
     );
 
@@ -54,5 +62,6 @@ export class FoodEffects {
         private foodService: FoodService,
         private actions$: Actions,
         private modalController: ModalController,
+        private toaster: ToastService,
     ) {}
 }

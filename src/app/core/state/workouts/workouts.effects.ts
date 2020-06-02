@@ -7,9 +7,17 @@ import { WorkoutAction, WorkoutActionType} from './workouts.actions';
 import * as Workouts from './workouts.actions';
 import { WorkoutService } from '../../firebase/workout/workout.service';
 import { ModalController } from '@ionic/angular';
+import { ToastService } from 'src/app/shared/toast/toast.service';
 
 @Injectable()
 export class WorkoutEffects {
+
+    @Effect({'dispatch': false}) error$: Observable<WorkoutAction> = this.actions$.pipe(
+        ofType(WorkoutActionType.RequestFailed),
+        tap((action: Workouts.RequestFailed) => {
+            this.toaster.failed('Something went wrong', action.error.error.code);
+        })
+    );
 
     @Effect() allRequested$: Observable < WorkoutAction > = this.actions$.pipe(
         ofType<WorkoutAction>(WorkoutActionType.AllRequested),
@@ -31,8 +39,8 @@ export class WorkoutEffects {
         ofType<WorkoutAction>(WorkoutActionType.CreateRequested),
         switchMap((action: Workouts.CreateRequested) => {
             return from(this.workoutService.create(action.workout)
-                .then(() => {
-                    return new Workouts.Created();
+                .then((workout) => {
+                    return new Workouts.Created(workout);
                 })
                 .catch(error => {
                     return new Workouts.RequestFailed({
@@ -54,5 +62,6 @@ export class WorkoutEffects {
         private workoutService: WorkoutService,
         private actions$: Actions,
         private modalController: ModalController,
+        private toaster: ToastService,
     ) {}
 }

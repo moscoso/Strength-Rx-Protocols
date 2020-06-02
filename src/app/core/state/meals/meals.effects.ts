@@ -7,9 +7,17 @@ import { MealAction, MealActionType} from './meals.actions';
 import * as Meals from './meals.actions';
 import { ModalController } from '@ionic/angular';
 import { MealService } from '../../firebase/meals/meal.service';
+import { ToastService } from 'src/app/shared/toast/toast.service';
 
 @Injectable()
 export class MealEffects {
+
+    @Effect({'dispatch': false}) error$: Observable<MealAction> = this.actions$.pipe(
+        ofType(MealActionType.RequestFailed),
+        tap((action: Meals.RequestFailed) => {
+            this.toaster.failed('Something went wrong', action.error.error.code);
+        })
+    );
 
     @Effect() allRequested$: Observable < MealAction > = this.actions$.pipe(
         ofType<MealAction>(MealActionType.AllRequested),
@@ -31,8 +39,8 @@ export class MealEffects {
         ofType<MealAction>(MealActionType.CreateRequested),
         switchMap((action: Meals.CreateRequested) => {
             return from(this.mealService.create(action.meal)
-                .then(() => {
-                    return new Meals.Created();
+                .then((meal) => {
+                    return new Meals.Created(meal);
                 })
                 .catch(error => {
                     return new Meals.RequestFailed({
@@ -54,5 +62,6 @@ export class MealEffects {
         private mealService: MealService,
         private actions$: Actions,
         private modalController: ModalController,
+        private toaster: ToastService,
     ) {}
 }

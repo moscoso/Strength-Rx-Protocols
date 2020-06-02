@@ -1,14 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, from } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 
 import { ExerciseAction, ExerciseActionType} from './exercises.actions';
 import * as Exercises from './exercises.actions';
 import { ExerciseService } from '../../firebase/exercise/exercise.service';
+import { ToastService } from 'src/app/shared/toast/toast.service';
+import { ModalController } from '@ionic/angular';
 
 @Injectable()
 export class ExerciseEffects {
+
+    @Effect({'dispatch': false}) error$: Observable<ExerciseAction> = this.actions$.pipe(
+        ofType(ExerciseActionType.RequestFailed),
+        tap((action: Exercises.RequestFailed) => {
+            this.toaster.failed('Something went wrong', action.error.error.code);
+        })
+    );
 
     @Effect() allRequested$: Observable < ExerciseAction > = this.actions$.pipe(
         ofType<ExerciseAction>(ExerciseActionType.AllRequested),
@@ -30,8 +39,8 @@ export class ExerciseEffects {
         ofType<ExerciseAction>(ExerciseActionType.CreateRequested),
         switchMap((action: Exercises.CreateRequested) => {
             return from(this.exerciseService.create(action.exercise)
-                .then(() => {
-                    return new Exercises.Created();
+                .then((exercise) => {
+                    return new Exercises.Created(exercise);
                 })
                 .catch(error => {
                     return new Exercises.RequestFailed({
@@ -47,7 +56,7 @@ export class ExerciseEffects {
         switchMap((action: Exercises.UpdateRequested) => {
             return from(this.exerciseService.update(action.id, action.changes)
                 .then(() => {
-                    return new Exercises.Updated();
+                    return new Exercises.Updated(action.id, action.changes);
                 })
                 .catch(error => {
                     return new Exercises.RequestFailed({
@@ -63,7 +72,7 @@ export class ExerciseEffects {
         switchMap((action: Exercises.DeleteRequested) => {
             return from(this.exerciseService.delete(action.id)
                 .then(() => {
-                    return new Exercises.Deleted();
+                    return new Exercises.Deleted(action.id);
                 })
                 .catch(error => {
                     return new Exercises.RequestFailed({
@@ -74,8 +83,17 @@ export class ExerciseEffects {
         })
     );
 
+    @Effect({'dispatch': false}) createCompleted$: Observable < ExerciseAction > = this.actions$.pipe(
+        ofType<ExerciseAction>(ExerciseActionType.Created),
+        tap((action: Exercises.CreateRequested) => {
+            this.modalController.dismiss();
+        })
+    );
+
     constructor(
         private exerciseService: ExerciseService,
         private actions$: Actions,
+        private modalController: ModalController,
+        private toaster: ToastService,
     ) {}
 }

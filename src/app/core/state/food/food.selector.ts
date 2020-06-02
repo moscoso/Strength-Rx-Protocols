@@ -4,6 +4,7 @@ import { foodsAdapter } from './food.reducer';
 import { Dictionary } from '@ngrx/entity';
 import { RouterReducerState } from '@ngrx/router-store';
 import { FoodsState, Food } from './food.state';
+import { selectRouterState } from '../router/router.selectors';
 
 /**
  * Gets the top-level state property named 'foods' of the store tree.
@@ -31,10 +32,10 @@ export const selectFoodByID = (foodID: string) => createSelector(
 /**
  * Use the router state's URL to select an Food by ID.
  */
-// export const selectFoodByRouteURL = createSelector(
-//     selectEntities,
-//     selectRouterState,
-//     (entities: Dictionary<Food>, router: RouterReducerState<any>) => {
-//         return router.state && entities[router.state.params.orderID];
-//     }
-// );
+export const selectFoodByRouteURL = createSelector(
+    selectEntities,
+    selectRouterState,
+    (entities: Dictionary<Food>, router: RouterReducerState<any>) => {
+        return router.state && entities[router.state.params.orderID];
+    }
+);
