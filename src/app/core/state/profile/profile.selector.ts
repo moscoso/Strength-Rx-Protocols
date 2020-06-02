@@ -47,7 +47,7 @@ export const selectUserProfile = createSelector(
  */
 export const selectUserIsTrainer =  createSelector(
     selectUserProfile,
-    profile => profile
+    profile => profile.isTrainer
 );
 
 /**

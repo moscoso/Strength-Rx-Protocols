@@ -30,6 +30,11 @@ export class AppComponent implements OnInit {
             'link': '/profile'
         },
         {
+            'label': 'Clients',
+            'icon': '',
+            'link': '/clients'
+        },
+        {
             'label': 'Check In',
             'icon': '',
             'link': '/check-in',

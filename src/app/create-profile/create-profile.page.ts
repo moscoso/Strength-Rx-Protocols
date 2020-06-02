@@ -51,7 +51,7 @@ export class CreateProfilePage implements OnInit {
             'id':  userID,
             'firstName': form.firstName,
             'lastName': form.lastName,
-            'isClient': false,
+            'isClient': true,
             'isTrainer': false,
             'joined': new Date(),
             'photoURL': '',
@@ -61,6 +61,7 @@ export class CreateProfilePage implements OnInit {
                 'feet': form.feet,
                 'inches': form.inches
             },
+            'assignedTrainerID': null,
             'clientApplicationStatus': ClientApplicationStatus.NOT_STARTED
         };
         this.store.dispatch(new CreateRequested(profile));

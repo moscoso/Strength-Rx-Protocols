@@ -45,6 +45,11 @@ const routes: Routes = [
         'canActivate': [AuthGuard, ProfileGuard],
     },
     {
+        'path': 'profile/:id',
+        'loadChildren': () => import('./profile/profile.module').then(m => m.ProfilePageModule),
+        'canActivate': [AuthGuard],
+    },
+    {
         'path': 'create-profile',
         'loadChildren': () => import('./create-profile/create-profile.module').then(m => m.CreateProfilePageModule),
         'canActivate': [AuthGuard, NoProfileGuard],
@@ -52,7 +57,12 @@ const routes: Routes = [
     {
         'path': 'check-in',
         'loadChildren': () => import('./check-in/check-in.module').then(m => m.CheckInPageModule)
+    },
+    {
+        'path': 'clients',
+        'loadChildren': () => import('./clients/clients.module').then(m => m.ClientsPageModule)
     }
+
 ];
 
 @NgModule({

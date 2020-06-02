@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import { AuthStoreDispatcher } from '../core/state/auth/auth.dispatcher';
 import * as fromProfile from '../core/state/profile/profile.selector';
 import { AllRequested } from '../core/state/profile/profile.actions';
+import { selectRouterState, selectURL } from '../core/state/router/router.selectors';
+import { take } from 'rxjs/operators';
 
 @Component({
     'selector': 'app-profile',
@@ -28,11 +30,18 @@ export class ProfilePage implements OnInit {
     }
 
     async fetchProfile() {
-        this.profile$ = this.store.select(fromProfile.selectUserProfile);
+        const router = await this.store.select(selectRouterState).pipe(take(1)).toPromise();
+        const routeID = router.state.params.id;
+        if (routeID) {
+            this.profile$ = this.store.select(fromProfile.selectProfileByID(routeID));
+        } else {
+            this.profile$ = this.store.select(fromProfile.selectUserProfile);
+        }
     }
 
     getAvatar(profile: Profile) {
-        return profile.photoURL != null && profile.photoURL.length > 0 ? profile.photoURL : this.getInitialsAvatar(profile);
+        return profile.photoURL != null && profile.photoURL.length > 0 ? profile.photoURL : this.getInitialsAvatar(
+            profile);
     }
 
     getInitialsAvatar(profile: Profile) {
