@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { WorkoutsPageRoutingModule } from './workouts-routing.module';
 
 import { WorkoutsPage } from './workouts.page';
+import { WorkoutPreviewComponent } from './workout-preview/workout-preview.component';
 
 @NgModule({
   'imports': [
@@ -15,6 +16,6 @@ import { WorkoutsPage } from './workouts.page';
     IonicModule,
     WorkoutsPageRoutingModule
   ],
-  'declarations': [WorkoutsPage]
+  'declarations': [WorkoutsPage, WorkoutPreviewComponent]
 })
 export class WorkoutsPageModule {}

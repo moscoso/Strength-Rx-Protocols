@@ -1,3 +1,8 @@
-<p>
-  workout-preview works!
-</p>
+<ion-card>
+    <ng-container *ngIf="workout.photoURL">
+        <img [src]="workout.photoURL"/>
+    </ng-container>
+    <ion-card-header>
+        <ion-card-title class="name">{{workout.name}}</ion-card-title>
+    </ion-card-header>
+</ion-card>

@@ -11,6 +11,7 @@ export interface Workout {
     exerciseRoutines: {
         [exerciseID: string]: ExerciseRoutine
     };
+    photoURL: string;
     dateCreated: Date;
 }
 
@@ -26,6 +27,7 @@ export const INIT_WORKOUT: Workout = {
     'name': '',
     'exercises': [],
     'exerciseRoutines': {},
+    'photoURL': '',
     'dateCreated': new Date(),
 };
 

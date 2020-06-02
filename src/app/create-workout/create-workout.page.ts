@@ -52,6 +52,7 @@ export class CreateWorkoutPage implements OnInit {
             'exercises': form.exercises,
             'exerciseRoutines': {},
             'dateCreated': new Date(),
+            'photoURL': '',
         };
         this.store.dispatch(new CreateRequested(workout));
     }

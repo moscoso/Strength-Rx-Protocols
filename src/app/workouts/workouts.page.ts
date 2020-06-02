@@ -24,9 +24,9 @@ export class WorkoutsPage implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.requestInProgress$ = this.store.select((state: AppState) => state.workouts.requestInProgress);
         this.store.dispatch(new AllRequested());
         this.workouts$ = this.store.select(fromWorkouts.selectAll);
-        this.requestInProgress$ = this.store.select((state: AppState) => state.exercises.requestInProgress);
     }
 
     doRefresh(event): void {
