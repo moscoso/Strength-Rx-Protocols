@@ -20,7 +20,7 @@
 
     <ion-grid>
 
-        <ion-row *ngIf="!(requestInProgress$ | async) && (workouts$ | async).length === 0 && requestSent">
+        <ion-row *ngIf="!(requestInProgress$ | async) && (workouts$ | async).length === 0">
             <ion-card>
                 <ion-card-header>No workouts found! Create one!</ion-card-header>
                 <ion-card-content>
