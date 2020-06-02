@@ -69,7 +69,7 @@ export class DeleteRequested implements Action {
 }
 
 /**
- * All of the actions related to Exercises
+ * All of the actions related to Profiles
  */
 export type ProfileAction =
     AllRequested |
