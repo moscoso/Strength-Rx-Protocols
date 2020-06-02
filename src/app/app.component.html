@@ -11,7 +11,12 @@
                                   [routerLink]="page.link"
                                   routerLinkActive="selected"
                                   [routerLinkActiveOptions]="{exact:true}">
-                            <ion-icon slot="start" [icon]="page.icon"></ion-icon>
+                            <ng-container *ngIf="page.icon">
+                                <ion-icon size="large" slot="start" [icon]="page.icon"></ion-icon>
+                            </ng-container>
+                            <ng-container *ngIf="page.src">
+                                <ion-icon size="large"  slot="start" [src]="page.src"></ion-icon>
+                            </ng-container>
                             <ion-label>{{page.label}}</ion-label>
                         </ion-item>
 
@@ -22,7 +27,7 @@
                 <ion-list lines="none">
                     <ion-menu-toggle auto-hide="false">
                         <ion-item *ngIf="(isAuthenticated | async); else notAuthenticated" (click)="logout();">
-                            <ion-icon slot="start" icon="exit"></ion-icon>
+                            <ion-icon size="large"  slot="start" icon="exit"></ion-icon>
                             <ion-label>Log Out</ion-label>
                         </ion-item>
                         <ng-template #notAuthenticated>
@@ -31,7 +36,12 @@
                                       [routerLink]="page.link"
                                       routerLinkActive="selected"
                                       [routerLinkActiveOptions]="{exact:true}">
-                                <ion-icon slot="start" [icon]="page.icon"></ion-icon>
+                                <ng-container *ngIf="page.icon">
+                                    <ion-icon size="large"  slot="start" [icon]="page.icon"></ion-icon>
+                                </ng-container>
+                                <ng-container *ngIf="page.src">
+                                    <ion-icon size="large"  slot="start" [src]="page.src"></ion-icon>
+                                </ng-container>
                                 <ion-label>{{page.label}}</ion-label>
                             </ion-item>
                         </ng-template>
