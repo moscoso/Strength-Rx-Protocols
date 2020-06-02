@@ -11,7 +11,7 @@ export class CheckInService extends EntityService < CheckIn > {
     constructor(
         public firestore: AngularFirestore,
     ) {
-        super(firestore, 'check-in');
+        super(firestore, 'check-ins');
         this.setDefaultEntity(INIT_CHECK_IN);
     }
 }

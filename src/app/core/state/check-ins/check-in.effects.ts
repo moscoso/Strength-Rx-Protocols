@@ -30,8 +30,10 @@ export class CheckInEffects {
     @Effect() createRequested$: Observable < CheckInAction > = this.actions$.pipe(
         ofType<CheckInAction>(CheckInActionType.CreateRequested),
         switchMap((action: CheckIns.CreateRequested) => {
+            console.log('where we aat?');
             return from(this.checkInService.create(action.checkIn)
                 .then(() => {
+                    console.log('um');
                     return new CheckIns.Created();
                 })
                 .catch(error => {
@@ -40,13 +42,6 @@ export class CheckInEffects {
                     });
                 })
             );
-        })
-    );
-
-    @Effect({'dispatch': false}) createCompleted$: Observable < CheckInAction > = this.actions$.pipe(
-        ofType<CheckInAction>(CheckInActionType.Created),
-        tap((action: CheckIns.CreateRequested) => {
-            this.modalController.dismiss();
         })
     );
 

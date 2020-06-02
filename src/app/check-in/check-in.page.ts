@@ -66,8 +66,8 @@ export class CheckInPage implements OnInit {
         });
     }
 
-    onSumit(form) {
-        const userID = this.store.select(selectUserID).pipe(take(1)).toPromise();
+    async onSubmit(form) {
+        const userID = await this.store.select(selectUserID).pipe(take(1)).toPromise();
         const checkIn: CheckIn = {
             ...form,
             userID,

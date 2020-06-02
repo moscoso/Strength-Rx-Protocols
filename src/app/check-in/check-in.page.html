@@ -1,9 +1,124 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Check-In</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>Check-In</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <ion-grid>
+        <ion-col sizeSm="12" sizeMd="6" offsetMd="1">
+            <form [formGroup]=form (ngSubmit)=onSubmit(form.value)>
+                <mat-form-field>
+                    <mat-label>Macros</mat-label>
+                    <input matInput type="text" [formControl]="macros"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>cardioProtocol</mat-label>
+                    <input matInput type="text" [formControl]="cardioProtocol"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>missedCardio</mat-label>
+                    <input matInput type="text" [formControl]="missedCardio"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>medicalIssues</mat-label>
+                    <input matInput type="text" [formControl]="medicalIssues"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>menstrualCycle</mat-label>
+                    <input matInput type="text" [formControl]="menstrualCycle"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>adherenceLevel</mat-label>
+                    <input matInput type="text" [formControl]="adherenceLevel"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>weekSummary</mat-label>
+                    <input matInput type="text" [formControl]="weekSummary"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>energyLevel</mat-label>
+                    <input matInput type="text" [formControl]="energyLevel"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>requests</mat-label>
+                    <input matInput type="text" [formControl]="requests"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>questions</mat-label>
+                    <input matInput type="text" [formControl]="questions"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Macros</mat-label>
+                    <input matInput type="text" [formControl]="macros"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>monday</mat-label>
+                    <input matInput type="number" [formControl]="monday"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>tuesday</mat-label>
+                    <input matInput type="number" [formControl]="tuesday"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>wednesday</mat-label>
+                    <input matInput type="number" [formControl]="wednesday"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>thursday</mat-label>
+                    <input matInput type="number" [formControl]="thursday"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>friday</mat-label>
+                    <input matInput type="number" [formControl]="friday"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>saturday</mat-label>
+                    <input matInput type="number" [formControl]="saturday"
+                           clearInput="true"
+                           enterKeyHint="next">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Sunday</mat-label>
+                    <input matInput type="number" [formControl]="sunday"
+                           clearInput="true"
+                           enterKeyHint="done">
+                </mat-form-field>
+                <ion-button type="submit" [disabled]="form.invalid">Check In</ion-button>
 
+            </form>
+        </ion-col>
+    </ion-grid>
 </ion-content>
