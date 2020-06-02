@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
     public mainPages: MenuItem[] = [
         {
             'label': 'Exercises',
-            'icon': 'fitness',
+            'icon': 'barbell',
             'link': '/exercises'
         },
         {
@@ -26,17 +26,27 @@ export class AppComponent implements OnInit {
         },
         {
             'label': 'Profile',
-            'icon': '',
+            'icon': 'people-outline',
             'link': '/profile'
         },
         {
             'label': 'Clients',
-            'icon': '',
+            'icon': 'list-outline',
             'link': '/clients'
         },
         {
+            'label': 'Foods',
+            'src': '/assets/icon/food.svg',
+            'link': '/foods'
+        },
+        {
+            'label': 'Meals',
+            'src': '/assets/icon/meal.svg',
+            'link': '/meals'
+        },
+        {
             'label': 'Check In',
-            'icon': '',
+            'icon': 'checkbox-outline',
             'link': '/check-in',
         },
     ];
@@ -80,6 +90,7 @@ export class AppComponent implements OnInit {
 
 interface MenuItem {
     label: string;
-    icon: string;
+    icon?: string;
+    src?: string;
     link: string;
 }
