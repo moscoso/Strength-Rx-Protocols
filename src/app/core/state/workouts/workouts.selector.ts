@@ -4,6 +4,7 @@ import { workoutsAdapter } from './workouts.reducer';
 import { Dictionary } from '@ngrx/entity';
 import { RouterReducerState } from '@ngrx/router-store';
 import { WorkoutsState, Workout } from './workouts.state';
+import { selectRouterState } from '../router/router.selectors';
 
 /**
  * Gets the top-level state property named 'workouts' of the store tree.
@@ -31,10 +32,10 @@ export const selectWorkoutByID = (workoutID: string) => createSelector(
 /**
  * Use the router state's URL to select an Workout by ID.
  */
-// export const selectWorkoutByRouteURL = createSelector(
-//     selectEntities,
-//     selectRouterState,
-//     (entities: Dictionary<Workout>, router: RouterReducerState<any>) => {
-//         return router.state && entities[router.state.params.orderID];
-//     }
-// );
+export const selectWorkoutByRouteURL = createSelector(
+    selectEntities,
+    selectRouterState,
+    (entities: Dictionary<Workout>, router: RouterReducerState<any>) => {
+        return router.state && entities[router.state.params.id];
+    }
+);

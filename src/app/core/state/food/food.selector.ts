@@ -36,6 +36,6 @@ export const selectFoodByRouteURL = createSelector(
     selectEntities,
     selectRouterState,
     (entities: Dictionary<Food>, router: RouterReducerState<any>) => {
-        return router.state && entities[router.state.params.orderID];
+        return router.state && entities[router.state.params.id];
     }
 );
