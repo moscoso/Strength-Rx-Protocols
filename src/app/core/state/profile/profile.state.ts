@@ -31,7 +31,7 @@ export interface MetricHeight { 'cm': number; }
 export enum ClientApplicationStatus { 'NOT_STARTED', 'PENDING', 'APPROVED' }
 
 /**
- * Exercises are represented by an EntityState that
+ * Profiles are represented by an EntityState that
  * includes a dictionary of exercises and the
  * list of ids that corresponds to each exercise
  */

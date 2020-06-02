@@ -32,7 +32,7 @@ export const INIT_WORKOUT: Workout = {
 };
 
 /**
- * Exercises are represented by an EntityState that
+ * Workouts are represented by an EntityState that
  * includes a dictionary of exercises and the
  * list of ids that corresponds to each exercise
  */
