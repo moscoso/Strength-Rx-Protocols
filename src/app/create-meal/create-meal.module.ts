@@ -9,12 +9,12 @@ import { CreateMealPageRoutingModule } from './create-meal-routing.module';
 import { CreateMealPage } from './create-meal.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    CreateMealPageRoutingModule
-  ],
-  declarations: [CreateMealPage]
+    'imports': [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        CreateMealPageRoutingModule
+    ],
+    'declarations': [CreateMealPage]
 })
 export class CreateMealPageModule {}
