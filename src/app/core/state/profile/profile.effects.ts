@@ -59,7 +59,7 @@ export class ProfileEffects {
     @Effect({'dispatch': false}) createCompleted$: Observable < ProfileAction > = this.actions$.pipe(
         ofType<ProfileAction>(ProfileActionType.Created),
         tap((action: Profiles.CreateRequested) => {
-            this.router.navigateByUrl('/profile');
+            this.router.navigateByUrl('/');
         })
     );
 

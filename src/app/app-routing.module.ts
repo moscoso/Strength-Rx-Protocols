@@ -60,8 +60,37 @@ const routes: Routes = [
     },
     {
         'path': 'clients',
-        'loadChildren': () => import('./clients/clients.module').then(m => m.ClientsPageModule)
-    }
+        'loadChildren': () => import('./clients/clients.module').then(m => m.ClientsPageModule),
+        'canActivate': [AuthGuard],
+    },
+    {
+        'path': 'create-food',
+        'loadChildren': () => import('./create-food/create-food.module').then(m => m.CreateFoodPageModule),
+        'canActivate': [AuthGuard],
+    },
+    {
+        'path': 'create-meal',
+        'loadChildren': () => import('./create-meal/create-meal.module').then(m => m.CreateMealPageModule),
+        'canActivate': [AuthGuard],
+    },
+    {
+        'path': 'meals',
+        'loadChildren': () => import('./meals/meals.module').then(m => m.MealsPageModule)
+    },
+    {
+        'path': 'meal',
+        'loadChildren': () => import('./meals/meal/meal.module').then(m => m.MealPageModule)
+    },
+    {
+        'path': 'foods',
+        'loadChildren': () => import('./foods/foods.module').then(m => m.FoodsPageModule)
+    },
+    {
+        'path': 'foods/:id',
+        'loadChildren': () => import('./foods/food/food.module').then(m => m.FoodPageModule)
+    },
+
+
 
 ];
 

@@ -1,13 +1,17 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>clients</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Clients</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <ion-list>
         <ion-item *ngFor="let client of clientList$ | async"  [routerLink]="'/profile/'+client.id">
             <ion-label >{{client.firstName}} {{client.lastName}}</ion-label>
+            <ion-note>Joined: {{getDateFromTimestamp(client.joined) | date}} <br/>Birthday : {{getDateFromTimestamp(client.birthday) | date}}</ion-note>
         </ion-item>
     </ion-list>
 </ion-content>

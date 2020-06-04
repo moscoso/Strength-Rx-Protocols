@@ -8,6 +8,7 @@ import * as Foods from './food.actions';
 import { ModalController } from '@ionic/angular';
 import { FoodService } from '../../firebase/food/food.service';
 import { ToastService } from 'src/app/shared/toast/toast.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class FoodEffects {
@@ -19,7 +20,7 @@ export class FoodEffects {
         })
     );
 
-    @Effect() allRequested$: Observable < FoodAction > = this.actions$.pipe(
+    @Effect() loadAll: Observable < FoodAction > = this.actions$.pipe(
         ofType<FoodAction>(FoodActionType.AllRequested),
         switchMap((action: Foods.AllRequested) => {
             return from(this.foodService.getAll()
@@ -35,7 +36,7 @@ export class FoodEffects {
         })
     );
 
-    @Effect() createRequested$: Observable < FoodAction > = this.actions$.pipe(
+    @Effect() create: Observable < FoodAction > = this.actions$.pipe(
         ofType<FoodAction>(FoodActionType.CreateRequested),
         switchMap((action: Foods.CreateRequested) => {
             return from(this.foodService.create(action.food)
@@ -51,7 +52,30 @@ export class FoodEffects {
         })
     );
 
-    @Effect({'dispatch': false}) createCompleted$: Observable < FoodAction > = this.actions$.pipe(
+    @Effect() delete$: Observable < FoodAction > = this.actions$.pipe(
+        ofType<FoodAction>(FoodActionType.DeleteRequested),
+        switchMap((action: Foods.DeleteRequested) => {
+            return from(this.foodService.delete(action.id)
+                .then(() => {
+                    return new Foods.Deleted(action.id);
+                })
+                .catch(error => {
+                    return new Foods.RequestFailed({
+                        'error': error
+                    });
+                })
+            );
+        })
+    );
+
+    @Effect({'dispatch': false}) deleted$: Observable < FoodAction > = this.actions$.pipe(
+        ofType(FoodActionType.Deleted),
+        tap(() => {
+            this.router.navigateByUrl('/foods');
+        })
+    );
+
+    @Effect({'dispatch': false}) created: Observable < FoodAction > = this.actions$.pipe(
         ofType<FoodAction>(FoodActionType.Created),
         tap((action: Foods.CreateRequested) => {
             this.modalController.dismiss('create-food');
@@ -63,5 +87,6 @@ export class FoodEffects {
         private actions$: Actions,
         private modalController: ModalController,
         private toaster: ToastService,
+        private router: Router,
     ) {}
 }

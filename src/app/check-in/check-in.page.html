@@ -12,109 +12,103 @@
         <ion-col sizeSm="12" sizeMd="6" offsetMd="1">
             <form [formGroup]=form (ngSubmit)=onSubmit(form.value)>
                 <mat-form-field>
-                    <mat-label>Macros</mat-label>
+                    <mat-label>Current Macros</mat-label>
                     <input matInput type="text" [formControl]="macros"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>cardioProtocol</mat-label>
+                    <mat-label>Current Cardio Protocol</mat-label>
                     <input matInput type="text" [formControl]="cardioProtocol"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>missedCardio</mat-label>
+                    <mat-label>Did you miss any cardio this week? If yes, please list the amount of cardio.</mat-label>
                     <input matInput type="text" [formControl]="missedCardio"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>medicalIssues</mat-label>
+                    <mat-label>Did you sustain any injuries or have any medical issues this week?</mat-label>
                     <input matInput type="text" [formControl]="medicalIssues"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>menstrualCycle</mat-label>
+                    <mat-label>Are you on your menstrual cycle?</mat-label>
                     <input matInput type="text" [formControl]="menstrualCycle"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>adherenceLevel</mat-label>
-                    <input matInput type="text" [formControl]="adherenceLevel"
+                    <mat-label>One a scale of 1-10, rate your adherence level this week.</mat-label>
+                    <input matInput type="number" [formControl]="adherenceLevel"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>weekSummary</mat-label>
+                    <mat-label>Tell me how your week went. If your adherence rating was less than 10, explain why and please be specific (include: successes, failures, road blocks, etc.)</mat-label>
                     <input matInput type="text" [formControl]="weekSummary"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>energyLevel</mat-label>
+                    <mat-label>How have your strength and energy levels been this week?</mat-label>
                     <input matInput type="text" [formControl]="energyLevel"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>requests</mat-label>
+                    <mat-label>Is there anything I can do to make the coming week better/easier for you?</mat-label>
                     <input matInput type="text" [formControl]="requests"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>questions</mat-label>
+                    <mat-label>Do you have any questions or concerns?</mat-label>
                     <input matInput type="text" [formControl]="questions"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>Macros</mat-label>
-                    <input matInput type="text" [formControl]="macros"
-                           clearInput="true"
-                           enterKeyHint="next">
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>monday</mat-label>
+                    <mat-label>Monday Weight</mat-label>
                     <input matInput type="number" [formControl]="monday"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>tuesday</mat-label>
+                    <mat-label>Tuesday Weight</mat-label>
                     <input matInput type="number" [formControl]="tuesday"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>wednesday</mat-label>
+                    <mat-label>Wednesday Weight</mat-label>
                     <input matInput type="number" [formControl]="wednesday"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>thursday</mat-label>
+                    <mat-label>Thursday Weight</mat-label>
                     <input matInput type="number" [formControl]="thursday"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>friday</mat-label>
+                    <mat-label>Friday Weight</mat-label>
                     <input matInput type="number" [formControl]="friday"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>saturday</mat-label>
+                    <mat-label>Saturday Weight</mat-label>
                     <input matInput type="number" [formControl]="saturday"
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>Sunday</mat-label>
+                    <mat-label>Sunday Weight</mat-label>
                     <input matInput type="number" [formControl]="sunday"
                            clearInput="true"
                            enterKeyHint="done">

@@ -32,10 +32,10 @@ export function foodsReducer(state: FoodsState = initialState, action: FoodActio
                 'error': null,
             };
         case FoodActionType.Created:
-           return {
+            return foodsAdapter.setOne(action.food, {
                 ...state,
                 'requestInProgress': false,
-            };
+            });
         case FoodActionType.Updated:
             return foodsAdapter.updateOne({ 'id': action.id, 'changes': action.changes }, {
                 ...state,

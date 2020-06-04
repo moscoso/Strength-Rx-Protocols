@@ -19,4 +19,8 @@ export class ClientsPage implements OnInit {
         this.clientList$ = this.store.select(selectAllClients);
     }
 
+    getDateFromTimestamp(timestamp) {
+        return timestamp.toDate();
+    }
+
 }

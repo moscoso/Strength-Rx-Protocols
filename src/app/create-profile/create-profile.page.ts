@@ -62,6 +62,7 @@ export class CreateProfilePage implements OnInit {
                 'inches': form.inches
             },
             'assignedTrainerID': null,
+            'assignedTrainerName': null,
             'clientApplicationStatus': ClientApplicationStatus.NOT_STARTED
         };
         this.store.dispatch(new CreateRequested(profile));

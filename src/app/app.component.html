@@ -26,9 +26,9 @@
             <ion-footer>
                 <ion-list lines="none">
                     <ion-menu-toggle auto-hide="false">
-                        <ion-item *ngIf="(isAuthenticated | async); else notAuthenticated" (click)="logout();">
+                        <ion-item *ngIf="(isAuthenticated$ | async); else notAuthenticated" (click)="logout();">
                             <ion-icon size="large"  slot="start" icon="exit"></ion-icon>
-                            <ion-label>Log Out</ion-label>
+                            <ion-label routerLink>Log Out</ion-label>
                         </ion-item>
                         <ng-template #notAuthenticated>
                             <ion-item *ngFor="let page of accountPages"

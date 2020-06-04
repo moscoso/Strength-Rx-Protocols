@@ -10,7 +10,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-text-center" >
+<ion-content class="ion-text-center">
 
 
     <ion-grid *ngIf="profile$ | async as profile else loading" text-center>
@@ -34,6 +34,15 @@
         </ion-item>
         <ion-note>USER ID: {{profile.id}}</ion-note>
         <ion-list>
+            <ng-container *ngIf="(iAmTrainer$ | async) && !(thisIsMe$ | async)">
+                <ion-item *ngIf="profile.assignedTrainer">Assigned Trainer: {{profile.assignedTrainer}}</ion-item>
+                <ion-button *ngIf="!profile.assignedTrainer">Assign to me</ion-button>
+            </ng-container>
+            <ion-item>
+                <ion-label>Sex: {{profile.sex}}</ion-label>
+            </ion-item>
+            <ion-item *ngIf="profile.height.feet && profile.height.inches">Height: {{profile.height.feet}}"
+                {{profile.height.inches}}"</ion-item>
             <!-- <ion-item detail (click)="setPhoto()">
                     <ion-label>Set profile pic</ion-label>
                     <ion-icon size="large" name="camera"></ion-icon>
@@ -46,7 +55,7 @@
 
 
 
-        <!-- <ion-button expand="full" shape="round" color="primary" (click)="logout()">Log out</ion-button> -->
+        <ion-button *ngIf="(thisIsMe$ | async)" expand="full" shape="round" color="primary" (click)="logout()">Log out</ion-button>
     </ion-grid>
 
     <ng-template #loading>

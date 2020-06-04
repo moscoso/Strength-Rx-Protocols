@@ -8,6 +8,7 @@ import * as Exercises from './exercises.actions';
 import { ExerciseService } from '../../firebase/exercise/exercise.service';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ExerciseEffects {
@@ -90,10 +91,18 @@ export class ExerciseEffects {
         })
     );
 
+    @Effect({'dispatch': false}) deleteCompleted$: Observable < ExerciseAction > = this.actions$.pipe(
+        ofType<ExerciseAction>(ExerciseActionType.Deleted),
+        tap((action: Exercises.CreateRequested) => {
+            this.router.navigateByUrl('/exercises');
+        })
+    );
+
     constructor(
         private exerciseService: ExerciseService,
         private actions$: Actions,
         private modalController: ModalController,
         private toaster: ToastService,
+        private router: Router,
     ) {}
 }

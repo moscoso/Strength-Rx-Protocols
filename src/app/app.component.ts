@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
         },
     ];
 
-    public isAuthenticated: Observable<boolean> = of(false);
+    public isAuthenticated$: Observable<boolean> = of(false);
 
     constructor(
         private platform: Platform,
@@ -80,7 +80,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.isAuthenticated = this.authDispatcher.getState().pipe(map(state => state.isAuthenticated));
+        this.isAuthenticated$ = this.authDispatcher.getState().pipe(map(state => state.isAuthenticated));
     }
 
     logout() {

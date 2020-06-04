@@ -71,8 +71,6 @@ export class AuthStoreDispatcher {
     }
 
     public getState(): Observable < AuthState > {
-        return this.store.select((state: AppState) => state.auth).pipe(
-            filter(authState => authState != null)
-        );
+        return this.store.select((state: AppState) => state.auth);
     }
 }

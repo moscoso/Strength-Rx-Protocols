@@ -14,6 +14,7 @@ export interface Profile {
     isTrainer: boolean;
     photoURL: string;
     assignedTrainerID: string;
+    assignedTrainerName: string;
     clientApplicationStatus: ClientApplicationStatus;
     sex: 'M' | 'F';
 }
@@ -52,6 +53,7 @@ export const INIT_PROFILE: Profile = {
     'isClient': false,
     'isTrainer': false,
     'assignedTrainerID': null,
+    'assignedTrainerName': '',
     'clientApplicationStatus': ClientApplicationStatus.NOT_STARTED,
     'sex': 'M',
 };
