@@ -6,21 +6,20 @@ import { switchMap, pluck, tap, take, map } from 'rxjs/operators';
 import {
     AuthActionType,
     AuthAction,
-    AuthErrorAction,
-    LoginFailedAction,
-    LoginSuccessAction,
+    AuthFailed,
+    LoginFailed,
+    LoginCompleted,
     NotAuthenticatedAction,
-    ResetPasswordFailedAction,
-    ResetPasswordSuccessAction,
-    SignupErrorAction,
-    SignupSuccessAction,
+    ResetPasswordFailed,
+    PasswordResetCompleted,
+    SignupFailed,
+    SignupCompleted,
+    LoginWithEmailAttempted,
+    SignupRequested,
     AuthenticatedAction,
-    LoginWithEmailAction,
-    SignupAction,
 } from './auth.actions';
 import { AuthService } from '../../firebase/auth/auth.service';
 import { AppState } from '../app.state';
-import { UserInfo } from './auth.state';
 import { Router } from '@angular/router';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 
@@ -33,12 +32,12 @@ export class AuthEffects {
         })
     );
 
-    @Effect({ 'dispatch': false }) loginSuccess$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.LoginCompleted),
-        tap(() => {
-            this.toaster.success('Welcome back!');
-        })
-    );
+    // @Effect({ 'dispatch': false }) loginSuccess$: Observable < AuthAction > = this.actions$.pipe(
+    //     ofType(AuthActionType.LoginCompleted),
+    //     tap((action) => {
+    //         this.toaster.success('Welcome back!');
+    //     })
+    // );
 
     @Effect({ 'dispatch': false }) signupSuccess$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.SignupCompleted),
@@ -49,51 +48,49 @@ export class AuthEffects {
 
     @Effect({ 'dispatch': false }) loginFailed$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.LoginFailed),
-        tap(async (action: LoginFailedAction) => {
-            this.toaster.failed('Login Failed', action.error.error.code);
+        tap(async (action: LoginFailed) => {
+            this.toaster.failed('Login Failed', action.error.code);
         })
     );
 
     @Effect({ 'dispatch': false }) AuthFailed$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.AuthFailed),
-        tap(async (action: AuthErrorAction) => {
-            this.toaster.failed('Something went wrong', action.error.error.code);
+        tap(async (action: AuthFailed) => {
+            this.toaster.failed('Something went wrong', action.error.code);
         })
     );
 
     @Effect({ 'dispatch': false }) signupFailed$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.SignupFailed),
-        tap(async (action: SignupErrorAction) => {
-            this.toaster.failed('Login Failed', action.error.error.code);
+        tap(async (action: SignupFailed) => {
+            this.toaster.failed('Login Failed', action.error.code);
         })
     );
 
     @Effect({ 'dispatch': false }) resetPasswordFailed$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.ResetPasswordFailed),
-        tap(async (action: ResetPasswordFailedAction) => {
-            this.toaster.failed('Password Reset Failed', action.error.error.code);
+        ofType(AuthActionType.PasswordResetFailed),
+        tap(async (action: ResetPasswordFailed) => {
+            this.toaster.failed('Password Reset Failed', action.error.code);
         })
     );
 
     @Effect({ 'dispatch': false }) paswordResetCompleted$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.ResetPasswordCompleted),
-        tap(async (action: ResetPasswordSuccessAction) => {
+        ofType(AuthActionType.PasswordResetCompleted),
+        tap(async (action: PasswordResetCompleted) => {
             this.toaster.success('Password Reset Successfully');
             this.router.navigateByUrl('/login');
         })
     );
 
     @Effect() loginWithEmail$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.LoginWithEmailAndPassword),
-        switchMap((action: LoginWithEmailAction) => {
+        ofType(AuthActionType.LoginWithEmailAndPasswordAttempted),
+        switchMap((action: LoginWithEmailAttempted) => {
             return from(this.authService.signInWithEmailAndPassword(action.email, action.password)
-                .then(credential => {
-                    return new LoginSuccessAction(credential);
+                .then(() => {
+                    return new LoginCompleted();
                 })
                 .catch(error => {
-                    return new LoginFailedAction({
-                        'error': error
-                    });
+                    return new LoginFailed({error});
                 })
             );
         })
@@ -103,13 +100,11 @@ export class AuthEffects {
         ofType(AuthActionType.LoginAsGuest),
         switchMap(action => {
             return from(this.authService.signInAsGuest()
-                .then(credential => {
-                    return new LoginSuccessAction(credential);
+                .then(() => {
+                    return new LoginCompleted();
                 })
                 .catch(error => {
-                    return new LoginFailedAction({
-                        'error': error
-                    });
+                    return new LoginFailed({error});
                 })
             );
         })
@@ -120,46 +115,32 @@ export class AuthEffects {
         switchMap(_ => {
             return from(this.authService.signOut()
                 .then(async () => {
-                    this.toaster.generic('Logged out');
                     return new NotAuthenticatedAction();
                 })
                 .catch(error => {
-                    return new AuthErrorAction({
-                        'error': error
-                    });
+                    return new AuthFailed({error});
                 })
             );
         })
     );
 
     @Effect() resetPassword$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.ResetPasswordRequested),
+        ofType(AuthActionType.PasswordResetRequested),
         pluck('payload'),
         switchMap((payload: any) => {
             return from(this.authService.sendPasswordResetEmail(payload.email)
-                .then(_ => {
-                    return new ResetPasswordSuccessAction();
-                })
-                .catch(error => {
-                    return new ResetPasswordFailedAction({
-                        'error': error
-                    });
-                })
+                .then(() => new PasswordResetCompleted())
+                .catch(error => new ResetPasswordFailed({error}))
             );
         })
     );
 
     @Effect() signup$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.SignupRequested),
-        switchMap((action: SignupAction) => {
+        switchMap((action: SignupRequested) => {
             return from(this.authService.createUserWithEmailAndPassword(action.email, action.password)
-                .then(credential => {
-                    return new SignupSuccessAction(credential);
-                })
-                .catch(error => {
-                    return new SignupErrorAction(error);
-                })
-            );
+                .then(() => new SignupCompleted())
+                .catch(error => new SignupFailed({error})));
         })
     );
 
@@ -184,8 +165,8 @@ export class AuthEffects {
      * Scrape the provided firebase.User object into a POJO matching the UserInfo interface.
      * @param authenticatedUser an authenticated user account
      */
-    private scrapeUserInfo(authenticatedUser: firebase.User): UserInfo {
-        const userInfo: UserInfo = {
+    private scrapeUserInfo(authenticatedUser: firebase.User): any {
+        const userInfo: any = {
             'displayName': authenticatedUser.displayName,
             'email': authenticatedUser.email,
             'phoneNumber': authenticatedUser.phoneNumber,
