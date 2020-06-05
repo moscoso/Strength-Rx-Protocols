@@ -9,8 +9,8 @@ export const checkInsAdapter = createEntityAdapter < CheckIn > ({
 });
 
 export function sortByTimestamp(a: CheckIn, b: CheckIn): number {
-    const aTimestamp =  a.timestamp.toISOString();
-    const bTimestamp =  b.timestamp.toISOString();
+    const aTimestamp = a.timestamp.toISOString();
+    const bTimestamp = b.timestamp.toISOString();
     return aTimestamp.localeCompare(bTimestamp);
 }
 
@@ -38,24 +38,24 @@ export function checkInsReducer(state: CheckInsState = initialState, action: Che
         case CheckInActionType.DeleteRequested:
             return {
                 ...state,
-                'requestInProgress': false,
+                'requestInProgress': true,
                 'error': null,
             };
         case CheckInActionType.Created:
-            return{
+            return checkInsAdapter.addOne(action.checkIn, {
                 ...state,
-                'requestInProgress': true,
-            };
+                'requestInProgress': false,
+            });
         case CheckInActionType.Updated:
-            return {
+            return checkInsAdapter.updateOne({ 'id': action.id, 'changes': action.changes }, {
                 ...state,
-                'requestInProgress': true,
-            };
+                'requestInProgress': false,
+            });
         case CheckInActionType.Deleted:
-            return {
+            return checkInsAdapter.removeOne(action.id, {
                 ...state,
-                'requestInProgress': true,
-            };
+                'requestInProgress': false,
+            });
         case CheckInActionType.RequestFailed:
             return {
                 ...state,

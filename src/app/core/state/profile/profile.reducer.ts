@@ -31,23 +31,23 @@ export function profilesReducer(state: ProfilesState = initialState, action: Pro
         case ProfileActionType.DeleteRequested:
             return {
                 ...state,
-                'requestInProgress': false,
+                'requestInProgress': true,
                 'error': null,
             };
-        case ProfileActionType.CreateRequested:
+        case ProfileActionType.Created:
             return profilesAdapter.addOne(action.profile, {
                 ...state,
-                'requestInProgress': true,
+                'requestInProgress': false,
             });
-        case ProfileActionType.UpdateRequested:
+        case ProfileActionType.Updated:
             return profilesAdapter.updateOne({ 'id': action.id, 'changes': action.changes }, {
                 ...state,
-                'requestInProgress': true,
+                'requestInProgress': false,
             });
-        case ProfileActionType.DeleteRequested:
+        case ProfileActionType.Deleted:
             return profilesAdapter.removeOne(action.id, {
                 ...state,
-                'requestInProgress': true,
+                'requestInProgress': false,
             });
         case ProfileActionType.RequestFailed:
             return {
