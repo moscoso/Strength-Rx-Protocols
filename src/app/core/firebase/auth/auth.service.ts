@@ -11,7 +11,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
  * This service is responsible for user authentication with Firebase.
  */
 @Injectable({ 'providedIn': 'root' })
-export class AuthService {
+export class FireAuthService {
 
     constructor(
         private firebaseAuth: AngularFireAuth,

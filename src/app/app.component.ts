@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { AuthStoreDispatcher } from './core/state/auth/auth.dispatcher';
-import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AllRequested } from './core/state/profile/profile.actions';
+import { AuthStateService } from './core/state/auth/auth.service';
 
 @Component({
     'selector': 'app-root',
@@ -68,8 +68,8 @@ export class AppComponent implements OnInit {
 
     constructor(
         private platform: Platform,
-        private authDispatcher: AuthStoreDispatcher,
         private store: Store,
+        private authService: AuthStateService,
     ) {
         this.initializeApp();
         this.store.dispatch(new AllRequested());
@@ -80,11 +80,11 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.isAuthenticated$ = this.authDispatcher.getState().pipe(map(state => state.isAuthenticated));
+        this.isAuthenticated$ = this.authService.selectAuthenticated();
     }
 
     logout() {
-        this.authDispatcher.logout();
+        this.authService.logout();
     }
 }
 

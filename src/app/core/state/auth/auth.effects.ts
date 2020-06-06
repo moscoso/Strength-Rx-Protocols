@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, from } from 'rxjs';
 import { switchMap, pluck, tap, take, map } from 'rxjs/operators';
@@ -9,35 +8,36 @@ import {
     AuthFailed,
     LoginFailed,
     LoginCompleted,
-    NotAuthenticatedAction,
     ResetPasswordFailed,
     PasswordResetCompleted,
     SignupFailed,
     SignupCompleted,
     LoginWithEmailAttempted,
     SignupRequested,
-    AuthenticatedAction,
+    NotAuthenticated,
 } from './auth.actions';
-import { AuthService } from '../../firebase/auth/auth.service';
-import { AppState } from '../app.state';
+import { FireAuthService } from '../../firebase/auth/auth.service';
 import { Router } from '@angular/router';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 
 @Injectable()
 export class AuthEffects {
     @Effect({ 'dispatch': false }) rerouteToHomePage$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.LogoutRequested, AuthActionType.LoginCompleted, AuthActionType.SignupCompleted),
+        ofType(
+            AuthActionType.LogoutRequested,
+            AuthActionType.LoginCompleted,
+            AuthActionType.SignupCompleted),
         tap(() => {
             this.router.navigateByUrl('/');
         })
     );
 
-    // @Effect({ 'dispatch': false }) loginSuccess$: Observable < AuthAction > = this.actions$.pipe(
-    //     ofType(AuthActionType.LoginCompleted),
-    //     tap((action) => {
-    //         this.toaster.success('Welcome back!');
-    //     })
-    // );
+    @Effect({ 'dispatch': false }) loginSuccess$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(AuthActionType.Authenticated),
+        tap((action) => {
+            this.toaster.success('Welcome back!');
+        })
+    );
 
     @Effect({ 'dispatch': false }) signupSuccess$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.SignupCompleted),
@@ -53,32 +53,32 @@ export class AuthEffects {
         })
     );
 
-    @Effect({ 'dispatch': false }) AuthFailed$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.AuthFailed),
-        tap(async (action: AuthFailed) => {
-            this.toaster.failed('Something went wrong', action.error.code);
-        })
-    );
-
     @Effect({ 'dispatch': false }) signupFailed$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.SignupFailed),
-        tap(async (action: SignupFailed) => {
-            this.toaster.failed('Login Failed', action.error.code);
+        tap((action: SignupFailed) => {
+            this.toaster.failed('SignUp Failed', action.error.code);
         })
     );
 
     @Effect({ 'dispatch': false }) resetPasswordFailed$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.PasswordResetFailed),
-        tap(async (action: ResetPasswordFailed) => {
+        tap((action: ResetPasswordFailed) => {
             this.toaster.failed('Password Reset Failed', action.error.code);
         })
     );
 
     @Effect({ 'dispatch': false }) paswordResetCompleted$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.PasswordResetCompleted),
-        tap(async (action: PasswordResetCompleted) => {
+        tap(() => {
             this.toaster.success('Password Reset Successfully');
             this.router.navigateByUrl('/login');
+        })
+    );
+
+    @Effect({ 'dispatch': false }) AuthFailed$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(AuthActionType.AuthFailed),
+        tap(async (action: AuthFailed) => {
+            this.toaster.failed('Something went wrong', action.error.code);
         })
     );
 
@@ -115,7 +115,7 @@ export class AuthEffects {
         switchMap(_ => {
             return from(this.authService.signOut()
                 .then(async () => {
-                    return new NotAuthenticatedAction();
+                    return new NotAuthenticated();
                 })
                 .catch(error => {
                     return new AuthFailed({error});
@@ -145,35 +145,9 @@ export class AuthEffects {
     );
 
     constructor(
-        private authService: AuthService,
+        private authService: FireAuthService,
         private actions$: Actions,
-        private store: Store < AppState > ,
         private router: Router,
         private toaster: ToastService,
-    ) {
-        this.authService.getUser().subscribe(async (authenticatedUser: firebase.User) => {
-            if (authenticatedUser) {
-                const userInfo = this.scrapeUserInfo(authenticatedUser);
-                this.store.dispatch(new AuthenticatedAction(userInfo));
-            } else {
-                this.store.dispatch(new NotAuthenticatedAction());
-            }
-        });
-    }
-
-    /**
-     * Scrape the provided firebase.User object into a POJO matching the UserInfo interface.
-     * @param authenticatedUser an authenticated user account
-     */
-    private scrapeUserInfo(authenticatedUser: firebase.User): any {
-        const userInfo: any = {
-            'displayName': authenticatedUser.displayName,
-            'email': authenticatedUser.email,
-            'phoneNumber': authenticatedUser.phoneNumber,
-            'providerId': authenticatedUser.providerId,
-            'uid': authenticatedUser.uid,
-            'photoURL': authenticatedUser.photoURL,
-        };
-        return userInfo;
-    }
+    ) { }
 }

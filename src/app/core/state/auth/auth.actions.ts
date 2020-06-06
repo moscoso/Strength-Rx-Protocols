@@ -20,12 +20,12 @@ export enum AuthActionType {
 }
 
 
-export class AuthenticatedAction implements Action {
+export class Authenticated implements Action {
     readonly type = AuthActionType.Authenticated;
     constructor(public authenticatedUser: any) {}
 }
 
-export class NotAuthenticatedAction implements Action {
+export class NotAuthenticated implements Action {
     readonly type = AuthActionType.NotAuthenticated;
     constructor() {}
 }
@@ -103,8 +103,8 @@ export class AuthFailed implements Action {
 }
 
 export type AuthAction
-    = AuthenticatedAction |
-    NotAuthenticatedAction |
+    = Authenticated |
+    NotAuthenticated |
     LoginWithEmailAttempted |
     LoginWithFacebookRequested |
     LoginWithGoogleRequested |
