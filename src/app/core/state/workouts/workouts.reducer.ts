@@ -32,7 +32,6 @@ export function workoutsReducer(state: WorkoutsState = initialState, action: Wor
                 'error': null,
             };
         case WorkoutActionType.Created:
-            console.log('sad');
             return workoutsAdapter.addOne(action.workout, {
                 ...state,
                 'requestInProgress': false,

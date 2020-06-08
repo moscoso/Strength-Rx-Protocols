@@ -56,7 +56,6 @@ export class ExercisesPage implements OnInit {
     async filterList(event) {
         const searchTerm = event.srcElement.value;
         this.searchTerm = searchTerm;
-        console.log(searchTerm);
         if (!searchTerm) {
             return;
         }
