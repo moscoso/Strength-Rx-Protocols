@@ -3,11 +3,11 @@ import { ModalController } from '@ionic/angular';
 import { CreateExercisePage } from '../create-exercise/create-exercise.page';
 import * as fromExercises from '../core/state/exercises/exercises.selector';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable, of , Subject, combineLatest } from 'rxjs';
 import { Exercise } from '../core/state/exercises/exercises.state';
 import { AllRequested } from '../core/state/exercises/exercises.actions';
 import { AppState } from '../core/state/app.state';
-import { take, filter, map } from 'rxjs/operators';
+import { take, filter, map, tap } from 'rxjs/operators';
 
 @Component({
     'selector': 'app-exercises',
@@ -16,11 +16,9 @@ import { take, filter, map } from 'rxjs/operators';
 })
 export class ExercisesPage implements OnInit {
 
-    exercises$: Observable < Exercise[] > = of ([]);
-    filteredList: Exercise[] = [];
-
-    searchTerm: string;
-
+    exercises$: Observable < Exercise[] >;
+    searchTerm$: Subject < string >  = new Subject();
+    exerciseList: Exercise[] = [];
     requestInProgress$: Observable < boolean > = of (false);
 
     constructor(
@@ -29,9 +27,17 @@ export class ExercisesPage implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.initList();
+    }
+
+    async initList() {
         this.store.dispatch(new AllRequested());
         this.requestInProgress$ = this.store.select((state: AppState) => state.exercises.requestInProgress);
         this.exercises$ = this.store.select(fromExercises.selectAll);
+        combineLatest([this.exercises$, this.searchTerm$]).subscribe(
+            ([exercises, searchTerm]) => this.filterExercises([exercises, searchTerm])
+        );
+        this.exerciseList = await this.exercises$.pipe(filter(exercises => exercises.length > 0), take(1)).toPromise();
     }
 
     doRefresh(event): void {
@@ -53,21 +59,19 @@ export class ExercisesPage implements OnInit {
         return;
     }
 
-    async filterList(event) {
+    search(event) {
         const searchTerm = event.srcElement.value;
-        this.searchTerm = searchTerm;
-        if (!searchTerm) {
-            return;
-        }
-        this.filteredList = await this.exercises$.pipe(
-            map(exercises => {
-                return exercises.filter(exercise => {
-                    const strippedName = exercise.name.toLowerCase().replace('/\s/g', '');
-                    const strippedSearch = this.searchTerm.toLowerCase().replace('/\s/g', '');
-                    return true;
-                });
-            }),
-            take(1)
-        ).toPromise();
+        this.searchTerm$.next(searchTerm);
+    }
+
+    private filterExercises([exercises, searchTerm]: [Exercise[], string]) {
+        this.exerciseList = exercises.filter(exercise => {
+            if (!searchTerm || searchTerm.length === 0) { return true; }
+
+            const strippedName = exercise.name.toLowerCase().replace('/\s/g', '');
+            const strippedSearch = searchTerm.toLowerCase().replace('/\s/g', '');
+            const matchFound = strippedName.indexOf(strippedSearch) > -1;
+            return matchFound;
+        });
     }
 }
