@@ -7,7 +7,9 @@ import { Observable, of , Subject, combineLatest } from 'rxjs';
 import { Exercise } from '../core/state/exercises/exercises.state';
 import { AllRequested } from '../core/state/exercises/exercises.actions';
 import { AppState } from '../core/state/app.state';
-import { take, filter, map, tap } from 'rxjs/operators';
+import { take, filter } from 'rxjs/operators';
+
+import Fuse from 'fuse.js';
 
 @Component({
     'selector': 'app-exercises',
@@ -16,8 +18,8 @@ import { take, filter, map, tap } from 'rxjs/operators';
 })
 export class ExercisesPage implements OnInit {
 
-    exercises$: Observable < Exercise[] >;
-    searchTerm$: Subject < string >  = new Subject();
+    exercises$: Observable < Exercise[] > ;
+    searchTerm$: Subject < string > = new Subject();
     exerciseList: Exercise[] = [];
     requestInProgress$: Observable < boolean > = of (false);
 
@@ -37,7 +39,8 @@ export class ExercisesPage implements OnInit {
         combineLatest([this.exercises$, this.searchTerm$]).subscribe(
             ([exercises, searchTerm]) => this.filterExercises([exercises, searchTerm])
         );
-        this.exerciseList = await this.exercises$.pipe(filter(exercises => exercises.length > 0), take(1)).toPromise();
+        this.exerciseList = await this.exercises$.pipe(filter(exercises => exercises.length > 0), take(1))
+            .toPromise();
     }
 
     doRefresh(event): void {
@@ -65,13 +68,19 @@ export class ExercisesPage implements OnInit {
     }
 
     private filterExercises([exercises, searchTerm]: [Exercise[], string]) {
-        this.exerciseList = exercises.filter(exercise => {
-            if (!searchTerm || searchTerm.length === 0) { return true; }
+        searchTerm = searchTerm.trim();
 
-            const strippedName = exercise.name.toLowerCase().replace('/\s/g', '');
-            const strippedSearch = searchTerm.toLowerCase().replace('/\s/g', '');
-            const matchFound = strippedName.indexOf(strippedSearch) > -1;
-            return matchFound;
-        });
+        if (searchTerm.length === 0) {
+            this.exerciseList = exercises;
+        } else {
+            const options = {
+                'includeScore': true,
+                'keys': ['name', 'tags'],
+                'shouldSort': true,
+            };
+            const searcher = new Fuse(exercises, options);
+            const matches = searcher.search(searchTerm);
+            this.exerciseList = matches.map(match => match.item);
+        }
     }
 }
