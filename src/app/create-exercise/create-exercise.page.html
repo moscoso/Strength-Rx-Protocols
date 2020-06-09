@@ -19,7 +19,8 @@
                            enterKeyHint="next"
                            required>
                     <mat-error *ngIf="name.hasError('required')">An exercise name is required.</mat-error>
-                    <mat-error *ngIf="name.hasError('exerciseIDTaken')">An exercise named {{name.value}} already exists</mat-error>
+                    <mat-error *ngIf="name.hasError('exerciseIDTaken')">An exercise named {{name.value}} already exists
+                    </mat-error>
                 </mat-form-field>
             </ion-row>
 
@@ -32,7 +33,8 @@
                            enterKeyHint="next"
                            required>
                     <button *ngIf="youtubeURL.dirty" mat-icon-button matSuffix>
-                        <mat-icon [ngStyle]="{'color':youtubeURL.valid ? 'green':'red'}">{{youtubeURL.valid ? 'check' : 'cancel'}}</mat-icon>
+                        <mat-icon [ngStyle]="{'color':youtubeURL.valid ? 'green':'red'}">
+                            {{youtubeURL.valid ? 'check' : 'cancel'}}</mat-icon>
                     </button>
                     <mat-error *ngIf="youtubeURL.hasError('required')">A valid Youtube URL is required.</mat-error>
                     <mat-error *ngIf="youtubeURL.hasError('pattern')">The URL you provided is not a valid Youtube link
@@ -50,7 +52,9 @@
                 </mat-form-field>
             </ion-row>
 
-            <ion-button type="submit" [disabled]="form.invalid || (requestInProgress$ | async)">SUBMIT</ion-button>
+            <ion-button type="submit"
+                        [disabled]="form.invalid || (requestInProgress$ | async)"
+                        expand="full"><ion-icon name="barbell"></ion-icon>&nbsp;Create Exercise</ion-button>
         </form>
     </ion-grid>
 </ion-content>
