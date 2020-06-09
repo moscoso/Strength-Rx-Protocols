@@ -32,13 +32,6 @@ export class AuthEffects {
         })
     );
 
-    @Effect({ 'dispatch': false }) loginSuccess$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.Authenticated),
-        tap((action) => {
-            this.toaster.success('Welcome back!');
-        })
-    );
-
     @Effect({ 'dispatch': false }) signupSuccess$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.SignupCompleted),
         tap(async () => {
