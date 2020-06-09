@@ -3,14 +3,17 @@ import { ModalController } from '@ionic/angular';
 import { CreateExercisePage } from '../create-exercise/create-exercise.page';
 import * as fromExercises from '../core/state/exercises/exercises.selector';
 import { Store } from '@ngrx/store';
-import { Observable, of , Subject, combineLatest } from 'rxjs';
+import { Observable, of , Subject, combineLatest, Subscription } from 'rxjs';
 import { Exercise } from '../core/state/exercises/exercises.state';
 import { AllRequested } from '../core/state/exercises/exercises.actions';
 import { AppState } from '../core/state/app.state';
-import { take, filter } from 'rxjs/operators';
+import { take, filter, startWith } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 
 import Fuse from 'fuse.js';
 
+@UntilDestroy()
 @Component({
     'selector': 'app-exercises',
     'templateUrl': './exercises.page.html',
@@ -23,20 +26,22 @@ export class ExercisesPage implements OnInit {
     exerciseList: Exercise[] = [];
     requestInProgress$: Observable < boolean > = of (false);
 
+
     constructor(
         public modalController: ModalController,
         public store: Store,
     ) {}
 
     ngOnInit(): void {
-        this.initList();
+        this.initExerciseList();
     }
 
-    async initList() {
+    async initExerciseList() {
         this.store.dispatch(new AllRequested());
         this.requestInProgress$ = this.store.select((state: AppState) => state.exercises.requestInProgress);
         this.exercises$ = this.store.select(fromExercises.selectAll);
-        combineLatest([this.exercises$, this.searchTerm$]).subscribe(
+        this.exercises$.pipe(untilDestroyed(this)).subscribe();
+        combineLatest([this.exercises$, this.searchTerm$.pipe(startWith(''))]).subscribe(
             ([exercises, searchTerm]) => this.filterExercises([exercises, searchTerm])
         );
         this.exerciseList = await this.exercises$.pipe(filter(exercises => exercises.length > 0), take(1))
