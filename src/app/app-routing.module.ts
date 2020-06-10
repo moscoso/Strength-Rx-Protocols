@@ -20,8 +20,13 @@ const routes: Routes = [
     },
     {
         'path': 'create-exercise',
-        'loadChildren': () => import('./create-exercise/create-exercise.module').then(m => m
+        'loadChildren': () => import('./exercises/create-exercise/create-exercise.module').then(m => m
             .CreateExercisePageModule)
+    },
+    {
+        'path': 'edit-exercise',
+        'loadChildren': () => import('./exercises/edit-exercise/edit-exercise.module').then(m => m
+            .EditExercisePageModule)
     },
     {
         'path': 'login',
@@ -89,9 +94,6 @@ const routes: Routes = [
         'path': 'foods/:id',
         'loadChildren': () => import('./foods/food/food.module').then(m => m.FoodPageModule)
     },
-
-
-
 ];
 
 @NgModule({
