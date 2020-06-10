@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormControl, Validators, FormGroup, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { CreateRequested } from '../core/state/exercises/exercises.actions';
-import { Exercise } from '../core/state/exercises/exercises.state';
-import { AppState } from '../core/state/app.state';
+import { CreateRequested } from '../../core/state/exercises/exercises.actions';
+import { Exercise } from '../../core/state/exercises/exercises.state';
+import { AppState } from '../../core/state/app.state';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 

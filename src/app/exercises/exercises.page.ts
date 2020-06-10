@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { CreateExercisePage } from '../create-exercise/create-exercise.page';
+import { CreateExercisePage } from './create-exercise/create-exercise.page';
 import * as fromExercises from '../core/state/exercises/exercises.selector';
 import { Store } from '@ngrx/store';
 import { Observable, of , Subject, combineLatest, Subscription } from 'rxjs';

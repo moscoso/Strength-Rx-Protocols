@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { CreateExercisePageRoutingModule } from './create-exercise-routing.module';
 
 import { CreateExercisePage } from './create-exercise.page';
-import { MaterialsModule } from '../materials.module';
+import { MaterialsModule } from '../../materials.module';
 
 @NgModule({
     'imports': [

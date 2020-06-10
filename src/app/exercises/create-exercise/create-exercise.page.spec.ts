@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { CreateExercisePage } from './create-exercise.page';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaterialsModule } from '../materials.module';
+import { MaterialsModule } from '../../materials.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Store } from '@ngrx/store';
 import { AngularFirestore } from '@angular/fire/firestore';
