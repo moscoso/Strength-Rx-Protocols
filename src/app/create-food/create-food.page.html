@@ -20,9 +20,8 @@
                     <mat-error *ngIf="name.hasError('required')">A food name is required.</mat-error>
                     <mat-error *ngIf="name.hasError('entityIDTaken')">A food named {{name.value}} already exists
                     </mat-error>
+                    <mat-hint *ngIf="getSlug(name.value).length > 0">This will exist at /food/{{getSlug(name.value)}}</mat-hint>
                 </mat-form-field>
-                <ion-note *ngIf="getSlug(name.value).length > 0">The slug for this will exist at
-                    /food/{{getSlug(name.value)}}</ion-note>
             </ion-row>
 
             <ion-row>
