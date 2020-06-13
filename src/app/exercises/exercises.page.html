@@ -22,10 +22,8 @@
     </ion-refresher>
 
     <ion-grid *ngIf="exerciseList as exercises">
-        <ng-template *ngIf="(requestInProgress$ | async); else loaded">
-            <ion-row *ngIf="exercises.length === 0">
+        <ng-template *ngIf="(requestInProgress$ | async) && exercises.length == 0; else loaded">
                 <ion-spinner></ion-spinner>
-            </ion-row>
         </ng-template>
         <ng-template #loaded>
             <ion-row>
