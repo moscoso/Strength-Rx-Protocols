@@ -51,14 +51,18 @@ export class ExerciseFormComponent implements OnInit {
         this.requestInProgress$ = this.store.select((state: AppState) => state.exercises.requestInProgress);
         this.store.select(selectExerciseByRouteURL).pipe(first()).toPromise().then(exercise => {
             if (exercise) {
-                this.initExercise = exercise;
-                this.name.setValue(exercise.name);
-                this.name.disable();
-                this.instructions.setValue(exercise.instructions);
-                this.youtubeURL.setValue(`https://youtu.be/${exercise.youtubeID}`);
-                this.youtubeURL.markAsDirty();
+                this.initFormValues(exercise);
             }
         });
+    }
+
+    initFormValues(exercise: Exercise) {
+        this.initExercise = exercise;
+        this.name.setValue(exercise.name);
+        this.name.disable();
+        this.instructions.setValue(exercise.instructions);
+        this.youtubeURL.setValue(`https://youtu.be/${exercise.youtubeID}`);
+        this.youtubeURL.markAsDirty();
     }
 
     onSubmit(form) {
