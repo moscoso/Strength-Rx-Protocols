@@ -16,7 +16,7 @@ export class ExerciseEffects {
     @Effect({'dispatch': false}) error$: Observable<ExerciseAction> = this.actions$.pipe(
         ofType(ExerciseActionType.RequestFailed),
         tap((action: Exercises.RequestFailed) => {
-            this.toaster.failed('Something went wrong', action.error.error.code);
+            this.toaster.failed('Request for exercise failed', action.error.code);
         })
     );
 
@@ -27,11 +27,7 @@ export class ExerciseEffects {
                 .then(exercises => {
                     return new Exercises.AllLoaded(exercises);
                 })
-                .catch(error => {
-                    return new Exercises.RequestFailed({
-                        'error': error
-                    });
-                })
+                .catch(error => this.requestFailed(error))
             );
         })
     );
@@ -43,11 +39,7 @@ export class ExerciseEffects {
                 .then((exercise) => {
                     return new Exercises.Created(exercise);
                 })
-                .catch(error => {
-                    return new Exercises.RequestFailed({
-                        'error': error
-                    });
-                })
+                .catch(error => this.requestFailed(error))
             );
         })
     );
@@ -59,11 +51,7 @@ export class ExerciseEffects {
                 .then(() => {
                     return new Exercises.Updated(action.id, action.changes);
                 })
-                .catch(error => {
-                    return new Exercises.RequestFailed({
-                        'error': error
-                    });
-                })
+                .catch(error => this.requestFailed(error))
             );
         })
     );
@@ -75,18 +63,14 @@ export class ExerciseEffects {
                 .then(() => {
                     return new Exercises.Deleted(action.id);
                 })
-                .catch(error => {
-                    return new Exercises.RequestFailed({
-                        'error': error
-                    });
-                })
+                .catch(error => this.requestFailed(error))
             );
         })
     );
 
     @Effect({'dispatch': false}) createCompleted$: Observable < ExerciseAction > = this.actions$.pipe(
-        ofType<ExerciseAction>(ExerciseActionType.Created),
-        tap((action: Exercises.CreateRequested) => {
+        ofType<ExerciseAction>(ExerciseActionType.Created, ExerciseActionType.Updated),
+        tap(() => {
             this.modalController.dismiss();
         })
     );
@@ -105,4 +89,14 @@ export class ExerciseEffects {
         private toaster: ToastService,
         private router: Router,
     ) {}
+
+    /**
+     * Generate a RequestFailed action
+     * @param error the error to pass to the payload
+     */
+    private requestFailed(error): Exercises.RequestFailed {
+        return new Exercises.RequestFailed({
+            'error': error.error
+        });
+    }
 }
