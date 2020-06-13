@@ -8,6 +8,7 @@ import { AppState } from 'src/app/core/state/app.state';
 import { Exercise } from 'src/app/core/state/exercises/exercises.state';
 import { selectUserIsTrainer } from 'src/app/core/state/profile/profile.selector';
 import { ModalController, ActionSheetController } from '@ionic/angular';
+import { EditExercisePage } from '../edit-exercise/edit-exercise.page';
 
 
 @Component({
@@ -46,9 +47,14 @@ export class ExercisePage implements OnInit {
         });
     }
 
-    // requestEdit(): void {
-
-    // }
+    async showEditModal(): Promise < void > {
+        const modal = await this.modalCtrl.create({
+            'id': 'edit-exercise',
+            'component': EditExercisePage
+        });
+        await modal.present();
+        return;
+    }
 
     async showActionSheetToDelete(): Promise < void > {
         const actionSheet = await this.actionSheetCtrl.create({

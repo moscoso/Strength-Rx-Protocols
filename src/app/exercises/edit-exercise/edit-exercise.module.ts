@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { EditExercisePageRoutingModule } from './edit-exercise-routing.module';
 
 import { EditExercisePage } from './edit-exercise.page';
+import { ExercisesPageModule } from '../exercises.module';
 
 @NgModule({
     'imports': [
         CommonModule,
         FormsModule,
         IonicModule,
-        EditExercisePageRoutingModule
+        EditExercisePageRoutingModule,
+        ExercisesPageModule
     ],
     'declarations': [EditExercisePage]
 })

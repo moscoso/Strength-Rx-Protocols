@@ -8,53 +8,5 @@
 </ion-header>
 
 <ion-content>
-    <ion-grid>
-        <form [formGroup]=form (ngSubmit)=onSubmit(form.value)>
-            <ion-row>
-                <mat-form-field>
-                    <mat-label for='name'>Exercise Name</mat-label>
-                    <input matInput type="text" [formControl]="name" name="name"
-                           placeholder="Barbell Back Squat"
-                           autocomplete="off"
-                           enterKeyHint="next"
-                           required>
-                    <mat-error *ngIf="name.hasError('required')">An exercise name is required.</mat-error>
-                    <mat-error *ngIf="name.hasError('exerciseIDTaken')">An exercise named {{name.value}} already exists
-                    </mat-error>
-                </mat-form-field>
-            </ion-row>
-
-            <ion-row>
-                <mat-form-field>
-                    <mat-label for="youtubeURL">Youtube Video URL</mat-label>
-                    <input matInput type="url" [formControl]="youtubeURL" name="youtubeURL"
-                           placeholder="https://www.youtube.com/watch?v=sN8AGGLzuUw"
-                           autocomplete="off"
-                           enterKeyHint="next"
-                           required>
-                    <button *ngIf="youtubeURL.dirty" mat-icon-button matSuffix>
-                        <mat-icon [ngStyle]="{'color':youtubeURL.valid ? 'green':'red'}">
-                            {{youtubeURL.valid ? 'check' : 'cancel'}}</mat-icon>
-                    </button>
-                    <mat-error *ngIf="youtubeURL.hasError('required')">A valid Youtube URL is required.</mat-error>
-                    <mat-error *ngIf="youtubeURL.hasError('pattern')">The URL you provided is not a valid Youtube link
-                    </mat-error>
-                </mat-form-field>
-            </ion-row>
-
-            <ion-row>
-                <mat-form-field>
-                    <mat-label for='instructions'>Instructions</mat-label>
-                    <textarea matInput type="text" [formControl]="instructions" name="instructions"
-                              placeholder="Push your body up"
-                              autocomplete="off"
-                              enterKeyHint="done"></textarea>
-                </mat-form-field>
-            </ion-row>
-
-            <ion-button type="submit"
-                        [disabled]="form.invalid || (requestInProgress$ | async)"
-                        expand="full"><ion-icon name="barbell"></ion-icon>&nbsp;Create Exercise</ion-button>
-        </form>
-    </ion-grid>
+    <exercise-form (formSubmit)="onSubmit($event)" buttonText="Create Exercise"></exercise-form>
 </ion-content>

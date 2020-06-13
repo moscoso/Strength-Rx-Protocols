@@ -8,6 +8,7 @@ import { CreateExercisePageRoutingModule } from './create-exercise-routing.modul
 
 import { CreateExercisePage } from './create-exercise.page';
 import { MaterialsModule } from '../../materials.module';
+import { ExercisesPageModule } from '../exercises.module';
 
 @NgModule({
     'imports': [
@@ -16,7 +17,8 @@ import { MaterialsModule } from '../../materials.module';
         FormsModule,
         ReactiveFormsModule,
         MaterialsModule,
-        CreateExercisePageRoutingModule
+        CreateExercisePageRoutingModule,
+        ExercisesPageModule
     ],
     'declarations': [CreateExercisePage]
 })

@@ -1,9 +1,9 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>edit-exercise</ion-title>
+        <ion-title>Edit an Exercise</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+    <exercise-form (formSubmit)="onSubmit($event)" buttonText="Edit Exercise"></exercise-form>
 </ion-content>
