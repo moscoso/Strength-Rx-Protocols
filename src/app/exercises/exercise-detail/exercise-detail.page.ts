@@ -8,15 +8,15 @@ import { AppState } from 'src/app/core/state/app.state';
 import { Exercise } from 'src/app/core/state/exercises/exercises.state';
 import { selectUserIsTrainer } from 'src/app/core/state/profile/profile.selector';
 import { ModalController, ActionSheetController } from '@ionic/angular';
-import { EditExercisePage } from '../edit-exercise/edit-exercise.page';
+import { EditExerciseComponent } from '../edit-exercise/edit-exercise.component';
 
 
 @Component({
     'selector': 'app-exercise',
-    'templateUrl': './exercise.page.html',
-    'styleUrls': ['./exercise.page.scss'],
+    'templateUrl': './exercise-detail.page.html',
+    'styleUrls': ['./exercise-detail.page.scss'],
 })
-export class ExercisePage implements OnInit {
+export class ExerciseDetailPage implements OnInit {
 
     exercise$: Observable < Exercise > ;
     isTrainer$: Observable < boolean > ;
@@ -50,7 +50,7 @@ export class ExercisePage implements OnInit {
     async showEditModal(): Promise < void > {
         const modal = await this.modalCtrl.create({
             'id': 'edit-exercise',
-            'component': EditExercisePage
+            'component': EditExerciseComponent
         });
         await modal.present();
         return;

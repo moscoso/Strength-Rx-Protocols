@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ExercisePageRoutingModule } from './exercise-routing.module';
+import { ExerciseDetailPageRoutingModule } from './exercise-detail-routing.module';
 
-import { ExercisePage } from './exercise.page';
+import { ExerciseDetailPage } from './exercise-detail.page';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ExercisesModule } from '../exercises.module';
 
 @NgModule({
     'imports': [
@@ -15,8 +16,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
         FormsModule,
         IonicModule,
         SharedModule,
-        ExercisePageRoutingModule,
+        ExercisesModule,
+        ExerciseDetailPageRoutingModule
     ],
-    'declarations': [ExercisePage]
+    'declarations': [ExerciseDetailPage]
 })
-export class ExercisePageModule {}
+export class ExerciseDetailPageModule {}

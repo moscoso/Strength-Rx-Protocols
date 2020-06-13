@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { CreateRequested } from 'src/app/core/state/exercises/exercises.actions';
 import { ModalController } from '@ionic/angular';
-import { FormControl, Validators, FormGroup, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { CreateRequested } from '../../core/state/exercises/exercises.actions';
-import { AppState } from '../../core/state/app.state';
-import { Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AppState } from 'src/app/core/state/app.state';
 
 @Component({
     'selector': 'app-create-exercise',
-    'templateUrl': './create-exercise.page.html',
-    'styleUrls': ['./create-exercise.page.scss'],
+    'templateUrl': './create-exercise.component.html',
+    'styleUrls': ['./create-exercise.component.scss'],
 })
-export class CreateExercisePage implements OnInit {
+export class CreateExerciseComponent implements OnInit {
 
     constructor(
         public modalController: ModalController,
@@ -28,4 +25,5 @@ export class CreateExercisePage implements OnInit {
     onSubmit(exercise: any) {
         this.store.dispatch(new CreateRequested(exercise));
     }
+
 }

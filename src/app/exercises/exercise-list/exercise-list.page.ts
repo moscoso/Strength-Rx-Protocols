@@ -1,25 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { CreateExercisePage } from './create-exercise/create-exercise.page';
-import * as fromExercises from '../core/state/exercises/exercises.selector';
+
 import { Store } from '@ngrx/store';
 import { Observable, of , Subject, combineLatest, Subscription } from 'rxjs';
-import { Exercise } from '../core/state/exercises/exercises.state';
-import { AllRequested } from '../core/state/exercises/exercises.actions';
-import { AppState } from '../core/state/app.state';
 import { take, filter, startWith } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 
 import Fuse from 'fuse.js';
 
+import * as fromExercises from '../../core/state/exercises/exercises.selector';
+import { AllRequested } from 'src/app/core/state/exercises/exercises.actions';
+import { Exercise } from 'src/app/core/state/exercises/exercises.state';
+import { AppState } from 'src/app/core/state/app.state';
+import { CreateExerciseComponent } from '../create-exercise/create-exercise.component';
+
 @UntilDestroy()
 @Component({
     'selector': 'app-exercises',
-    'templateUrl': './exercises.page.html',
-    'styleUrls': ['./exercises.page.scss'],
+    'templateUrl': './exercise-list.page.html',
+    'styleUrls': ['./exercise-list.page.scss'],
 })
-export class ExercisesPage implements OnInit {
+export class ExerciseListPage implements OnInit {
 
     exercises$: Observable < Exercise[] > ;
     searchTerm$: Subject < string > = new Subject();
@@ -61,7 +63,7 @@ export class ExercisesPage implements OnInit {
     async presentModal(): Promise < void > {
         const modal = await this.modalController.create({
             'id': 'create-exercise',
-            'component': CreateExercisePage
+            'component': CreateExerciseComponent
         });
         await modal.present();
         return;

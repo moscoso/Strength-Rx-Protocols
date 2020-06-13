@@ -12,21 +12,7 @@ const routes: Routes = [
     },
     {
         'path': 'exercises',
-        'loadChildren': () => import('./exercises/exercises.module').then(m => m.ExercisesPageModule)
-    },
-    {
-        'path': 'exercise',
-        'loadChildren': () => import('./exercises/exercises.module').then(m => m.ExercisesPageModule)
-    },
-    {
-        'path': 'create-exercise',
-        'loadChildren': () => import('./exercises/create-exercise/create-exercise.module').then(m => m
-            .CreateExercisePageModule)
-    },
-    {
-        'path': 'edit-exercise',
-        'loadChildren': () => import('./exercises/edit-exercise/edit-exercise.module').then(m => m
-            .EditExercisePageModule)
+        'loadChildren': () => import('./exercises/exercise-list/exercise-list.module').then(m => m.ExerciseListPageModule)
     },
     {
         'path': 'login',
