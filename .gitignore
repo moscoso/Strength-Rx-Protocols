@@ -29,3 +29,6 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+
+# Firebase Key
+/src/config/firebase.ts
