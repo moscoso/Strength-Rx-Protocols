@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
-import { Observable, of , Subject, combineLatest, Subscription } from 'rxjs';
+import { Observable, of , Subject, combineLatest } from 'rxjs';
 import { take, filter, startWith } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
