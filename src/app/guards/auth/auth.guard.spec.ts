@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { AuthGuard } from './auth.guard';
-import { FireAuthService } from '../../firebase/auth/auth.service';
+import { FireAuthService } from 'src/app/core/firebase/auth/auth.service';
 
 describe('AuthGuard', () => {
     beforeEach(() => {
