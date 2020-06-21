@@ -2,6 +2,7 @@ export class Delta {
 
     /**
      * Return an object that represents the difference between two objects.
+     * Only works with shallow objects. Nested objects will not be tested for equality.
      */
     public static object(a: object, b: object): object {
         const diff = Object.assign({}, a, b);
@@ -23,17 +24,16 @@ export class Delta {
     }
 
     private static arraysMatch(a: any[], b: any[]): boolean {
-        if (a.length !== b.length) {
-            return false;
-        }
+        const differentSizes = a.length !== b.length;
+        if (differentSizes) { return false;  }
 
-        let arraysMatch = true;
         a.forEach((value, index) => {
-            if (a[index] !== b[index]) {
-                arraysMatch = false;
+            const mismatchFound = a[index] !== b[index];
+            if (mismatchFound) {
+                return false;
             }
         });
 
-        return arraysMatch;
+        return true;
     }
 }
