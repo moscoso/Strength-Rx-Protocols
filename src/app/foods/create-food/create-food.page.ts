@@ -3,10 +3,11 @@ import { FormControl, Validators, FormGroup, AbstractControl, ValidationErrors }
 import { Observable } from 'rxjs';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { AppState } from '../core/state/app.state';
+import { AppState } from 'src/app/core/state/app.state';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Food } from '../core/state/food/food.state';
-import { CreateRequested } from '../core/state/food/food.actions';
+import { Food } from 'src/app/core/state/food/food.state';
+import { CreateRequested } from 'src/app/core/state/food/food.actions';
+
 
 @Component({
     'selector': 'app-create-food',

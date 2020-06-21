@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of, from } from 'rxjs';
+import { Observable, of, } from 'rxjs';
 import { Food } from 'src/app/core/state/food/food.state';
-import { AllRequested, DeleteRequested } from 'src/app/core/state/food/food.actions';
 import { selectUserIsTrainer } from 'src/app/core/state/profile/profile.selector';
 import * as fromFoods from 'src/app/core/state/food/food.selector';
 import { AppState } from 'src/app/core/state/app.state';
 import { filter, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { ModalController, ActionSheetController } from '@ionic/angular';
+import { AllRequested, DeleteRequested } from 'src/app/core/state/food/food.actions';
 @Component({
     'selector': 'app-food',
-    'templateUrl': './food.page.html',
-    'styleUrls': ['./food.page.scss'],
+    'templateUrl': './food-detail.page.html',
+    'styleUrls': ['./food-detail.page.scss'],
 })
-export class FoodPage implements OnInit {
+export class FoodDetailPage implements OnInit {
 
     food$: Observable < Food >;
     isTrainer$: Observable < boolean > = of(false) ;
