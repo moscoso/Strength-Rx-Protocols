@@ -11,15 +11,10 @@ import { UpdateRequested } from 'src/app/core/state/exercises/exercises.actions'
 })
 export class EditExerciseComponent implements OnInit {
     constructor(
-        public modalController: ModalController,
         public store: Store < AppState > ,
     ) {}
 
     ngOnInit() {}
-
-    dismiss() {
-        this.modalController.dismiss('edit-exercise');
-    }
 
     onSubmit(exercise: any) {
         this.store.dispatch(new UpdateRequested(exercise.id, exercise));

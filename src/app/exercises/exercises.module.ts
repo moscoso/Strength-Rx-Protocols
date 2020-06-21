@@ -9,6 +9,7 @@ import { ExerciseFormComponent } from './exercise-form/exercise-form.component';
 import { MaterialsModule } from '../materials.module';
 import { CreateExerciseComponent } from './create-exercise/create-exercise.component';
 import { EditExerciseComponent } from './edit-exercise/edit-exercise.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { EditExerciseComponent } from './edit-exercise/edit-exercise.component';
         FormsModule,
         IonicModule,
         MaterialsModule,
+        SharedModule,
     ],
     'declarations': [ExercisePreviewComponent, ExerciseFormComponent, CreateExerciseComponent, EditExerciseComponent, ],
     'exports': [
