@@ -8,10 +8,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { FirebaseModule } from './core/firebase/firebase.module';
-import { StateModule } from './core/state/state.module';
-import { MaterialsModule } from './materials.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CoreModule } from './core/core.module';
 
 
 @NgModule({
@@ -21,9 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         BrowserAnimationsModule,
         IonicModule.forRoot(),
         AppRoutingModule,
-        FirebaseModule,
-        StateModule,
-        MaterialsModule,
+        CoreModule,
         ServiceWorkerModule.register('ngsw-worker.js', { 'enabled': environment.production })
     ],
     'providers': [
