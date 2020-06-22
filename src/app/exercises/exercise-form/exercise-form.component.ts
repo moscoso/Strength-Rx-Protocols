@@ -41,7 +41,8 @@ export class ExerciseFormComponent implements OnInit {
     constructor(
         public firestore: AngularFirestore,
         public store: Store,
-        public toastService: ToastService) {}
+        public toastService: ToastService
+    ) {}
 
     ngOnInit() {
         this.form = new FormGroup({
@@ -100,16 +101,5 @@ export class ExerciseFormComponent implements OnInit {
 
     getSlug(name: string) {
         return name.trim().replace(/\s+/g, '-').toLowerCase();
-    }
-
-    /**
-     * Validate that the document ID for exercises does not already exist!
-     */
-    async validateDocIDIsUnique(ctrl: AbstractControl): Promise < ValidationErrors | null > {
-        const slug = this.getSlug(ctrl.value);
-        return this.firestore.doc(`exercises / ${slug}`).ref.get({
-            'source': 'server',
-        }).then(doc => doc.exists ? { 'IDTaken': true } : null).catch(reason =>
-            ({ 'couldNotReachServer': reason }));
     }
 }
