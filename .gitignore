@@ -32,3 +32,5 @@ npm-debug.log*
 
 # Firebase Key
 /src/config/firebase.ts
+# Firebase hosting cache
+/.firebase
