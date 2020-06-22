@@ -8,6 +8,7 @@ import { Exercise } from 'src/app/core/state/exercises/exercises.state';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { selectExerciseByRouteURL } from 'src/app/core/state/exercises/exercises.selector';
 import { first } from 'rxjs/operators';
+import { validateExerciseIsUnique } from 'src/util/validateDocumentIsUnique/validateDocumentIsUnique';
 
 @Component({
     'selector': 'exercise-form',
@@ -27,7 +28,7 @@ export class ExerciseFormComponent implements OnInit {
     name = new FormControl('', {
         'updateOn': 'blur',
         'validators': Validators.required,
-        'asyncValidators': this.validateDocIDIsUnique.bind(this)
+        'asyncValidators': validateExerciseIsUnique.bind(this)
     });
     youtubeURL = new FormControl('', [Validators.required, Validators.pattern(this.youtubeURLRegExp)]);
     instructions = new FormControl('', []);

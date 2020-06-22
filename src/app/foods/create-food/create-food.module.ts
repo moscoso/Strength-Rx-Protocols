@@ -7,10 +7,13 @@ import { IonicModule } from '@ionic/angular';
 import { CreateFoodPageRoutingModule } from './create-food-routing.module';
 
 import { CreateFoodPage } from './create-food.page';
+import { MaterialsModule } from 'src/app/materials.module';
 
 @NgModule({
     'imports': [
         CommonModule,
+        MaterialsModule,
+        ReactiveFormsModule,
         FormsModule,
         IonicModule,
         CreateFoodPageRoutingModule

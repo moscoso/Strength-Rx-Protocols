@@ -7,6 +7,7 @@ import { AppState } from 'src/app/core/state/app.state';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Food } from 'src/app/core/state/food/food.state';
 import { CreateRequested } from 'src/app/core/state/food/food.actions';
+import { validateFoodIsUnique } from 'src/util/validateDocumentIsUnique/validateDocumentIsUnique';
 
 
 @Component({
@@ -16,8 +17,7 @@ import { CreateRequested } from 'src/app/core/state/food/food.actions';
 })
 export class CreateFoodPage implements OnInit {
 
-    name = new FormControl('', [Validators.required], this.validateDocIDIsUnique
-        .bind(this));
+    name = new FormControl('', [Validators.required], validateFoodIsUnique.bind(this));
     calories = new FormControl('', [Validators.required, Validators.min(0)]);
     carbs = new FormControl('', [Validators.required, Validators.min(0)]);
     fats = new FormControl('', [Validators.required, Validators.min(0)]);
@@ -61,18 +61,6 @@ export class CreateFoodPage implements OnInit {
             'dateCreated': new Date(),
         };
         this.store.dispatch(new CreateRequested(food));
-    }
-
-    /**
-     * Validate that the document ID for exercises does not already exist!
-     */
-    // TODO: Optimize with debounce:
-    // https://stackoverflow.com/questions/36919011/how-to-add-debounce-time-to-an-async-validator-in-angular-2
-    async validateDocIDIsUnique(ctrl: AbstractControl): Promise < ValidationErrors | null > {
-        return this.firestore.doc(`foods/${ctrl.value}`).ref.get({
-            'source': 'server',
-        }).then(doc => doc.exists ? { 'entityIDTaken': true } : null).catch(reason =>
-    ({ 'couldNotReachServer': reason }));
     }
 
     getSlug(name: string) {
