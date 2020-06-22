@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl, Validators, FormGroup, AbstractControl, ValidationErrors } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/state/app.state';
@@ -37,7 +36,6 @@ export class ExerciseFormComponent implements OnInit {
     requestInProgress$: Observable < boolean > = of (false);
 
     constructor(
-        public firestore: AngularFirestore,
         public store: Store,
         public toastService: ToastService
     ) {}
