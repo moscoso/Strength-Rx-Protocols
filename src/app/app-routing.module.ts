@@ -58,7 +58,7 @@ const routes: Routes = [
     },
     {
         'path': 'create-food',
-        'loadChildren': () => import('./foods/create-food/create-food.module').then(m => m.CreateFoodPageModule),
+        'loadChildren': () => import('./food/create-food/create-food.module').then(m => m.CreateFoodPageModule),
         'canActivate': [AuthGuard],
     },
     {
@@ -76,7 +76,7 @@ const routes: Routes = [
     },
     {
         'path': 'foods',
-        'loadChildren': () => import('./foods/food-list/food-list.module').then(m => m.FoodsListPageModule)
+        'loadChildren': () => import('./food/food-list/food-list.module').then(m => m.FoodsListPageModule)
     },
 ];
 
