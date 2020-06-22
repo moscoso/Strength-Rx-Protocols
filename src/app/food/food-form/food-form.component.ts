@@ -30,7 +30,6 @@ export class FoodFormComponent implements OnInit {
     requestInProgress$: Observable < boolean > ;
 
     constructor(
-        public modalController: ModalController,
         public store: Store < AppState > ,
     ) { }
 
@@ -52,10 +51,6 @@ export class FoodFormComponent implements OnInit {
         this.carbs.setValue(food.carbs);
         this.fats.setValue(food.fats);
         this.protein.setValue(food.protein);
-    }
-
-    dismiss() {
-        this.modalController.dismiss('create-food');
     }
 
     onSubmit(form) {
