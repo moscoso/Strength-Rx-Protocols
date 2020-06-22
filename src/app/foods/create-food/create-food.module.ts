@@ -1,21 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
 import { CreateFoodPageRoutingModule } from './create-food-routing.module';
-
 import { CreateFoodPage } from './create-food.page';
-import { MaterialsModule } from 'src/app/materials.module';
+import { FoodModule } from '../food.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
     'imports': [
         CommonModule,
-        MaterialsModule,
-        ReactiveFormsModule,
-        FormsModule,
+        FoodModule,
         IonicModule,
+        FoodModule,
+        SharedModule,
         CreateFoodPageRoutingModule
     ],
     'declarations': [CreateFoodPage]

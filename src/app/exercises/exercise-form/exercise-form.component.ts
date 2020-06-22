@@ -8,6 +8,7 @@ import { ToastService } from 'src/app/shared/toast/toast.service';
 import { selectExerciseByRouteURL } from 'src/app/core/state/exercises/exercises.selector';
 import { first } from 'rxjs/operators';
 import { validateExerciseIsUnique } from 'src/util/validateDocumentIsUnique/validateDocumentIsUnique';
+import { transformToSlug } from 'src/util/slug/transformToSlug';
 
 @Component({
     'selector': 'exercise-form',
@@ -95,6 +96,6 @@ export class ExerciseFormComponent implements OnInit {
     }
 
     getSlug(name: string) {
-        return name.trim().replace(/\s+/g, '-').toLowerCase();
+        return transformToSlug(name);
     }
 }

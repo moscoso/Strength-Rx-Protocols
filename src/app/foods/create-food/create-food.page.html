@@ -2,65 +2,11 @@
     <ion-toolbar>
         <ion-title>Create a Food</ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="dismiss()">Dismiss</ion-button>
+            <dismiss-modal-button modalID="create-food"></dismiss-modal-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-grid>
-        <form [formGroup]=form (ngSubmit)=onSubmit(form.value)>
-            <ion-row>
-                <mat-form-field>
-                    <mat-label>Food Name</mat-label>
-                    <input matInput type="text" [formControl]="name"
-                           autocomplete="off"
-                           enterKeyHint="next"
-                           required>
-                    <mat-error *ngIf="name.hasError('required')">A food name is required.</mat-error>
-                    <mat-error *ngIf="name.hasError('entityIDTaken')">A food named {{name.value}} already exists
-                    </mat-error>
-                    <mat-hint *ngIf="getSlug(name.value).length > 0">This will exist at /food/{{getSlug(name.value)}}</mat-hint>
-                </mat-form-field>
-            </ion-row>
-
-            <ion-row>
-                <mat-form-field>
-                    <mat-label>Calories (g)</mat-label>
-                    <input matInput type="number" [formControl]="calories"
-                           autocomplete="off"
-                           enterKeyHint="next" />
-                </mat-form-field>
-            </ion-row>
-            <ion-row>
-                <mat-form-field>
-                    <mat-label>Carbs (g)</mat-label>
-                    <input matInput type="number" [formControl]="carbs"
-                           autocomplete="off"
-                           enterKeyHint="next" />
-                </mat-form-field>
-            </ion-row>
-            <ion-row>
-                <mat-form-field>
-                    <mat-label>Fats (g)</mat-label>
-                    <input matInput type="number" [formControl]="fats"
-                           autocomplete="off"
-                           enterKeyHint="next" />
-                </mat-form-field>
-            </ion-row>
-            <ion-row>
-                <mat-form-field>
-                    <mat-label>Protein (g)</mat-label>
-                    <input matInput type="number" [formControl]="protein"
-                           autocomplete="off"
-                           enterKeyHint="done" />
-                </mat-form-field>
-            </ion-row>
-
-            <!-- <ion-input type="file" accept="image/*" (change)="changeListener($event)" [formControl]="photoFile"></ion-input> -->
-
-
-            <ion-button expand="full" type="submit" [disabled]="form.invalid">SUBMIT</ion-button>
-        </form>
-    </ion-grid>
+    <food-form (submit)="onSubmit($event)"></food-form>
 </ion-content>
