@@ -13,7 +13,7 @@ const routes: Routes = [
     },
     {
         'path': 'exercises',
-        'loadChildren': () => import('./exercises/exercise-list/exercise-list.module').then(m => m
+        'loadChildren': () => import('./exercise/exercise-list/exercise-list.module').then(m => m
             .ExerciseListPageModule)
     },
     {
