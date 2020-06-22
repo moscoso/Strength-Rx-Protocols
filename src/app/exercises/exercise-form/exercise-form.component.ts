@@ -36,8 +36,6 @@ export class ExerciseFormComponent implements OnInit {
 
     requestInProgress$: Observable < boolean > = of (false);
 
-    initExercise: Exercise;
-
     constructor(
         public firestore: AngularFirestore,
         public store: Store,
@@ -59,7 +57,6 @@ export class ExerciseFormComponent implements OnInit {
     }
 
     initFormValues(exercise: Exercise) {
-        this.initExercise = exercise;
         this.name.setValue(exercise.name);
         this.name.disable();
         this.instructions.setValue(exercise.instructions);
