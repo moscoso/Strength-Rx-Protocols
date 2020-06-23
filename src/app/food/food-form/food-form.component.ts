@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { validateFoodIsUnique } from 'src/util/validateDocumentIsUnique/validateDocumentIsUnique';
+import { FormControl, Validators, FormGroup, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { CreateRequested } from 'src/app/core/state/food/food.actions';
 import { AppState } from 'src/app/core/state/app.state';
 import { Food } from 'src/app/core/state/food/food.state';
-import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
 
 @Component({
     selector: 'food-form',
@@ -18,7 +18,7 @@ export class FoodFormComponent implements OnInit {
     @Input() buttonText = 'Submit';
     @Output() formSubmit = new EventEmitter < Partial < Food >> ();
 
-    name = new FormControl('', [Validators.required], validateFoodIsUnique.bind(this));
+    name = new FormControl('', [Validators.required], this.verifyFoodIsUnique.bind(this));
     calories = new FormControl('', [Validators.required, Validators.min(0)]);
     carbs = new FormControl('', [Validators.required, Validators.min(0)]);
     fats = new FormControl('', [Validators.required, Validators.min(0)]);
@@ -31,6 +31,7 @@ export class FoodFormComponent implements OnInit {
 
     constructor(
         public store: Store < AppState > ,
+        public firestore: AngularFirestore,
     ) { }
 
     ngOnInit() {
@@ -71,4 +72,7 @@ export class FoodFormComponent implements OnInit {
         return name.trim().replace(/\s+/g, '-').toLowerCase();
     }
 
+    verifyFoodIsUnique(ctrl: AbstractControl): Promise < ValidationErrors | null > {
+        return validateDocIDIsUnique(`foods`, ctrl, this.firestore);
+    }
 }

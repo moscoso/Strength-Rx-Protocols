@@ -7,8 +7,9 @@ import { Exercise } from 'src/app/core/state/exercises/exercises.state';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { selectExerciseByRouteURL } from 'src/app/core/state/exercises/exercises.selector';
 import { first } from 'rxjs/operators';
-import { validateExerciseIsUnique } from 'src/util/validateDocumentIsUnique/validateDocumentIsUnique';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
 
 @Component({
     'selector': 'exercise-form',
@@ -28,7 +29,7 @@ export class ExerciseFormComponent implements OnInit {
     name = new FormControl('', {
         'updateOn': 'blur',
         'validators': Validators.required,
-        'asyncValidators': validateExerciseIsUnique.bind(this)
+        'asyncValidators': this.verifyExerciseIsUnique.bind(this)
     });
     youtubeURL = new FormControl('', [Validators.required, Validators.pattern(this.youtubeURLRegExp)]);
     instructions = new FormControl('', []);
@@ -38,7 +39,8 @@ export class ExerciseFormComponent implements OnInit {
 
     constructor(
         public store: Store,
-        public toastService: ToastService
+        public toastService: ToastService,
+        public firestore: AngularFirestore, 
     ) {}
 
     ngOnInit() {
@@ -97,5 +99,9 @@ export class ExerciseFormComponent implements OnInit {
 
     getSlug(name: string) {
         return transformToSlug(name);
+    }
+
+    verifyExerciseIsUnique(ctrl: AbstractControl): Promise < ValidationErrors | null > {
+        return validateDocIDIsUnique(`exercises`, ctrl, this.firestore);
     }
 }
