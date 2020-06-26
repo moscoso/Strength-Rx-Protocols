@@ -77,10 +77,11 @@ const routes: Routes = [
     {
         'path': 'foods',
         'loadChildren': () => import('./food/food-list/food-list.module').then(m => m.FoodsListPageModule)
-    },  {
-    path: 'edit-food',
-    loadChildren: () => import('./food/edit-food/edit-food.module').then( m => m.EditFoodPageModule)
-  },
+    },
+    {
+        'path': 'edit-food',
+        'loadChildren': () => import('./food/edit-food/edit-food.module').then(m => m.EditFoodPageModule)
+    },
 
 ];
 
