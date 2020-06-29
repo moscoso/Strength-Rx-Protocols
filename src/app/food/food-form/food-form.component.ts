@@ -9,9 +9,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
 
 @Component({
-    selector: 'food-form',
-    templateUrl: './food-form.component.html',
-    styleUrls: ['./food-form.component.scss'],
+    'selector': 'food-form',
+    'templateUrl': './food-form.component.html',
+    'styleUrls': ['./food-form.component.scss'],
 })
 export class FoodFormComponent implements OnInit {
 
