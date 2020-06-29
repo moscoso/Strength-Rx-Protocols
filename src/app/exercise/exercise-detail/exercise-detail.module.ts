@@ -8,7 +8,7 @@ import { ExerciseDetailPageRoutingModule } from './exercise-detail-routing.modul
 
 import { ExerciseDetailPage } from './exercise-detail.page';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ExercisesModule } from '../exercises.module';
+import { ExerciseModule } from '../exercise.module';
 
 @NgModule({
     'imports': [
@@ -16,7 +16,7 @@ import { ExercisesModule } from '../exercises.module';
         FormsModule,
         IonicModule,
         SharedModule,
-        ExercisesModule,
+        ExerciseModule,
         ExerciseDetailPageRoutingModule
     ],
     'declarations': [ExerciseDetailPage]
