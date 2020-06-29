@@ -27,4 +27,4 @@ import { SharedModule } from '../shared/shared.module';
         ExercisePreviewComponent,
     ]
 })
-export class ExercisesModule {}
+export class ExerciseModule {}
