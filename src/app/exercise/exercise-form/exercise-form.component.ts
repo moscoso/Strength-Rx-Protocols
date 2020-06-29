@@ -40,7 +40,7 @@ export class ExerciseFormComponent implements OnInit {
     constructor(
         public store: Store,
         public toastService: ToastService,
-        public firestore: AngularFirestore, 
+        public firestore: AngularFirestore,
     ) {}
 
     ngOnInit() {
