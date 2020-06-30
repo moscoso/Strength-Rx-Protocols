@@ -58,7 +58,7 @@ export class ExerciseDetailPage implements OnInit {
 
     async showActionSheetToDelete(): Promise < void > {
         const actionSheet = await this.actionSheetCtrl.create({
-            'id': 'exerciseDelete',
+            'id': 'delete-exercise',
             'header': 'Are you sure you want to delete?',
             'buttons': [
             {
