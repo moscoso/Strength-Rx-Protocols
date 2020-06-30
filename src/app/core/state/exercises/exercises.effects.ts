@@ -16,7 +16,7 @@ export class ExerciseEffects {
     @Effect({'dispatch': false}) error$: Observable<ExerciseAction> = this.actions$.pipe(
         ofType(ExerciseActionType.RequestFailed),
         tap((action: Exercises.RequestFailed) => {
-            this.toaster.failed('Request for exercise failed', action.error.code);
+            this.toaster.failed('Request for exercise failed', action.error);
         })
     );
 
@@ -68,7 +68,7 @@ export class ExerciseEffects {
         })
     );
 
-    @Effect({'dispatch': false}) createCompleted$: Observable < ExerciseAction > = this.actions$.pipe(
+    @Effect({'dispatch': false}) formCompleted$: Observable < ExerciseAction > = this.actions$.pipe(
         ofType<ExerciseAction>(ExerciseActionType.Created, ExerciseActionType.Updated),
         tap(() => {
             this.modalController.dismiss();
@@ -95,6 +95,7 @@ export class ExerciseEffects {
      * @param error the error to pass to the payload
      */
     private requestFailed(error): Exercises.RequestFailed {
+        console.log(error);
         return new Exercises.RequestFailed({
             'error': error.error
         });
