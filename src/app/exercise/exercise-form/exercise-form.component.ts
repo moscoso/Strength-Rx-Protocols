@@ -66,14 +66,15 @@ export class ExerciseFormComponent implements OnInit {
     }
 
     onSubmit(form) {
+        const exercise: Exercise = this.form.getRawValue();
         try {
             const youtubeID = this.scrapeIDfromYoutubeURL(form.youtubeURL);
             let values: Partial < Exercise > ;
             values = {
-                'id': this.getSlug(form.name),
-                'name': form.name,
+                'id': this.getSlug(exercise.name),
+                'name': exercise.name,
                 'youtubeID': youtubeID,
-                'instructions': form.instructions
+                'instructions': exercise.instructions
             };
             this.formSubmit.emit(values);
         } catch (error) {
