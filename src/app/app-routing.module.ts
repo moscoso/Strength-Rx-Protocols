@@ -44,11 +44,6 @@ const routes: Routes = [
         'loadChildren': () => import('./check-in/check-in.module').then(m => m.CheckInPageModule)
     },
     {
-        'path': 'clients',
-        'loadChildren': () => import('./clients/clients.module').then(m => m.ClientsPageModule),
-        'canActivate': [AuthGuard],
-    },
-    {
         'path': 'create-food',
         'loadChildren': () => import('./food/create-food/create-food.module').then(m => m.CreateFoodPageModule),
         'canActivate': [AuthGuard],
@@ -89,6 +84,11 @@ const routes: Routes = [
         'loadChildren': () => import('./workout/workout-list/workout-list.module').then(m => m
             .WorkoutListPageModule)
     },
+    {
+        'path': 'clients',
+        'loadChildren': () => import('./client/client-list/client-list.module').then(m => m.ClientListPageModule)
+    },
+
 ];
 
 @NgModule({
