@@ -1,0 +1,12 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Edit a Workout</ion-title>
+        <ion-buttons slot="end">
+            <dismiss-modal-button modalID="edit-workout"></dismiss-modal-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <workout-form (formSubmit)="onSubmit($event)" buttonText="Update Workout"></workout-form>
+</ion-content>

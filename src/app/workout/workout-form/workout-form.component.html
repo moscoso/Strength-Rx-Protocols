@@ -1,0 +1,45 @@
+<ion-grid>
+    <form [formGroup]=form (ngSubmit)=onSubmit(form.value)>
+        <ion-row>
+            <mat-form-field>
+                <mat-label>Workout Name</mat-label>
+                <input matInput type="text" [formControl]="name" name="name"
+                       placeholder=""
+                       autocomplete="off"
+                       enterKeyHint="next"
+                       required>
+                <mat-error *ngIf="name.hasError('required')">Name is required.</mat-error>
+                <mat-error *ngIf="name.hasError('IDTaken')">A workout named {{name.value}} already exists</mat-error>
+                <mat-error *ngIf="name.hasError('couldNotReachServer')">Could not reach server. Please check your
+                    connection and try again.</mat-error>
+                <mat-hint *ngIf="getSlug(name.value).length > 0">This link will be at /workout/{{getSlug(name.value)}}
+                </mat-hint>
+            </mat-form-field>
+        </ion-row>
+
+        <ion-row>
+            <ion-spinner [hidden]="exercises.dirty || (exerciseList$ | async).length !== 0"></ion-spinner>
+            <mat-form-field [hidden]="(exerciseList$ | async).length === 0">
+                <mat-label>Exercises</mat-label>
+                <mat-select multiple  [formControl]="exercises" name="exercises">
+                    <mat-option *ngFor="let exercise of (exerciseList$ | async)"
+                                [value]="exercise">{{exercise.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="exercises.hasError('required')">At least one Exercise is required.</mat-error>
+            </mat-form-field>
+        </ion-row>
+
+        <ion-row>
+            <ion-label>Selected Exercises:</ion-label>
+            <ion-note *ngFor="let exercise of exercises.value" style="display:inline">
+                <span>{{exercise.name}},</span>
+            </ion-note>
+        </ion-row>
+
+        <ion-button type="submit"
+                    [disabled]="form.invalid || (requestInProgress$ | async)"
+                    expand="full">
+            <ion-icon name="fitness"></ion-icon>&nbsp;{{buttonText}}
+        </ion-button>        
+    </form>
+</ion-grid>

@@ -4,14 +4,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { CreateWorkoutPage } from './create-workout.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: CreateWorkoutPage
-  }
-];
+{
+    'path': '',
+    'component': CreateWorkoutPage
+}];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    'imports': [RouterModule.forChild(routes)],
+    'exports': [RouterModule],
 })
 export class CreateWorkoutPageRoutingModule {}

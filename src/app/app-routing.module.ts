@@ -25,14 +25,6 @@ const routes: Routes = [
         'loadChildren': () => import('./register/register.module').then(m => m.RegisterPageModule)
     },
     {
-        'path': 'workouts',
-        'loadChildren': () => import('./workouts/workouts.module').then(m => m.WorkoutsPageModule)
-    },
-    {
-        'path': 'create-workout',
-        'loadChildren': () => import('./create-workout/create-workout.module').then(m => m.CreateWorkoutPageModule)
-    },
-    {
         'path': 'profile',
         'loadChildren': () => import('./profile/profile.module').then(m => m.ProfilePageModule),
         'canActivate': [AuthGuard, ProfileGuard],
@@ -82,7 +74,21 @@ const routes: Routes = [
         'path': 'edit-food',
         'loadChildren': () => import('./food/edit-food/edit-food.module').then(m => m.EditFoodPageModule)
     },
-
+    {
+        'path': 'create-workout',
+        'loadChildren': () => import('./workout/create-workout/create-workout.module').then(m => m
+            .CreateWorkoutPageModule)
+    },
+    {
+        'path': 'edit-workout',
+        'loadChildren': () => import('./workout/edit-workout/edit-workout.module').then(m => m
+            .EditWorkoutPageModule)
+    },
+    {
+        'path': 'workouts',
+        'loadChildren': () => import('./workout/workout-list/workout-list.module').then(m => m
+            .WorkoutListPageModule)
+    },
 ];
 
 @NgModule({
