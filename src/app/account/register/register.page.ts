@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup, ValidationErrors } from '@angular/forms';
-import { AuthStoreDispatcher } from '../core/state/auth/auth.dispatcher';
+import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
 
 @Component({
     'selector': 'app-register',
