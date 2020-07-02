@@ -9,9 +9,10 @@
                        enterKeyHint="next"
                        required>
                 <mat-error *ngIf="name.hasError('required')">An exercise name is required.</mat-error>
-                <mat-error *ngIf="name.hasError('IDTaken')">An exercise named {{name.value}} already exists</mat-error>
+                <mat-error *ngIf="name.hasError('entityIDTaken')">An exercise named {{name.value}} already exists</mat-error>
                 <mat-error *ngIf="name.hasError('couldNotReachServer')">Could not reach server. Please check your connection and try again.</mat-error>
-                <mat-hint *ngIf="getSlug(name.value).length > 0">This link will be at /exercise/{{getSlug(name.value)}}</mat-hint>
+                <mat-hint *ngIf="getSlug(name.value).length > 0 && name.enabled">This link will be at /exercise/{{getSlug(name.value)}}</mat-hint>
+                <mat-hint *ngIf="name.disabled">Cannot edit the name of an existing workout</mat-hint>
             </mat-form-field>
         </ion-row>
 
