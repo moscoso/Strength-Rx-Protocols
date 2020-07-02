@@ -146,4 +146,15 @@ export class WorkoutFormComponent implements OnInit {
         return this.exercises.value[index].name;
     }
 
+    /**
+     * A function to compare the option values with the selected values.
+     * @param e1 the first argument is a value from an option.
+     * @param e2 the second is a value from the selection.
+     * @returns a boolean should be returned.
+     */
+
+    compareExercises(e1: Exercise, e2: Exercise): boolean {
+        return e1 && e2 ? e1.id === e2.id : e1 === e2;
+    }
+
 }

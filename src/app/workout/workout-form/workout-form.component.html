@@ -22,7 +22,7 @@
             <ion-spinner [hidden]="exercises.dirty || (exerciseList$ | async).length !== 0"></ion-spinner>
             <mat-form-field [hidden]="(exerciseList$ | async).length === 0">
                 <mat-label>Exercises</mat-label>
-                <mat-select multiple [formControl]="exercises" name="exercises">
+                <mat-select multiple [formControl]="exercises" name="exercises" [compareWith]="compareExercises">
                     <mat-option *ngFor="let exercise of (exerciseList$ | async)"
                                 [value]="exercise">{{exercise.name}}</mat-option>
                 </mat-select>
