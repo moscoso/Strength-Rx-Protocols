@@ -35,7 +35,7 @@
         <ion-note>USER ID: {{profile.id}}</ion-note>
         <ion-list>
             <ng-container *ngIf="(iAmTrainer$ | async) && !(thisIsMe$ | async)">
-                <ion-item *ngIf="profile.assignedTrainer">Assigned Trainer: {{profile.assignedTrainer}}</ion-item>
+                <ion-item *ngIf="profile.assignedTrainer">Assigned Trainer: {{profile.assignedTrainer.firstName}}</ion-item>
                 <ion-button *ngIf="!profile.assignedTrainer">Assign to me</ion-button>
             </ng-container>
             <ion-item>

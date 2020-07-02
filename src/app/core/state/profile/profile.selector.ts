@@ -73,7 +73,7 @@ export const selectAllTrainers = createSelector(
 export const selectMyClients = createSelector(
     selectAllClients,
     selectUserProfile,
-    (profiles, user) => profiles.filter(profile => profile.assignedTrainerID === user.id)
+    (profiles, user) => profiles.filter(profile => profile.assignedTrainer.id === user.id)
 );
 
 /**
@@ -81,7 +81,7 @@ export const selectMyClients = createSelector(
  */
 export const selectUnassignedClients = createSelector(
     selectAllClients,
-    profiles => profiles.filter(profile => profile.assignedTrainerID == null)
+    profiles => profiles.filter(profile => profile.assignedTrainer.id == null)
 );
 
 /**

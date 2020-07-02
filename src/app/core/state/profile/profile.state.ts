@@ -13,13 +13,12 @@ export interface Profile {
     isClient: boolean;
     isTrainer: boolean;
     photoURL: string;
-    assignedTrainerID: string;
-    assignedTrainerName: string;
+    assignedTrainer: Profile | null;
     clientApplicationStatus: ClientApplicationStatus;
     sex: 'M' | 'F';
 }
 
-export type Height = ImperialHeight | MetricHeight;
+export type Height = ImperialHeight;
 /**
  * A measurement of height in Imperial units of feet and inches
  */
@@ -49,11 +48,10 @@ export const INIT_PROFILE: Profile = {
     'lastName': '',
     'birthday': new Date(),
     'joined': new Date(),
-    'height': { 'cm': 0 },
+    'height': { 'feet': 0, 'inches': 0 },
     'isClient': false,
     'isTrainer': false,
-    'assignedTrainerID': null,
-    'assignedTrainerName': '',
+    'assignedTrainer': null,
     'clientApplicationStatus': ClientApplicationStatus.NOT_STARTED,
     'sex': 'M',
 };

@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from '../core/state/app.state';
-import { Profile, ClientApplicationStatus } from '../core/state/profile/profile.state';
-import { CreateRequested } from '../core/state/profile/profile.actions';
+import { AppState } from 'src/app/core/state/app.state';
+import { Profile, ClientApplicationStatus } from 'src/app/core/state/profile/profile.state';
+import { CreateRequested } from 'src/app/core/state/profile/profile.actions';
 import { take } from 'rxjs/operators';
-import * as fromAuth from '../core/state/auth/auth.selector';
+import * as fromAuth from 'src/app/core/state/auth/auth.selector';
 
 @Component({
     'selector': 'app-create-profile',
@@ -61,8 +61,7 @@ export class CreateProfilePage implements OnInit {
                 'feet': form.feet,
                 'inches': form.inches
             },
-            'assignedTrainerID': null,
-            'assignedTrainerName': null,
+            'assignedTrainer': null,
             'clientApplicationStatus': ClientApplicationStatus.NOT_STARTED
         };
         this.store.dispatch(new CreateRequested(profile));
