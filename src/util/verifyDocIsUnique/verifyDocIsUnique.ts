@@ -7,7 +7,7 @@ import { AngularFirestore } from '@angular/fire/firestore/firestore';
  * @param ctrl the abstract form control to validate
  */
 export async function validateDocIDIsUnique(
-    collectionName: string, 
+    collectionName: string,
     ctrl: AbstractControl,
     firestore: AngularFirestore,
 ): Promise < ValidationErrors | null > {
