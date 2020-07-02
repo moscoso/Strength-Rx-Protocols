@@ -16,10 +16,10 @@ export interface Workout {
 }
 
 export interface ExerciseRoutine {
-    sets ?: number;
-    reps ?: number;
-    minutes ?: number;
-    seconds ?: number;
+    sets ?: string;
+    reps ?: string;
+    minutes ?: string;
+    seconds ?: string;
 }
 
 export const INIT_WORKOUT: Workout = {

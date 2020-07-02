@@ -9,11 +9,12 @@
                        enterKeyHint="next"
                        required>
                 <mat-error *ngIf="name.hasError('required')">Name is required.</mat-error>
-                <mat-error *ngIf="name.hasError('IDTaken')">A workout named {{name.value}} already exists</mat-error>
+                <mat-error *ngIf="name.hasError('entityIDTaken')">A workout named {{name.value}} already exists</mat-error>
                 <mat-error *ngIf="name.hasError('couldNotReachServer')">Could not reach server. Please check your
                     connection and try again.</mat-error>
-                <mat-hint *ngIf="getSlug(name.value).length > 0">This link will be at /workout/{{getSlug(name.value)}}
+                <mat-hint *ngIf="getSlug(name.value).length > 0 && name.enabled">This link will be at /workout/{{getSlug(name.value)}}
                 </mat-hint>
+                <mat-hint *ngIf="name.disabled">Cannot edit the name of an existing workout</mat-hint>
             </mat-form-field>
         </ion-row>
 
@@ -21,7 +22,7 @@
             <ion-spinner [hidden]="exercises.dirty || (exerciseList$ | async).length !== 0"></ion-spinner>
             <mat-form-field [hidden]="(exerciseList$ | async).length === 0">
                 <mat-label>Exercises</mat-label>
-                <mat-select multiple  [formControl]="exercises" name="exercises">
+                <mat-select multiple [formControl]="exercises" name="exercises">
                     <mat-option *ngFor="let exercise of (exerciseList$ | async)"
                                 [value]="exercise">{{exercise.name}}</mat-option>
                 </mat-select>
@@ -29,17 +30,58 @@
             </mat-form-field>
         </ion-row>
 
-        <ion-row>
-            <ion-label>Selected Exercises:</ion-label>
-            <ion-note *ngFor="let exercise of exercises.value" style="display:inline">
-                <span>{{exercise.name}},</span>
-            </ion-note>
-        </ion-row>
+        <ng-container *ngFor="let routineControl of exerciseRoutines.controls; let i = index">
+            <ion-label>{{getExerciseName(i)}}</ion-label>
+            <form [formGroup]="routineControl">
+                <ion-row>
+                    <ion-col size="3">
+                        <mat-form-field>
+                            <mat-label>Sets</mat-label>
+                            <input matInput type="text" [formControl]="routineControl.get('sets')" name="sets"
+                                   pattern="[0-9\-]+"
+                                   placeholder="0"
+                                   autocomplete="off"
+                                   enterKeyHint="next">
+                        </mat-form-field>
+                    </ion-col>
+                    <ion-col size="3">
+                        <mat-form-field>
+                            <mat-label>Reps</mat-label>
+                            <input matInput type="text" [formControl]="routineControl.get('reps')" name="reps"
+                                   pattern="[0-9\-]+"
+                                   placeholder="0"
+                                   autocomplete="off"
+                                   enterKeyHint="next">
+                        </mat-form-field>
+                    </ion-col>
+                    <ion-col size="3">
+                        <mat-form-field>
+                            <mat-label>Minutes</mat-label>
+                            <input matInput type="text" [formControl]="routineControl.get('minutes')" name="minutes"
+                                   pattern="[0-9\-]+"
+                                   placeholder="0"
+                                   autocomplete="off"
+                                   enterKeyHint="next">
+                        </mat-form-field>
+                    </ion-col>
+                    <ion-col size="3">
+                        <mat-form-field>
+                            <mat-label>Seconds</mat-label>
+                            <input matInput type="text" [formControl]="routineControl.get('seconds')" name="seconds"
+                                   pattern="[0-9\-]+"
+                                   placeholder="0"
+                                   autocomplete="off"
+                                   enterKeyHint="next">
+                        </mat-form-field>
+                    </ion-col>
+                </ion-row>
+            </form>
+        </ng-container>
 
         <ion-button type="submit"
                     [disabled]="form.invalid || (requestInProgress$ | async)"
                     expand="full">
             <ion-icon name="fitness"></ion-icon>&nbsp;{{buttonText}}
-        </ion-button>        
+        </ion-button>
     </form>
 </ion-grid>

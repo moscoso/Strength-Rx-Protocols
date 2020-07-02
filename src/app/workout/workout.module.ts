@@ -4,7 +4,7 @@ import { WorkoutFormComponent } from './workout-form/workout-form.component';
 import { WorkoutPreviewComponent } from './workout-preview/workout-preview.component';
 import { MaterialsModule } from '../materials.module';
 import { IonicModule } from '@ionic/angular';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 
