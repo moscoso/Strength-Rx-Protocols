@@ -17,7 +17,7 @@ export class WorkoutEffects {
         ofType(WorkoutActionType.RequestFailed),
         tap((action: Workouts.RequestFailed) => {
             console.log(action);
-            this.toaster.failed('Something went wrong', action.error.message);
+            this.toaster.failed('Workouts failed', action.error.message);
         })
     );
 
@@ -28,7 +28,7 @@ export class WorkoutEffects {
                 .then(workouts => {
                     return new Workouts.AllLoaded(workouts);
                 })
-                .catch(error => this.requestFailed(error))
+                .catch(error => new Workouts.RequestFailed(error))
             );
         })
     );
@@ -40,7 +40,7 @@ export class WorkoutEffects {
                 .then((workout) => {
                     return new Workouts.Created(workout);
                 })
-                .catch(error => this.requestFailed(error))
+                .catch(error => new Workouts.RequestFailed(error))
             );
         })
     );
@@ -53,7 +53,7 @@ export class WorkoutEffects {
                 .then(() => {
                     return new Workouts.Updated(action.id, action.changes);
                 })
-                .catch(error => this.requestFailed(error))
+                .catch(error => new Workouts.RequestFailed(error))
             );
         })
     );
@@ -65,7 +65,7 @@ export class WorkoutEffects {
                 .then(() => {
                     return new Workouts.Deleted(action.id);
                 })
-                .catch(error => this.requestFailed(error))
+                .catch(error => new Workouts.RequestFailed(error))
             );
         })
     );
@@ -98,6 +98,6 @@ export class WorkoutEffects {
      */
     private requestFailed(error): Workouts.RequestFailed {
         console.error(error);
-        return new Workouts.RequestFailed(error);
+        return ;
     }
 }

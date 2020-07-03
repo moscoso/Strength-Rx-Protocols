@@ -1,4 +1,5 @@
 import { EntityState } from '@ngrx/entity';
+import { Timestamp } from 'src/util/timestamp/timestamp';
 
 /**
  * The main data model for a Profile
@@ -7,7 +8,7 @@ export interface Profile {
     id: string;
     firstName: string;
     lastName: string;
-    birthday: Date;
+    birthday: Timestamp;
     joined: Date;
     height: Height;
     isClient: boolean;
@@ -46,7 +47,7 @@ export const INIT_PROFILE: Profile = {
     'photoURL': null,
     'firstName': '',
     'lastName': '',
-    'birthday': new Date(),
+    'birthday': undefined,
     'joined': new Date(),
     'height': { 'feet': 0, 'inches': 0 },
     'isClient': false,

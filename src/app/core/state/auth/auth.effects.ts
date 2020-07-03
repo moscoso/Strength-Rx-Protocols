@@ -28,6 +28,7 @@ export class AuthEffects {
             AuthActionType.LoginCompleted,
             AuthActionType.SignupCompleted),
         tap(() => {
+            this.toaster.dismiss();
             this.router.navigateByUrl('/');
         })
     );

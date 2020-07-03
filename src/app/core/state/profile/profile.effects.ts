@@ -7,6 +7,8 @@ import { ProfileAction, ProfileActionType } from './profile.actions';
 import * as Profiles from './profile.actions';
 import { ProfileService } from '../../firebase/profile/profile.service';
 import { Router } from '@angular/router';
+import { ToastService } from 'src/app/shared/toast/toast.service';
+import { ModalController } from '@ionic/angular';
 
 @Injectable()
 export class ProfileEffects {
@@ -16,50 +18,64 @@ export class ProfileEffects {
      */
     TIMEOUT_WINDOW = 15000;
 
+
+    @Effect({ 'dispatch': false }) error$: Observable < ProfileAction > = this.actions$.pipe(
+        ofType(ProfileActionType.RequestFailed),
+        tap((action: Profiles.RequestFailed) => {
+            console.log(action);
+            this.toaster.failed('Request for profile failed', action.error);
+        })
+    );
+
     @Effect() allRequested$: Observable < Profiles.ProfileAction > = this.actions$.pipe(
         ofType < ProfileAction > (ProfileActionType.AllRequested),
         switchMap((action: Profiles.AllRequested) => {
             return from(this.profileService.getAll()
-                .then(profiles => {
-                    return new Profiles.AllLoaded(profiles);
-                })
-                .catch(error => {
-                    return new Profiles.RequestFailed({
-                        'error': error
-                    });
-                })
+                .then(profiles => new Profiles.AllLoaded(profiles))
+                .catch(error => new Profiles.RequestFailed(error))
             ).pipe(
                 timeout(this.TIMEOUT_WINDOW),
-                catchError((error) => {
-                    console.error('The request timed out');
-                    return of(new Profiles.RequestFailed({
-                        'error': `The request timed out. ${this.TIMEOUT_WINDOW} ms`
-                    }));
+                catchError(() => {
+                    const errorMessage = `The request timed out. ${this.TIMEOUT_WINDOW} ms.
+                    Please check your internet connection and try again`;
+                    return of(new Profiles.RequestFailed(new Error(errorMessage)));
                 })
             );
         }),
     );
 
     @Effect() createRequested$: Observable < ProfileAction > = this.actions$.pipe(
-        ofType<ProfileAction>(ProfileActionType.CreateRequested),
+        ofType < ProfileAction > (ProfileActionType.CreateRequested),
         switchMap((action: Profiles.CreateRequested) => {
             return from(this.profileService.create(action.profile)
-                .then((profile) => {
-                    return new Profiles.Created(profile);
-                })
-                .catch(error => {
-                    return new Profiles.RequestFailed({
-                        'error': error
-                    });
-                })
+                .then((profile) => new Profiles.Created(profile))
+                .catch(error => new Profiles.RequestFailed(error))
             );
         })
     );
 
-    @Effect({'dispatch': false}) createCompleted$: Observable < ProfileAction > = this.actions$.pipe(
-        ofType<ProfileAction>(ProfileActionType.Created),
-        tap((action: Profiles.CreateRequested) => {
+    @Effect() updateRequested$: Observable < ProfileAction > = this.actions$.pipe(
+        ofType < ProfileAction > (ProfileActionType.UpdateRequested),
+        switchMap((action: Profiles.UpdateRequested) => {
+            return from(this.profileService.update(action.id, action.changes)
+                .then(() => new Profiles.Updated(action.id, action.changes))
+                .catch(error => new Profiles.RequestFailed(error))
+            );
+        })
+    );
+
+    @Effect({ 'dispatch': false }) created$: Observable < ProfileAction > = this.actions$.pipe(
+        ofType < ProfileAction > (ProfileActionType.Created),
+        tap((action: Profiles.Created) => {
             this.router.navigateByUrl('/');
+        })
+    );
+
+    @Effect({ 'dispatch': false }) updated$: Observable < ProfileAction > = this.actions$.pipe(
+        ofType < ProfileAction > (ProfileActionType.Updated),
+        tap((action: Profiles.Updated) => {
+            this.modalController.dismiss();
+            this.router.navigateByUrl('/profile');
         })
     );
 
@@ -67,5 +83,7 @@ export class ProfileEffects {
         private profileService: ProfileService,
         private actions$: Actions,
         private router: Router,
+        private modalController: ModalController,
+        private toaster: ToastService,
     ) {}
 }

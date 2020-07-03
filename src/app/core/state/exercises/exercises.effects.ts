@@ -27,7 +27,7 @@ export class ExerciseEffects {
                 .then(exercises => {
                     return new Exercises.AllLoaded(exercises);
                 })
-                .catch(error => this.requestFailed(error))
+                .catch(error => new Exercises.RequestFailed(error))
             );
         })
     );
@@ -39,7 +39,7 @@ export class ExerciseEffects {
                 .then((exercise) => {
                     return new Exercises.Created(exercise);
                 })
-                .catch(error => this.requestFailed(error))
+                .catch(error => new Exercises.RequestFailed(error))
             );
         })
     );
@@ -51,7 +51,7 @@ export class ExerciseEffects {
                 .then(() => {
                     return new Exercises.Updated(action.id, action.changes);
                 })
-                .catch(error => this.requestFailed(error))
+                .catch(error => new Exercises.RequestFailed(error))
             );
         })
     );
@@ -63,7 +63,7 @@ export class ExerciseEffects {
                 .then(() => {
                     return new Exercises.Deleted(action.id);
                 })
-                .catch(error => this.requestFailed(error))
+                .catch(error => new Exercises.RequestFailed(error))
             );
         })
     );
@@ -89,15 +89,4 @@ export class ExerciseEffects {
         private toaster: ToastService,
         private router: Router,
     ) {}
-
-    /**
-     * Generate a RequestFailed action
-     * @param error the error to pass to the payload
-     */
-    private requestFailed(error): Exercises.RequestFailed {
-        console.log(error);
-        return new Exercises.RequestFailed({
-            'error': error.error
-        });
-    }
 }
