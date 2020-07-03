@@ -47,14 +47,14 @@ mat-hint, mat-error {
     font-size: 14px;
 }
 
-ion-spinner {
-    margin: 0 auto;
-}
-
-ion-card {
+ion-spinner, ion-card, ion-avatar, mat-radio-group{
     margin: 0 auto;
 }
 
 .name {
     text-transform: capitalize;
+}
+
+ion-button[type=submit] {
+    margin-top: 25px;
 }
