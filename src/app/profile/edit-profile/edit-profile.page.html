@@ -3,10 +3,13 @@
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>Create Profile</ion-title>
+        <ion-title>Update Profile</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <profile-form buttonText="Create Profile" (formSubmit)="onSubmit($event)"></profile-form>
+
+    <ion-content>
+        <profile-form buttonText="Update Profile" (formSubmit)="onSubmit($event)"></profile-form>
+    </ion-content>
 </ion-content>

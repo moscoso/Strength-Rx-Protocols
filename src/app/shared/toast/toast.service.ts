@@ -9,6 +9,13 @@ export class ToastService {
     constructor(private toastController: ToastController) {}
 
 
+    async dismiss() {
+        const overlay = await this.toastController.getTop();
+        if (overlay) {
+            this.toastController.dismiss();
+        }
+    }
+
     /**
      * Creates a generic toast then presents it
      * @param message the message to appear on the toast

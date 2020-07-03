@@ -28,9 +28,9 @@ export class NoProfileGuard implements CanActivate {
                 } else {
                     const toast = await this.toaster.create({
                         'message': 'You already have a profile',
-                        'duration': 3000,
+                        'duration': 10000,
                         'color': 'primary',
-                        'position': 'top',
+                        'position': 'bottom',
                         'buttons': [{
                             'text': 'Ok',
                             'role': 'cancel'

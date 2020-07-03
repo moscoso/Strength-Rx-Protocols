@@ -4,14 +4,15 @@
             <ion-back-button *ngIf="routeID" defaultHref="/clients"></ion-back-button>
             <ion-back-button *ngIf="!routeID" defaultHref="/"></ion-back-button>
             <ion-menu-button></ion-menu-button>
-
         </ion-buttons>
         <ion-title>Profile</ion-title>
+        <ion-buttons slot="end">
+            <ion-button *ngIf="thisIsMe$ | async" (click)="presentModal()">Update Profile</ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-text-center">
-
 
     <ion-grid *ngIf="profile$ | async as profile else loading" text-center>
 
@@ -19,41 +20,18 @@
             <img [src]='getAvatar(profile)' />
         </ion-avatar>
 
-        <h1 [hidden]="isEdit">
-            <span class="name">
-                {{profile.firstName}} {{profile.lastName}}
-            </span>
-            <!-- <ion-icon [hidden] = "!canEdit" size="large" name="create" (click)="editName()"></ion-icon> -->
-        </h1>
-        <ion-item [hidden]="!isEdit">
-            <!-- <ion-input mode="md" type="text" [(ngModel)]="displayName"></ion-input> -->
-            <!-- <div *ngIf=!isValidName>
-                        <p class='erro-show'>Invalid Name</p>
-                    </div> -->
-            <!-- <ion-button color="primary" (click)="updateName()">Save</ion-button> -->
-        </ion-item>
+        <h1 class="name">{{profile.firstName}} {{profile.lastName}}</h1>
+
+     
         <ion-note>USER ID: {{profile.id}}</ion-note>
         <ion-list>
             <ng-container *ngIf="(iAmTrainer$ | async) && !(thisIsMe$ | async)">
                 <ion-item *ngIf="profile.assignedTrainer">Assigned Trainer: {{profile.assignedTrainer.firstName}}</ion-item>
                 <ion-button *ngIf="!profile.assignedTrainer">Assign to me</ion-button>
             </ng-container>
-            <ion-item>
-                <ion-label>Sex: {{profile.sex}}</ion-label>
-            </ion-item>
-            <ion-item *ngIf="profile.height.feet && profile.height.inches">Height: {{profile.height.feet}}"
-                {{profile.height.inches}}"</ion-item>
-            <!-- <ion-item detail (click)="setPhoto()">
-                    <ion-label>Set profile pic</ion-label>
-                    <ion-icon size="large" name="camera"></ion-icon>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Theme: {{lightThemeEnabled ? 'Light' : 'Dark'}}</ion-label>
-                    <ion-toggle (ionChange)="toggleTheme()" [(ngModel)]="lightThemeEnabled"></ion-toggle>
-                </ion-item> -->
+            <ion-item>Sex: {{profile.sex}}</ion-item>
+            <ion-item>Height: {{profile.height.feet}}" {{profile.height.inches}}"</ion-item>
         </ion-list>
-
-
 
         <ion-button *ngIf="(thisIsMe$ | async)" expand="full" shape="round" color="primary" (click)="logout()">Log out</ion-button>
     </ion-grid>
@@ -65,8 +43,9 @@
                 <ion-skeleton-text animated></ion-skeleton-text>
             </ion-avatar>
 
-            <ion-skeleton-text animated></ion-skeleton-text>
-            <ion-skeleton-text animated></ion-skeleton-text>
+            <ion-item>Sex: <ion-skeleton-text animated></ion-skeleton-text></ion-item>
+            <ion-item>Height: <ion-skeleton-text animated></ion-skeleton-text></ion-item>
+            
         </ion-grid>
     </ng-template>
 

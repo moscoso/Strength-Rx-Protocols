@@ -28,7 +28,7 @@ const routes: Routes = [
     'path': 'profile',
     'loadChildren': () => import('./profile/view-profile/view-profile.module').then(m => m
         .ViewProfilePageModule),
-    'canActivate': [AuthGuard, ProfileGuard],
+    'canActivate': [AuthGuard],
 },
 {
     'path': 'profile/:id',
@@ -41,6 +41,11 @@ const routes: Routes = [
     'loadChildren': () => import('./profile/create-profile/create-profile.module').then(m => m
         .CreateProfilePageModule),
     'canActivate': [AuthGuard, NoProfileGuard],
+},
+{
+    'path': 'edit-profile',
+    'loadChildren': () => import('./profile/edit-profile/edit-profile.module').then(m => m.EditProfilePageModule),
+    'canActivate': [AuthGuard, ProfileGuard],
 },
 {
     'path': 'check-in',
