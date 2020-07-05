@@ -19,6 +19,13 @@ export const selectUserID = createSelector(
     (state: AuthState) => state.userID
 );
 
+/**
+ * Select the user ID
+ */
+export const selectUserData = createSelector(
+    selectState,
+    (state: AuthState) => state.userData
+);
 
 /**
  * Select the flag that indicates whether the user is authenticated

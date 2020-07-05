@@ -19,6 +19,7 @@ import {
 import { FireAuthService } from '../../firebase/auth/auth.service';
 import { Router } from '@angular/router';
 import { ToastService } from 'src/app/shared/toast/toast.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable()
 export class AuthEffects {
@@ -43,21 +44,21 @@ export class AuthEffects {
     @Effect({ 'dispatch': false }) loginFailed$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.LoginFailed),
         tap(async (action: LoginFailed) => {
-            this.toaster.failed('Login Failed', action.error.code);
+            this.toaster.failed('Login Failed', action.error.message);
         })
     );
 
     @Effect({ 'dispatch': false }) signupFailed$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.SignupFailed),
         tap((action: SignupFailed) => {
-            this.toaster.failed('SignUp Failed', action.error.code);
+            this.toaster.failed('SignUp Failed', action.error.message);
         })
     );
 
     @Effect({ 'dispatch': false }) resetPasswordFailed$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.PasswordResetFailed),
         tap((action: ResetPasswordFailed) => {
-            this.toaster.failed('Password Reset Failed', action.error.code);
+            this.toaster.failed('Password Reset Failed', action.error.message);
         })
     );
 
@@ -72,7 +73,7 @@ export class AuthEffects {
     @Effect({ 'dispatch': false }) AuthFailed$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.AuthFailed),
         tap(async (action: AuthFailed) => {
-            this.toaster.failed('Something went wrong', action.error.code);
+            this.toaster.failed('Something went wrong', action.error.message);
         })
     );
 
@@ -80,12 +81,8 @@ export class AuthEffects {
         ofType(AuthActionType.LoginWithEmailAndPasswordAttempted),
         switchMap((action: LoginWithEmailAttempted) => {
             return from(this.authService.signInWithEmailAndPassword(action.email, action.password)
-                .then(() => {
-                    return new LoginCompleted();
-                })
-                .catch(error => {
-                    return new LoginFailed({error});
-                })
+                .then(() => new LoginCompleted())
+                .catch(error => new LoginFailed(error))
             );
         })
     );
@@ -94,12 +91,8 @@ export class AuthEffects {
         ofType(AuthActionType.LoginAsGuest),
         switchMap(action => {
             return from(this.authService.signInAsGuest()
-                .then(() => {
-                    return new LoginCompleted();
-                })
-                .catch(error => {
-                    return new LoginFailed({error});
-                })
+                .then(() => new LoginCompleted())
+                .catch(error => new LoginFailed(error))
             );
         })
     );
@@ -108,12 +101,8 @@ export class AuthEffects {
         ofType(AuthActionType.LogoutRequested),
         switchMap(_ => {
             return from(this.authService.signOut()
-                .then(async () => {
-                    return new NotAuthenticated();
-                })
-                .catch(error => {
-                    return new AuthFailed({error});
-                })
+                .then(async () => new NotAuthenticated())
+                .catch(error => new AuthFailed(error))
             );
         })
     );
@@ -124,7 +113,7 @@ export class AuthEffects {
         switchMap((payload: any) => {
             return from(this.authService.sendPasswordResetEmail(payload.email)
                 .then(() => new PasswordResetCompleted())
-                .catch(error => new ResetPasswordFailed({error}))
+                .catch(error => new ResetPasswordFailed(error))
             );
         })
     );
@@ -134,7 +123,8 @@ export class AuthEffects {
         switchMap((action: SignupRequested) => {
             return from(this.authService.createUserWithEmailAndPassword(action.email, action.password)
                 .then(() => new SignupCompleted())
-                .catch(error => new SignupFailed({error})));
+                .catch(error => new SignupFailed(error))
+            );
         })
     );
 
@@ -143,5 +133,5 @@ export class AuthEffects {
         private actions$: Actions,
         private router: Router,
         private toaster: ToastService,
-    ) { }
+    ) {}
 }

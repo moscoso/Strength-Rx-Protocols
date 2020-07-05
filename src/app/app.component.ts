@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
-import { AuthStoreDispatcher } from './core/state/auth/auth.dispatcher';
 import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AllRequested } from './core/state/profile/profile.actions';
-import { AuthStateService } from './core/state/auth/auth.service';
+import { AuthStoreDispatcher } from './core/state/auth/auth.dispatcher';
 
 @Component({
     'selector': 'app-root',
@@ -69,7 +68,7 @@ export class AppComponent implements OnInit {
     constructor(
         private platform: Platform,
         private store: Store,
-        private authService: AuthStateService,
+        private authService: AuthStoreDispatcher,
     ) {
         this.initializeApp();
         this.store.dispatch(new AllRequested());

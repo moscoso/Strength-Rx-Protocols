@@ -30,9 +30,7 @@ export function authReducer(state = AUTH_INIT_STATE, action: AuthAction): AuthSt
         case AuthActionType.SignupRequested:
         case AuthActionType.PasswordResetRequested:
             return { ...state, 'error': null, 'isInProgress': true };
-        case AuthActionType.SignupCompleted: {
-            return { ...state, 'error': null, 'isInProgress': false };
-        }
+        case AuthActionType.SignupCompleted:
         case AuthActionType.PasswordResetCompleted:
             return { ...state, 'error': null, 'isInProgress': false };
         case AuthActionType.AuthFailed:
