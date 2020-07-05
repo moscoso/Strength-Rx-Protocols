@@ -25,7 +25,7 @@ import { Profile } from './profile.state';
 import { AllRequested } from './profile.actions';
 
 /**
- * This service is responsible for dispatching auth actions to the Store and selecting
+ * This service is responsible for dispatching profile actions to the Store and selecting
  * auth data from the Store
  */
 @Injectable({ 'providedIn': StateModule })

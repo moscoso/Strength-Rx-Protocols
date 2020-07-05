@@ -3,14 +3,11 @@ import { Profile } from 'src/app/core/state/profile/profile.state';
 import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
-import * as fromProfile from 'src/app/core/state/profile/profile.selector';
-import { AllRequested } from 'src/app/core/state/profile/profile.actions';
-import { selectRouterState } from 'src/app/core/state/router/router.selectors';
 import { take, map } from 'rxjs/operators';
-import { selectUserID } from 'src/app/core/state/auth/auth.selector';
 import { ModalController } from '@ionic/angular';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 @Component({
     'selector': 'app-view-profile',
     'templateUrl': './view-profile.page.html',
@@ -29,6 +26,7 @@ export class ViewProfilePage implements OnInit {
         public store: Store,
         public authService: AuthStoreDispatcher,
         public profileService: ProfileStoreDispatcher,
+        public routerService: RouterStoreDispatcher,
         public authStore: AuthStoreDispatcher,
         public modalController: ModalController,
     ) {}
@@ -41,7 +39,7 @@ export class ViewProfilePage implements OnInit {
     }
 
     async fetchProfile() {
-        const router = await this.store.select(selectRouterState).pipe(take(1)).toPromise();
+        const router = await  this.routerService.selectState().pipe(take(1)).toPromise();
         const routeID = router.state.params.id;
         if (routeID) {
             this.routeID = routeID;
@@ -52,7 +50,7 @@ export class ViewProfilePage implements OnInit {
     }
 
     async checkProfileBelongsToUser() {
-        const router = await this.store.select(selectRouterState).pipe(take(1)).toPromise();
+        const router = await this.routerService.selectState().pipe(take(1)).toPromise();
         const routeID = router.state.params.id;
         this.thisIsMe$ = this.authService.selectUserID().pipe(map(userID => userID === routeID || routeID == null));
     }

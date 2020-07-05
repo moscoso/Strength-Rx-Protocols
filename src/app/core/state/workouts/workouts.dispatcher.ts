@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
 import { Dictionary } from '@ngrx/entity';
 
 /**
- * This service is responsible for dispatching auth actions to the Store and selecting
+ * This service is responsible for dispatching workout actions to the Store and selecting
  * auth data from the Store
  */
 @Injectable({ 'providedIn': StateModule })
