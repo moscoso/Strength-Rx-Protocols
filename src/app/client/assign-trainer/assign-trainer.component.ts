@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { INIT_PROFILE, Profile } from 'src/app/core/state/profile/profile.state';
 import { Observable, of } from 'rxjs';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { take } from 'rxjs/operators';
 
 
 @Component({
@@ -20,11 +22,17 @@ export class AssignTrainerComponent implements OnInit {
 
     constructor(
         public profileService: ProfileStoreDispatcher,
+        public authService: AuthStoreDispatcher,
     ) {}
 
     ngOnInit() {
         this.iAmTrainer$ = this.profileService.selectUserIsTrainer();
         this.profileIsClient$ = this.profileService.selectUserIsNotTrainer();
         this.profileIsMe$ = this.profileService.selectProfileBelongsToUser();
+    }
+
+    async assignTrainer() {
+        const trainer: Profile = await this.profileService.selectUserProfile().pipe(take(1)).toPromise();
+        this.profileService.update(this.profile.id, {'assignedTrainer': trainer});
     }
 }
