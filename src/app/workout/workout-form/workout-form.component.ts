@@ -5,14 +5,13 @@ import { Exercise } from 'src/app/core/state/exercises/exercises.state';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/state/app.state';
 import { Workout, ExerciseRoutine } from 'src/app/core/state/workouts/workouts.state';
-import { AllRequested } from 'src/app/core/state/exercises/exercises.actions';
-import * as fromExercises from 'src/app/core/state/exercises/exercises.selector';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
-import { selectWorkoutByRouteURL } from 'src/app/core/state/workouts/workouts.selector';
 import { first } from 'rxjs/operators';
+import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
+import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
 
 @Component({
     'selector': 'workout-form',
@@ -38,23 +37,25 @@ export class WorkoutFormComponent implements OnInit {
     requestInProgress$: Observable < boolean > ;
 
     constructor(
-        public store: Store < AppState > ,
+        public workoutService: WorkoutStoreDispatcher,
+        public exerciseService: ExerciseStoreDispatcher,
         public toastService: ToastService,
         public firestore: AngularFirestore,
     ) {
-        this.store.dispatch(new AllRequested());
     }
 
     ngOnInit() {
+        this.workoutService.loadAll();
         this.form = new FormGroup({
             'name': this.name,
             'exercises': this.exercises,
             'exerciseRoutines': this.exerciseRoutines,
         });
-        this.requestInProgress$ = this.store.select((state: AppState) => state.workouts.requestInProgress);
-        this.exerciseList$ = this.store.select(fromExercises.selectAll);
+        this.requestInProgress$ = this.workoutService.selectRequestInProgress();
+        this.exerciseService.loadAll();
+        this.exerciseList$ = this.exerciseService.selectAll();
 
-        this.store.select(selectWorkoutByRouteURL).pipe(first()).toPromise().then(workout => {
+        this.workoutService.selectWorkoutByRouteURL().pipe(first()).toPromise().then(workout => {
             if (workout) {
                 this.initFormValues(workout);
             }

@@ -25,9 +25,7 @@ export class WorkoutEffects {
         ofType < WorkoutAction > (WorkoutActionType.AllRequested),
         switchMap((action: Workouts.AllRequested) => {
             return from(this.workoutService.getAll()
-                .then(workouts => {
-                    return new Workouts.AllLoaded(workouts);
-                })
+                .then(workouts => new Workouts.AllLoaded(workouts))
                 .catch(error => new Workouts.RequestFailed(error))
             );
         })
@@ -37,9 +35,7 @@ export class WorkoutEffects {
         ofType < WorkoutAction > (WorkoutActionType.CreateRequested),
         switchMap((action: Workouts.CreateRequested) => {
             return from(this.workoutService.create(action.workout)
-                .then((workout) => {
-                    return new Workouts.Created(workout);
-                })
+                .then((workout) => new Workouts.Created(workout))
                 .catch(error => new Workouts.RequestFailed(error))
             );
         })
@@ -50,9 +46,7 @@ export class WorkoutEffects {
         ofType < WorkoutAction > (WorkoutActionType.UpdateRequested),
         switchMap((action: Workouts.UpdateRequested) => {
             return from(this.workoutService.update(action.id, action.changes)
-                .then(() => {
-                    return new Workouts.Updated(action.id, action.changes);
-                })
+                .then(() => new Workouts.Updated(action.id, action.changes))
                 .catch(error => new Workouts.RequestFailed(error))
             );
         })
@@ -62,9 +56,7 @@ export class WorkoutEffects {
         ofType < WorkoutAction > (WorkoutActionType.DeleteRequested),
         switchMap((action: Workouts.DeleteRequested) => {
             return from(this.workoutService.delete(action.id)
-                .then(() => {
-                    return new Workouts.Deleted(action.id);
-                })
+                .then(() => new Workouts.Deleted(action.id))
                 .catch(error => new Workouts.RequestFailed(error))
             );
         })
@@ -91,13 +83,4 @@ export class WorkoutEffects {
         private toaster: ToastService,
         private router: Router,
     ) {}
-
-    /**
-     * Generate a RequestFailed action
-     * @param error the error to pass to the payload
-     */
-    private requestFailed(error): Workouts.RequestFailed {
-        console.error(error);
-        return ;
-    }
 }

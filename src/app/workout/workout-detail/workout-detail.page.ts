@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Workout } from 'src/app/core/state/workouts/workouts.state';
 import { AllRequested, DeleteRequested } from 'src/app/core/state/workouts/workouts.actions';
-import { Store } from '@ngrx/store';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { selectUserIsTrainer } from 'src/app/core/state/profile/profile.selector';
 import { selectWorkoutByRouteURL } from 'src/app/core/state/workouts/workouts.selector';
 import { filter, take } from 'rxjs/operators';
 import { AppState } from 'src/app/core/state/app.state';
 import { EditWorkoutPage } from '../edit-workout/edit-workout.page';
+import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
+import { Store } from '@ngrx/store';
 
 @Component({
     'selector': 'app-workout-detail',
@@ -22,23 +23,22 @@ export class WorkoutDetailPage implements OnInit {
 
     constructor(
         public store: Store,
+        public workoutService: WorkoutStoreDispatcher,
         public modalCtrl: ModalController,
         public actionSheetCtrl: ActionSheetController,
     ) {}
 
     ngOnInit() {
-        this.store.dispatch(new AllRequested());
-        this.workout$ = this.store.select(
-            selectWorkoutByRouteURL
-        );
+        this.workoutService.loadAll();
+        this.workout$ = this.workoutService.selectWorkoutByRouteURL();
         this.isTrainer$ = this.store.select(
             selectUserIsTrainer
         );
     }
 
     doRefresh(event): void {
-        this.store.dispatch(new AllRequested());
-        this.store.select((state: AppState) => state.exercises.requestInProgress).pipe(
+        this.workoutService.loadAll();
+        this.workoutService.selectRequestInProgress().pipe(
             filter(requestInProgress => requestInProgress === false),
             take(1),
         ).toPromise().then(() => {

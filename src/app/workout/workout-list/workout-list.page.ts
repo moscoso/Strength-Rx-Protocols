@@ -1,17 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Store } from '@ngrx/store';
 import { Observable, of , Subject, combineLatest } from 'rxjs';
 import { take, filter, startWith } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-
-
-import { AppState } from 'src/app/core/state/app.state';
 import { Workout } from 'src/app/core/state/workouts/workouts.state';
-import * as fromWorkouts from 'src/app/core/state/workouts/workouts.selector';
-import { AllRequested } from 'src/app/core/state/workouts/workouts.actions';
 import { CreateWorkoutPage } from '../create-workout/create-workout.page';
 import Fuse from 'fuse.js';
+import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
 
 @UntilDestroy()
 @Component({
@@ -28,7 +23,7 @@ export class WorkoutListPage implements OnInit {
 
     constructor(
         public modalController: ModalController,
-        public store: Store,
+        public workoutService: WorkoutStoreDispatcher,
     ) {}
 
     ngOnInit(): void {
@@ -36,9 +31,9 @@ export class WorkoutListPage implements OnInit {
     }
 
     async initWorkoutList() {
-        this.store.dispatch(new AllRequested());
-        this.requestInProgress$ = this.store.select((state: AppState) => state.workouts.requestInProgress);
-        this.workouts$ = this.store.select(fromWorkouts.selectAll);
+        this.workoutService.loadAll();
+        this.requestInProgress$ = this.workoutService.selectRequestInProgress();
+        this.workouts$ = this.workoutService.selectAll();
         this.workouts$.pipe(untilDestroyed(this)).subscribe();
         combineLatest([this.workouts$, this.searchTerm$.pipe(startWith(''))]).subscribe(
             ([workouts, searchTerm]) => this.filterWorkouts([workouts, searchTerm])
@@ -46,9 +41,9 @@ export class WorkoutListPage implements OnInit {
     }
 
     doRefresh(event): void {
-        this.store.dispatch(new AllRequested());
-        this.store.select((state: AppState) => state.workouts.requestInProgress).pipe(
-            filter(requestInProgress => requestInProgress === false),
+        this.workoutService.loadAll();
+        this.workoutService.selectRequestInProgress().pipe(
+            filter(requestInProgress => requestInProgress === true),
             take(1),
         ).toPromise().then(() => {
             event.target.complete();

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../core/state/app.state';
-import { CreateRequested } from '../../core/state/workouts/workouts.actions';
+import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
 
 @Component({
     'selector': 'app-create-workout',
@@ -11,13 +9,13 @@ import { CreateRequested } from '../../core/state/workouts/workouts.actions';
 export class CreateWorkoutPage implements OnInit {
 
     constructor(
-        public store: Store < AppState > ,
+        public workoutService: WorkoutStoreDispatcher
     ) {}
 
     ngOnInit() {}
 
     onSubmit(workout) {
-        this.store.dispatch(new CreateRequested(workout));
+        this.workoutService.create(workout);
     }
 
 }

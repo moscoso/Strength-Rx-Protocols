@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Updated, UpdateRequested } from 'src/app/core/state/workouts/workouts.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/state/app.state';
+import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
 
 @Component({
     'selector': 'app-edit-workout',
@@ -11,12 +12,12 @@ import { AppState } from 'src/app/core/state/app.state';
 export class EditWorkoutPage implements OnInit {
 
     constructor(
-        public store: Store < AppState > ,
+        public workoutService: WorkoutStoreDispatcher
     ) {}
 
     ngOnInit() {}
 
     onSubmit(workout) {
-        this.store.dispatch(new UpdateRequested(workout.id, workout));
+        this.workoutService.update(workout.id, workout);
     }
 }
