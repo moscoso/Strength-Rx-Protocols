@@ -17,7 +17,9 @@ import {
     selectAllClients,
     selectAllTrainers,
     selectMyClients,
-    selectUnassignedClients
+    selectUnassignedClients,
+    selectUserIsNotTrainer,
+    selectProfileBelongsToUser
 } from './profile.selector';
 import { Observable } from 'rxjs';
 import { Dictionary } from '@ngrx/entity';
@@ -89,8 +91,16 @@ export class ProfileStoreDispatcher {
         return this.store.select(selectUserProfile);
     }
 
+    public selectProfileBelongsToUser(): Observable <boolean> {
+        return this.store.select(selectProfileBelongsToUser);
+    }
+
     public selectUserIsTrainer(): Observable< boolean> {
         return this.store.select(selectUserIsTrainer);
+    }
+
+    public selectUserIsNotTrainer(): Observable< boolean> {
+        return this.store.select(selectUserIsNotTrainer);
     }
 
     public selectAllClients(): Observable< Profile[]> {
