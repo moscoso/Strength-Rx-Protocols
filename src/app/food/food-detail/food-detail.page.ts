@@ -8,6 +8,7 @@ import { filter, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { AllRequested, DeleteRequested } from 'src/app/core/state/food/food.actions';
+import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 @Component({
     'selector': 'app-food',
     'templateUrl': './food-detail.page.html',
@@ -19,6 +20,7 @@ export class FoodDetailPage implements OnInit {
     isTrainer$: Observable < boolean > = of(false) ;
 
     constructor(
+        public profileService: ProfileStoreDispatcher,
         public store: Store,
         public modalCtrl: ModalController,
         public actionSheetCtrl: ActionSheetController,
@@ -29,9 +31,7 @@ export class FoodDetailPage implements OnInit {
         this.food$ = this.store.select(
             fromFoods.selectFoodByRouteURL
         );
-        this.isTrainer$ = this.store.select(
-            selectUserIsTrainer
-        );
+        this.isTrainer$ = this.profileService.selectUserIsTrainer();
     }
 
     doRefresh(event): void {

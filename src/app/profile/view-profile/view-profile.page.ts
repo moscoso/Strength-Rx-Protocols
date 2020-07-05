@@ -10,6 +10,7 @@ import { take, map } from 'rxjs/operators';
 import { selectUserID } from 'src/app/core/state/auth/auth.selector';
 import { ModalController } from '@ionic/angular';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
+import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 @Component({
     'selector': 'app-view-profile',
     'templateUrl': './view-profile.page.html',
@@ -26,14 +27,16 @@ export class ViewProfilePage implements OnInit {
 
     constructor(
         public store: Store,
+        public authService: AuthStoreDispatcher,
+        public profileService: ProfileStoreDispatcher,
         public authStore: AuthStoreDispatcher,
         public modalController: ModalController,
     ) {}
 
     ngOnInit() {
-        this.store.dispatch(new AllRequested());
+        this.profileService.loadAll();
         this.fetchProfile();
-        this.iAmTrainer$ = this.store.select(fromProfile.selectUserIsTrainer);
+        this.iAmTrainer$ = this.profileService.selectUserIsTrainer();
         this.checkProfileBelongsToUser();
     }
 
@@ -42,16 +45,16 @@ export class ViewProfilePage implements OnInit {
         const routeID = router.state.params.id;
         if (routeID) {
             this.routeID = routeID;
-            this.profile$ = this.store.select(fromProfile.selectProfileByID(routeID));
+            this.profile$ = this.profileService.selectProfile(routeID);
         } else {
-            this.profile$ = this.store.select(fromProfile.selectUserProfile);
+            this.profile$ = this.profileService.selectUserProfile();
         }
     }
 
     async checkProfileBelongsToUser() {
         const router = await this.store.select(selectRouterState).pipe(take(1)).toPromise();
         const routeID = router.state.params.id;
-        this.thisIsMe$ = this.store.select(selectUserID).pipe(map(userID => userID === routeID || routeID == null));
+        this.thisIsMe$ = this.authService.selectUserID().pipe(map(userID => userID === routeID || routeID == null));
     }
 
     getAvatar(profile: Profile) {

@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, pipe } from 'rxjs';
 import { Store } from '@ngrx/store';
-import * as fromExercises from '../../core/state/exercises/exercises.selector';
-import { AllRequested, DeleteRequested } from 'src/app/core/state/exercises/exercises.actions';
 import { filter, take } from 'rxjs/operators';
 import { Exercise } from 'src/app/core/state/exercises/exercises.state';
-import { selectUserIsTrainer } from 'src/app/core/state/profile/profile.selector';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { EditExerciseComponent } from '../edit-exercise/edit-exercise.component';
 import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
+import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 
 
 @Component({
@@ -22,7 +20,7 @@ export class ExerciseDetailPage implements OnInit {
     isTrainer$: Observable < boolean > ;
 
     constructor(
-        public store: Store,
+        public profileService: ProfileStoreDispatcher,
         public exerciseService: ExerciseStoreDispatcher,
         public modalCtrl: ModalController,
         public actionSheetCtrl: ActionSheetController,
@@ -31,9 +29,7 @@ export class ExerciseDetailPage implements OnInit {
     ngOnInit() {
         this.exerciseService.loadAll();
         this.exercise$ = this.exerciseService.selectExerciseByRouteURL();
-        this.isTrainer$ = this.store.select(
-            selectUserIsTrainer
-        );
+        this.isTrainer$ = this.profileService.selectUserIsTrainer();
     }
 
     doRefresh(event): void {

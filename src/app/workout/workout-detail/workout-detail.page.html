@@ -24,9 +24,10 @@
                 </ion-col>
             </ion-row>
 
-            <ion-button color="primary" (click)="showEditModal()">Edit</ion-button>
-            <ion-button color="danger" (click)="showActionSheetToDelete()">Delete</ion-button>
-
+            <ng-container *ngIf="isTrainer$ | async">
+                <ion-button color="primary" (click)="showEditModal()">Edit</ion-button>
+                <ion-button color="danger" (click)="showActionSheetToDelete()">Delete</ion-button>
+            </ng-container>
         </ion-card-content>
     </ion-card>
 </ion-content>

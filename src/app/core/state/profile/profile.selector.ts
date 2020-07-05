@@ -94,3 +94,11 @@ export const selectProfileByRouteURL = createSelector(
         return router.state && entities[router.state.params.orderID];
     }
 );
+
+/**
+ * Select a boolean that represents a Request is in progress
+ */
+export const selectRequestInProgress = createSelector(
+    selectState,
+    (state: ProfilesState) => state.requestInProgress
+);

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-import { CreateRequested } from 'src/app/core/state/profile/profile.actions';
-import { Store } from '@ngrx/store';
+import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 
 
 @Component({
@@ -12,12 +10,12 @@ import { Store } from '@ngrx/store';
 export class CreateProfilePage implements OnInit {
 
     constructor(
-        public store: Store,
+        public profileService: ProfileStoreDispatcher,
     ) {}
 
     ngOnInit() {}
 
     onSubmit(profile) {
-        this.store.dispatch(new CreateRequested(profile));
+        this.profileService.create(profile);
     }
 }

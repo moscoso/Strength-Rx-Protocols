@@ -8,6 +8,8 @@ import { Profile, ClientApplicationStatus } from 'src/app/core/state/profile/pro
 import { selectUserID } from 'src/app/core/state/auth/auth.selector';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { selectUserProfile } from 'src/app/core/state/profile/profile.selector';
+import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
 
 @Component({
     'selector': 'profile-form',
@@ -30,7 +32,8 @@ export class ProfileFormComponent implements OnInit {
     inches = new FormControl('', [Validators.required, Validators.min(0), Validators.max(11)]);
 
     constructor(
-        private store: Store,
+        public profileService: ProfileStoreDispatcher,
+        public authService: AuthStoreDispatcher,
         public toastService: ToastService,
     ) {}
 
@@ -43,8 +46,8 @@ export class ProfileFormComponent implements OnInit {
             'feet': this.feet,
             'inches': this.inches,
         });
-        this.requestInProgress$ = this.store.select((state: AppState) => state.profiles.requestInProgress);
-        this.store.select(selectUserProfile).pipe(first(profile => profile != null))
+        this.requestInProgress$ = this.profileService.selectRequestInProgress();
+        this.profileService.selectUserProfile().pipe(first(profile => profile != null))
             .toPromise().then(this.initFormValues.bind(this));
     }
 
@@ -64,9 +67,7 @@ export class ProfileFormComponent implements OnInit {
     }
 
     async onSubmit(form) {
-        const userID = await this.store.select(
-            selectUserID
-        ).pipe(take(1)).toPromise();
+        const userID = await this.authService.selectUserID().pipe(take(1)).toPromise();
         const profile = this.form.getRawValue();
         try {
             let values: Partial < Profile > ;

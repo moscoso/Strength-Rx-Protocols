@@ -27,24 +27,30 @@
                 </ion-col>
                 <ion-col size="12" sizeMd="6">
                     <ion-row>
-                        <ion-chip>Calories&nbsp;&nbsp;&nbsp;&nbsp;<ion-badge color="danger">{{food.calories}}</ion-badge></ion-chip>
+                        <ion-chip>Calories&nbsp;&nbsp;&nbsp;&nbsp;<ion-badge color="danger">{{food.calories}}
+                            </ion-badge>
+                        </ion-chip>
                     </ion-row>
                     <ion-row>
-                        <ion-chip>Carbs&nbsp;&nbsp;&nbsp;&nbsp;<ion-badge color="secondary">{{food.carbs}}</ion-badge></ion-chip>
+                        <ion-chip>Carbs&nbsp;&nbsp;&nbsp;&nbsp;<ion-badge color="secondary">{{food.carbs}}</ion-badge>
+                        </ion-chip>
                     </ion-row>
                     <ion-row>
                         <ion-chip>Fats&nbsp;&nbsp;&nbsp;&nbsp;<ion-badge color="tertiary">{{food.fats}}</ion-badge>
                         </ion-chip>
                     </ion-row>
                     <ion-row>
-                        <ion-chip>Proteins&nbsp;&nbsp;&nbsp;&nbsp;<ion-badge color="success">{{food.protein}}</ion-badge></ion-chip>
+                        <ion-chip>Proteins&nbsp;&nbsp;&nbsp;&nbsp;<ion-badge color="success">{{food.protein}}
+                            </ion-badge>
+                        </ion-chip>
                     </ion-row>
                 </ion-col>
             </ion-row>
 
-
-            <!-- <ion-button color="primary" click="requestEdit()">Edit</ion-button> -->
-            <ion-button color="danger" (click)="showActionSheetToDelete()">Delete</ion-button>
+            <ng-container *ngIf="isTrainer$ | async">
+                <!-- <ion-button color="primary" click="requestEdit()">Edit</ion-button> -->
+                <ion-button color="danger" (click)="showActionSheetToDelete()">Delete</ion-button>
+            </ng-container>
 
         </ion-card-content>
     </ion-card>
