@@ -2,11 +2,13 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { selectRouterState } from '../router/router.selectors';
 import { Dictionary } from '@ngrx/entity';
-import { RouterReducerState } from '@ngrx/router-store';
 import { profilesAdapter } from './profile.reducer';
 import { ProfilesState, Profile } from './profile.state';
 import * as fromAuth from '../auth/auth.selector';
 import { AuthState } from '../auth/auth.state';
+import * as fromRouter from '../router/router.selectors';
+import { CustomRouterReducerState } from '../router/router.state';
+
 
 /**
  * Gets the top-level state property named 'profiles' of the store tree.
@@ -43,11 +45,34 @@ export const selectUserProfile = createSelector(
 );
 
 /**
+ * Select whether or not the currently viewed profile (based by route URL) belongs to the current user
+ */
+export const selectProfileBelongsToUser = createSelector(
+    fromAuth.selectState,
+    fromRouter.selectRouterState,
+    selectState,
+    (auth: AuthState, router: CustomRouterReducerState, profiles: ProfilesState) => {
+        const routeID = router.state.params.id;
+        const userID = auth.userID;
+        return userID === routeID || routeID == null;
+    }
+);
+
+/**
  * Select the authenticated user to see if the user is a trainer
  */
 export const selectUserIsTrainer =  createSelector(
     selectUserProfile,
     profile => profile.isTrainer
+);
+
+
+/**
+ * Select the authenticated user to see if the user is not a trainer
+ */
+export const selectUserIsNotTrainer =  createSelector(
+    selectUserProfile,
+    profile => !profile.isTrainer
 );
 
 /**
@@ -90,8 +115,9 @@ export const selectUnassignedClients = createSelector(
 export const selectProfileByRouteURL = createSelector(
     selectEntities,
     selectRouterState,
-    (entities: Dictionary<Profile>, router: RouterReducerState<any>) => {
-        return router.state && entities[router.state.params.orderID];
+    (entities: Dictionary<Profile>, router: CustomRouterReducerState) => {
+        const routeID = router.state.params.id;
+        return entities[routeID];
     }
 );
 
