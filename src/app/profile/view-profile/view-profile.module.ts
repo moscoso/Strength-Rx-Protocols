@@ -8,12 +8,14 @@ import { ViewProfilePageRoutingModule } from './view-profile-routing.module';
 
 import { ViewProfilePage } from './view-profile.page';
 import { ProfileModule } from '../profile.module';
+import { AccountModule } from 'src/app/account/account.module';
 
 @NgModule({
     'imports': [
         CommonModule,
         FormsModule,
         IonicModule,
+        AccountModule,
         ProfileModule,
         ViewProfilePageRoutingModule
     ],

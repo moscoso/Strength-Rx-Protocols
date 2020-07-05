@@ -15,25 +15,19 @@
 <ion-content class="ion-text-center">
 
     <ion-grid *ngIf="profile$ | async as profile else loading" text-center>
-
         <ion-avatar>
             <img [src]='getAvatar(profile)' />
         </ion-avatar>
 
         <h1 class="name">{{profile.firstName}} {{profile.lastName}}</h1>
-
      
         <ion-note>USER ID: {{profile.id}}</ion-note>
         <ion-list>
-            <ng-container *ngIf="(iAmTrainer$ | async) && !(thisIsMe$ | async)">
-                <ion-item *ngIf="profile.assignedTrainer">Assigned Trainer: {{profile.assignedTrainer.firstName}}</ion-item>
-                <ion-button *ngIf="!profile.assignedTrainer">Assign to me</ion-button>
-            </ng-container>
             <ion-item>Sex: {{profile.sex}}</ion-item>
             <ion-item>Height: {{profile.height.feet}}" {{profile.height.inches}}"</ion-item>
         </ion-list>
 
-        <ion-button *ngIf="(thisIsMe$ | async)" expand="full" shape="round" color="primary" (click)="logout()">Log out</ion-button>
+        <logout-button *ngIf="(thisIsMe$ | async)">Log out</logout-button>
     </ion-grid>
 
     <ng-template #loading>
@@ -48,8 +42,4 @@
             
         </ion-grid>
     </ng-template>
-
-
-
-
 </ion-content>
