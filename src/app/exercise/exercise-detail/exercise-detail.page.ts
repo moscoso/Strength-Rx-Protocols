@@ -4,11 +4,11 @@ import { Store } from '@ngrx/store';
 import * as fromExercises from '../../core/state/exercises/exercises.selector';
 import { AllRequested, DeleteRequested } from 'src/app/core/state/exercises/exercises.actions';
 import { filter, take } from 'rxjs/operators';
-import { AppState } from 'src/app/core/state/app.state';
 import { Exercise } from 'src/app/core/state/exercises/exercises.state';
 import { selectUserIsTrainer } from 'src/app/core/state/profile/profile.selector';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { EditExerciseComponent } from '../edit-exercise/edit-exercise.component';
+import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
 
 
 @Component({
@@ -23,23 +23,22 @@ export class ExerciseDetailPage implements OnInit {
 
     constructor(
         public store: Store,
+        public exerciseService: ExerciseStoreDispatcher,
         public modalCtrl: ModalController,
         public actionSheetCtrl: ActionSheetController,
     ) {}
 
     ngOnInit() {
-        this.store.dispatch(new AllRequested());
-        this.exercise$ = this.store.select(
-            fromExercises.selectExerciseByRouteURL
-        );
+        this.exerciseService.loadAll();
+        this.exercise$ = this.exerciseService.selectExerciseByRouteURL();
         this.isTrainer$ = this.store.select(
             selectUserIsTrainer
         );
     }
 
     doRefresh(event): void {
-        this.store.dispatch(new AllRequested());
-        this.store.select((state: AppState) => state.exercises.requestInProgress).pipe(
+        this.exerciseService.loadAll();
+        this.exerciseService.selectRequestInProgress().pipe(
             filter(requestInProgress => requestInProgress === false),
             take(1),
         ).toPromise().then(() => {
@@ -76,7 +75,7 @@ export class ExerciseDetailPage implements OnInit {
 
     async requestDelete(): Promise < void > {
         const exercise = await this.exercise$.pipe(take(1)).toPromise();
-        this.store.dispatch(new DeleteRequested(exercise.id));
+        this.exerciseService.delete(exercise.id);
     }
 
 }

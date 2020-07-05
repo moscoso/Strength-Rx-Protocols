@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/core/state/app.state';
-import { UpdateRequested } from 'src/app/core/state/exercises/exercises.actions';
+
+import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
 
 @Component({
     'selector': 'app-edit-exercise',
@@ -11,12 +9,12 @@ import { UpdateRequested } from 'src/app/core/state/exercises/exercises.actions'
 })
 export class EditExerciseComponent implements OnInit {
     constructor(
-        public store: Store < AppState > ,
+        public exerciseService: ExerciseStoreDispatcher
     ) {}
 
     ngOnInit() {}
 
     onSubmit(exercise: any) {
-        this.store.dispatch(new UpdateRequested(exercise.id, exercise));
+        this.exerciseService.update(exercise.id, exercise);
     }
 }

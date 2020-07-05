@@ -38,3 +38,11 @@ export const selectExerciseByRouteURL = createSelector(
         return entities[entityID];
     }
 );
+
+/**
+ * Select a boolean that represents a Request is in progress
+ */
+export const selectRequestInProgress = createSelector(
+    selectState,
+    (state: ExercisesState) => state.requestInProgress
+);

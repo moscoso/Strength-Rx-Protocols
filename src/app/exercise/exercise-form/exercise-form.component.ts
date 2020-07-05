@@ -10,6 +10,7 @@ import { first } from 'rxjs/operators';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
+import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
 
 @Component({
     'selector': 'exercise-form',
@@ -38,7 +39,7 @@ export class ExerciseFormComponent implements OnInit {
     requestInProgress$: Observable < boolean > = of (false);
 
     constructor(
-        public store: Store,
+        public exerciseService: ExerciseStoreDispatcher,
         public toastService: ToastService,
         public firestore: AngularFirestore,
     ) {}
@@ -49,12 +50,9 @@ export class ExerciseFormComponent implements OnInit {
             'youtubeURL': this.youtubeURL,
             'instructions': this.instructions,
         });
-        this.requestInProgress$ = this.store.select((state: AppState) => state.exercises.requestInProgress);
-        this.store.select(selectExerciseByRouteURL).pipe(first()).toPromise().then(exercise => {
-            if (exercise) {
-                this.initFormValues(exercise);
-            }
-        });
+        this.requestInProgress$ = this.exerciseService.selectRequestInProgress();
+        this.exerciseService.selectExerciseByRouteURL().pipe(first(exercise => exercise != null)).toPromise()
+            .then(this.initFormValues.bind(this));
     }
 
     initFormValues(exercise: Exercise) {
@@ -85,7 +83,8 @@ export class ExerciseFormComponent implements OnInit {
     scrapeIDfromYoutubeURL(youtubeURL: string): string {
         const seperators = ['v=', '.be/'];
         for (const seperator of seperators) {
-            if (youtubeURL.indexOf(seperator) > -1) {
+            const hasSeperator = youtubeURL.indexOf(seperator) > -1;
+            if (hasSeperator) {
                 const youtubeID = youtubeURL.split(seperator).pop();
                 if (youtubeID.length !== 11) {
                     const errorMessage =
@@ -95,7 +94,7 @@ export class ExerciseFormComponent implements OnInit {
                 return youtubeID;
             }
         }
-        throw Error ('Failed to scrape ID. No seperator tokens found in the provided URL');
+        throw Error('Failed to scrape ID. No seperator tokens found in the provided URL');
     }
 
     getSlug(name: string) {

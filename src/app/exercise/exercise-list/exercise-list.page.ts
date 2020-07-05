@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
-import { Store } from '@ngrx/store';
 import { Observable, of , Subject, combineLatest } from 'rxjs';
 import { take, filter, startWith } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -9,11 +8,9 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import Fuse from 'fuse.js';
 
-import * as fromExercises from '../../core/state/exercises/exercises.selector';
-import { AllRequested } from 'src/app/core/state/exercises/exercises.actions';
 import { Exercise } from 'src/app/core/state/exercises/exercises.state';
-import { AppState } from 'src/app/core/state/app.state';
 import { CreateExerciseComponent } from '../create-exercise/create-exercise.component';
+import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
 
 @UntilDestroy()
 @Component({
@@ -31,7 +28,7 @@ export class ExerciseListPage implements OnInit {
 
     constructor(
         public modalController: ModalController,
-        public store: Store,
+        public exerciseService: ExerciseStoreDispatcher,
     ) {}
 
     ngOnInit(): void {
@@ -39,9 +36,9 @@ export class ExerciseListPage implements OnInit {
     }
 
     async initExerciseList() {
-        this.store.dispatch(new AllRequested());
-        this.requestInProgress$ = this.store.select((state: AppState) => state.exercises.requestInProgress);
-        this.exercises$ = this.store.select(fromExercises.selectAll);
+        this.exerciseService.loadAll();
+        this.requestInProgress$ = this.exerciseService.selectRequestInProgress();
+        this.exercises$ = this.exerciseService.selectAll();
         this.exercises$.pipe(untilDestroyed(this)).subscribe();
         combineLatest([this.exercises$, this.searchTerm$.pipe(startWith(''))]).subscribe(
             ([exercises, searchTerm]) => this.filterExercises([exercises, searchTerm])
@@ -51,9 +48,9 @@ export class ExerciseListPage implements OnInit {
     }
 
     doRefresh(event): void {
-        this.store.dispatch(new AllRequested());
-        this.store.select((state: AppState) => state.exercises.requestInProgress).pipe(
-            filter(requestInProgress => requestInProgress === false),
+        this.exerciseService.loadAll();
+        this.exerciseService.selectRequestInProgress().pipe(
+            filter(requestInProgress => requestInProgress === true),
             take(1),
         ).toPromise().then(() => {
             event.target.complete();

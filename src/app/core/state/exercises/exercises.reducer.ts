@@ -19,6 +19,9 @@ const initialState: ExercisesState = exerciseAdapter.getInitialState({
 export function exercisesReducer(state: ExercisesState = initialState, action: ExerciseAction): ExercisesState {
     switch (action.type) {
         case ExerciseActionType.AllRequested:
+        case ExerciseActionType.CreateRequested:
+        case ExerciseActionType.UpdateRequested:
+        case ExerciseActionType.DeleteRequested:
             return {
                 ...state,
                 'requestInProgress': true,
@@ -29,14 +32,6 @@ export function exercisesReducer(state: ExercisesState = initialState, action: E
                 ...state,
                 'requestInProgress': false,
             });
-        case ExerciseActionType.CreateRequested:
-        case ExerciseActionType.UpdateRequested:
-        case ExerciseActionType.DeleteRequested:
-            return {
-                ...state,
-                'requestInProgress': true,
-                'error': null,
-            };
         case ExerciseActionType.Created:
             return exerciseAdapter.addOne(action.exercise, {
                 ...state,
@@ -56,11 +51,9 @@ export function exercisesReducer(state: ExercisesState = initialState, action: E
             return {
                 ...state,
                 'error': action.error,
-                'requestInProgress': false,
+                    'requestInProgress': false,
             };
         default:
             return state;
     }
 }
-
-

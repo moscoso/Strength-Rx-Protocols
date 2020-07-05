@@ -24,9 +24,7 @@ export class ExerciseEffects {
         ofType<ExerciseAction>(ExerciseActionType.AllRequested),
         switchMap((action: Exercises.AllRequested) => {
             return from(this.exerciseService.getAll()
-                .then(exercises => {
-                    return new Exercises.AllLoaded(exercises);
-                })
+                .then(exercises => new Exercises.AllLoaded(exercises))
                 .catch(error => new Exercises.RequestFailed(error))
             );
         })
@@ -36,9 +34,7 @@ export class ExerciseEffects {
         ofType<ExerciseAction>(ExerciseActionType.CreateRequested),
         switchMap((action: Exercises.CreateRequested) => {
             return from(this.exerciseService.create(action.exercise)
-                .then((exercise) => {
-                    return new Exercises.Created(exercise);
-                })
+                .then((exercise) => new Exercises.Created(exercise))
                 .catch(error => new Exercises.RequestFailed(error))
             );
         })
@@ -48,9 +44,7 @@ export class ExerciseEffects {
         ofType<ExerciseAction>(ExerciseActionType.UpdateRequested),
         switchMap((action: Exercises.UpdateRequested) => {
             return from(this.exerciseService.update(action.id, action.changes)
-                .then(() => {
-                    return new Exercises.Updated(action.id, action.changes);
-                })
+                .then(() => new Exercises.Updated(action.id, action.changes))
                 .catch(error => new Exercises.RequestFailed(error))
             );
         })
@@ -60,9 +54,7 @@ export class ExerciseEffects {
         ofType<ExerciseAction>(ExerciseActionType.DeleteRequested),
         switchMap((action: Exercises.DeleteRequested) => {
             return from(this.exerciseService.delete(action.id)
-                .then(() => {
-                    return new Exercises.Deleted(action.id);
-                })
+                .then(() => new Exercises.Deleted(action.id))
                 .catch(error => new Exercises.RequestFailed(error))
             );
         })
@@ -72,10 +64,11 @@ export class ExerciseEffects {
         ofType<ExerciseAction>(ExerciseActionType.Created, ExerciseActionType.Updated),
         tap(() => {
             this.modalController.dismiss();
+            this.router.navigateByUrl('/exercises');
         })
     );
 
-    @Effect({'dispatch': false}) deleteCompleted$: Observable < ExerciseAction > = this.actions$.pipe(
+    @Effect({'dispatch': false}) deleted$: Observable < ExerciseAction > = this.actions$.pipe(
         ofType<ExerciseAction>(ExerciseActionType.Deleted),
         tap((action: Exercises.CreateRequested) => {
             this.router.navigateByUrl('/exercises');
