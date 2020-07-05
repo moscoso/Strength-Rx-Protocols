@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AssignProgramComponent } from './assign-program/assign-program.component';
 import { AssignTrainerComponent } from './assign-trainer/assign-trainer.component';
+import { IonicModule } from '@ionic/angular';
 
 
 
@@ -11,7 +12,8 @@ import { AssignTrainerComponent } from './assign-trainer/assign-trainer.componen
         AssignTrainerComponent,
     ],
     'imports': [
-        CommonModule
+        CommonModule,
+        IonicModule,
     ],
     'exports': [
         AssignProgramComponent,

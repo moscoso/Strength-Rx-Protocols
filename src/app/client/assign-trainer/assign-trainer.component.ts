@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { INIT_PROFILE, Profile } from 'src/app/core/state/profile/profile.state';
+import { Observable, of } from 'rxjs';
+import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+
 
 @Component({
     'selector': 'app-assign-trainer',
@@ -7,8 +11,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssignTrainerComponent implements OnInit {
 
-    constructor() {}
+    @Input() profile: Profile = INIT_PROFILE;
 
-    ngOnInit() {}
+    public iAmTrainer$: Observable < boolean > = of (false);
+    public profileIsMe$: Observable < boolean > = of (false);
+    public profileIsClient$: Observable < boolean > = of (false);
 
+
+    constructor(
+        public profileService: ProfileStoreDispatcher,
+    ) {}
+
+    ngOnInit() {
+        this.iAmTrainer$ = this.profileService.selectUserIsTrainer();
+        this.profileIsClient$ = this.profileService.selectUserIsNotTrainer();
+        this.profileIsMe$ = this.profileService.selectProfileBelongsToUser();
+    }
 }
