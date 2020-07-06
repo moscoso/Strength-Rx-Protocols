@@ -63,15 +63,15 @@ export const selectProfileBelongsToUser = createSelector(
  */
 export const selectUserIsTrainer =  createSelector(
     selectUserProfile,
-    profile => profile.isTrainer
+    profile => profile && profile.isTrainer
 );
 
 /**
- * Select all clients (essentially everyone who is not a trainer)
+ * Select all clients
  */
 export const selectAllClients = createSelector(
     selectAll,
-    profiles => profiles.filter(profile => !profile.isTrainer),
+    profiles => profiles.filter(profile => profile.isClient),
 );
 
 
