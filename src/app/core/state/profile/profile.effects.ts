@@ -33,13 +33,6 @@ export class ProfileEffects {
             return from(this.profileService.getAll()
                 .then(profiles => new Profiles.AllLoaded(profiles))
                 .catch(error => new Profiles.RequestFailed(error))
-            ).pipe(
-                timeout(this.TIMEOUT_WINDOW),
-                catchError(() => {
-                    const errorMessage = `The request timed out. ${this.TIMEOUT_WINDOW} ms.
-                    Please check your internet connection and try again`;
-                    return of(new Profiles.RequestFailed(new Error(errorMessage)));
-                })
             );
         }),
     );
