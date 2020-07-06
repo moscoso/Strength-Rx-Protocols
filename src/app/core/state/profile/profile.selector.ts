@@ -66,15 +66,6 @@ export const selectUserIsTrainer =  createSelector(
     profile => profile.isTrainer
 );
 
-
-/**
- * Select the authenticated user to see if the user is not a trainer
- */
-export const selectUserIsNotTrainer =  createSelector(
-    selectUserProfile,
-    profile => !profile.isTrainer
-);
-
 /**
  * Select all clients (essentially everyone who is not a trainer)
  */

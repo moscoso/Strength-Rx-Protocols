@@ -18,7 +18,6 @@ import {
     selectAllTrainers,
     selectMyClients,
     selectUnassignedClients,
-    selectUserIsNotTrainer,
     selectProfileBelongsToUser
 } from './profile.selector';
 import { Observable } from 'rxjs';
@@ -97,10 +96,6 @@ export class ProfileStoreDispatcher {
 
     public selectUserIsTrainer(): Observable< boolean> {
         return this.store.select(selectUserIsTrainer);
-    }
-
-    public selectUserIsNotTrainer(): Observable< boolean> {
-        return this.store.select(selectUserIsNotTrainer);
     }
 
     public selectAllClients(): Observable< Profile[]> {
