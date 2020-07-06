@@ -9,10 +9,10 @@
 </ion-header>
 
 <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <ion-card *ngIf="exercise$ | async as exercise">
-        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-            <ion-refresher-content></ion-refresher-content>
-        </ion-refresher>
         <ion-card-header>
             <ion-card-title class="name">{{exercise.name}}</ion-card-title>
             <ion-card-subtitle class="videoURL">{{exercise.youtubeID}}</ion-card-subtitle>
