@@ -50,7 +50,7 @@ export class ExerciseListPage implements OnInit {
     doRefresh(event): void {
         this.exerciseService.loadAll();
         this.exerciseService.selectRequestInProgress().pipe(
-            filter(requestInProgress => requestInProgress === true),
+            filter(requestInProgress => requestInProgress === false),
             take(1),
         ).toPromise().then(() => {
             event.target.complete();

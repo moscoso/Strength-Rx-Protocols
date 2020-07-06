@@ -43,7 +43,7 @@ export class WorkoutListPage implements OnInit {
     doRefresh(event): void {
         this.workoutService.loadAll();
         this.workoutService.selectRequestInProgress().pipe(
-            filter(requestInProgress => requestInProgress === true),
+            filter(requestInProgress => requestInProgress === false),
             take(1),
         ).toPromise().then(() => {
             event.target.complete();
