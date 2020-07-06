@@ -9,6 +9,7 @@ import { ViewProfilePageRoutingModule } from './view-profile-routing.module';
 import { ViewProfilePage } from './view-profile.page';
 import { ProfileModule } from '../profile.module';
 import { AccountModule } from 'src/app/account/account.module';
+import { ClientModule } from 'src/app/client/client.module';
 
 @NgModule({
     'imports': [
@@ -16,6 +17,7 @@ import { AccountModule } from 'src/app/account/account.module';
         FormsModule,
         IonicModule,
         AccountModule,
+        ClientModule,
         ProfileModule,
         ViewProfilePageRoutingModule
     ],

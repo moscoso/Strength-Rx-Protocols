@@ -13,33 +13,46 @@
 </ion-header>
 
 <ion-content class="ion-text-center">
-
-    <ion-grid *ngIf="profile$ | async as profile else loading" text-center>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-grid *ngIf="profile$ | async as profile else noProfile" text-center>
         <ion-avatar>
             <img [src]='getAvatar(profile)' />
         </ion-avatar>
 
         <h1 class="name">{{profile.firstName}} {{profile.lastName}}</h1>
-     
+
         <ion-note>USER ID: {{profile.id}}</ion-note>
         <ion-list>
             <ion-item>Sex: {{profile.sex}}</ion-item>
             <ion-item>Height: {{profile.height.feet}}" {{profile.height.inches}}"</ion-item>
+            <assign-trainer [profile]="profile"></assign-trainer>
         </ion-list>
 
         <logout-button *ngIf="(thisIsMe$ | async)">Log out</logout-button>
     </ion-grid>
 
-    <ng-template #loading>
-        <ion-grid>
+    <ng-template #noProfile>
+        <ng-container *ngIf="(requestInProgress$ | async)">
+            <ion-grid>
 
-            <ion-avatar>
-                <ion-skeleton-text animated></ion-skeleton-text>
-            </ion-avatar>
+                <ion-avatar>
+                    <ion-skeleton-text animated></ion-skeleton-text>
+                </ion-avatar>
 
-            <ion-item>Sex: <ion-skeleton-text animated></ion-skeleton-text></ion-item>
-            <ion-item>Height: <ion-skeleton-text animated></ion-skeleton-text></ion-item>
-            
-        </ion-grid>
+                <ion-item>Sex: <ion-skeleton-text animated></ion-skeleton-text>
+                </ion-item>
+                <ion-item>Height: <ion-skeleton-text animated></ion-skeleton-text>
+                </ion-item>
+
+            </ion-grid>
+        </ng-container>
+        <ng-container *ngIf="!(requestInProgress$ | async)">
+            <h1>Profile Failed to load</h1>
+            <ion-button (click)="retryLoad()">Click to retry</ion-button>
+        </ng-container>
     </ng-template>
+
+
 </ion-content>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Profile } from 'src/app/core/state/profile/profile.state';
 import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { take, first } from 'rxjs/operators';
 import { ModalController } from '@ionic/angular';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
@@ -17,6 +17,7 @@ export class ViewProfilePage implements OnInit {
     public routeID = null;
 
     public thisIsMe$: Observable < boolean > = of (false);
+    public requestInProgress$: Observable < boolean > = of (false);
 
     constructor(
         public profileService: ProfileStoreDispatcher,
@@ -27,7 +28,21 @@ export class ViewProfilePage implements OnInit {
     ngOnInit() {
         this.profileService.loadAll();
         this.fetchProfile();
+        this.requestInProgress$ = this.profileService.selectRequestInProgress();
         this.thisIsMe$ = this.profileService.selectProfileBelongsToUser();
+    }
+
+    doRefresh(event): void {
+        this.profileService.loadAll();
+        this.profileService.selectRequestInProgress().pipe(
+            first(requestInProgress => requestInProgress === false),
+        ).toPromise().then(() => {
+            event.target.complete();
+        });
+    }
+
+    retryLoad() {
+        this.profileService.loadAll();
     }
 
     async fetchProfile() {
