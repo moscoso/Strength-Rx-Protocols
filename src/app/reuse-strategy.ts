@@ -152,7 +152,7 @@ export class CustomReuseStrategy extends IonicRouteStrategy {
                         break;
                         // otherwise, see if they are equal using coercive comparison
                     default:
-                        if (base[baseProperty] != compare[baseProperty]) { return false; }
+                        if (base[baseProperty] !== compare[baseProperty]) { return false; }
                 }
             } else {
                 return false;
