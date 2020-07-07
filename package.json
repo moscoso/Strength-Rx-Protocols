@@ -35,6 +35,7 @@
     "@ngrx/router-store": "^9.1.2",
     "@ngrx/store": "^9.1.2",
     "@ngrx/store-devtools": "^9.1.2",
+    "@types/stripe-v3": "^3.1.19",
     "core-js": "^2.5.4",
     "file-drop-element": "^0.2.0",
     "firebase": "^7.15.0",
