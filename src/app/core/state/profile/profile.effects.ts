@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, from, of } from 'rxjs';
-import { switchMap, timeout, catchError, tap } from 'rxjs/operators';
+import { Observable, from } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
 import { ProfileAction, ProfileActionType } from './profile.actions';
 import * as Profiles from './profile.actions';
@@ -12,12 +12,6 @@ import { ModalController } from '@ionic/angular';
 
 @Injectable()
 export class ProfileEffects {
-
-    /**
-     * How long it takes for requests to timeout
-     */
-    TIMEOUT_WINDOW = 15000;
-
 
     @Effect({ 'dispatch': false }) error$: Observable < ProfileAction > = this.actions$.pipe(
         ofType(ProfileActionType.RequestFailed),
