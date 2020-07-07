@@ -1,0 +1,9 @@
+<button (click)="checkout($event)">
+
+    Buy for ${{ amount / 100 }}.00
+
+</button>
+
+<hr>
+
+<div *ngIf="loading">Loading....</div>
