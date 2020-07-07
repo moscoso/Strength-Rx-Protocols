@@ -10,7 +10,9 @@ db.settings(settings);
 
 // ENV Variables
 export const stripeSecret = functions.config().stripe.secret;
+export const stripeWebhookSignature = functions.config().stripe.webhook_signature;
 
 // Initialize Stripe
 import Stripe from 'stripe';
 export const stripe = new Stripe(stripeSecret, {apiVersion: '2020-03-02'});
+export const STRIPE_COLLECTION = `accounts`;
