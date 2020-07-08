@@ -13,11 +13,35 @@ export abstract class EntityService < T > {
     defaultEntity: T;
 
     constructor(
-        firestore: AngularFirestore,
-        collectionName: string,
+        protected firestore: AngularFirestore,
+        protected collectionName: string,
     ) {
         this.entityCollection = firestore.collection < T > (collectionName);
         this.entities = this.entityCollection.valueChanges({ 'idField': 'id' });
+    }
+
+
+
+    /**
+     * Retreive an entity
+     * @param entityID the ID that corresponds to the entity's document in Firebase
+     */
+    async get(entityID: string): Promise < T > {
+        const snapshot = await this.firestore.collection(this.collectionName).doc(entityID).get().pipe(take(1))
+            .toPromise();
+        const data = snapshot.data();
+
+        if (data == null) {
+            const errorMessage =
+                `Document data for ${this.collectionName} collection does not exist for id: ${entityID}`;
+            throw new Error(errorMessage);
+        } else {
+            if (this.defaultEntity) {
+                return {...this.defaultEntity, ...data, ...{'id': entityID}};
+            } else {
+                throw new Error(`Default entity must be set before calling get() on EntityService`);
+            }
+        }
     }
 
     /**
@@ -33,7 +57,7 @@ export abstract class EntityService < T > {
 
             const mappedEntities = [];
             entities.forEach(entity => {
-                mappedEntities.push({ ...this.defaultEntity, ...entity});
+                mappedEntities.push({ ...this.defaultEntity, ...entity });
             });
             return mappedEntities;
         })).toPromise();
