@@ -1,10 +1,15 @@
 <ion-app>
+    <!-- [disabled]="(url$ | async) === '/' -->
     <ion-split-pane contentId="main-content">
         <!-- Side Menu-->
+        <!-- [swipeGesture]="(url$ | async) !== '/'" -->
         <ion-menu contentId="main-content" type="overlay">
             <ion-content>
                 <ion-list lines="none">
-                    <ion-list-header><img src="/assets/icon/logo.png"/></ion-list-header>
+                    <ion-list-header [hidden]="(url$ | async) === '/'">
+                        <img class="logo" src="/assets/icon/logo.png" routerLink="/"
+                             title="Click to go to landing page">
+                    </ion-list-header>
                     <ion-menu-toggle auto-hide="false">
                         <ion-item *ngFor="let page of mainPages"
                                   routerDirection="root"
@@ -15,7 +20,7 @@
                                 <ion-icon size="large" slot="start" [icon]="page.icon"></ion-icon>
                             </ng-container>
                             <ng-container *ngIf="page.src">
-                                <ion-icon size="large"  slot="start" [src]="page.src"></ion-icon>
+                                <ion-icon size="large" slot="start" [src]="page.src"></ion-icon>
                             </ng-container>
                             <ion-label>{{page.label}}</ion-label>
                         </ion-item>
@@ -27,7 +32,7 @@
                 <ion-list lines="none">
                     <ion-menu-toggle auto-hide="false">
                         <ion-item *ngIf="(isAuthenticated$ | async); else notAuthenticated" (click)="logout();">
-                            <ion-icon size="large"  slot="start" icon="exit"></ion-icon>
+                            <ion-icon size="large" slot="start" icon="exit"></ion-icon>
                             <ion-label routerLink>Log Out</ion-label>
                         </ion-item>
                         <ng-template #notAuthenticated>
@@ -37,10 +42,10 @@
                                       routerLinkActive="selected"
                                       [routerLinkActiveOptions]="{exact:true}">
                                 <ng-container *ngIf="page.icon">
-                                    <ion-icon size="large"  slot="start" [icon]="page.icon"></ion-icon>
+                                    <ion-icon size="large" slot="start" [icon]="page.icon"></ion-icon>
                                 </ng-container>
                                 <ng-container *ngIf="page.src">
-                                    <ion-icon size="large"  slot="start" [src]="page.src"></ion-icon>
+                                    <ion-icon size="large" slot="start" [src]="page.src"></ion-icon>
                                 </ng-container>
                                 <ion-label>{{page.label}}</ion-label>
                             </ion-item>

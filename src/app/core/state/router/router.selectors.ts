@@ -11,7 +11,7 @@ export const selectRouterState = createFeatureSelector < CustomRouterReducerStat
  */
 export const selectParams = createSelector(
     selectRouterState,
-    (router: CustomRouterReducerState) => router.state.params
+    (router: CustomRouterReducerState) => router ? router.state.params : {}
 );
 
 /**
@@ -19,7 +19,7 @@ export const selectParams = createSelector(
  */
 export const selectQueryParams = createSelector(
     selectRouterState,
-    (router: CustomRouterReducerState) => router.state.queryParams
+    (router: CustomRouterReducerState) => router ? router.state.queryParams : {}
 );
 
 /**
@@ -27,5 +27,5 @@ export const selectQueryParams = createSelector(
  */
 export const selectURL = createSelector(
     selectRouterState,
-    (router: CustomRouterReducerState) => router.state.url
+    (router: CustomRouterReducerState) => router ? router.state.url : '/'
 );

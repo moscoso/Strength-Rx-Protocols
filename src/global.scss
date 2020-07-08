@@ -58,3 +58,17 @@ ion-spinner, ion-card, ion-avatar, mat-radio-group{
 ion-button[type=submit] {
     margin-top: 25px;
 }
+
+::-webkit-scrollbar {
+    width: .25em;
+    height: .25em;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--ion-color-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--ion-color-primary-contrast);
+}
+

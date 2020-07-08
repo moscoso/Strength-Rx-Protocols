@@ -1,0 +1,14 @@
+<nav>
+    <img class="logo" src="/assets/icon/logo.png">
+
+    <ion-icon class="menu-btn" [name]="showMobileMenu ? 'close' : 'menu-outline'" size="large" (click)="toggleMenu()"></ion-icon>
+
+    <ul [hidden]="!showMobileMenu && width < 975">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Social</a></li>
+        <li><a href="#">Transformations</a></li>
+        <li><a [routerLink]="'/register'">Join</a></li>
+        <li><a [routerLink]="'/login'">Login</a></li>
+    </ul>
+</nav>

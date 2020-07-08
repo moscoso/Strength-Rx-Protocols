@@ -3,11 +3,17 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { ProfileGuard } from './guards/profile/profile.guard';
 import { NoProfileGuard } from './guards/no-profile/no-profile.guard';
+import { LandingPage } from './home/landing/landing.page';
 
 
 const routes: Routes = [
 {
     'path': '',
+    'loadChildren': () => import('./home/landing/landing.module').then(m => m.LandingPageModule),
+    'pathMatch': 'full'
+},
+{
+    'path': 'dashboard',
     'redirectTo': 'exercises',
     'pathMatch': 'full'
 },
@@ -44,7 +50,8 @@ const routes: Routes = [
 },
 {
     'path': 'edit-profile',
-    'loadChildren': () => import('./profile/edit-profile/edit-profile.module').then(m => m.EditProfilePageModule),
+    'loadChildren': () => import('./profile/edit-profile/edit-profile.module').then(m => m
+        .EditProfilePageModule),
     'canActivate': [AuthGuard, ProfileGuard],
 },
 {

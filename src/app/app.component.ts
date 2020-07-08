@@ -5,6 +5,8 @@ import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AllRequested } from './core/state/profile/profile.actions';
 import { AuthStoreDispatcher } from './core/state/auth/auth.dispatcher';
+import { ProfileStoreDispatcher } from './core/state/profile/profiles.dispatcher';
+import { RouterStoreDispatcher } from './core/state/router/router.dispatcher';
 
 @Component({
     'selector': 'app-root',
@@ -12,6 +14,15 @@ import { AuthStoreDispatcher } from './core/state/auth/auth.dispatcher';
     'styleUrls': ['app.component.scss']
 })
 export class AppComponent implements OnInit {
+    public landingPages: MenuItem [] = [
+        {
+            'label': 'About',
+            'icon': 'people',
+            'link': '/'
+        }
+    ];
+
+
     public mainPages: MenuItem[] = [
         {
             'label': 'Exercises',
@@ -64,14 +75,14 @@ export class AppComponent implements OnInit {
     ];
 
     public isAuthenticated$: Observable<boolean> = of(false);
+    public url$: Observable<string> = of('/');
 
     constructor(
         private platform: Platform,
-        private store: Store,
+        private routerService: RouterStoreDispatcher,
         private authService: AuthStoreDispatcher,
     ) {
         this.initializeApp();
-        this.store.dispatch(new AllRequested());
     }
 
     initializeApp() {
@@ -80,6 +91,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.isAuthenticated$ = this.authService.selectAuthenticated();
+        this.url$ = this.routerService.selectURL();
     }
 
     logout() {
