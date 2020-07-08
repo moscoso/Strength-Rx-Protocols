@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, OnInit, AfterContentInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { RegisterPage } from 'src/app/account/register/register.page';
 import { environment } from 'src/environments/environment';
@@ -10,11 +10,10 @@ import { environment } from 'src/environments/environment';
 })
 export class LandingPage implements OnInit, AfterViewInit {
 
-    @ViewChild('header', { 'read': ElementRef }) header: ElementRef < HTMLIonHeaderElement > ;
+    @ViewChild('header', { 'read': ElementRef}) header: ElementRef < HTMLIonHeaderElement > ;
     @ViewChild('video') video: ElementRef < HTMLVideoElement > ;
 
-
-    headerHeight = 0;
+    headerHeight = 100;
 
     constructor(
         public modalController: ModalController
@@ -24,10 +23,13 @@ export class LandingPage implements OnInit, AfterViewInit {
         window.addEventListener('resize', (e) => {
             this.setHeaderHeight();
         });
+
+        window.addEventListener('load', () => {
+            this.setHeaderHeight();
+        });
     }
 
     ngAfterViewInit() {
-        this.setHeaderHeight();
         this.startVideo();
     }
 
@@ -39,8 +41,12 @@ export class LandingPage implements OnInit, AfterViewInit {
         }
     }
 
+    calcVideoHeight(): string {
+        return 'calc(100vh - ' + this.headerHeight + 'px)';
+    }
+
     setHeaderHeight() {
-        const height = this.header.nativeElement.clientHeight;
+        const height = this.header.nativeElement.offsetHeight;
         if (this.header && height !== 0) {
             this.headerHeight = height;
         }
