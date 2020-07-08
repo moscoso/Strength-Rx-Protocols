@@ -64,3 +64,12 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+ /**
+  * Smooth Scroll behavior Polyfill.
+  * The Scroll Behavior specification has been introduced as an extension of
+  * the Window interface to allow for the developer to opt in to native smooth scrolling.
+  * To date this has only been implemented in Chrome, Firefox and Opera.
+  */
+import smoothscroll from 'smoothscroll-polyfill';
+smoothscroll.polyfill();
