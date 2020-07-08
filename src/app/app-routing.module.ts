@@ -4,6 +4,7 @@ import { AuthGuard } from './guards/auth/auth.guard';
 import { ProfileGuard } from './guards/profile/profile.guard';
 import { NoProfileGuard } from './guards/no-profile/no-profile.guard';
 import { LandingPage } from './home/landing/landing.page';
+import { NoAuthGuard } from './guards/no-auth/no-auth.guard';
 
 
 const routes: Routes = [
@@ -25,11 +26,13 @@ const routes: Routes = [
 },
 {
     'path': 'login',
-    'loadChildren': () => import('./account/login/login.module').then(m => m.LoginPageModule)
+    'loadChildren': () => import('./account/login/login.module').then(m => m.LoginPageModule),
+    'canActivate': [NoAuthGuard]
 },
 {
     'path': 'register',
-    'loadChildren': () => import('./account/register/register.module').then(m => m.RegisterPageModule)
+    'loadChildren': () => import('./account/register/register.module').then(m => m.RegisterPageModule),
+    'canActivate': [NoAuthGuard]
 },
 {
     'path': 'profile',
