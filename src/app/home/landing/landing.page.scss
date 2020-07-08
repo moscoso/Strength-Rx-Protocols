@@ -1,27 +1,37 @@
-video {
-    min-width: 100%;
-    height: auto;
-    max-height: calc(100vh - 100px);
-    object-fit: cover;
-    z-index: -1;
-}
+:host {
 
-.logo {
-    max-width: 400px;
-    width: 100%;
-    max-height: 100%;
-    cursor: pointer;
-    text-align: center;
-    margin-right:75px;
-}
+    overflow-y:scroll;
 
-/**
+
+    ion-header {
+        position: fixed;
+    }
+
+    video {
+        min-width: 100%;
+        height: auto;
+        max-height: calc(100vh - 100px);
+        object-fit: cover;
+        z-index: -1;
+    }
+
+    .logo {
+        max-width: 400px;
+        width: 100%;
+        max-height: 100%;
+        cursor: pointer;
+        text-align: center;
+        margin-right: 75px;
+    }
+
+    /**
  * This is a fix for Android, as the poster seems to be zoomed if we don't set object-fit to "none"
  */
-:host-context(.plt-android) video[poster] {
-    object-fit: none;
-}
+    :host-context(.plt-android) video[poster] {
+        object-fit: none;
+    }
 
-.menu-label {
-    font-size: 24px;
+    .menu-label {
+        font-size: 24px;
+    }
 }

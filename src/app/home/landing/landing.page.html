@@ -1,12 +1,43 @@
-<ion-header>
+<ion-header #header [ngStyle]="{'margin-bottom': headerHeight}">
     <ion-toolbar class="ion-text-center">
         <ion-buttons slot="start">
-            <ion-menu-button auto-hide="false"></ion-menu-button><ion-label class="ion-hide-sm-down menu-label">Menu</ion-label>
+            <ion-menu-button auto-hide="false"></ion-menu-button>
+            <ion-label class="ion-hide-sm-down menu-label">Menu</ion-label>
         </ion-buttons>
         <img class="logo" src="/assets/icon/logo.png">
     </ion-toolbar>
 </ion-header>
-<video #video loop playsinline preload="auto" muted="true" controlslist="nodownload nofullscreen">
-    <source
-            src="https://firebasestorage.googleapis.com/v0/b/strengthrx-protocols.appspot.com/o/StrengthRx_Protocols_Landing_HD.mov?alt=media&token=8a17d52d-d1d0-4b02-b465-87b778d2ee1e" />
-</video>
+
+<ion-content>
+  
+    <video #video loop playsinline preload="auto" muted="true" controlslist="nodownload nofullscreen">
+        <source
+                [src]="getStorageURL('StrengthRx_Protocols_Landing_HD.mov?alt=media&token=8a17d52d-d1d0-4b02-b465-87b778d2ee1e')" />
+    </video>
+
+    <section id="about" #about>
+        <h1>About David</h1>
+        <p>David is a certified sports nutritionist through the International Society of Sport Nutrition, certified
+            personal
+            trainer through The Personal Trainer Collective and an evidence-based online strength and physique coach.
+            After
+            graduating from Florida State University in 2014, working various customer service jobs including an iOS
+            Advisor
+            position with Apple, he decided to leave the corporate world to pursue his passion in fitness. In November
+            2015,
+            he made the spontaneous decision to leave north Florida and moved to Houston were he currently resides.</p>
+        <p> In April 2017, David launched “The Esoteric Anomalies Podcast”. The purpose of this podcast was to create a
+            free
+            platform to learn and become inspired by individuals in different fields, not just fitness. Through this, he
+            also plans on sharing knowledge he has learned over the years. It is available on iTunes for your listening
+            pleasure.</p>
+        <img [src]="getStorageURL('David.jpg?alt=media&token=5b636166-0bd1-416b-9a22-c5c68501056a')">
+    </section>
+
+
+    <section id="join" #join>
+        <h1>Join Now</h1>
+        <ion-button [routerLink]="'register'">Click to join</ion-button>
+    </section>
+
+</ion-content>
