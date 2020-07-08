@@ -1,13 +1,26 @@
-<ion-item *ngFor="let page of items"
-          routerDirection="root"
-          [routerLink]="page.link"
-          routerLinkActive="selected"
-          [routerLinkActiveOptions]="{exact:true}">
-    <ng-container *ngIf="page.icon">
-        <ion-icon size="large" slot="start" [icon]="page.icon"></ion-icon>
-    </ng-container>
-    <ng-container *ngIf="page.src">
-        <ion-icon size="large" slot="start" [src]="page.src"></ion-icon>
-    </ng-container>
-    <ion-label>{{page.label}}</ion-label>
-</ion-item>
+<ng-container *ngFor="let page of items">
+    <ion-item *ngIf="page.link else scroll"
+              routerDirection="root"
+              [routerLink]="page.link"
+              routerLinkActive="selected"
+              [routerLinkActiveOptions]="{exact:true}">
+        <ng-container *ngIf="page.icon">
+            <ion-icon size="large" slot="start" [icon]="page.icon"></ion-icon>
+        </ng-container>
+        <ng-container *ngIf="page.src">
+            <ion-icon size="large" slot="start" [src]="page.src"></ion-icon>
+        </ng-container>
+        <ion-label>{{page.label}}</ion-label>
+    </ion-item>
+    <ng-template #scroll>
+        <ion-item (click)="scrollPage(page.scrollID)">
+            <ng-container *ngIf="page.icon">
+                <ion-icon size="large" slot="start" [icon]="page.icon"></ion-icon>
+            </ng-container>
+            <ng-container *ngIf="page.src">
+                <ion-icon size="large" slot="start" [src]="page.src"></ion-icon>
+            </ng-container>
+            <ion-label>{{page.label}}</ion-label>
+        </ion-item>
+    </ng-template>
+</ng-container>

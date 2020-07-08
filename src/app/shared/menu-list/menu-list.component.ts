@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MenuController } from '@ionic/angular';
 
 @Component({
     'selector': 'menu-list',
@@ -9,9 +10,17 @@ export class MenuListComponent implements OnInit {
 
     @Input() items: MenuItem[] = [];
 
-    constructor() {}
+    constructor(
+        public menuController: MenuController
+    ) {}
 
     ngOnInit() {}
+
+    scrollPage(s: string) {
+        const options: ScrollIntoViewOptions = { 'behavior': 'smooth', 'block': 'end', 'inline': 'nearest' };
+        document.getElementById(s).scrollIntoView(options);
+        this.menuController.close();
+    }
 }
 
 
@@ -19,5 +28,6 @@ export interface MenuItem {
     label: string;
     icon ?: string;
     src ?: string;
-    link: string;
+    link ?: string;
+    scrollID ?: string;
 }
