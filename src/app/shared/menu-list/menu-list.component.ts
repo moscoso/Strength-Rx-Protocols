@@ -1,0 +1,23 @@
+import { Component, OnInit, Input } from '@angular/core';
+
+@Component({
+    'selector': 'menu-list',
+    'templateUrl': './menu-list.component.html',
+    'styleUrls': ['./menu-list.component.scss'],
+})
+export class MenuListComponent implements OnInit {
+
+    @Input() items: MenuItem[] = [];
+
+    constructor() {}
+
+    ngOnInit() {}
+}
+
+
+export interface MenuItem {
+    label: string;
+    icon ?: string;
+    src ?: string;
+    link: string;
+}

@@ -7,6 +7,7 @@ import { AllRequested } from './core/state/profile/profile.actions';
 import { AuthStoreDispatcher } from './core/state/auth/auth.dispatcher';
 import { ProfileStoreDispatcher } from './core/state/profile/profiles.dispatcher';
 import { RouterStoreDispatcher } from './core/state/router/router.dispatcher';
+import { MenuItem } from './shared/menu-list/menu-list.component';
 
 @Component({
     'selector': 'app-root',
@@ -14,71 +15,68 @@ import { RouterStoreDispatcher } from './core/state/router/router.dispatcher';
     'styleUrls': ['app.component.scss']
 })
 export class AppComponent implements OnInit {
-    public landingPages: MenuItem [] = [
-        {
-            'label': 'About',
-            'icon': 'people',
-            'link': '/'
-        }
-    ];
-
+    public landingPages: MenuItem[] = [
+    {
+        'label': 'About',
+        'icon': 'people',
+        'link': '/'
+    }];
 
     public mainPages: MenuItem[] = [
-        {
-            'label': 'Exercises',
-            'icon': 'barbell',
-            'link': '/exercises'
-        },
-        {
-            'label': 'Workouts',
-            'icon': 'fitness',
-            'link': '/workouts'
-        },
-        {
-            'label': 'Profile',
-            'icon': 'people-outline',
-            'link': '/profile'
-        },
-        {
-            'label': 'Clients',
-            'icon': 'list-outline',
-            'link': '/clients'
-        },
-        {
-            'label': 'Foods',
-            'src': '/assets/icon/food.svg',
-            'link': '/foods'
-        },
-        {
-            'label': 'Meals',
-            'src': '/assets/icon/meal.svg',
-            'link': '/meals'
-        },
-        {
-            'label': 'Check In',
-            'icon': 'checkbox-outline',
-            'link': '/check-in',
-        },
-    ];
+    {
+        'label': 'Exercises',
+        'icon': 'barbell',
+        'link': '/exercises'
+    },
+    {
+        'label': 'Workouts',
+        'icon': 'fitness',
+        'link': '/workouts'
+    },
+    {
+        'label': 'Profile',
+        'icon': 'people-outline',
+        'link': '/profile'
+    },
+    {
+        'label': 'Clients',
+        'icon': 'list-outline',
+        'link': '/clients'
+    },
+    {
+        'label': 'Foods',
+        'src': '/assets/icon/food.svg',
+        'link': '/foods'
+    },
+    {
+        'label': 'Meals',
+        'src': '/assets/icon/meal.svg',
+        'link': '/meals'
+    },
+    {
+        'label': 'Check In',
+        'icon': 'checkbox-outline',
+        'link': '/check-in',
+    }, ];
 
-    public accountPages: MenuItem [] = [
-        {
-            'label': 'Login',
-            'icon': '',
-            'link': '/login'
-        },
-        {
-            'label': 'Register',
-            'icon': '',
-            'link': '/register'
-        },
-    ];
+    public accountPages: MenuItem[] = [
+    {
+        'label': 'Login',
+        'icon': '',
+        'link': '/login'
+    },
+    {
+        'label': 'Register',
+        'icon': '',
+        'link': '/register'
+    }, ];
 
-    public isAuthenticated$: Observable<boolean> = of(false);
-    public url$: Observable<string> = of('/');
+    public isAuthenticated$: Observable < boolean > = of (false);
+    public url$: Observable < string > = of ('/');
 
     constructor(
         private platform: Platform,
+        private profileService: ProfileStoreDispatcher,
         private routerService: RouterStoreDispatcher,
         private authService: AuthStoreDispatcher,
     ) {
@@ -87,6 +85,7 @@ export class AppComponent implements OnInit {
 
     initializeApp() {
         this.platform.ready().then(() => {});
+        this.profileService.loadAll();
     }
 
     ngOnInit() {
@@ -97,11 +96,4 @@ export class AppComponent implements OnInit {
     logout() {
         this.authService.logout();
     }
-}
-
-interface MenuItem {
-    label: string;
-    icon?: string;
-    src?: string;
-    link: string;
 }

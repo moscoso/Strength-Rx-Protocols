@@ -4,16 +4,19 @@ import { YoutubePlayerComponent } from './youtube-player/youtube-player.componen
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { DismissModalButtonComponent } from './dismiss-modal-button/dismiss-modal-button.component';
 import { IonicModule } from '@ionic/angular';
+import { MenuListComponent } from './menu-list/menu-list.component';
+import { RouterModule } from '@angular/router';
 
 
 
 @NgModule({
     'imports': [
         IonicModule,
+        RouterModule,
         CommonModule,
         YouTubePlayerModule
     ],
-    'declarations': [YoutubePlayerComponent, DismissModalButtonComponent],
-    'exports': [YouTubePlayerModule, YoutubePlayerComponent, DismissModalButtonComponent]
+    'declarations': [YoutubePlayerComponent, DismissModalButtonComponent, MenuListComponent],
+    'exports': [YouTubePlayerModule, YoutubePlayerComponent, DismissModalButtonComponent, MenuListComponent]
 })
 export class SharedModule {}

@@ -1,8 +1,6 @@
 <ion-app>
-    <!-- [disabled]="(url$ | async) === '/' -->
-    <ion-split-pane contentId="main-content">
+    <ion-split-pane contentId="main-content" [disabled]="(url$ | async) === '/'">
         <!-- Side Menu-->
-        <!-- [swipeGesture]="(url$ | async) !== '/'" -->
         <ion-menu contentId="main-content" type="overlay">
             <ion-content>
                 <ion-list lines="none">
@@ -10,47 +8,23 @@
                         <img class="logo" src="/assets/icon/logo.png" routerLink="/"
                              title="Click to go to landing page">
                     </ion-list-header>
-                    <ion-menu-toggle auto-hide="false">
-                        <ion-item *ngFor="let page of mainPages"
-                                  routerDirection="root"
-                                  [routerLink]="page.link"
-                                  routerLinkActive="selected"
-                                  [routerLinkActiveOptions]="{exact:true}">
-                            <ng-container *ngIf="page.icon">
-                                <ion-icon size="large" slot="start" [icon]="page.icon"></ion-icon>
-                            </ng-container>
-                            <ng-container *ngIf="page.src">
-                                <ion-icon size="large" slot="start" [src]="page.src"></ion-icon>
-                            </ng-container>
-                            <ion-label>{{page.label}}</ion-label>
-                        </ion-item>
-
-                    </ion-menu-toggle>
+                    <menu-list [items]="mainPages" *ngIf="(isAuthenticated$ | async) && ((url$ | async) !== '/')"></menu-list>
+                    <menu-list [items]="landingPages" *ngIf="!(isAuthenticated$ | async) || ((url$ | async) === '/')"></menu-list>
+                    <ion-item *ngIf="(isAuthenticated$ | async) && (url$ | async) === '/'" routerLink="/dashboard">
+                        <ion-icon size="large" slot="start" icon="speedometer-outline"></ion-icon>
+                        <ion-label>Dashboard</ion-label>
+                    </ion-item>
                 </ion-list>
             </ion-content>
             <ion-footer>
                 <ion-list lines="none">
-                    <ion-menu-toggle auto-hide="false">
-                        <ion-item *ngIf="(isAuthenticated$ | async); else notAuthenticated" (click)="logout();">
-                            <ion-icon size="large" slot="start" icon="exit"></ion-icon>
-                            <ion-label routerLink>Log Out</ion-label>
-                        </ion-item>
-                        <ng-template #notAuthenticated>
-                            <ion-item *ngFor="let page of accountPages"
-                                      routerDirection="root"
-                                      [routerLink]="page.link"
-                                      routerLinkActive="selected"
-                                      [routerLinkActiveOptions]="{exact:true}">
-                                <ng-container *ngIf="page.icon">
-                                    <ion-icon size="large" slot="start" [icon]="page.icon"></ion-icon>
-                                </ng-container>
-                                <ng-container *ngIf="page.src">
-                                    <ion-icon size="large" slot="start" [src]="page.src"></ion-icon>
-                                </ng-container>
-                                <ion-label>{{page.label}}</ion-label>
-                            </ion-item>
-                        </ng-template>
-                    </ion-menu-toggle>
+                    <ion-item *ngIf="(isAuthenticated$ | async); else notAuthenticated" (click)="logout();">
+                        <ion-icon size="large" slot="start" icon="exit"></ion-icon>
+                        <ion-label>Log Out</ion-label>
+                    </ion-item>
+                    <ng-template #notAuthenticated>
+                        <menu-list [items]="accountPages"></menu-list>
+                    </ng-template>
                 </ion-list>
             </ion-footer>
         </ion-menu>
