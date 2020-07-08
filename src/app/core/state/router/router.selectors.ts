@@ -27,5 +27,5 @@ export const selectQueryParams = createSelector(
  */
 export const selectURL = createSelector(
     selectRouterState,
-    (router: CustomRouterReducerState) => router ? router.state.url : '/'
+    (router: CustomRouterReducerState) => router ? router.state.url : ''
 );

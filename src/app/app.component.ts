@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AllRequested } from './core/state/profile/profile.actions';
 import { AuthStoreDispatcher } from './core/state/auth/auth.dispatcher';
 import { ProfileStoreDispatcher } from './core/state/profile/profiles.dispatcher';
 import { RouterStoreDispatcher } from './core/state/router/router.dispatcher';
@@ -17,9 +15,14 @@ import { MenuItem } from './shared/menu-list/menu-list.component';
 export class AppComponent implements OnInit {
     public landingPages: MenuItem[] = [
     {
-        'label': 'About',
+        'label': 'About Us',
         'icon': 'people',
-        'link': '/'
+        'scrollID': 'about'
+    },
+    {
+        'label': 'Transformations',
+        'icon': 'people',
+        'scrollID': 'transformations'
     }];
 
     public mainPages: MenuItem[] = [
