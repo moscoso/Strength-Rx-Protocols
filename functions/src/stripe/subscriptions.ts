@@ -3,6 +3,7 @@ import { assert, assertUID, catchErrors } from '../helpers';
 import { stripe, db, STRIPE_COLLECTION } from '../config';
 import { attachSource } from './payment_sources';
 import Stripe from 'stripe';
+import { getOrCreateCustomer } from './customers';
 
 
 /**
@@ -20,10 +21,11 @@ export async function getSubscriptions(userID: string): Promise<Stripe.ApiList<S
  * @param plan the ID corresponding to the Plan of the subscription. (https://stripe.com/docs/api/plans)
  * @param coupon the ID corresponding to the Coupon (generated in the Stripe dashboard) 
  */
-export async function createSubscription(userID: string, source: string, plan: string, coupon? : string): Promise <Stripe.Subscription> {
+export async function createSubscription(userID: string, email: string, source: string, plan: string, coupon? : string): Promise <Stripe.Subscription> {
+    const customer = await getOrCreateCustomer(userID);
     await attachSource(userID, source);
     const subscription: Stripe.Subscription = await stripe.subscriptions.create({
-        customer: userID,
+        customer: customer.id,
         coupon,
         items: [{
             plan,

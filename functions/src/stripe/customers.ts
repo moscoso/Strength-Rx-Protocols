@@ -1,6 +1,7 @@
 import { assert } from '../helpers';
 import { db, stripe, STRIPE_COLLECTION } from '../config';
 import Stripe from 'stripe';
+import admin = require('firebase-admin');
 
 /**
  * Read the user's document from Firestore that defines Stripe data
@@ -32,8 +33,10 @@ export async function getCustomer(userID: string): Promise < FirebaseFirestore.D
  * Takes a Firebase user and creates a Stripe customer account
  * @param userID the ID corresponding to the user
  */
-export async function createCustomer(userID: any): Promise < Stripe.Customer > {
+export async function createCustomer(userID: string): Promise < Stripe.Customer > {
+    const user = await admin.auth().getUser(userID);
     const customer: Stripe.Customer = await stripe.customers.create({
+        email: user.email,
         metadata: { firebaseUserID: userID }
     })
     await updateUser(userID, { 'stripeCustomerID': customer.id })

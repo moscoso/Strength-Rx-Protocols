@@ -43,7 +43,6 @@ type StripeSource =
 export const stripeAttachSource = functions.https.onCall(async (data, context: CallableContext) => {
     const userID = assertUID(context);
     const sourceID = assert(data, 'source');
-
     return catchErrors(attachSource(userID, sourceID));
 });
 

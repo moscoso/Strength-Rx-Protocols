@@ -3,6 +3,7 @@ import { assert, assertUID, catchErrors } from '../helpers';
 import { stripe } from '../config';
 import { attachSource } from './payment_sources';
 import Stripe from 'stripe';
+import { getOrCreateCustomer } from './customers';
 
 /** 
  * Gets a user's charge history
@@ -25,9 +26,10 @@ export async function getUserCharges(userID: string, limit ? : number) {
  * @param idempotency_key a key used by Stripe to ensure that a charge called more than once will only be executed once
  */
 export async function createCharge(userID: string, source: string, amount: number, idempotency_key ? : string) {
+    const customer = await getOrCreateCustomer(userID);
     const params: Stripe.ChargeCreateParams = {
         amount,
-        customer: userID,
+        customer: customer.id,
         source,
         currency: 'usd',
     };
