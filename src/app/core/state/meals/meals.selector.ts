@@ -39,3 +39,11 @@ export const selectMealByRouteURL = createSelector(
         return router.state && entities[router.state.params.id];
     }
 );
+
+/**
+ * Select a boolean that represents a Request is in progress
+ */
+export const selectRequestInProgress = createSelector(
+    selectState,
+    (state: MealsState) => state.requestInProgress
+);

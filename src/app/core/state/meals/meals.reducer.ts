@@ -13,6 +13,9 @@ const initialState: MealsState = mealsAdapter.getInitialState({
 export function mealsReducer(state: MealsState = initialState, action: MealAction): MealsState {
     switch (action.type) {
         case MealActionType.AllRequested:
+        case MealActionType.CreateRequested:
+        case MealActionType.UpdateRequested:
+        case MealActionType.DeleteRequested:
             return {
                 ...state,
                 'requestInProgress': true,
@@ -23,14 +26,6 @@ export function mealsReducer(state: MealsState = initialState, action: MealActio
                 ...state,
                 'requestInProgress': false,
             });
-        case MealActionType.CreateRequested:
-        case MealActionType.UpdateRequested:
-        case MealActionType.DeleteRequested:
-            return {
-                ...state,
-                'requestInProgress': true,
-                'error': null,
-            };
         case MealActionType.Created:
             return mealsAdapter.addOne(action.meal, {
                 ...state,
@@ -50,11 +45,9 @@ export function mealsReducer(state: MealsState = initialState, action: MealActio
             return {
                 ...state,
                 'error': action.error,
-                'requestInProgress': false,
+                    'requestInProgress': false,
             };
         default:
             return state;
     }
 }
-
-
