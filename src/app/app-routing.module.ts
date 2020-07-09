@@ -115,6 +115,24 @@ const routes: Routes = [
     'path': 'clients',
     'loadChildren': () => import('./client/client-list/client-list.module').then(m => m.ClientListPageModule),
     'canActivate': [AuthGuard, ProfileGuard],
+},
+{
+    'path': 'create-program',
+    'loadChildren': () => import('./program/create-program/create-program.module').then(m => m
+        .CreateProgramPageModule),
+    'canActivate': [AuthGuard, ProfileGuard],
+},
+{
+    'path': 'edit-program',
+    'loadChildren': () => import('./program/edit-program/edit-program.module').then(m => m
+        .EditProgramPageModule),
+    'canActivate': [AuthGuard, ProfileGuard],
+},
+{
+    'path': 'programs',
+    'loadChildren': () => import('./program/program-list/program-list.module').then(m => m
+        .ProgramListPageModule),
+    'canActivate': [AuthGuard, ProfileGuard],
 }, ];
 
 @NgModule({
