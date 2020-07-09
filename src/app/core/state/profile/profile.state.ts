@@ -6,6 +6,7 @@ import { Timestamp } from 'src/util/timestamp/timestamp';
  */
 export interface Profile {
     id: string;
+    email: string;
     firstName: string;
     lastName: string;
     birthday: Timestamp;
@@ -44,6 +45,7 @@ export interface ProfilesState extends EntityState < Profile > {
 
 export const INIT_PROFILE: Profile = {
     'id': '',
+    'email': '',
     'photoURL': null,
     'firstName': '',
     'lastName': '',

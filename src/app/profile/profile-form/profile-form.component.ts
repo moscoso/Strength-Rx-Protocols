@@ -67,12 +67,13 @@ export class ProfileFormComponent implements OnInit {
     }
 
     async onSubmit(form) {
-        const userID = await this.authService.selectUserID().pipe(take(1)).toPromise();
+        const user = await this.authService.selectUserData().pipe(take(1)).toPromise();
         const profile = this.form.getRawValue();
         try {
             let values: Partial < Profile > ;
             values = {
-                'id': userID,
+                'id': user.uid,
+                'email': user.email,
                 'firstName': profile.firstName,
                 'lastName': profile.lastName,
                 'isClient': true,
