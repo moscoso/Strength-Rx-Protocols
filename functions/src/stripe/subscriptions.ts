@@ -33,7 +33,7 @@ export async function updateSubscription(userID: string, subscription: Stripe.Su
         return deactivateSubscription(userID, subscription.id);
     }
     const docData = {
-        'planID': subscription.plan,
+        'planID': subscription.plan ? subscription.plan.id : null,
         'cancel_at': subscription.cancel_at,
         'status': subscription.status,
     }
