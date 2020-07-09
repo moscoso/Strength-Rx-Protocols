@@ -1,12 +1,13 @@
-import { db, stripe, STRIPE_COLLECTION, stripeWebhookSignature } from '../config';
+import { stripe, stripeWebhookSignature } from '../config';
 import * as functions from 'firebase-functions';
+import { updateSubscription } from './subscriptions';
 
 /**
  * This file contains webhooks called by Stripe that can be configured here: 
  * https://dashboard.stripe.com/webhooks
  */
 
-export async function webhookHandler(data: any) {
+export async function webhookHandler(data: any): Promise<FirebaseFirestore.WriteResult> {
     const customerID = data.customer;
     const subscriptionID = data.subscription;
     const customer = await stripe.customers.retrieve(customerID);
@@ -16,14 +17,7 @@ export async function webhookHandler(data: any) {
     } else {
         const userID = customer.metadata.firebaseUID;
         const subscription = await stripe.subscriptions.retrieve(subscriptionID);
-        const isActive = subscription.status === 'active';
-        const docData: any = {
-            [subscription.id]: subscription.status,
-        }
-        if (subscription.plan) {
-            docData[subscription.plan.id] = isActive;
-        }
-        return await db.doc(`${STRIPE_COLLECTION}/${userID}`).set(docData, { merge: true });
+        return await updateSubscription(userID, subscription)
     }
 };
 
