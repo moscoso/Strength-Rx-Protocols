@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Updated, UpdateRequested } from 'src/app/core/state/workouts/workouts.actions';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/core/state/app.state';
 import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
 
 @Component({
