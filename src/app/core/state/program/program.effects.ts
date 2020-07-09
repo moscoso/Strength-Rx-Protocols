@@ -1,0 +1,86 @@
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Observable, from } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
+
+import { ProgramAction, ProgramActionType } from './program.actions';
+import * as Programs from './program.actions';
+import { ProgramService } from '../../firebase/program/program.service';
+import { ModalController } from '@ionic/angular';
+import { ToastService } from 'src/app/shared/toast/toast.service';
+import { Router } from '@angular/router';
+
+@Injectable()
+export class ProgramEffects {
+
+    @Effect({ 'dispatch': false }) error$: Observable < ProgramAction > = this.actions$.pipe(
+        ofType(ProgramActionType.RequestFailed),
+        tap((action: Programs.RequestFailed) => {
+            console.log(action);
+            this.toaster.failed('Programs failed', action.error.message);
+        })
+    );
+
+    @Effect() allRequested$: Observable < ProgramAction > = this.actions$.pipe(
+        ofType < ProgramAction > (ProgramActionType.AllRequested),
+        switchMap((action: Programs.AllRequested) => {
+            return from(this.programService.getAll()
+                .then(programs => new Programs.AllLoaded(programs))
+                .catch(error => new Programs.RequestFailed(error))
+            );
+        })
+    );
+
+    @Effect() createRequested$: Observable < ProgramAction > = this.actions$.pipe(
+        ofType < ProgramAction > (ProgramActionType.CreateRequested),
+        switchMap((action: Programs.CreateRequested) => {
+            return from(this.programService.create(action.program)
+                .then((program) => new Programs.Created(program))
+                .catch(error => new Programs.RequestFailed(error))
+            );
+        })
+    );
+
+
+    @Effect() updateRequested$: Observable < ProgramAction > = this.actions$.pipe(
+        ofType < ProgramAction > (ProgramActionType.UpdateRequested),
+        switchMap((action: Programs.UpdateRequested) => {
+            return from(this.programService.update(action.id, action.changes)
+                .then(() => new Programs.Updated(action.id, action.changes))
+                .catch(error => new Programs.RequestFailed(error))
+            );
+        })
+    );
+
+    @Effect() deleteRequested$: Observable < ProgramAction > = this.actions$.pipe(
+        ofType < ProgramAction > (ProgramActionType.DeleteRequested),
+        switchMap((action: Programs.DeleteRequested) => {
+            return from(this.programService.delete(action.id)
+                .then(() => new Programs.Deleted(action.id))
+                .catch(error => new Programs.RequestFailed(error))
+            );
+        })
+    );
+
+    @Effect({ 'dispatch': false }) formCompleted$: Observable < ProgramAction > = this.actions$.pipe(
+        ofType < ProgramAction > (ProgramActionType.Created, ProgramActionType.Updated),
+        tap((action: Programs.CreateRequested) => {
+            this.modalController.dismiss();
+        })
+    );
+
+    @Effect({'dispatch': false}) deleteCompleted$: Observable < ProgramAction > = this.actions$.pipe(
+        ofType<ProgramAction>(ProgramActionType.Deleted),
+        tap((action: Programs.CreateRequested) => {
+            this.router.navigateByUrl('/programs');
+        })
+    );
+
+    constructor(
+        private programService: ProgramService,
+        private actions$: Actions,
+        private modalController: ModalController,
+        private toaster: ToastService,
+        private router: Router,
+    ) {}
+}

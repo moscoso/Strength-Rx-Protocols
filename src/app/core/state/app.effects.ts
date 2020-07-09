@@ -5,6 +5,7 @@ import { ProfileEffects } from './profile/profile.effects';
 import { CheckInEffects } from './check-ins/check-in.effects';
 import { FoodEffects } from './food/food.effects';
 import { MealEffects } from './meals/meals.effects';
+import { ProgramEffects } from './program/program.effects';
 
 export const appEffects = [
     AuthEffects,
@@ -13,5 +14,6 @@ export const appEffects = [
     FoodEffects,
     MealEffects,
     ProfileEffects,
+    ProgramEffects,
     WorkoutEffects,
 ];
