@@ -4,6 +4,7 @@ import { stripe, db, STRIPE_COLLECTION } from '../config';
 import { attachSource } from './payment_sources';
 import Stripe from 'stripe';
 import { getOrCreateCustomer } from './customers';
+import { createClient } from '../strengthrx/clients';
 
 
 /**
@@ -80,6 +81,7 @@ export async function createSubscription(userID: string, source: string, plan: s
                 plan,
             }, ],
         });
+        await createClient(userID, subscription);
         await activateSubscription(userID, plan, subscription.id);
         return subscription;
     }

@@ -5,6 +5,7 @@ admin.initializeApp();
 
 // Set Firestore settings
 export const db = admin.firestore();
+export const auth = admin.auth();
 const settings: FirebaseFirestore.Settings = { timestampsInSnapshots: true};
 db.settings(settings);
 
