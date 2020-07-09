@@ -1,0 +1,43 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Programs</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="presentModal()"
+                        id="create-program"
+                        slot="end">New<ion-icon name="add"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-searchbar (ionChange)='search($event)' autocorrect="off"></ion-searchbar>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <ion-grid *ngIf="programList as programs">
+        <ng-template *ngIf="(requestInProgress$ | async) && programs.length == 0; else loaded">
+            <ion-spinner></ion-spinner>
+        </ng-template>
+        <ng-template #loaded>
+            <ion-row>
+                <ion-card *ngIf="programs.length === 0; else showWorkouts">
+                    <ion-card-header>No programs found! Create one!</ion-card-header>
+                    <ion-card-content>
+                        <ion-button (click)="presentModal()">Create New Program</ion-button>
+                    </ion-card-content>
+                </ion-card>
+                <ng-template #showWorkouts>
+                    <ion-col *ngFor="let program of programs" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+                        <div [routerLink]="'./' + program.id">{{program.name}}</div>
+                        <!-- <workout-preview [routerLink]="'./' + workout.id" [workout]="workout"></workout-preview> -->
+                    </ion-col>
+                </ng-template>
+            </ion-row>
+        </ng-template>
+    </ion-grid>
+</ion-content>
