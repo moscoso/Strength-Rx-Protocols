@@ -16,7 +16,6 @@ export class ProgramEffects {
     @Effect({ 'dispatch': false }) error$: Observable < ProgramAction > = this.actions$.pipe(
         ofType(ProgramActionType.RequestFailed),
         tap((action: Programs.RequestFailed) => {
-            console.log(action);
             this.toaster.failed('Programs failed', action.error.message);
         })
     );

@@ -16,7 +16,6 @@ export class WorkoutEffects {
     @Effect({ 'dispatch': false }) error$: Observable < WorkoutAction > = this.actions$.pipe(
         ofType(WorkoutActionType.RequestFailed),
         tap((action: Workouts.RequestFailed) => {
-            console.log(action);
             this.toaster.failed('Workouts failed', action.error.message);
         })
     );
