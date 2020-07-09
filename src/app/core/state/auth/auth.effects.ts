@@ -19,7 +19,6 @@ import {
 import { FireAuthService } from '../../firebase/auth/auth.service';
 import { Router } from '@angular/router';
 import { ToastService } from 'src/app/shared/toast/toast.service';
-import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable()
 export class AuthEffects {
@@ -30,7 +29,7 @@ export class AuthEffects {
             AuthActionType.SignupCompleted),
         tap(() => {
             this.toaster.dismiss();
-            this.router.navigateByUrl('/');
+            this.router.navigateByUrl('/dashboard');
         })
     );
 
