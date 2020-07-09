@@ -1,7 +1,10 @@
 
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { CheckInsState } from './check-in.state';
+import { CheckInsState, CheckIn } from './check-in.state';
 import { checkInsAdapter } from './check-in.reducer';
+import { Dictionary } from '@ngrx/entity';
+import { selectRouterState } from '../router/router.selectors';
+import { RouterReducerState } from '@ngrx/router-store';
 
 /**
  * Gets the top-level state property named 'checkIns' of the store tree.
@@ -29,10 +32,18 @@ export const selectCheckInByID = (checkInID: string) => createSelector(
 /**
  * Use the router state's URL to select an CheckIn by ID.
  */
-// export const selectCheckInByRouteURL = createSelector(
-//     selectEntities,
-//     selectRouterState,
-//     (entities: Dictionary<CheckIn>, router: RouterReducerState<any>) => {
-//         return router.state && entities[router.state.params.orderID];
-//     }
-// );
+export const selectCheckInByRouteURL = createSelector(
+    selectEntities,
+    selectRouterState,
+    (entities: Dictionary<CheckIn>, router: RouterReducerState<any>) => {
+        return router.state && entities[router.state.params.orderID];
+    }
+);
+
+/**
+ * Select a boolean that represents a Request is in progress
+ */
+export const selectRequestInProgress = createSelector(
+    selectState,
+    (state: CheckInsState) => state.requestInProgress
+);

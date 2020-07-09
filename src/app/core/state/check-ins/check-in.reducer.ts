@@ -23,6 +23,9 @@ const initialState: CheckInsState = checkInsAdapter.getInitialState({
 export function checkInsReducer(state: CheckInsState = initialState, action: CheckInAction): CheckInsState {
     switch (action.type) {
         case CheckInActionType.AllRequested:
+        case CheckInActionType.CreateRequested:
+        case CheckInActionType.UpdateRequested:
+        case CheckInActionType.DeleteRequested:
             return {
                 ...state,
                 'requestInProgress': true,
@@ -33,14 +36,6 @@ export function checkInsReducer(state: CheckInsState = initialState, action: Che
                 ...state,
                 'requestInProgress': false,
             });
-        case CheckInActionType.CreateRequested:
-        case CheckInActionType.UpdateRequested:
-        case CheckInActionType.DeleteRequested:
-            return {
-                ...state,
-                'requestInProgress': true,
-                'error': null,
-            };
         case CheckInActionType.Created:
             return checkInsAdapter.addOne(action.checkIn, {
                 ...state,

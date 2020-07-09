@@ -36,26 +36,48 @@ export class CheckInEffects {
         })
     );
 
+
     @Effect() createRequested$: Observable < CheckInAction > = this.actions$.pipe(
         ofType<CheckInAction>(CheckInActionType.CreateRequested),
         switchMap((action: CheckIns.CreateRequested) => {
             return from(this.checkInService.create(action.checkIn)
-                .then((checkIn) => {
-                    return new CheckIns.Created(checkIn);
-                })
-                .catch(error => {
-                    return new CheckIns.RequestFailed({
-                        'error': error
-                    });
-                })
+                .then((checkIn) => new CheckIns.Created(checkIn))
+                .catch(error => new CheckIns.RequestFailed(error))
             );
         })
     );
 
-    @Effect({'dispatch': false}) createCompleted$: Observable < CheckInAction > = this.actions$.pipe(
-        ofType<CheckInAction>(CheckInActionType.Created),
+    @Effect() updateRequested$: Observable < CheckInAction > = this.actions$.pipe(
+        ofType < CheckInAction > (CheckInActionType.UpdateRequested),
+        switchMap((action: CheckIns.UpdateRequested) => {
+            return from(this.checkInService.update(action.id, action.changes)
+                .then(() => new CheckIns.Updated(action.id, action.changes))
+                .catch(error => new CheckIns.RequestFailed(error))
+            );
+        })
+    );
+
+    @Effect() deleteRequested$: Observable < CheckInAction > = this.actions$.pipe(
+        ofType < CheckInAction > (CheckInActionType.DeleteRequested),
+        switchMap((action: CheckIns.DeleteRequested) => {
+            return from(this.checkInService.delete(action.id)
+                .then(() => new CheckIns.Deleted(action.id))
+                .catch(error => new CheckIns.RequestFailed(error))
+            );
+        })
+    );
+
+    @Effect({ 'dispatch': false }) formCompleted$: Observable < CheckInAction > = this.actions$.pipe(
+        ofType < CheckInAction > (CheckInActionType.Created, CheckInActionType.Updated),
         tap((action: CheckIns.CreateRequested) => {
             this.modalController.dismiss();
+        })
+    );
+
+    @Effect({'dispatch': false}) deleted$: Observable < CheckInAction > = this.actions$.pipe(
+        ofType<CheckInAction>(CheckInActionType.Deleted),
+        tap((action: CheckIns.CreateRequested) => {
+            // this.router.navigateByUrl('/workouts');
         })
     );
 
