@@ -2,7 +2,7 @@
     <ion-toolbar>
         <ion-buttons slot="start">
             <ion-back-button *ngIf="routeID" defaultHref="/clients"></ion-back-button>
-            <ion-back-button *ngIf="!routeID" defaultHref="/"></ion-back-button>
+            <ion-back-button *ngIf="!routeID" defaultHref="/dashboard"></ion-back-button>
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title>Profile</ion-title>
@@ -30,7 +30,14 @@
             <assign-trainer [profile]="profile"></assign-trainer>
         </ion-list>
 
-        <logout-button *ngIf="(thisIsMe$ | async)">Log out</logout-button>
+
+        <ng-container *ngIf="(thisIsMe$ | async)">
+            <cancel-subscription></cancel-subscription>
+            <my-charges></my-charges>
+            <!-- <my-sources></my-sources> -->
+            <!-- <logout-button>Log out</logout-button> -->
+        </ng-container>
+
     </ion-grid>
 
     <ng-template #noProfile>

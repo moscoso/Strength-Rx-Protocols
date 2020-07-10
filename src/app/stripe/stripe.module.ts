@@ -2,15 +2,36 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
+import { ElementsComponent } from './elements/elements.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { BuySubscriptionComponent } from './buy-subscription/buy-subscription.component';
+import { MyChargesComponent } from './my-charges/my-charges.component';
+import { MySourcesComponent } from './my-sources/my-sources.component';
+import { CancelSubscriptionComponent } from './cancel-subscription/cancel-subscription.component';
 
 
 
 @NgModule({
-    'declarations': [],
+    'declarations': [
+        CheckoutComponent,
+        ElementsComponent,
+        BuySubscriptionComponent,
+        MyChargesComponent,
+        MySourcesComponent,
+        CancelSubscriptionComponent,
+    ],
     'imports': [
         CommonModule,
         IonicModule,
         FormsModule,
+    ],
+    'exports': [
+        CheckoutComponent,
+        ElementsComponent,
+        BuySubscriptionComponent,
+        MyChargesComponent,
+        MySourcesComponent,
+        CancelSubscriptionComponent,
     ]
 })
 export class StripeModule {}

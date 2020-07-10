@@ -1,16 +1,15 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
-import { AngularFireFunctions } from '@angular/fire/functions';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { AngularFireFunctions } from '@angular/fire/functions';
 import { first } from 'rxjs/operators';
-
 declare var StripeCheckout; // StripeCheckoutStatic;
 
 @Component({
-    'selector': 'app-checkout',
-    'templateUrl': './checkout.component.html',
-    'styleUrls': ['./checkout.component.scss']
+    'selector': 'buy-subscription',
+    'templateUrl': './buy-subscription.component.html',
+    'styleUrls': ['./buy-subscription.component.scss'],
 })
-export class CheckoutComponent implements OnInit {
+export class BuySubscriptionComponent implements OnInit {
 
     constructor(
         private auth: AuthStoreDispatcher,
@@ -30,14 +29,19 @@ export class CheckoutComponent implements OnInit {
     ngOnInit() {
         this.checkout = StripeCheckout.configure({
             'key': 'pk_test_0kffL6wokyI4iGhZPXFIriPT',
-            'image': '/assets/icon/logo.png',
+            // 'image': '/assets/icon/logo.png',
             'locale': 'auto',
             'source': async (source) => {
                 this.loading = true;
                 const userID = await this.auth.getUserID();
-                const fun = this.functions.httpsCallable('stripeCreateCharge');
-                this.confirmation = await fun({ 'source': source.id, 'uid': userID, 'amount': this
-                            .amount })
+                const fun = this.functions.httpsCallable('stripeCreateSubscription');
+                this.confirmation = await fun({
+                        'source': source.id,
+                        'uid': userID,
+                        'plan': 'price_1H2LZhCezgWh4f2jSudGs6zy',
+                        'amount': this
+                            .amount
+                    })
                     .toPromise();
                 this.loading = false;
 
@@ -62,5 +66,6 @@ export class CheckoutComponent implements OnInit {
     onPopstate() {
         this.checkout.close();
     }
+
 
 }

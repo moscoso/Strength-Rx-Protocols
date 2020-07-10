@@ -1,8 +1,13 @@
-<form (submit)=handleForm($event)>
-    <div #cardElement>
-        <!-- A Stripe Element will be inserted here-->
-    </div>
-    <!-- User to display Element errors-->
-    <p>{{cardErrors}}</p>
-    <ion-button>Buy for ${{amount / 100}}.00</ion-button>
-</form>
+<ion-card>
+    <ion-card-content>
+        <form (submit)=handleForm($event)>
+            <div #cardElement>
+                <!-- A Stripe Element will be inserted here-->
+            </div>
+            <!-- User to display Element errors-->
+            <p>{{cardErrors}}</p>
+            <ion-button type="submit">Buy for ${{amount / 100}}.00</ion-button>
+        </form>
+        <div>{{confirmation}}</div>
+    </ion-card-content>
+</ion-card>

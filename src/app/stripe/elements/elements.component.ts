@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
 
@@ -9,7 +9,7 @@ declare var Stripe: stripe.StripeStatic;
     'templateUrl': './elements.component.html',
     'styleUrls': ['./elements.component.scss'],
 })
-export class ElementsComponent implements OnInit {
+export class ElementsComponent implements AfterViewInit {
 
     @Input() amount: number;
     @Input() description: string;
@@ -27,7 +27,7 @@ export class ElementsComponent implements OnInit {
         private functions: AngularFireFunctions,
     ) {}
 
-    ngOnInit() {
+    ngAfterViewInit() {
         this.stripe = Stripe('pk_test_0kffL6wokyI4iGhZPXFIriPT');
         const elements = this.stripe.elements();
 
@@ -48,9 +48,9 @@ export class ElementsComponent implements OnInit {
             const cardErrors = error.message;
         } else {
             // Send the token to your server.
-            this.charge(source);
+            // this.charge(source);
             // this.attachSource(source);
-            // this.subscription(source);
+            this.subscription(source);
         }
     }
 

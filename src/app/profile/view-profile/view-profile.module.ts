@@ -10,6 +10,7 @@ import { ViewProfilePage } from './view-profile.page';
 import { ProfileModule } from '../profile.module';
 import { AccountModule } from 'src/app/account/account.module';
 import { ClientModule } from 'src/app/client/client.module';
+import { StripeModule } from 'src/app/stripe/stripe.module';
 
 @NgModule({
     'imports': [
@@ -19,6 +20,7 @@ import { ClientModule } from 'src/app/client/client.module';
         AccountModule,
         ClientModule,
         ProfileModule,
+        StripeModule,
         ViewProfilePageRoutingModule
     ],
     'declarations': [ViewProfilePage]
