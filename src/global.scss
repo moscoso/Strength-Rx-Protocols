@@ -28,26 +28,37 @@
 /** Material design theme */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+/** Google Fonts **/
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&display=swap');
+
 
 /** Global Form scss */
 form {
     width: 100%;
 }
+
 mat-form-field {
     width: 100%;
     margin-bottom: 25px;
 }
+
 mat-form-field mat-icon-button {
     background: none;
 }
+
 mat-label {
     font-size: 16px;
 }
-mat-hint, mat-error {
+
+mat-hint,
+mat-error {
     font-size: 14px;
 }
 
-ion-spinner, ion-card, ion-avatar, mat-radio-group{
+ion-spinner,
+ion-card,
+ion-avatar,
+mat-radio-group {
     margin: 0 auto;
 }
 
@@ -59,16 +70,16 @@ ion-button[type=submit] {
     margin-top: 25px;
 }
 
-::-webkit-scrollbar {
-    width: .25em;
-    height: .25em;
+*::-webkit-scrollbar {
+    width: .5em;
+    height: .5em;
 }
 
-::-webkit-scrollbar-track {
-    background: var(--ion-color-primary);
-}
-
-::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-track {
     background: var(--ion-color-primary-contrast);
+}
+
+*::-webkit-scrollbar-thumb {
+    background: var(--ion-color-primary);
 }
 
