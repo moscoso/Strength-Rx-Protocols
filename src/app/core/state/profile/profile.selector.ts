@@ -83,22 +83,6 @@ export const selectAllTrainers = createSelector(
     profiles => profiles.filter(profile => profile.isTrainer),
 );
 
-/**
- * Select all clients of the signed in user
- */
-export const selectMyClients = createSelector(
-    selectAllClients,
-    selectUserProfile,
-    (profiles, user) => profiles.filter(profile => profile.assignedTrainer.id === user.id)
-);
-
-/**
- * Select all clients who do not have an assigned trainer
- */
-export const selectUnassignedClients = createSelector(
-    selectAllClients,
-    profiles => profiles.filter(profile => profile.assignedTrainer.id == null)
-);
 
 /**
  * Use the router state's URL to select an Profile by ID.
