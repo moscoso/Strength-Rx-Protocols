@@ -6,6 +6,7 @@ import { DismissModalButtonComponent } from './dismiss-modal-button/dismiss-moda
 import { IonicModule } from '@ionic/angular';
 import { MenuListComponent } from './menu-list/menu-list.component';
 import { RouterModule } from '@angular/router';
+import { ImageComparisonModule } from './image-comparison/image-comparison.module';
 
 
 
@@ -14,9 +15,10 @@ import { RouterModule } from '@angular/router';
         IonicModule,
         RouterModule,
         CommonModule,
-        YouTubePlayerModule
+        YouTubePlayerModule,
+        ImageComparisonModule,
     ],
     'declarations': [YoutubePlayerComponent, DismissModalButtonComponent, MenuListComponent],
-    'exports': [YouTubePlayerModule, YoutubePlayerComponent, DismissModalButtonComponent, MenuListComponent]
+    'exports': [YouTubePlayerModule, YoutubePlayerComponent, DismissModalButtonComponent, MenuListComponent, ImageComparisonModule]
 })
 export class SharedModule {}
