@@ -4,30 +4,25 @@
             <ion-menu-button></ion-menu-button>
             <ion-back-button defaultHref="/workouts"></ion-back-button>
         </ion-buttons>
-        <ion-title>Workout</ion-title>
+        <ion-title>Workout&#9;<span *ngIf="workout$ | async as workout" class="name">{{workout.name}}</span></ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-card *ngIf="workout$ | async as workout">
-        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-            <ion-refresher-content></ion-refresher-content>
-        </ion-refresher>
-        <ion-card-header>
-            <ion-card-title class="name">{{workout.name}}</ion-card-title>
-        </ion-card-header>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-grid *ngIf="workout$ | async as workout">
+        <ion-row>
+            <ion-col *ngFor="let exercise of workout.exercises" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+                <exercise-preview [exercise]=exercise [routerLink]="'/exercises/' + exercise.id "
+                                  [notes]="getNotes(workout.exerciseRoutines[exercise.id])"></exercise-preview>
+            </ion-col>
+        </ion-row>
+        <ng-container *ngIf="isTrainer$ | async">
+            <ion-button color="primary" (click)="showEditModal()">Edit</ion-button>
+            <ion-button color="danger" (click)="showActionSheetToDelete()">Delete</ion-button>
+        </ng-container>
+    </ion-grid>
 
-        <ion-card-content>
-            <ion-row *ngFor="let exercise of workout.exercises">
-                <ion-col size="12" size-lg="6">
-                    {{exercise.name}}
-                </ion-col>
-            </ion-row>
-
-            <ng-container *ngIf="isTrainer$ | async">
-                <ion-button color="primary" (click)="showEditModal()">Edit</ion-button>
-                <ion-button color="danger" (click)="showActionSheetToDelete()">Delete</ion-button>
-            </ng-container>
-        </ion-card-content>
-    </ion-card>
 </ion-content>

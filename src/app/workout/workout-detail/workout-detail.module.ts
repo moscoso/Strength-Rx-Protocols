@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { WorkoutDetailPageRoutingModule } from './workout-detail-routing.module';
 
 import { WorkoutDetailPage } from './workout-detail.page';
+import { ExerciseModule } from 'src/app/exercise/exercise.module';
 
 @NgModule({
     'imports': [
         CommonModule,
         FormsModule,
         IonicModule,
+        ExerciseModule,
         WorkoutDetailPageRoutingModule
     ],
     'declarations': [WorkoutDetailPage]

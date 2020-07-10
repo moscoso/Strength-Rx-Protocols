@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Workout } from 'src/app/core/state/workouts/workouts.state';
+import { Workout, ExerciseRoutine } from 'src/app/core/state/workouts/workouts.state';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { filter, take } from 'rxjs/operators';
 import { EditWorkoutPage } from '../edit-workout/edit-workout.page';
@@ -70,6 +70,15 @@ export class WorkoutDetailPage implements OnInit {
     async requestDelete(): Promise < void > {
         const workout = await this.workout$.pipe(take(1)).toPromise();
         this.workoutService.delete(workout.id);
+    }
+
+    getNotes(routine: ExerciseRoutine) {
+        let note = '';
+        if (routine.reps) { note += `Reps: ${routine.reps} `; }
+        if (routine.sets) { note += `Sets: ${routine.sets} `; }
+        if (routine.minutes) { note += `Sets: ${routine.minutes} `; }
+        if (routine.seconds) { note += `Sets: ${routine.seconds} `; }
+        return note;
     }
 
 }

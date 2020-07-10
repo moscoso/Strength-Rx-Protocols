@@ -9,7 +9,8 @@ import { Exercise } from 'src/app/core/state/exercises/exercises.state';
 export class ExercisePreviewComponent implements OnInit {
 
     @Input() exercise: Exercise;
-
+    @Input() notes: string;
+    
     constructor() {}
 
     ngOnInit() {}

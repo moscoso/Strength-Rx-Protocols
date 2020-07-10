@@ -1,8 +1,13 @@
 <ion-card>
-    <ng-container *ngIf="workout.photoURL">
-        <img [src]="workout.photoURL"/>
+    <ng-container *ngIf="workout.exercises[0] && workout.exercises[0].youtubeID != '' else noVideoURL">
+        <img [src]="getYoutubeThumbnail()"/>
     </ng-container>
+    <ng-template #noVideoURL>
+        <ion-note>No video URL ⚠️</ion-note>
+    </ng-template>
+
     <ion-card-header>
         <ion-card-title class="name">{{workout.name}}</ion-card-title>
+        <ion-card-subtitle class="name">{{workout.exercises.length}} Exercises</ion-card-subtitle>
     </ion-card-header>
 </ion-card>

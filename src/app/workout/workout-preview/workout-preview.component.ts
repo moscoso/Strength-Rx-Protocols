@@ -14,4 +14,7 @@ export class WorkoutPreviewComponent implements OnInit {
 
     ngOnInit() {}
 
+    getYoutubeThumbnail() {
+        return `https://i3.ytimg.com/vi/${this.workout.exercises[0].youtubeID}/mqdefault.jpg`;
+    }
 }
