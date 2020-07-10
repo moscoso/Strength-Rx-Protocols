@@ -14,13 +14,22 @@ export async function createClient(userID: string, subscription: Stripe.Subscrip
     return db.runTransaction(async (transaction: Transaction) => {
         await incrementCounter(`clients`, transaction);
         const user = await auth.getUser(userID);
+        const profile = (await db.collection(`profiles`).doc(userID).get()).data()
+        if (profile == null) {
+            const errorMessage = `Could not create client because profile for ${userID} does not exist`
+            throw new Error(errorMessage);
+        }
+
         const clientRef: DocumentReference = db.doc(`clients/${userID}`);
-        return transaction.set(clientRef, {...user, ...{
-            userID,
-            clientID: shortID,
-            email: user.email,
-            subscription: subscription.status,
-        }});
+        return transaction.set(clientRef, {
+            ...profile,
+            ...{
+                userID,
+                clientID: shortID,
+                email: user.email,
+                subscription: subscription.status,
+            }
+        });
     })
 
 
