@@ -15,6 +15,7 @@ export class ClientListPage implements OnInit {
     constructor(public clientService: ClientStoreDispatcher) {}
 
     ngOnInit() {
+        this.clientService.loadAll();
         this.clientList$ = this.clientService.selectAll();
     }
 
