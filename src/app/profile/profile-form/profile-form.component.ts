@@ -1,13 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/core/state/app.state';
 import { take, first } from 'rxjs/operators';
 import { Profile, ClientApplicationStatus } from 'src/app/core/state/profile/profile.state';
-import { selectUserID } from 'src/app/core/state/auth/auth.selector';
 import { ToastService } from 'src/app/shared/toast/toast.service';
-import { selectUserProfile } from 'src/app/core/state/profile/profile.selector';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
 
@@ -86,8 +82,6 @@ export class ProfileFormComponent implements OnInit {
                     'feet': profile.feet,
                     'inches': profile.inches
                 },
-                'assignedTrainer': null,
-                'clientApplicationStatus': ClientApplicationStatus.NOT_STARTED
             };
             this.formSubmit.emit(values);
         } catch (error) {

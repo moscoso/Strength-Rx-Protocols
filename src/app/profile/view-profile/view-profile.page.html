@@ -27,7 +27,8 @@
         <ion-list>
             <ion-item>Sex: {{profile.sex}}</ion-item>
             <ion-item>Height: {{profile.height.feet}}" {{profile.height.inches}}"</ion-item>
-            <assign-trainer [profile]="profile"></assign-trainer>
+            <assign-trainer [client]="profile"></assign-trainer>
+            <assign-program [client]="profile"></assign-program>
         </ion-list>
 
 
