@@ -15,13 +15,12 @@ export async function createClient(userID: string, subscription: Stripe.Subscrip
         await incrementCounter(`clients`, transaction);
         const user = await auth.getUser(userID);
         const clientRef: DocumentReference = db.doc(`clients/${userID}`);
-        return transaction.set(clientRef, {
-            ...user,
+        return transaction.set(clientRef, {...user, ...{
             userID,
             clientID: shortID,
             email: user.email,
             subscription: subscription.status,
-        });
+        }});
     })
 
 
