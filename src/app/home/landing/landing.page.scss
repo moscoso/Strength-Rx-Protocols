@@ -1,12 +1,12 @@
 :host {
 
-    overflow-y:scroll;
+    overflow-y: scroll;
 
 
     ion-header {
         position: fixed;
     }
-    
+
     video {
         min-width: 100%;
         height: auto;
@@ -33,5 +33,83 @@
 
     .menu-label {
         font-size: 24px;
+    }
+
+    #join {
+        background-image: url(/assets/img/gym_sticker.jpg);
+    }
+
+    #about {
+        position: relative;
+        // background-image: url(/assets/img/gym_sticker.jpg);
+        // background-image: url(https://i.pinimg.com/originals/4b/f5/29/4bf5297d2589e3c9f8bb46f131c93400.jpg);
+        background-size: cover;
+        color: black;
+    }
+
+    #about::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url(/assets/img/gym_sticker.jpg);
+        filter: opacity(25%);
+    }
+
+    #about::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        -webkit-transform-origin: 100% 0;
+        -ms-transform-origin: 100% 0;
+        transform-origin: 100% 0;
+        -webkit-transform: skew(-45deg);
+        -ms-transform: skew(-45deg);
+        transform: skew(-45deg);
+        z-index: -1;
+    }
+
+
+    #transformations {
+        background-image: url('/assets/img/cool-background.png');
+        background-size: cover;
+    }
+
+    #transformations ion-col {
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 40px;
+        font-family: 'Teko', sans-serif;
+        text-transform: uppercase;
+        padding-top: 75px;
+        padding-bottom: 25px;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 30px;
+        font-family: 'Teko', sans-serif;
+    }
+
+    #about img {
+        max-height: 600px;
+    }
+
+    .center-btn {
+        display: table;
+        margin: 25px auto;
+        --background: linear-gradient(90deg, rgba(0,212,255,1) 0%, rgba(56,128,255,1) 100%)
+    }
+
+    section {
+        padding-bottom: 25px;
     }
 }

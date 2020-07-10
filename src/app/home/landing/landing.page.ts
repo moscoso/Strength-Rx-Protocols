@@ -1,7 +1,15 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, OnInit, AfterContentInit } from '@angular/core';
+import {
+    Component,
+    ViewChild,
+    ElementRef,
+    AfterViewInit,
+    OnInit,
+} from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { RegisterPage } from 'src/app/account/register/register.page';
 import { environment } from 'src/environments/environment';
+import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { Observable, of } from 'rxjs';
 
 @Component({
     'selector': 'app-landing',
@@ -10,13 +18,16 @@ import { environment } from 'src/environments/environment';
 })
 export class LandingPage implements OnInit, AfterViewInit {
 
-    @ViewChild('header', { 'read': ElementRef}) header: ElementRef < HTMLIonHeaderElement > ;
+    @ViewChild('header', { 'read': ElementRef }) header: ElementRef < HTMLIonHeaderElement > ;
     @ViewChild('video') video: ElementRef < HTMLVideoElement > ;
 
     headerHeight = 100;
 
+    isAuthenticated$: Observable<boolean> = of(false);
+
     constructor(
-        public modalController: ModalController
+        public modalController: ModalController,
+        public authService: AuthStoreDispatcher,
     ) {}
 
     ngOnInit() {
@@ -27,6 +38,8 @@ export class LandingPage implements OnInit, AfterViewInit {
         window.addEventListener('load', () => {
             this.setHeaderHeight();
         });
+
+        this.isAuthenticated$ = this.authService.selectAuthenticated();
     }
 
     ngAfterViewInit() {
@@ -69,5 +82,18 @@ export class LandingPage implements OnInit, AfterViewInit {
         });
         await modal.present();
         return;
+    }
+
+
+    getTransformationImages(i: number) {
+        return [
+            `/assets/img/transformations/${i}/before.jpg`,
+            `/assets/img/transformations/${i}/after.jpg`
+        ];
+    }
+
+    scrollPage(s: string) {
+        const options: ScrollIntoViewOptions = { 'behavior': 'smooth', 'block': 'start', 'inline': 'nearest' };
+        document.getElementById(s).scrollIntoView(options);
     }
 }
