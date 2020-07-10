@@ -12,6 +12,7 @@ export enum ProfileActionType {
     DeleteRequested = '[Profile Service] Delete Profile Requested',
     Deleted = '[Profile Page] Profile Deleted',
     RequestFailed = '[Profile Service] Request Failed',
+    SignedOut = '[Auth Effects] SignedOut'
 }
 
 export class AllRequested implements Action {
@@ -71,6 +72,11 @@ export class DeleteRequested implements Action {
     ) {}
 }
 
+export class SignedOut implements Action {
+    readonly type = ProfileActionType.SignedOut;
+    constructor() {}
+}
+
 /**
  * All of the actions related to Profiles
  */
@@ -83,4 +89,5 @@ export type ProfileAction =
     UpdateRequested |
     Deleted |
     DeleteRequested |
-    RequestFailed;
+    RequestFailed |
+    SignedOut;

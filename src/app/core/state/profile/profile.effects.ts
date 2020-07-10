@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, from } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, map } from 'rxjs/operators';
 
 import { ProfileAction, ProfileActionType } from './profile.actions';
 import * as Profiles from './profile.actions';
@@ -9,6 +9,7 @@ import { ProfileService } from '../../firebase/profile/profile.service';
 import { Router } from '@angular/router';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { ModalController } from '@ionic/angular';
+import { AuthAction, AuthActionType } from '../auth/auth.actions';
 
 @Injectable()
 export class ProfileEffects {
@@ -65,6 +66,10 @@ export class ProfileEffects {
             this.router.navigateByUrl('/profile');
         })
     );
+
+    @Effect() signedOut$: Observable < ProfileAction > = this.actions$.pipe(
+        ofType(AuthActionType.NotAuthenticated),
+        map(action => new Profiles.SignedOut()));
 
     constructor(
         private profileService: ProfileService,

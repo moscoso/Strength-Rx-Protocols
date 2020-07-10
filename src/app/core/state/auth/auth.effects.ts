@@ -33,6 +33,14 @@ export class AuthEffects {
         })
     );
 
+    @Effect({ 'dispatch': false }) rerouteToLandingPage$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(AuthActionType.NotAuthenticated),
+        tap(() => {
+            this.toaster.dismiss();
+            this.router.navigateByUrl('/');
+        })
+    );
+
     @Effect({ 'dispatch': false }) signupSuccess$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.SignupCompleted),
         tap(async () => {

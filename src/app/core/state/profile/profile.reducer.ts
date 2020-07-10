@@ -49,6 +49,8 @@ export function profilesReducer(state: ProfilesState = initialState, action: Pro
                 ...state,
                 'requestInProgress': false,
             });
+        case ProfileActionType.SignedOut:
+            return profilesAdapter.removeAll(state);
         case ProfileActionType.RequestFailed:
             return {
                 ...state,
