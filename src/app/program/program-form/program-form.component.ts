@@ -26,10 +26,15 @@ export class ProgramFormComponent implements OnInit {
     name = new FormControl('', {
         'updateOn': 'blur',
         'validators': Validators.required,
-        'asyncValidators': this.verifyWorkoutIsUnique.bind(this)
+        'asyncValidators': this.verifyProgramIsUnique.bind(this)
     });
-    workouts = new FormControl([], [Validators.required]);
-    exerciseRoutines = new FormArray([]);
+    day1 = new FormControl(null, [Validators.required]);
+    day2 = new FormControl(null, []);
+    day3 = new FormControl(null, []);
+    day4 = new FormControl(null, []);
+    day5 = new FormControl(null, []);
+    day6 = new FormControl(null, []);
+    day7 = new FormControl(null, []);
 
     workoutList$: Observable < Workout[] > = of ([]);
     requestInProgress$: Observable < boolean > ;
@@ -45,8 +50,13 @@ export class ProgramFormComponent implements OnInit {
         this.programService.loadAll();
         this.form = new FormGroup({
             'name': this.name,
-            'exercises': this.workouts,
-            'exerciseRoutines': this.exerciseRoutines,
+            'day1': this.day1,
+            'day2': this.day2,
+            'day3': this.day3,
+            'day4': this.day4,
+            'day5': this.day5,
+            'day6': this.day6,
+            'day7': this.day7,
         });
         this.requestInProgress$ = this.workoutService.selectRequestInProgress();
         this.workoutService.loadAll();
@@ -56,59 +66,49 @@ export class ProgramFormComponent implements OnInit {
             if (program) {
                 this.initFormValues(program);
             }
-
-            this.workouts.valueChanges.subscribe((exercises: Exercise[]) => {
-                // this.setExerciseRoutineFormArray(exercises, program);
-            });
         });
+
+        console.log(this.day2.value);
     }
 
     initFormValues(program: Program) {
         this.name.setValue(program.name);
         this.name.disable();
-        // this.workouts.setValue(program.workouts);
-        // this.setExerciseRoutineFormArray(program.exercises, program);
-    }
-
-
-    /**
-     * Set the exerciseRoutines form array by inserting a new FormGroup
-     * for each exercise in the value of the exercises formControl.
-     * In other words, creating a sub form for each exercise.
-     * @param exercises the value from the exercises formControl.
-     * @param workout if it exists, it provides the default values for the exercise routine
-     */
-    setExerciseRoutineFormArray(exercises: Exercise[], workout: Workout) {
-        this.exerciseRoutines = new FormArray([]);
-        exercises.forEach((exercise) => {
-            let defaultValues: ExerciseRoutine = {
-                'sets': null,
-                'reps': null,
-                'minutes': null,
-                'seconds': null
-            };
-            if (workout) {
-                defaultValues = { ...workout.exerciseRoutines[exercise.name] };
-            }
-            const routineGroup: FormGroup = new FormGroup({
-                'sets': new FormControl(defaultValues.sets),
-                'reps': new FormControl(defaultValues.reps),
-                'minutes': new FormControl(defaultValues.minutes),
-                'seconds': new FormControl(defaultValues.seconds),
-            });
-            const length = this.exerciseRoutines.length;
-            this.exerciseRoutines.insert(length, routineGroup);
-        });
+        this.day1.setValue(program.schedule.day1);
+        this.day2.setValue(program.schedule.day2);
+        this.day3.setValue(program.schedule.day3);
+        this.day4.setValue(program.schedule.day4);
+        this.day5.setValue(program.schedule.day5);
+        this.day6.setValue(program.schedule.day6);
+        this.day7.setValue(program.schedule.day7);
     }
 
     onSubmit(form) {
         const program = this.form.getRawValue();
         try {
             let values: Partial < Program > ;
+            const workouts = [
+                program.day1,
+                program.day2,
+                program.day3,
+                program.day4,
+                program.day5,
+                program.day6,
+                program.day7
+            ].filter(workout => workout != null);
             values = {
                 'id': this.getSlug(program.name),
                 'name': program.name,
-                'workouts': program.workouts,
+                'workouts': workouts,
+                'schedule': {
+                    'day1': program.day1,
+                    'day2': program.day2,
+                    'day3': program.day3,
+                    'day4': program.day4,
+                    'day5': program.day5,
+                    'day6': program.day6,
+                    'day7': program.day7,
+                },
                 'dateCreated': new Date(),
                 'photoURL': '',
             };
@@ -122,25 +122,8 @@ export class ProgramFormComponent implements OnInit {
         return transformToSlug(name);
     }
 
-    verifyWorkoutIsUnique(ctrl: AbstractControl): Promise < ValidationErrors | null > {
+    verifyProgramIsUnique(ctrl: AbstractControl): Promise < ValidationErrors | null > {
         return validateDocIDIsUnique(`programs`, ctrl, this.firestore);
-    }
-
-    getExerciseRoutinesValue(workout: Workout) {
-        const routinesRaw = this.exerciseRoutines.getRawValue();
-        const exerciseRoutines = {};
-        workout.exercises.forEach((exercise, i) => {
-            exerciseRoutines[exercise.name] = routinesRaw[i];
-        });
-        return exerciseRoutines;
-    }
-
-    /**
-     * Get the name of an exercise from the exercises control specified by index
-     * @param index the index of the exercises value array
-     */
-    getExerciseName(index: number) {
-        return this.workouts.value[index].name;
     }
 
     /**
@@ -150,7 +133,7 @@ export class ProgramFormComponent implements OnInit {
      * @returns a boolean should be returned.
      */
 
-    compareExercises(e1: Exercise, e2: Exercise): boolean {
+    compareWorkouts(e1: Workout, e2: Workout): boolean {
         return e1 && e2 ? e1.id === e2.id : e1 === e2;
     }
 

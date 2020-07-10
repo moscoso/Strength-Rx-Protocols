@@ -20,65 +20,86 @@
             </mat-form-field>
         </ion-row>
 
+        <ion-label>Weekly Schedule</ion-label>
         <ion-row>
-            <ion-spinner [hidden]="workouts.dirty || (workoutList$ | async).length !== 0"></ion-spinner>
+            <ion-spinner [hidden]="day1.dirty || (workoutList$ | async).length !== 0"></ion-spinner>
             <mat-form-field [hidden]="(workoutList$ | async).length === 0">
-                <mat-label>Exercises</mat-label>
-                <mat-select multiple [formControl]="workouts" name="workouts" [compareWith]="compareExercises">
+                <mat-label>Day 1 Workout</mat-label>
+                <mat-select [formControl]="day1" name="workouts" [compareWith]="compareWorkouts">
                     <mat-option *ngFor="let workout of (workoutList$ | async)"
                                 [value]="workout">{{workout.name}}</mat-option>
                 </mat-select>
-                <mat-error *ngIf="workouts.hasError('required')">At least one Workout is required.</mat-error>
+                <mat-error *ngIf="day1.hasError('required')">At least one Workout is required.</mat-error>
             </mat-form-field>
         </ion-row>
+        <ion-row>
+            <ion-spinner [hidden]="day2.dirty || (workoutList$ | async).length !== 0"></ion-spinner>
+            <mat-form-field [hidden]="(workoutList$ | async).length === 0">
+                <mat-label>Day 2 Workout</mat-label>
+                <mat-select [formControl]="day2" name="workouts" [compareWith]="compareWorkouts">
+                    <mat-option *ngFor="let workout of (workoutList$ | async)"
+                                [value]="workout">{{workout.name}}</mat-option>
+                </mat-select>
+                <mat-hint [hidden]="day2.value">Rest day</mat-hint>
+            </mat-form-field>
 
-        <ng-container *ngFor="let routineControl of exerciseRoutines.controls; let i = index">
-            <ion-label>{{getExerciseName(i)}}</ion-label>
-            <form [formGroup]="routineControl">
-                <ion-row>
-                    <ion-col size="3">
-                        <mat-form-field>
-                            <mat-label>Sets</mat-label>
-                            <input matInput type="text" [formControl]="routineControl.get('sets')" name="sets"
-                                   pattern="[0-9\-]+"
-                                   placeholder="0"
-                                   autocomplete="off"
-                                   enterKeyHint="next">
-                        </mat-form-field>
-                    </ion-col>
-                    <ion-col size="3">
-                        <mat-form-field>
-                            <mat-label>Reps</mat-label>
-                            <input matInput type="text" [formControl]="routineControl.get('reps')" name="reps"
-                                   pattern="[0-9\-]+"
-                                   placeholder="0"
-                                   autocomplete="off"
-                                   enterKeyHint="next">
-                        </mat-form-field>
-                    </ion-col>
-                    <ion-col size="3">
-                        <mat-form-field>
-                            <mat-label>Minutes</mat-label>
-                            <input matInput type="text" [formControl]="routineControl.get('minutes')" name="minutes"
-                                   pattern="[0-9\-]+"
-                                   placeholder="0"
-                                   autocomplete="off"
-                                   enterKeyHint="next">
-                        </mat-form-field>
-                    </ion-col>
-                    <ion-col size="3">
-                        <mat-form-field>
-                            <mat-label>Seconds</mat-label>
-                            <input matInput type="text" [formControl]="routineControl.get('seconds')" name="seconds"
-                                   pattern="[0-9\-]+"
-                                   placeholder="0"
-                                   autocomplete="off"
-                                   enterKeyHint="next">
-                        </mat-form-field>
-                    </ion-col>
-                </ion-row>
-            </form>
-        </ng-container>
+        </ion-row>
+        <ion-row>
+            <ion-spinner [hidden]="day3.dirty || (workoutList$ | async).length !== 0"></ion-spinner>
+            <mat-form-field [hidden]="(workoutList$ | async).length === 0">
+                <mat-label>Day 3 Workout</mat-label>
+                <mat-select [formControl]="day3" name="workouts" [compareWith]="compareWorkouts">
+                    <mat-option *ngFor="let workout of (workoutList$ | async)"
+                                [value]="workout">{{workout.name}}</mat-option>
+                </mat-select>
+                <mat-hint [hidden]="day3.value">Rest day</mat-hint>
+            </mat-form-field>
+        </ion-row>
+        <ion-row>
+            <ion-spinner [hidden]="day4.dirty || (workoutList$ | async).length !== 0"></ion-spinner>
+            <mat-form-field [hidden]="(workoutList$ | async).length === 0">
+                <mat-label>Day 4 Workout</mat-label>
+                <mat-select [formControl]="day4" name="workouts" [compareWith]="compareWorkouts">
+                    <mat-option *ngFor="let workout of (workoutList$ | async)"
+                                [value]="workout">{{workout.name}}</mat-option>
+                </mat-select>
+                <mat-hint [hidden]="day4.value">Rest day</mat-hint>
+            </mat-form-field>
+        </ion-row>
+        <ion-row>
+            <ion-spinner [hidden]="day5.dirty || (workoutList$ | async).length !== 0"></ion-spinner>
+            <mat-form-field [hidden]="(workoutList$ | async).length === 0">
+                <mat-label>Day 5 Workout</mat-label>
+                <mat-select [formControl]="day5" name="workouts" [compareWith]="compareWorkouts">
+                    <mat-option *ngFor="let workout of (workoutList$ | async)"
+                                [value]="workout">{{workout.name}}</mat-option>
+                </mat-select>
+                <mat-hint [hidden]="day5.value">Rest day</mat-hint>
+            </mat-form-field>
+        </ion-row>
+        <ion-row>
+            <ion-spinner [hidden]="day6.dirty || (workoutList$ | async).length !== 0"></ion-spinner>
+            <mat-form-field [hidden]="(workoutList$ | async).length === 0">
+                <mat-label>Day 6 Workout</mat-label>
+                <mat-select [formControl]="day6" name="workouts" [compareWith]="compareWorkouts">
+                    <mat-option *ngFor="let workout of (workoutList$ | async)"
+                                [value]="workout">{{workout.name}}</mat-option>
+                </mat-select>
+                <mat-hint [hidden]="day6.value">Rest day</mat-hint>
+            </mat-form-field>
+        </ion-row>
+        <ion-row>
+            <ion-spinner [hidden]="day2.dirty || (workoutList$ | async).length !== 0"></ion-spinner>
+            <mat-form-field [hidden]="(workoutList$ | async).length === 0">
+                <mat-label>Day 7 Workout</mat-label>
+                <mat-select [formControl]="day7" name="workouts" [compareWith]="compareWorkouts">
+                    <mat-option *ngFor="let workout of (workoutList$ | async)"
+                                [value]="workout">{{workout.name}}</mat-option>
+                </mat-select>
+                <mat-hint [hidden]="day7.value">Rest day</mat-hint>
+            </mat-form-field>
+        </ion-row>
+        
 
         <ion-button type="submit"
                     [disabled]="form.invalid || (requestInProgress$ | async)"
