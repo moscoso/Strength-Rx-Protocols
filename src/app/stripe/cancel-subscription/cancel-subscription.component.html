@@ -1,5 +1,5 @@
-<h1>My Subscriptions</h1>
-
+<h1>Subscriptions</h1>
+<ion-spinner *ngIf="!subscription"></ion-spinner>
 <ion-grid *ngIf="subscription">
     <ion-row>
         <ion-col size="4">
@@ -25,4 +25,4 @@
     </ion-row>
 </ion-grid>
 
-<ion-button *ngIf="subscription" (click)="cancelSubscription()">Cancel</ion-button>
+<!-- <ion-button *ngIf="subscription" (click)="cancelSubscription()">Cancel</ion-button> -->

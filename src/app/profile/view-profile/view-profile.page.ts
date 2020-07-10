@@ -17,6 +17,7 @@ export class ViewProfilePage implements OnInit {
     public routeID = null;
 
     public thisIsMe$: Observable < boolean > = of (false);
+    public iAmTrainer$: Observable < boolean > = of (false);
     public requestInProgress$: Observable < boolean > = of (false);
 
     constructor(
@@ -30,6 +31,7 @@ export class ViewProfilePage implements OnInit {
         this.fetchProfile();
         this.requestInProgress$ = this.profileService.selectRequestInProgress();
         this.thisIsMe$ = this.profileService.selectProfileBelongsToUser();
+        this.iAmTrainer$ = this.profileService.selectUserIsTrainer();
     }
 
     doRefresh(event): void {

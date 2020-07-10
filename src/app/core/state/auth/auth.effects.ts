@@ -22,18 +22,26 @@ import { ToastService } from 'src/app/shared/toast/toast.service';
 
 @Injectable()
 export class AuthEffects {
-    @Effect({ 'dispatch': false }) rerouteToHomePage$: Observable < AuthAction > = this.actions$.pipe(
+    @Effect({ 'dispatch': false }) loggedIn$: Observable < AuthAction > = this.actions$.pipe(
         ofType(
-            AuthActionType.LogoutRequested,
             AuthActionType.LoginCompleted,
-            AuthActionType.SignupCompleted),
+        ),
         tap(() => {
             this.toaster.dismiss();
             this.router.navigateByUrl('/dashboard');
         })
     );
 
-    @Effect({ 'dispatch': false }) rerouteToLandingPage$: Observable < AuthAction > = this.actions$.pipe(
+    @Effect({ 'dispatch': false }) signedUp$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(
+            AuthActionType.SignupCompleted),
+        tap(() => {
+            this.toaster.dismiss();
+            this.router.navigateByUrl('/create-profile');
+        })
+    );
+
+    @Effect({ 'dispatch': false }) loggedOut$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.NotAuthenticated),
         tap(() => {
             this.toaster.dismiss();

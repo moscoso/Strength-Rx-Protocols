@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Component({
@@ -6,7 +6,7 @@ import { AngularFireFunctions } from '@angular/fire/functions';
     'templateUrl': './cancel-subscription.component.html',
     'styleUrls': ['./cancel-subscription.component.scss'],
 })
-export class CancelSubscriptionComponent implements OnInit {
+export class CancelSubscriptionComponent implements AfterViewInit {
 
     subscription: any;
 
@@ -14,7 +14,7 @@ export class CancelSubscriptionComponent implements OnInit {
         public functions: AngularFireFunctions
     ) {}
 
-    ngOnInit() {
+    ngAfterViewInit() {
         this.getSubscriptions();
     }
 
@@ -22,7 +22,6 @@ export class CancelSubscriptionComponent implements OnInit {
         const fun = this.functions.httpsCallable('stripeGetSubscriptions');
         fun({}).subscribe(response => {
             const subscription = response.data[0];
-            console.log(subscription);
             this.subscription = subscription;
         });
     }

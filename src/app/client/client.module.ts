@@ -5,6 +5,7 @@ import { AssignTrainerComponent } from './assign-trainer/assign-trainer.componen
 import { IonicModule } from '@ionic/angular';
 import { MaterialsModule } from '../materials.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -16,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     'imports': [
         CommonModule,
         IonicModule,
+        RouterModule,
         MaterialsModule,
         ReactiveFormsModule,
     ],

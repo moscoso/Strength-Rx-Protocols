@@ -55,7 +55,7 @@ export class ProfileEffects {
     @Effect({ 'dispatch': false }) created$: Observable < ProfileAction > = this.actions$.pipe(
         ofType < ProfileAction > (ProfileActionType.Created),
         tap((action: Profiles.Created) => {
-            this.router.navigateByUrl('/');
+            this.router.navigateByUrl('/start-membership');
         })
     );
 

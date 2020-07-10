@@ -35,4 +35,8 @@ export class AssignTrainerComponent implements OnInit {
         const trainer: Profile = await this.profileService.selectUserProfile().pipe(take(1)).toPromise();
         this.clientService.assignTrainer(this.clientID, trainer);
     }
+
+    getProfileLink(p: Profile) {
+        return `/profile/${p.id}`;
+    }
 }

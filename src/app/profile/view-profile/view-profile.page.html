@@ -22,22 +22,25 @@
         </ion-avatar>
 
         <h1 class="name">{{profile.firstName}} {{profile.lastName}}</h1>
-
+        <h2 *ngIf="(thisIsMe$ | async) && (iAmTrainer$ | async)">Trainer 💪🏼 </h2>
         <ion-note>USER ID: {{profile.id}}</ion-note>
         <ion-list>
-            <ion-item>Sex: {{profile.sex}}</ion-item>
+            <ion-item>Sex: {{profile.sex === 'M' ? 'Male' : 'Female'}}
+                <ion-icon *ngIf="profile.sex === 'M'" name="male-outline"></ion-icon>
+                <ion-icon *ngIf="profile.sex === 'F'" name="female-outline"></ion-icon>
+            </ion-item>
             <ion-item>Height: {{profile.height.feet}}" {{profile.height.inches}}"</ion-item>
-            <assign-trainer [clientID]="profile.id"></assign-trainer>
-            <assign-program [clientID]="profile.id"></assign-program>
+            <assign-trainer [clientID]="profile.id" [hidden]="(thisIsMe$ | async)" *ngIf="(iAmTrainer$ | async)"></assign-trainer>
+            <assign-program [clientID]="profile.id" [hidden]="(thisIsMe$ | async)" *ngIf="(iAmTrainer$ | async)"></assign-program>
         </ion-list>
 
 
-        <ng-container *ngIf="(thisIsMe$ | async)">
+        <div [hidden]="(thisIsMe$ | async) && (iAmTrainer$ | async)" *ngIf="(thisIsMe$ | async) || (iAmTrainer$ | async)">
             <cancel-subscription></cancel-subscription>
             <my-charges></my-charges>
             <!-- <my-sources></my-sources> -->
             <!-- <logout-button>Log out</logout-button> -->
-        </ng-container>
+        </div>
 
     </ion-grid>
 

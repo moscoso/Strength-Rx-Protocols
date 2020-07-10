@@ -17,6 +17,7 @@ export class ClientListPage implements OnInit {
     ngOnInit() {
         this.clientService.loadAll();
         this.clientList$ = this.clientService.selectAll();
+        this.clientList$.subscribe(x => console.log(x));
     }
 
     getDateFromTimestamp(timestamp) {
@@ -25,5 +26,14 @@ export class ClientListPage implements OnInit {
         } else {
             return timestamp;
         }
+    }
+
+    getAvatar(client: Client) {
+        const photoURLExists = client.photoURL != null && client.photoURL.length > 0;
+        return photoURLExists ?  client.photoURL : this.getInitialsAvatar(client);
+    }
+
+    getInitialsAvatar(client: Client) {
+        return `https://ui-avatars.com/api/?name=${client.firstName}+${client.lastName}`;
     }
 }
