@@ -11,7 +11,7 @@
     <ion-list>
         <ion-item *ngFor="let client of clientList$ | async"  [routerLink]="'/profile/'+client.id">
             <ion-label >{{client.firstName}} {{client.lastName}}</ion-label>
-            <ion-note>Joined: {{getDateFromTimestamp(client.joined) | date}} <br/>Birthday : {{getDateFromTimestamp(client.birthday) | date}}</ion-note>
+            <ion-note>Joined: {{getDateFromTimestamp(client.joined) | date}} <br/><span *ngIf="client.birthday">Birthday : {{getDateFromTimestamp(client.birthday) | date}}</span></ion-note>
         </ion-item>
     </ion-list>
 </ion-content>

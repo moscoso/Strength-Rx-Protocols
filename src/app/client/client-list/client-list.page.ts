@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Profile } from 'src/app/core/state/profile/profile.state';
-import { Store } from '@ngrx/store';
-import { selectAllClients } from 'src/app/core/state/profile/profile.selector';
+import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { Client } from 'src/app/core/state/client/client.state';
 
 @Component({
     'selector': 'app-client-list',
@@ -11,15 +10,19 @@ import { selectAllClients } from 'src/app/core/state/profile/profile.selector';
 })
 export class ClientListPage implements OnInit {
 
-    clientList$: Observable < Profile[] > = of ([]);
+    clientList$: Observable < Client[] > = of ([]);
 
-    constructor(public store: Store) {}
+    constructor(public clientService: ClientStoreDispatcher) {}
 
     ngOnInit() {
-        this.clientList$ = this.store.select(selectAllClients);
+        this.clientList$ = this.clientService.selectAll();
     }
 
     getDateFromTimestamp(timestamp) {
-        return timestamp.toDate();
+        if (timestamp.toDate) {
+            return timestamp.toDate();
+        } else {
+            return timestamp;
+        }
     }
 }

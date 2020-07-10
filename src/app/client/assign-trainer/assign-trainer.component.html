@@ -1,4 +1,6 @@
-<ng-container *ngIf="(iAmTrainer$ | async) && !profile.isTrainer && profile.isClient">
-    <ion-item *ngIf="profile.assignedTrainer">Assigned Trainer: {{profile.assignedTrainer.firstName}}</ion-item>
+<ng-container *ngIf="(iAmTrainer$ | async)">
+    <h3>Trainer</h3>
+    <ion-item *ngIf="assignedTrainer">Assigned Trainer: {{assignedTrainer.firstName}}</ion-item>
+    <ion-note *ngIf="!assignedTrainer">Unassigned ⚠️</ion-note>
     <ion-button (click)="assignTrainer()">Assign to me</ion-button>
 </ng-container>

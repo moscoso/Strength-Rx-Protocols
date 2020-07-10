@@ -7,9 +7,11 @@ import { CheckInsState } from './check-ins/check-in.state';
 import { FoodsState } from './food/food.state';
 import { MealsState } from './meals/meals.state';
 import { ProgramsState } from './program/program.state';
+import { ClientsState } from './client/client.state';
 
 export interface AppState {
     'auth': AuthState;
+    'clients': ClientsState;
     'check-ins': CheckInsState;
     'exercises': ExercisesState;
     'foods': FoodsState;

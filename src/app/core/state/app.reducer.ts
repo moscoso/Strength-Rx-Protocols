@@ -9,12 +9,14 @@ import { checkInsReducer } from './check-ins/check-in.reducer';
 import { foodsReducer } from './food/food.reducer';
 import { mealsReducer } from './meals/meals.reducer';
 import { programsReducer } from './program/program.reducer';
+import { clientsReducer } from './client/client.reducer';
 
 /**
  * The root reducer for the app's ngrx/store
  */
 export const appReducers: ActionReducerMap < AppState > = {
     'auth': authReducer,
+    'clients': clientsReducer,
     'check-ins': checkInsReducer,
     'exercises': exercisesReducer,
     'foods': foodsReducer,

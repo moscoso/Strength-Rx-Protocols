@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { AssignProgramComponent } from './assign-program/assign-program.component';
 import { AssignTrainerComponent } from './assign-trainer/assign-trainer.component';
 import { IonicModule } from '@ionic/angular';
+import { MaterialsModule } from '../materials.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -14,6 +16,8 @@ import { IonicModule } from '@ionic/angular';
     'imports': [
         CommonModule,
         IonicModule,
+        MaterialsModule,
+        ReactiveFormsModule,
     ],
     'exports': [
         AssignProgramComponent,

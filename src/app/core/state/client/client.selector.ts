@@ -33,8 +33,6 @@ export const selectClientByID = (clientID: string) => createSelector(
     (state: ClientsState) => state.entities[clientID]
 );
 
-
-
 /**
  * Select the authenticated user's client
  */
