@@ -60,7 +60,8 @@ async function deactivateSubscription(userID: string, subscriptionID: string): P
  * @param userID the ID corresponding to the user
  */
 export async function getSubscriptions(userID: string): Promise < Stripe.ApiList < Stripe.Subscription >> {
-    return stripe.subscriptions.list({ 'customer': userID });
+    const customer = await getOrCreateCustomer(userID);
+    return stripe.subscriptions.list({ 'customer': customer.id });
 }
 
 /**

@@ -39,7 +39,7 @@ export async function createCustomer(userID: string): Promise < Stripe.Customer 
         email: user.email,
         metadata: { firebaseUserID: userID }
     })
-    await updateUser(userID, { 'stripeCustomerID': customer.id })
+    await updateUser(userID, { 'stripeCustomerID': customer.id, email: user.email })
     return customer;
 }
 
@@ -49,11 +49,10 @@ export async function createCustomer(userID: string): Promise < Stripe.Customer 
  */
 export async function getOrCreateCustomer(userID: string) {
     const user = await getUser(userID);
-    const customerID = user && user.stripeCustomerID;
-    // If missing customerID, create it
-    if (!customerID) {
-        return createCustomer(userID);
-    } else {
+    if (user && user.stripeCustomerID) {
+        const customerID = user.stripeCustomerID;
         return stripe.customers.retrieve(customerID);
+    } else {
+        return createCustomer(userID);
     }
 }

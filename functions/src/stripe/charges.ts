@@ -1,21 +1,28 @@
 import * as functions from 'firebase-functions';
 import { assert, assertUID, catchErrors } from '../helpers';
-import { stripe } from '../config';
+import { stripe, db, STRIPE_COLLECTION } from '../config';
 import { attachSource } from './payment_sources';
 import Stripe from 'stripe';
 import { getOrCreateCustomer } from './customers';
 
 /** 
  * Gets a user's charge history
- * @param userID the ID that corresponds to the customer in Stripe
+ * @param userID the ID that corresponds to the user in Firebase
  * @param limit a limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
  */
 export async function getUserCharges(userID: string, limit ? : number) {
-    const params: Stripe.ChargeListParams = {
-        limit,
-        customer: userID
+    const account = await db.collection(STRIPE_COLLECTION).doc(userID).get();
+    const data = account.data();
+    if(data){
+        const customerID = data['stripeCustomerID']
+        const params: Stripe.ChargeListParams = {
+            limit,
+            customer: customerID
+        }
+        return await stripe.charges.list(params);
+    } else {
+        throw new Error(`Could not find Stripe account for ${userID}`);
     }
-    return await stripe.charges.list(params);
 }
 
 /**
