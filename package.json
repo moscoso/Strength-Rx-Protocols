@@ -41,9 +41,11 @@
     "file-drop-element": "^0.2.0",
     "firebase": "^7.15.0",
     "fuse.js": "^6.0.4",
+    "image-comparison": "^2.0.4",
     "ngx-file-drop": "^9.0.1",
     "rxjs": "~6.5.1",
     "smoothscroll-polyfill": "^0.4.4",
+    "stripe": "^8.69.0",
     "tslib": "^1.12.0",
     "zone.js": "~0.10.2"
   },
