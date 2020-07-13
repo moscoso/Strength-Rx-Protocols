@@ -35,7 +35,7 @@
                 </ion-card>
                 <ng-template #showExercises>
                     <ion-col *ngFor="let exercise of exercises" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
-                        <exercise-preview [routerLink]="'./' + exercise.id" [exercise]="exercise"></exercise-preview>
+                        <exercise-preview [routerLink]="'/exercises/' + exercise.id" [exercise]="exercise"></exercise-preview>
                     </ion-col>
                 </ng-template>
             </ion-row>

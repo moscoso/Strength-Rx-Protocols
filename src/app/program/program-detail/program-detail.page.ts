@@ -6,6 +6,7 @@ import { EditProgramPage } from '../edit-program/edit-program.page';
 import { take, first } from 'rxjs/operators';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { ModalController, ActionSheetController } from '@ionic/angular';
+import { ExerciseRoutine } from 'src/app/core/state/workouts/workouts.state';
 
 @Component({
     'selector': 'app-program-detail',
@@ -71,4 +72,12 @@ export class ProgramDetailPage implements OnInit {
         this.programService.delete(program.id);
     }
 
+    getNotes(routine: ExerciseRoutine) {
+        let note = '';
+        if (routine.reps) { note += `Reps: ${routine.reps} `; }
+        if (routine.sets) { note += `Sets: ${routine.sets} `; }
+        if (routine.minutes) { note += `Sets: ${routine.minutes} `; }
+        if (routine.seconds) { note += `Sets: ${routine.seconds} `; }
+        return note;
+    }
 }

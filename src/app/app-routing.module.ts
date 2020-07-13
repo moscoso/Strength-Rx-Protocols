@@ -3,9 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { ProfileGuard } from './guards/profile/profile.guard';
 import { NoProfileGuard } from './guards/no-profile/no-profile.guard';
-import { LandingPage } from './home/landing/landing.page';
 import { NoAuthGuard } from './guards/no-auth/no-auth.guard';
-
 
 const routes: Routes = [
 {
@@ -132,6 +130,11 @@ const routes: Routes = [
     'path': 'programs',
     'loadChildren': () => import('./program/program-list/program-list.module').then(m => m
         .ProgramListPageModule),
+    'canActivate': [AuthGuard, ProfileGuard],
+}, {
+    'path': 'start-membership',
+    'loadChildren': () => import('./account/start-membership/start-membership.module').then(m => m
+        .StartMembershipPageModule),
     'canActivate': [AuthGuard, ProfileGuard],
 }, ];
 

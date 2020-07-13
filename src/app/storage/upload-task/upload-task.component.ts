@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, Output } from '@angular/core';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
+import { EventEmitter } from 'protractor';
 
 @Component({
     'selector': 'upload-task',
@@ -13,6 +14,10 @@ export class UploadTaskComponent implements OnInit {
 
     @Input() file: File;
 
+    @Input() storageFolder = 'test';
+
+    @Output() fileUpload = new EventEmitter();
+
     task: AngularFireUploadTask;
 
     percentage: Observable < number > ;
@@ -21,7 +26,7 @@ export class UploadTaskComponent implements OnInit {
 
     constructor(
         private storage: AngularFireStorage,
-        private db: AngularFirestore
+        private firestore: AngularFirestore
     ) {}
 
     ngOnInit() {
@@ -31,7 +36,7 @@ export class UploadTaskComponent implements OnInit {
     startUpload() {
 
         // The storage path
-        const path = `test/${Date.now()}_${this.file.name}`;
+        const path = `${this.storageFolder}/${Date.now()}_${this.file.name}`;
 
         // Reference to storage bucket
         const ref = this.storage.ref(path);
@@ -43,12 +48,11 @@ export class UploadTaskComponent implements OnInit {
         this.percentage = this.task.percentageChanges();
 
         this.snapshot = this.task.snapshotChanges().pipe(
-            tap(console.log),
             // The file's download URL
             finalize(async () => {
                 this.downloadURL = await ref.getDownloadURL().toPromise();
-
-                this.db.collection('files').add({ 'downloadURL': this.downloadURL, path });
+                this.firestore.collection('files').add({ 'downloadURL': this.downloadURL, path });
+                this.fileUpload.emit(this.downloadURL);
             }),
         );
     }

@@ -21,10 +21,12 @@ export function profilesReducer(state: ProfilesState = initialState, action: Pro
                 'error': null,
             };
         case ProfileActionType.AllLoaded:
+            console.log(state);
+            console.log(action.profiles);
             return profilesAdapter.setAll(action.profiles, {
                 ...state,
                 'requestInProgress': false,
-                'initialized': true,
+                'initialized': action.profiles.length > 0,
             });
         case ProfileActionType.CreateRequested:
         case ProfileActionType.UpdateRequested:

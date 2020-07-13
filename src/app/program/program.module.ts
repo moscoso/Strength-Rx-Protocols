@@ -4,12 +4,14 @@ import { ProgramFormComponent } from './program-form/program-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialsModule } from '../materials.module';
 import { IonicModule } from '@ionic/angular';
+import { ProgramPreviewComponent } from './program-preview/program-preview.component';
 
 
 
 @NgModule({
     'declarations': [
-        ProgramFormComponent
+        ProgramFormComponent,
+        ProgramPreviewComponent,
     ],
     'imports': [
         CommonModule,
@@ -18,7 +20,8 @@ import { IonicModule } from '@ionic/angular';
         IonicModule,
     ],
     'exports': [
-        ProgramFormComponent
+        ProgramFormComponent,
+        ProgramPreviewComponent,
     ]
 })
 export class ProgramModule {}

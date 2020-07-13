@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { take, filter } from 'rxjs/operators';
+import { take, filter, first } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { ToastController } from '@ionic/angular';
 import { AppState } from 'src/app/core/state/app.state';
+import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ToastService } from 'src/app/shared/toast/toast.service';
+import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
 
 
 @Injectable({
@@ -13,37 +16,34 @@ import { AppState } from 'src/app/core/state/app.state';
  * A route guard that checks if the user has a valid profile before activating the route
  */
 export class ProfileGuard implements CanActivate {
-    constructor(private store: Store, private router: Router, private toaster: ToastController) {}
+    constructor(
+        private router: Router,
+        private toaster: ToastService,
+        private profileService: ProfileStoreDispatcher,
+        private authService: AuthStoreDispatcher,
+    ) {}
     async canActivate(
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Promise < boolean | UrlTree > {
-        return this.store.select((appState: AppState) => appState)
+        this.profileService.loadAll();
+        await this.profileService.selectRequestInProgress().pipe(first(requestInProgress => requestInProgress ===
+            false)).toPromise();
+        await this.authService.selectUserData().pipe(first(userData => userData != null)).toPromise();
+        return this.profileService.selectUserProfile()
             .pipe(
-                filter(appState => appState.auth.userID != null && appState.profiles.initialized),
                 take(1),
             ).toPromise()
-            .then(async (appState) => {
-                const profile = appState.profiles.entities[appState.auth.userID];
+            .then(async (profile) => {
+                console.log(profile);
                 if (profile) {
                     return true;
                 } else {
-                    const toast = await this.toaster.create({
-                        'message': 'Please create your profile to continue!',
-                        'duration': 3000,
-                        'color': 'primary',
-                        'position': 'top',
-                        'buttons': [{
-                            'text': 'Ok',
-                            'role': 'cancel'
-                        }],
-                    });
-                    toast.present();
+                    await this.toaster.primary('Please create your profile to continue!');
                     return this.router.parseUrl('/create-profile');
                 }
             }).catch((reason) => {
-                window.alert(`Something went wrong!`);
-                console.error('Auth Effects. Failed to select profile for authorized user');
-                console.error(reason);
+                this.toaster.failed(
+                    'Profile failed to load. Check your internet connection and refresh the page', reason);
                 return false;
             });
     }

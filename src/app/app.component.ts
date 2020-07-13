@@ -27,6 +27,11 @@ export class AppComponent implements OnInit {
 
     public mainPages: MenuItem[] = [
     {
+        'label': 'Profile',
+        'icon': 'people-outline',
+        'link': '/profile'
+    },
+    {
         'label': 'Exercises',
         'icon': 'barbell',
         'link': '/exercises'
@@ -37,9 +42,9 @@ export class AppComponent implements OnInit {
         'link': '/workouts'
     },
     {
-        'label': 'Profile',
-        'icon': 'people-outline',
-        'link': '/profile'
+        'label': 'Programs',
+        'icon': 'calendar-outline',
+        'link': '/programs'
     },
     {
         'label': 'Clients',
@@ -51,16 +56,30 @@ export class AppComponent implements OnInit {
         'src': '/assets/icon/food.svg',
         'link': '/foods'
     },
-    {
-        'label': 'Meals',
-        'src': '/assets/icon/meal.svg',
-        'link': '/meals'
-    },
-    {
-        'label': 'Check In',
-        'icon': 'checkbox-outline',
-        'link': '/check-in',
-    }, ];
+    // {
+    //     'label': 'Meals',
+    //     'src': '/assets/icon/meal.svg',
+    //     'link': '/meals'
+    // },
+];
+
+    public clientPages: MenuItem[] = [
+        {
+            'label': 'Profile',
+            'icon': 'people-outline',
+            'link': '/profile'
+        },
+        {
+            'label': 'Check In',
+            'icon': 'checkbox-outline',
+            'link': '/check-in',
+        },
+        {
+            'label': 'Foods',
+            'src': '/assets/icon/food.svg',
+            'link': '/foods'
+        },
+    ];
 
     public accountPages: MenuItem[] = [
     {
@@ -75,6 +94,7 @@ export class AppComponent implements OnInit {
     }, ];
 
     public isAuthenticated$: Observable < boolean > = of (false);
+    public iAmTrainer$: Observable < boolean > = of (false);
     public url$: Observable < string > = of ('/');
 
     constructor(
@@ -89,6 +109,7 @@ export class AppComponent implements OnInit {
     initializeApp() {
         this.platform.ready().then(() => {});
         this.profileService.loadAll();
+        this.iAmTrainer$ = this.profileService.selectUserIsTrainer();
     }
 
     ngOnInit() {

@@ -15,13 +15,13 @@ export interface Program {
 }
 
 export interface ProgramSchedule {
-    day1: string[] | null;
-    day2: string[] | null;
-    day3: string[] | null;
-    day4: string[] | null;
-    day5: string[] | null;
-    day6: string[] | null;
-    day7: string[] | null;
+    day1: Workout | null;
+    day2: Workout | null;
+    day3: Workout | null;
+    day4: Workout | null;
+    day5: Workout | null;
+    day6: Workout | null;
+    day7: Workout | null;
 }
 
 export const INIT_PROGRAM: Program = {

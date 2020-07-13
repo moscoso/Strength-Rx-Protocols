@@ -17,15 +17,15 @@ export class ToastService {
     }
 
     /**
-     * Creates a generic toast then presents it
+     * Creates a generic toast with primary color then presents it
      * @param message the message to appear on the toast
      * @param duration how long the toast should appear for (in ms)
      */
-    async generic(message: string, duration = 3000): Promise < void > {
+    async primary(message: string, duration = 3000): Promise < void > {
         const toast = await this.toastController.create({
             'message': message,
             'duration': duration,
-            'color': 'success',
+            'color': 'primary',
             'buttons': [{
                 'text': 'Ok',
                 'role': 'cancel'

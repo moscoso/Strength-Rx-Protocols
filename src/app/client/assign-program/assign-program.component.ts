@@ -42,9 +42,12 @@ export class AssignProgramComponent implements OnInit {
         this.iAmTrainer$ = this.profileService.selectUserIsTrainer();
         this.requestInProgress$ = this.programService.selectRequestInProgress();
         this.clientService.loadAll();
-        this.clientService.selectClient(this.clientID).pipe(first(client => client != null)).subscribe((client) => {
+        this.clientService.selectClient(this.clientID).pipe(
+            first(client => client != null && client.assignedProgram != null)
+        ).subscribe((client) => {
             this.defaultProgram = client.assignedProgram;
             this.programs.setValue(this.defaultProgram);
+
         });
     }
 

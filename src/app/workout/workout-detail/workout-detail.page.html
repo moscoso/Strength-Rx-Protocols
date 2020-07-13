@@ -4,7 +4,7 @@
             <ion-menu-button></ion-menu-button>
             <ion-back-button defaultHref="/workouts"></ion-back-button>
         </ion-buttons>
-        <ion-title>Workout&#9;<span *ngIf="workout$ | async as workout" class="name">{{workout.name}}</span></ion-title>
+        <ion-title>Workout</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -13,6 +13,7 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-grid *ngIf="workout$ | async as workout">
+        <h1>{{workout.name}}</h1>
         <ion-row>
             <ion-col *ngFor="let exercise of workout.exercises" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
                 <exercise-preview [exercise]=exercise [routerLink]="'/exercises/' + exercise.id "

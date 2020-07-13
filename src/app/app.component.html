@@ -8,7 +8,8 @@
                         <img class="logo" src="/assets/icon/logo.png" routerLink="/"
                              title="Click to go to landing page">
                     </ion-list-header>
-                    <menu-list [items]="mainPages" *ngIf="(url$ | async) !== '/' && (isAuthenticated$ | async)"></menu-list>
+                    <menu-list [items]="mainPages" *ngIf="(url$ | async) !== '/' && (isAuthenticated$ | async) && (iAmTrainer$ | async)"></menu-list>
+                    <menu-list [items]="clientPages" *ngIf="(url$ | async) !== '/' && (isAuthenticated$ | async)&& !(iAmTrainer$ | async) "></menu-list>
                     <menu-list [items]="landingPages" *ngIf="(url$ | async) === '/'"></menu-list>
                     <ion-item *ngIf="(isAuthenticated$ | async) && (url$ | async) === '/'" routerLink="/dashboard">
                         <ion-icon size="large" slot="start" icon="speedometer-outline"></ion-icon>
@@ -18,7 +19,7 @@
             </ion-content>
             <ion-footer>
                 <ion-list lines="none">
-                    <ion-item *ngIf="(isAuthenticated$ | async); else notAuthenticated" (click)="logout();">
+                    <ion-item *ngIf="(isAuthenticated$ | async); else notAuthenticated" (click)="logout();" style="cursor:pointer;" >
                         <ion-icon size="large" slot="start" icon="exit"></ion-icon>
                         <ion-label>Log Out</ion-label>
                     </ion-item>

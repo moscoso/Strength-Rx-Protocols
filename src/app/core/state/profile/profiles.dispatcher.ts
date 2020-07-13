@@ -84,6 +84,9 @@ export class ProfileStoreDispatcher {
         return this.store.select(selectTotal);
     }
 
+    /**
+     * Select the authenticated user's profile
+     */
     public selectUserProfile(): Observable< Profile> {
         return this.store.select(selectUserProfile);
     }

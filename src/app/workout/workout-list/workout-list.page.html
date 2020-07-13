@@ -33,7 +33,7 @@
                 </ion-card>
                 <ng-template #showWorkouts>
                     <ion-col *ngFor="let workout of workouts" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
-                        <workout-preview [routerLink]="'./' + workout.id" [workout]="workout"></workout-preview>
+                        <workout-preview [routerLink]="'/workouts/' + workout.id" [workout]="workout"></workout-preview>
                     </ion-col>
                 </ng-template>
             </ion-row>

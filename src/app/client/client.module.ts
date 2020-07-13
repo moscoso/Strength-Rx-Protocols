@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { MaterialsModule } from '../materials.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ProgramModule } from '../program/program.module';
 
 
 
@@ -19,6 +20,7 @@ import { RouterModule } from '@angular/router';
         IonicModule,
         RouterModule,
         MaterialsModule,
+        ProgramModule,
         ReactiveFormsModule,
     ],
     'exports': [

@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar>\
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
             <ion-back-button defaultHref="/programs"></ion-back-button>
@@ -9,25 +9,65 @@
 </ion-header>
 
 <ion-content>
-    <ion-card *ngIf="program$ | async as program">
-        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-            <ion-refresher-content></ion-refresher-content>
-        </ion-refresher>
-        <ion-card-header>
-            <ion-card-title class="name">{{program.name}}</ion-card-title>
-        </ion-card-header>
-
-        <ion-card-content>
-            <ion-row *ngFor="let workout of program.workouts">
-                <ion-col size="12" size-lg="6">
-                    {{workout.name}}
-                </ion-col>
-            </ion-row>
-
-            <ng-container *ngIf="isTrainer$ | async">
-                <ion-button color="primary" (click)="showEditModal()">Edit</ion-button>
-                <ion-button color="danger" (click)="showActionSheetToDelete()">Delete</ion-button>
-            </ng-container>
-        </ion-card-content>
-    </ion-card>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-grid *ngIf="program$ | async as program">
+        <h1>{{program.name}}</h1>
+        <ion-row>
+            <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+                <ion-label>Day 1</ion-label>
+                <workout-preview *ngIf="program.schedule.day1"
+                                 [workout]=program.schedule.day1
+                                 [routerLink]="'/workouts/' + program.schedule.day1.id "></workout-preview>
+                <ion-label *ngIf="!program.schedule.day1"><h1>Rest</h1></ion-label>
+            </ion-col>
+            <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+                <ion-label>Day 2</ion-label>
+                <workout-preview *ngIf="program.schedule.day2"
+                                 [workout]=program.schedule.day2
+                                 [routerLink]="'/workouts/' + program.schedule.day2.id "></workout-preview>
+                <ion-label *ngIf="!program.schedule.day2"><h1>Rest</h1></ion-label>
+            </ion-col>
+            <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+                <ion-label>Day 3</ion-label>
+                <workout-preview *ngIf="program.schedule.day3"
+                                 [workout]=program.schedule.day3
+                                 [routerLink]="'/workouts/' + program.schedule.day3.id "></workout-preview>
+                <ion-label *ngIf="!program.schedule.day3"><h1>Rest</h1></ion-label>
+            </ion-col>
+            <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+                <ion-label>Day 4</ion-label>
+                <workout-preview *ngIf="program.schedule.day4"
+                                 [workout]=program.schedule.day4
+                                 [routerLink]="'/workouts/' + program.schedule.day4.id "></workout-preview>
+                <ion-label *ngIf="!program.schedule.day4"><h1>Rest</h1></ion-label>
+            </ion-col>
+            <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+                <ion-label>Day 5</ion-label>
+                <workout-preview *ngIf="program.schedule.day5"
+                                 [workout]="program.schedule.day5"
+                                 [routerLink]="'/workouts/' + program.schedule.day5.id "></workout-preview>
+                <ion-label *ngIf="!program.schedule.day5"><h1>Rest</h1></ion-label>
+            </ion-col>
+            <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+                <ion-label>Day 6</ion-label>
+                <workout-preview *ngIf="program.schedule.day6"
+                                 [workout]=program.schedule.day6
+                                 [routerLink]="'/workouts/' + program.schedule.day6.id "></workout-preview>
+                <ion-label *ngIf="!program.schedule.day6"><h1>Rest</h1></ion-label>
+            </ion-col>
+            <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+                <ion-label>Day 7</ion-label>
+                <workout-preview *ngIf="program.schedule.day7"
+                                 [workout]=program.schedule.day7
+                                 [routerLink]="'/workouts/' + program.schedule.day7.id "></workout-preview>
+                <ion-label *ngIf="!program.schedule.day7"><h1>Rest</h1></ion-label>
+            </ion-col>
+        </ion-row>
+        <ng-container *ngIf="isTrainer$ | async">
+            <ion-button color="primary" (click)="showEditModal()">Edit</ion-button>
+            <ion-button color="danger" (click)="showActionSheetToDelete()">Delete</ion-button>
+        </ng-container>
+    </ion-grid>
 </ion-content>

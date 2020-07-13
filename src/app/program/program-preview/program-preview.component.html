@@ -1,0 +1,12 @@
+<ion-card *ngIf="program">
+    <ng-container *ngIf="getYoutubeThumbnail != null">
+        <img [src]="getYoutubeThumbnail()"/>
+    </ng-container>
+    <ng-template #noVideoURL>
+        <ion-note>No video URL ⚠️</ion-note>
+    </ng-template>
+
+    <ion-card-header >
+        <ion-card-title class="name">{{program.name}}</ion-card-title>
+    </ion-card-header>
+</ion-card>
