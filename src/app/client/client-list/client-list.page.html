@@ -12,8 +12,8 @@
         <ion-item *ngFor="let client of clientList$ | async"  [routerLink]="'/profile/'+client.id">
             <ion-avatar><img [src]="getAvatar(client)"/></ion-avatar>
             <ion-label>{{client.firstName}} {{client.lastName}}</ion-label>
-            <ion-label>Trainer: {{client.assignedTrainer ? client.assignedTrainer : 'unassigned ⚠️'}}</ion-label>
-            <ion-label>Program: {{client.assignedProgram ? client.assignedProgram : 'unassigned ⚠️'}}</ion-label>
+            <ion-label>Trainer: {{client.assignedTrainer ? client.assignedTrainer.firstName : 'unassigned ⚠️'}}</ion-label>
+            <ion-label>Program: {{client.assignedProgram ? client.assignedProgram.name : 'unassigned ⚠️'}}</ion-label>
             <ion-note>Joined: {{getDateFromTimestamp(client.joined) | date}} <br/><span *ngIf="client.birthday">Birthday : {{getDateFromTimestamp(client.birthday) | date}}</span></ion-note>
         </ion-item>
     </ion-list>
