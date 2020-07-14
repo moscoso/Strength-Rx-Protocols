@@ -34,7 +34,7 @@
             <ion-label>{{getExerciseName(i)}}</ion-label>
             <form [formGroup]="routineControl">
                 <ion-row>
-                    <ion-col size="3">
+                    <ion-col size="2">
                         <mat-form-field>
                             <mat-label>Sets</mat-label>
                             <input matInput type="text" [formControl]="routineControl.get('sets')" name="sets"
@@ -44,7 +44,7 @@
                                    enterKeyHint="next">
                         </mat-form-field>
                     </ion-col>
-                    <ion-col size="3">
+                    <ion-col size="2">
                         <mat-form-field>
                             <mat-label>Reps</mat-label>
                             <input matInput type="text" [formControl]="routineControl.get('reps')" name="reps"
@@ -54,20 +54,40 @@
                                    enterKeyHint="next">
                         </mat-form-field>
                     </ion-col>
-                    <ion-col size="3">
+                    <ion-col size="2">
                         <mat-form-field>
-                            <mat-label>Minutes</mat-label>
-                            <input matInput type="text" [formControl]="routineControl.get('minutes')" name="minutes"
+                            <mat-label>%1RM</mat-label>
+                            <input matInput type="text" [formControl]="routineControl.get('%1rm')" name="%1rm"
                                    pattern="[0-9\-]+"
                                    placeholder="0"
                                    autocomplete="off"
                                    enterKeyHint="next">
                         </mat-form-field>
                     </ion-col>
-                    <ion-col size="3">
+                    <ion-col size="2">
                         <mat-form-field>
-                            <mat-label>Seconds</mat-label>
-                            <input matInput type="text" [formControl]="routineControl.get('seconds')" name="seconds"
+                            <mat-label>RPE</mat-label>
+                            <input matInput type="text" [formControl]="routineControl.get('rpe')" name="rpe"
+                                   pattern="[0-9\-]+"
+                                   placeholder="0"
+                                   autocomplete="off"
+                                   enterKeyHint="next">
+                        </mat-form-field>
+                    </ion-col>
+                    <ion-col size="2">
+                        <mat-form-field>
+                            <mat-label>Tempo</mat-label>
+                            <input matInput type="text" [formControl]="routineControl.get('tempo')" name="tempo"
+                                   pattern="[0-9\-]+"
+                                   placeholder="0"
+                                   autocomplete="off"
+                                   enterKeyHint="next">
+                        </mat-form-field>
+                    </ion-col>
+                    <ion-col size="2">
+                        <mat-form-field>
+                            <mat-label>Rest</mat-label>
+                            <input matInput type="text" [formControl]="routineControl.get('rest')" name="rest"
                                    pattern="[0-9\-]+"
                                    placeholder="0"
                                    autocomplete="off"

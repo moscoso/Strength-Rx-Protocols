@@ -87,8 +87,10 @@ export class WorkoutFormComponent implements OnInit {
             let defaultValues: ExerciseRoutine = {
                 'sets': null,
                 'reps': null,
-                'minutes': null,
-                'seconds': null
+                'percentageOfOneRepMax': null,
+                'rateOfPerceivedExertion': null,
+                'tempo': null,
+                'rest': null,
             };
             if (workout) {
                 defaultValues = {...workout.exerciseRoutines[exercise.name]};
@@ -96,8 +98,10 @@ export class WorkoutFormComponent implements OnInit {
             const routineGroup: FormGroup = new FormGroup({
                 'sets': new FormControl(defaultValues.sets),
                 'reps': new FormControl(defaultValues.reps),
-                'minutes': new FormControl(defaultValues.minutes),
-                'seconds': new FormControl(defaultValues.seconds),
+                '%1rm': new FormControl(defaultValues.percentageOfOneRepMax),
+                'rpe': new FormControl(defaultValues.rateOfPerceivedExertion),
+                'tempo': new FormControl(defaultValues.tempo),
+                'rest': new FormControl(defaultValues.rest),
             });
             const length = this.exerciseRoutines.length;
             this.exerciseRoutines.insert(length, routineGroup);

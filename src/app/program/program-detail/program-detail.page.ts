@@ -71,13 +71,4 @@ export class ProgramDetailPage implements OnInit {
         const program = await this.program$.pipe(take(1)).toPromise();
         this.programService.delete(program.id);
     }
-
-    getNotes(routine: ExerciseRoutine) {
-        let note = '';
-        if (routine.reps) { note += `Reps: ${routine.reps} `; }
-        if (routine.sets) { note += `Sets: ${routine.sets} `; }
-        if (routine.minutes) { note += `Sets: ${routine.minutes} `; }
-        if (routine.seconds) { note += `Sets: ${routine.seconds} `; }
-        return note;
-    }
 }
