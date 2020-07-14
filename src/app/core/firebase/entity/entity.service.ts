@@ -15,9 +15,14 @@ export abstract class EntityService < T > {
     constructor(
         protected firestore: AngularFirestore,
         protected collectionName: string,
+        useDocID: boolean = true,
     ) {
         this.entityCollection = firestore.collection < T > (collectionName);
-        this.entities = this.entityCollection.valueChanges({ 'idField': 'id' });
+        if (useDocID) {
+            this.entities = this.entityCollection.valueChanges({ 'idField': 'id' });
+        } else {
+            this.entities = this.entityCollection.valueChanges({});
+        }
     }
 
 
@@ -37,7 +42,7 @@ export abstract class EntityService < T > {
             throw new Error(errorMessage);
         } else {
             if (this.defaultEntity) {
-                return {...this.defaultEntity, ...data, ...{'id': entityID}};
+                return { ...this.defaultEntity, ...data, ...{ 'id': entityID } };
             } else {
                 throw new Error(`Default entity must be set before calling get() on EntityService`);
             }
@@ -54,7 +59,8 @@ export abstract class EntityService < T > {
             if (!this.defaultEntity) {
                 return entities;
             }
-
+            console.log('diving deep');
+            console.log(entities);
             const mappedEntities = [];
             entities.forEach(entity => {
                 mappedEntities.push({ ...this.defaultEntity, ...entity });

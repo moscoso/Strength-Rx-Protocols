@@ -9,7 +9,7 @@ export class ProfileService extends EntityService < Profile > {
     constructor(
         public firestore: AngularFirestore,
     ) {
-        super(firestore, 'profiles');
+        super(firestore, 'profiles', false);
         this.setDefaultEntity(INIT_PROFILE);
     }
 
