@@ -56,7 +56,6 @@ export class AssignProgramComponent implements OnInit {
     }
 
     async onSubmit(form) {
-        console.log(form);
         this.assignProgram(this.programs.value);
     }
 
