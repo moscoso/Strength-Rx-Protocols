@@ -34,7 +34,6 @@ export class ProfileGuard implements CanActivate {
                 take(1),
             ).toPromise()
             .then(async (profile) => {
-                console.log(profile);
                 if (profile) {
                     return true;
                 } else {

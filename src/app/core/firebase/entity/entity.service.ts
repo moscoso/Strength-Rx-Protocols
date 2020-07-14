@@ -35,7 +35,6 @@ export abstract class EntityService < T > {
         const snapshot = await this.firestore.collection(this.collectionName).doc(entityID).get().pipe(take(1))
             .toPromise();
         const data = snapshot.data();
-
         if (data == null) {
             const errorMessage =
                 `Document data for ${this.collectionName} collection does not exist for id: ${entityID}`;
@@ -59,8 +58,6 @@ export abstract class EntityService < T > {
             if (!this.defaultEntity) {
                 return entities;
             }
-            console.log('diving deep');
-            console.log(entities);
             const mappedEntities = [];
             entities.forEach(entity => {
                 mappedEntities.push({ ...this.defaultEntity, ...entity });
