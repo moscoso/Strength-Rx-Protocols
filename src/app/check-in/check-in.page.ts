@@ -4,9 +4,10 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../core/state/app.state';
 import { Observable } from 'rxjs';
 import { selectUserID } from '../core/state/auth/auth.selector';
-import { take } from 'rxjs/operators';
+import { take, map, first } from 'rxjs/operators';
 import { CheckIn } from '../core/state/check-ins/check-in.state';
 import { CreateRequested } from '../core/state/check-ins/check-in.actions';
+import { ClientStoreDispatcher } from '../core/state/client/client.dispatcher';
 
 @Component({
     'selector': 'app-check-in',
@@ -38,10 +39,18 @@ export class CheckInPage implements OnInit {
 
 
     requestInProgress$: Observable < boolean > ;
+    sex$: Observable < 'M' | 'F' >;
 
     constructor(
         public store: Store < AppState > ,
-    ) {}
+        public clientService: ClientStoreDispatcher
+    ) {
+        this.clientService.loadAll();
+        this.sex$ = this.clientService.selectUserClient().pipe(
+            first(client => client != null),
+            map(client => client.sex)
+        );
+    }
 
     ngOnInit() {
 

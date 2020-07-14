@@ -35,7 +35,7 @@
                            clearInput="true"
                            enterKeyHint="next">
                 </mat-form-field>
-                <mat-form-field>
+                <mat-form-field [hidden]="(sex$ | async) === 'M'">
                     <mat-label>Are you on your menstrual cycle?</mat-label>
                     <input matInput type="text" [formControl]="menstrualCycle"
                            clearInput="true"
