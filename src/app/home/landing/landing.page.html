@@ -2,13 +2,14 @@
     <ion-header #header>
         <ion-toolbar class="ion-text-center">
             <ion-buttons slot="start">
-                <ion-menu-button class="ion-hide-md-up" auto-hide="false"></ion-menu-button>
-                <ion-button class="ion-hide-sm-down" (click)="scrollPage('about')">About Us</ion-button>
-                <ion-button class="ion-hide-sm-down" (click)="scrollPage('transformations')">Transformations</ion-button>
+                <ion-menu-button class="ion-hide-sm-up" auto-hide="false"></ion-menu-button>
+                <ion-button class="ion-hide-sm-down" (click)="scrollPage('coaches')">Coaches</ion-button>
+                <ion-button class="ion-hide-sm-down" (click)="scrollPage('transformations')">Transformations
+                </ion-button>
             </ion-buttons>
             <img class="logo" src="/assets/icon/logo.png">
             <ion-buttons slot="end" *ngIf="(isAuthenticated$ | async) === true">
-                <ion-button class="ion-hide-sm-down"  [routerLink]="'dashboard'">Dashboard</ion-button>
+                <ion-button class="ion-hide-sm-down" [routerLink]="'dashboard'">Dashboard</ion-button>
             </ion-buttons>
             <ion-buttons slot="end" *ngIf="(isAuthenticated$ | async) === false" class="ion-hide-sm-down">
                 <ion-button [routerLink]="'register'">Join</ion-button>
@@ -18,53 +19,22 @@
     </ion-header>
 
 
-    <video #video [ngStyle]="{'margin-top': headerHeight+'px', 'max-height': calcVideoHeight() }"
-           loop playsinline preload="auto" muted="true" controlslist="nodownload nofullscreen">
+    <video #video class="ion-hide-md-down" [ngStyle]="{'margin-top': headerHeight+'px', 'max-height': calcVideoHeight() }"
+           loop 
+           playsinline preload="auto" muted="true" controlslist="nodownload nofullscreen">
         <source
                 [src]="getStorageURL('StrengthRx_Protocols_Landing_Muted.webm?alt=media&token=746c5ebb-9657-4cec-9290-d3bd42492941')" />
     </video>
 
-    <ion-grid id="about" #about>
-        <h1>About Us</h1>
+    <img class="ion-hide-md-up" [ngStyle]="{'margin-top': headerHeight+'px', 'max-height': calcVideoHeight() }" src="/assets/img/splash.PNG"/>
+
+    <ion-grid id="coaches" #coaches>
+        <h1>Coaches</h1>
         <ion-row>
-            <ion-col offsetMd=2 sizeMd=4 sizeSm=12 sizeXs=12
-                     style="background-color: rgba(255,255,255,.6); color:black;">
-                <h2>David</h2>
-                <p>David is a certified sports nutritionist through the International Society of Sport Nutrition,
-                    certified
-                    personal
-                    trainer through The Personal Trainer Collective and an evidence-based online strength and physique
-                    coach.
-                    After
-                    graduating from Florida State University in 2014, working various customer service jobs including an
-                    iOS
-                    Advisor
-                    position with Apple, he decided to leave the corporate world to pursue his passion in fitness. In
-                    November
-                    2015,
-                    he made the spontaneous decision to leave north Florida and moved to Houston were he currently
-                    resides.
-                </p>
-                <p> In April 2017, David launched “The Esoteric Anomalies Podcast”. The purpose of this podcast was to
-                    create a
-                    free
-                    platform to learn and become inspired by individuals in different fields, not just fitness. Through
-                    this, he
-                    also plans on sharing knowledge he has learned over the years. It is available on iTunes for your
-                    listening
-                    pleasure.</p>
-                <h2 style="text-align:right">Tiffany</h2>
-                <p>
-                    Lorem ipsum dolor sit amet, vis nusquam pertinax an. Feugait nusquam quo id, vocibus honestatis cum
-                    ad,
-                    et primis disputando liberavisse vis. An accusam suscipit vituperata eam, no epicuri neglegentur
-                    quo.
-                    Dignissim scriptorem cu sea, ei eam graeco recusabo. Vis ex atqui debet.
-                </p>
-            </ion-col>
-            <ion-col sizeMd=4 sizeSm=12 sizeXs=12>
-                <img src="/assets/img/david_tiff4.JPG">
-            </ion-col>
+            <h2>David & Tiffany</h2>
+        </ion-row>
+        <ion-row>
+            <img src="/assets/img/david_tiff2.JPG">
         </ion-row>
 
         <ion-button [routerLink]="'register'" size="large" class="join-btn center-btn">JOIN US TODAY!</ion-button>

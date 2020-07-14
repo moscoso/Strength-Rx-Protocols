@@ -18,8 +18,10 @@ export interface Workout {
 export interface ExerciseRoutine {
     sets ?: string;
     reps ?: string;
-    minutes ?: string;
-    seconds ?: string;
+    percentageOfOneRepMax ?: string;
+    rateOfPerceivedExertion ?: string;
+    tempo ?: string;
+    rest ?: string;
 }
 
 export const INIT_WORKOUT: Workout = {

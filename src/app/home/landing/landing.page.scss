@@ -39,15 +39,20 @@
         background-image: url(/assets/img/gym_sticker.jpg);
     }
 
-    #about {
+    #coaches {
         position: relative;
-        // background-image: url(/assets/img/gym_sticker.jpg);
-        // background-image: url(https://i.pinimg.com/originals/4b/f5/29/4bf5297d2589e3c9f8bb46f131c93400.jpg);
         background-size: cover;
         color: black;
     }
 
-    #about::before {
+    
+    #coaches img {
+        max-height: 600px;
+        filter: opacity(1);
+        margin: 0 auto;
+    }
+
+    #coaches::before {
         content: "";
         position: absolute;
         top: 0;
@@ -58,7 +63,7 @@
         filter: opacity(25%);
     }
 
-    #about::after {
+    #coaches::after {
         content: '';
         position: absolute;
         top: 0;
@@ -97,11 +102,10 @@
     h2 {
         font-size: 30px;
         font-family: 'Teko', sans-serif;
+        text-align: center;
+        margin: 0 auto;
     }
 
-    #about img {
-        max-height: 600px;
-    }
 
     .center-btn {
         display: table;

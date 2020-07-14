@@ -15,9 +15,9 @@ import { MenuItem } from './shared/menu-list/menu-list.component';
 export class AppComponent implements OnInit {
     public landingPages: MenuItem[] = [
     {
-        'label': 'About Us',
+        'label': 'Coaches',
         'icon': 'people',
-        'scrollID': 'about'
+        'scrollID': 'coaches'
     },
     {
         'label': 'Transformations',
