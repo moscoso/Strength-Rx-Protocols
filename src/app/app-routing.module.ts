@@ -136,6 +136,10 @@ const routes: Routes = [
     'loadChildren': () => import('./account/start-membership/start-membership.module').then(m => m
         .StartMembershipPageModule),
     'canActivate': [AuthGuard, ProfileGuard],
+}, {
+    'path': 'choose-membership',
+    'loadChildren': () => import('./client/choose-membership/choose-membership.module').then(m => m
+        .ChooseMembershipPageModule)
 }, ];
 
 @NgModule({

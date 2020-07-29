@@ -1,0 +1,84 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Choose a Membership</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <section id="services">
+        <!-- Default Segment -->
+        <ion-segment (ionChange)="segmentChanged($event)" value="3month">
+            <ion-segment-button value="monthly">
+                <ion-label>Monthly Plan</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="3month">
+                <ion-label>3-Month Plan</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="6month">
+                <ion-label>6-Month Plan</ion-label>
+            </ion-segment-button>
+        </ion-segment>
+        <ion-row>
+            <ion-col sizeMd="4" sizeSm="12" sizeXs="12">
+                <div class="list-wrapper">
+                    <ul class="product">
+                        <li class="header">General/Lifestyle Coaching</li>
+                        <li class="grey">${{getPrice('general')}} {{getTimetable()}}</li>
+                        <li class="gradient">Personalized Training Template</li>
+                        <li class="gradient">24/7 email contact</li>
+                        <li class="gradient">Macro-based nutrition guidance</li>
+                        <li class="gradient">Cardio adjustments (as needed)</li>
+                        <li class="gradient">Training video reviews and technique analysis</li>
+                        <li>
+                            <ion-button>Sign Up</ion-button>
+                        </li>
+                    </ul>
+                </div>
+            </ion-col>
+            <ion-col sizeMd="4" sizeSm="12" sizeXs="12">
+                <div class="list-wrapper">
+                    <ul class="product">
+                        <li class="header">Powerlifting Meet Prep Coaching</li>
+                        <li class="grey">${{getPrice('powerlift')}} {{getTimetable()}}</li>
+                        <li class="gradient">Personalized Training Template</li>
+                        <li class="gradient">Macro-based nutrition guidance</li>
+                        <li class="gradient">Cardio adjustments (as needed)</li>
+                        <li class="gradient">Weekly check-ins</li>
+                        <li class="gradient">24/7 email contact</li>
+                        <li class="gradient">Training video reviews and technique analysis</li>
+                        <li class="gradient">List of powerlifting equipment that is approved</li>
+                        <li class="gradient">Deload week leading up to your meet</li>
+                        <li class="gradient">Assistance with attempts selection on meet day</li>
+                        <li class="gradient">Nutrition guidance after weigh-ins</li>
+                        <li class="gradient">Warm-up guidance</li>
+                        <li>
+                            <ion-button>Sign Up</ion-button>
+                        </li>
+                    </ul>
+                </div>
+            </ion-col>
+            <ion-col sizeMd="4" sizeSm="12" sizeXs="12">
+                <div class="list-wrapper">
+                    <ul class="product">
+                        <li class="header">Contest Prep Coaching</li>
+                        <li class="grey">${{getPrice('contest')}} {{getTimetable()}}</li>
+                        <li class="gradient">A custom training program that fits your schedule </li>
+                        <li class="gradient">Email and contact personal with personal cell phone for texting and scheduling calls, guaranteed response in 16hrs.</li>
+                        <li class="gradient">Macro-based nutrition guidance</li>
+                        <li class="gradient">Cardio adjustments (as needed)</li>
+                        <li class="gradient">Weekly check-ins </li>
+                        <li class="gradient">Training video reviews and technique analysis</li>
+                        <li class="gradient">Weekly FaceTime/Skype calls for questions and concerns (by appointment)</li>
+                        <li class="gradient">A customized peak week protocol for your show week</li>
+                        <li class="gradient">Recommendations for trustworthy posing coaches</li>
+                        <li class="gradient">Nutrition guidance on show day</li>
+                        <li class="gradient">Reverse diet protocol for post-show diet control</li>
+                        <li>
+                            <ion-button>Sign Up</ion-button>
+                        </li>
+                    </ul>
+                </div>
+            </ion-col>
+        </ion-row>
+    </section>
+</ion-content>
