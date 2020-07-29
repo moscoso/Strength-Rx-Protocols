@@ -13,6 +13,11 @@ export interface Exercise {
      */
     youtubeID: string;
     instructions: string;
+    /**
+     * An array of IDs corresponding to Exercises that could be done as
+     * an alternative to this exercise
+     */
+    alternateIDs: string[];
 }
 
 export const INIT_EXERCISE: Exercise = {
@@ -20,6 +25,7 @@ export const INIT_EXERCISE: Exercise = {
     'name': '',
     'youtubeID': '',
     'instructions': '',
+    'alternateIDs': [],
 };
 
 /**

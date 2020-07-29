@@ -44,6 +44,18 @@
             </mat-form-field>
         </ion-row>
 
+        <ion-row>
+            <ion-spinner [hidden]="alternateIDs.dirty || (exerciseList$ | async).length !== 0"></ion-spinner>
+            <mat-form-field [hidden]="(exerciseList$ | async).length === 0">
+                <mat-label>Alternate Exercise(s)</mat-label>
+                <mat-select multiple [formControl]="alternateIDs" name="alternateIDs" [compareWith]="compareExerciseIDs">
+                    <mat-option *ngFor="let exercise of (exerciseList$ | async)"
+                                [value]="exercise.id">{{exercise.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </ion-row>
+
+
         <ion-button type="submit"
                     [disabled]="form.invalid || (requestInProgress$ | async)"
                     expand="full">

@@ -38,6 +38,10 @@ export class ExerciseFormComponent implements OnInit {
 
     requestInProgress$: Observable < boolean > = of (false);
 
+    alternateIDs = new FormControl([], []);
+    exerciseList$: Observable < Exercise[] > = of ([]);
+
+
     constructor(
         public exerciseService: ExerciseStoreDispatcher,
         public toastService: ToastService,
@@ -45,14 +49,17 @@ export class ExerciseFormComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.exerciseService.loadAll();
         this.form = new FormGroup({
             'name': this.name,
             'youtubeURL': this.youtubeURL,
             'instructions': this.instructions,
+            'alternateIDs': this.alternateIDs,
         });
         this.requestInProgress$ = this.exerciseService.selectRequestInProgress();
         this.exerciseService.selectExerciseByRouteURL().pipe(first(exercise => exercise != null)).toPromise()
             .then(this.initFormValues.bind(this));
+        this.exerciseList$ = this.exerciseService.selectAll();
     }
 
     initFormValues(exercise: Exercise) {
@@ -61,6 +68,7 @@ export class ExerciseFormComponent implements OnInit {
         this.instructions.setValue(exercise.instructions);
         this.youtubeURL.setValue(`https://youtu.be/${exercise.youtubeID}`);
         this.youtubeURL.markAsDirty();
+        this.alternateIDs.setValue(exercise.alternateIDs);
     }
 
     onSubmit(form) {
@@ -72,7 +80,8 @@ export class ExerciseFormComponent implements OnInit {
                 'id': this.getSlug(exercise.name),
                 'name': exercise.name,
                 'youtubeID': youtubeID,
-                'instructions': exercise.instructions
+                'instructions': exercise.instructions,
+                'alternateIDs': exercise.alternateIDs
             };
             this.formSubmit.emit(values);
         } catch (error) {
@@ -103,5 +112,16 @@ export class ExerciseFormComponent implements OnInit {
 
     verifyExerciseIsUnique(ctrl: AbstractControl): Promise < ValidationErrors | null > {
         return validateDocIDIsUnique(`exercises`, ctrl, this.firestore);
+    }
+
+    /**
+     * A function to compare the option values with the selected values.
+     * @param e1 the first argument is a value from an option.
+     * @param e2 the second is a value from the selection.
+     * @returns a boolean should be returned.
+     */
+
+    compareExerciseIDs(e1: string, e2: string): boolean {
+        return e1 === e2;
     }
 }

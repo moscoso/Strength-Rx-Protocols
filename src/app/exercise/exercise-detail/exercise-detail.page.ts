@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, pipe } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { filter, take } from 'rxjs/operators';
+import { Observable, pipe, of } from 'rxjs';
+import { filter, take, first } from 'rxjs/operators';
 import { Exercise } from 'src/app/core/state/exercises/exercises.state';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { EditExerciseComponent } from '../edit-exercise/edit-exercise.component';
 import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
 
-
+@UntilDestroy()
 @Component({
     'selector': 'app-exercise',
     'templateUrl': './exercise-detail.page.html',
@@ -17,7 +17,8 @@ import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.disp
 export class ExerciseDetailPage implements OnInit {
 
     exercise$: Observable < Exercise > ;
-    isTrainer$: Observable < boolean > ;
+    isTrainer$: Observable < boolean > = of(false);
+    alternateExercises: Exercise[] = [];
 
     constructor(
         public profileService: ProfileStoreDispatcher,
@@ -30,6 +31,17 @@ export class ExerciseDetailPage implements OnInit {
         this.exerciseService.loadAll();
         this.exercise$ = this.exerciseService.selectExerciseByRouteURL();
         this.isTrainer$ = this.profileService.selectUserIsTrainer();
+
+        this.exercise$.pipe(first(exercise => exercise != null), untilDestroyed(this)).subscribe(exercise => {
+            const alternateExercises = [];
+            if (!exercise.alternateIDs) { return; }
+            exercise.alternateIDs.forEach(async (alternateID) => {
+                const alternateExercise = await this.exerciseService.selectExercise(alternateID)
+                    .pipe(first(e => e != null)).toPromise();
+                alternateExercises.push(alternateExercise);
+            });
+            this.alternateExercises = alternateExercises;
+        });
     }
 
     doRefresh(event): void {
@@ -61,7 +73,7 @@ export class ExerciseDetailPage implements OnInit {
                 'text': 'Delete',
                 'role': 'destructive',
                 'icon': 'trash',
-                'handler': () => {this.requestDelete(); }
+                'handler': () => { this.requestDelete(); }
             }, {
                 'text': 'Cancel',
                 'role': 'cancel'

@@ -94,10 +94,6 @@ export class WorkoutFormComponent implements OnInit {
         });
     }
 
-    async init() {
-
-    }
-
     initFormValues(workout: Workout) {
         this.name.setValue(workout.name);
         this.name.disable();
