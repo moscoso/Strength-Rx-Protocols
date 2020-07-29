@@ -43,7 +43,8 @@ export class ProgramDetailPage implements OnInit {
     async showEditModal(): Promise < void > {
         const modal = await this.modalCtrl.create({
             'id': 'edit-program',
-            'component': EditProgramPage
+            'component': EditProgramPage,
+            'cssClass': 'modal-80-width'
         });
         await modal.present();
         return;

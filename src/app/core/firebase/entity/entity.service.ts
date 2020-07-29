@@ -1,6 +1,6 @@
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, QuerySnapshot, DocumentData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { map, first } from 'rxjs/operators';
 
 /**
  * The Default behavior to perform CRUD operations on an Entity in Firestore.
@@ -32,7 +32,7 @@ export abstract class EntityService < T > {
      * @param entityID the ID that corresponds to the entity's document in Firebase
      */
     async get(entityID: string): Promise < T > {
-        const snapshot = await this.firestore.collection(this.collectionName).doc(entityID).get().pipe(take(1))
+        const snapshot = await this.firestore.collection(this.collectionName).doc(entityID).get().pipe(first())
             .toPromise();
         const data = snapshot.data();
         if (data == null) {
@@ -54,7 +54,7 @@ export abstract class EntityService < T > {
      * data fields for each entity.
      */
     async getAll(): Promise < T[] > {
-        return this.entities.pipe(take(1), map((entities) => {
+        return this.entities.pipe(first(), map((entities) => {
             if (!this.defaultEntity) {
                 return entities;
             }
@@ -64,6 +64,18 @@ export abstract class EntityService < T > {
             });
             return mappedEntities;
         })).toPromise();
+    }
+
+    async getAllFromServer(): Promise < T[] > {
+        const snapshot: QuerySnapshot < DocumentData > = await this.firestore.collection(this.collectionName)
+            .get({ 'source': 'server' }).pipe(first()).toPromise();
+        return snapshot.docs.map((doc: DocumentData) => {
+            const data: any = doc.data();
+            if (!this.defaultEntity) {
+                return data;
+            }
+            return {...this.defaultEntity, ...data};
+        });
     }
 
     /**

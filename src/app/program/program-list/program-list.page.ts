@@ -52,7 +52,8 @@ export class ProgramListPage implements OnInit {
     async presentModal(): Promise < void > {
         const modal = await this.modalController.create({
             'id': 'create-program',
-            'component': CreateProgramPage
+            'component': CreateProgramPage,
+            'cssClass': 'modal-80-width'
         });
         await modal.present();
         return;

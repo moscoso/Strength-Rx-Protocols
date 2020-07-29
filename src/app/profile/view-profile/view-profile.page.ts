@@ -70,7 +70,8 @@ export class ViewProfilePage implements OnInit {
     async presentModal(): Promise < void > {
         const modal = await this.modalController.create({
             'id': 'edit-profile',
-            'component': EditProfilePage
+            'component': EditProfilePage,
+            'cssClass': 'modal-80-width'
         });
         await modal.present();
         return;

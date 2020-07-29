@@ -45,7 +45,8 @@ export class ExerciseDetailPage implements OnInit {
     async showEditModal(): Promise < void > {
         const modal = await this.modalCtrl.create({
             'id': 'edit-exercise',
-            'component': EditExerciseComponent
+            'component': EditExerciseComponent,
+            'cssClass': 'modal-80-width'
         });
         await modal.present();
         return;

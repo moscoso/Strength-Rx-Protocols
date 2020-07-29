@@ -44,7 +44,8 @@ export class FoodsListPage implements OnInit {
     async presentModal(): Promise < void > {
         const modal = await this.modalController.create({
             'id': 'create-food',
-            'component': CreateFoodPage
+            'component': CreateFoodPage,
+            'cssClass': 'modal-80-width'
         });
         await modal.present();
         return;

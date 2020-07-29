@@ -78,7 +78,8 @@ export class LandingPage implements OnInit, AfterViewInit {
     async openModal() {
         const modal = await this.modalController.create({
             'id': 'register',
-            'component': RegisterPage
+            'component': RegisterPage,
+            'cssClass': 'modal-80-width'
         });
         await modal.present();
         return;
