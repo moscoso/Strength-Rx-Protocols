@@ -6,6 +6,8 @@ import { MatOptionModule, MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 
 const modules = [
     MatInputModule,
@@ -15,7 +17,8 @@ const modules = [
     MatSelectModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    DragDropModule
 ];
 
 @NgModule({

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Observable, of , Subject, combineLatest } from 'rxjs';
 import { take, filter, startWith } from 'rxjs/operators';
@@ -19,15 +19,24 @@ export class WorkoutListPage implements OnInit {
     workouts$: Observable < Workout[] > = of ([]);
     searchTerm$: Subject < string > = new Subject();
     workoutList: Workout[] = [];
-    requestInProgress$: Observable < boolean > = of (false);
+    requestInProgress$: Observable < boolean > = of(false);
+
+    requestInProgress = false;
 
     constructor(
         public modalController: ModalController,
         public workoutService: WorkoutStoreDispatcher,
-    ) {}
+        public changeDetector: ChangeDetectorRef
+    ) {
+        this.requestInProgress$ = of(false);
+    }
 
     ngOnInit(): void {
         this.initWorkoutList();
+        this.requestInProgress$.pipe(untilDestroyed(this)).subscribe(requestInProgress => {
+            this.requestInProgress = requestInProgress;
+            this.changeDetector.detectChanges();
+        });
     }
 
     async initWorkoutList() {
@@ -53,7 +62,8 @@ export class WorkoutListPage implements OnInit {
     async presentModal(): Promise < void > {
         const modal = await this.modalController.create({
             'id': 'create-workout',
-            'component': CreateWorkoutPage
+            'component': CreateWorkoutPage,
+            'cssClass': 'modal-80-width'
         });
         await modal.present();
         return;

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Workout, ExerciseRoutine } from 'src/app/core/state/workouts/workouts.state';
 import { ModalController, ActionSheetController } from '@ionic/angular';
-import { filter, take } from 'rxjs/operators';
+import { filter, take, first } from 'rxjs/operators';
 import { EditWorkoutPage } from '../edit-workout/edit-workout.page';
 import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
@@ -26,8 +26,10 @@ export class WorkoutDetailPage implements OnInit {
 
     ngOnInit() {
         this.workoutService.loadAll();
-        this.workout$ = this.workoutService.selectWorkoutByRouteURL();
+        this.workout$ = this.workoutService.selectWorkoutByRouteURL().pipe(first(workout => workout != null));
         this.isTrainer$ = this.profileService.selectUserIsTrainer();
+
+        this.workout$.subscribe(x => console.log(x));
     }
 
     doRefresh(event): void {
@@ -43,7 +45,8 @@ export class WorkoutDetailPage implements OnInit {
     async showEditModal(): Promise < void > {
         const modal = await this.modalCtrl.create({
             'id': 'edit-workout',
-            'component': EditWorkoutPage
+            'component': EditWorkoutPage,
+            'cssClass': 'modal-80-width'
         });
         await modal.present();
         return;
@@ -73,9 +76,11 @@ export class WorkoutDetailPage implements OnInit {
     }
 
     getNotes(routine: ExerciseRoutine) {
+        if (!routine) { console.warn('getNotes failed because routine is undefined'); return; }
+
         let note = '';
-        if (routine.reps) { note += `Reps: ${routine.reps} `; }
         if (routine.sets) { note += `Sets: ${routine.sets} `; }
+        if (routine.reps) { note += `Reps: ${routine.reps} `; }
         if (routine.percentageOfOneRepMax) { note += `%1RM: ${routine.percentageOfOneRepMax} `; }
         if (routine.rateOfPerceivedExertion) { note += `RPE: ${routine.rateOfPerceivedExertion} `; }
         if (routine.tempo) { note += `Tempo: ${routine.rateOfPerceivedExertion} `; }

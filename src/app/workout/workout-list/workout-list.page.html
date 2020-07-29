@@ -14,29 +14,27 @@
 </ion-header>
 
 <ion-content>
-    <ion-searchbar (ionChange)='search($event)' autocorrect="off"></ion-searchbar>
+    <span class="ion-text-center" [hidden]="!requestInProgress">
+        <ion-spinner></ion-spinner>
+    </span>
+    <ion-searchbar (ionChange)='search($event)' autocorrect="off" [hidden]="workoutList.length <= 1"></ion-searchbar>
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <ion-grid *ngIf="workoutList as workouts">
-        <ng-template *ngIf="(requestInProgress$ | async) && workouts.length == 0; else loaded">
-            <ion-spinner></ion-spinner>
-        </ng-template>
-        <ng-template #loaded>
-            <ion-row>
-                <ion-card *ngIf="workouts.length === 0; else showWorkouts">
-                    <ion-card-header>No workouts found! Create one!</ion-card-header>
-                    <ion-card-content>
-                        <ion-button (click)="presentModal()">Create New Workout</ion-button>
-                    </ion-card-content>
-                </ion-card>
-                <ng-template #showWorkouts>
-                    <ion-col *ngFor="let workout of workouts" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
-                        <workout-preview [routerLink]="'/workouts/' + workout.id" [workout]="workout"></workout-preview>
-                    </ion-col>
-                </ng-template>
-            </ion-row>
-        </ng-template>
+    <ion-grid [hidden]="requestInProgress">
+        <ion-row>
+            <ion-card *ngIf="workoutList.length === 0; else showWorkouts">
+                <ion-card-header>No workouts found! Create one!</ion-card-header>
+                <ion-card-content>
+                    <ion-button (click)="presentModal()">Create New Workout</ion-button>
+                </ion-card-content>
+            </ion-card>
+            <ng-template #showWorkouts>
+                <ion-col *ngFor="let workout of workoutList" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+                    <workout-preview [routerLink]="'/workouts/' + workout.id" [workout]="workout"></workout-preview>
+                </ion-col>
+            </ng-template>
+        </ion-row>
     </ion-grid>
 </ion-content>

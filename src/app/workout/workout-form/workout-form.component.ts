@@ -1,9 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, AfterViewInit, AfterContentInit } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Input,
+    Output,
+    EventEmitter,
+} from '@angular/core';
 import { FormControl, Validators, FormGroup, AbstractControl, ValidationErrors, FormArray } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { Exercise } from 'src/app/core/state/exercises/exercises.state';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/core/state/app.state';
 import { Workout, ExerciseRoutine } from 'src/app/core/state/workouts/workouts.state';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
@@ -12,6 +16,7 @@ import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUni
 import { first } from 'rxjs/operators';
 import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
 import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
     'selector': 'workout-form',
@@ -36,16 +41,26 @@ export class WorkoutFormComponent implements OnInit {
     exerciseList$: Observable < Exercise[] > = of ([]);
     requestInProgress$: Observable < boolean > ;
 
+    orderedList: Exercise[] = [];
+
+    readonly INIT_EXERCISE_ROUTINE: ExerciseRoutine = {
+        'sets': null,
+        'reps': null,
+        'percentageOfOneRepMax': null,
+        'rateOfPerceivedExertion': null,
+        'tempo': null,
+        'rest': null,
+    };
+
     constructor(
         public workoutService: WorkoutStoreDispatcher,
         public exerciseService: ExerciseStoreDispatcher,
         public toastService: ToastService,
         public firestore: AngularFirestore,
-    ) {
-    }
+    ) {}
 
     ngOnInit() {
-        this.workoutService.loadAll();
+        // this.workoutService.loadAll();
         this.form = new FormGroup({
             'name': this.name,
             'exercises': this.exercises,
@@ -61,15 +76,33 @@ export class WorkoutFormComponent implements OnInit {
             }
 
             this.exercises.valueChanges.subscribe((exercises: Exercise[]) => {
-                this.setExerciseRoutineFormArray(exercises, workout);
+                const oneExerciseAdded = exercises.length === this.orderedList.length + 1;
+                const oneExerciseRemoved = exercises.length === this.orderedList.length - 1;
+                if (oneExerciseAdded) {
+                    const addedElement = exercises.filter(element => !this.orderedList.includes(
+                        element))[0];
+                    const index = exercises.indexOf(addedElement);
+                    this.addExerciseRoutine(index);
+                } else if (oneExerciseRemoved) {
+                    const removedElement = this.orderedList.filter(element => !exercises.includes(
+                        element))[0];
+                    const index = this.orderedList.indexOf(removedElement);
+                    this.exerciseRoutines.removeAt(index);
+                }
+                this.orderedList = exercises;
             });
         });
+    }
+
+    async init() {
+
     }
 
     initFormValues(workout: Workout) {
         this.name.setValue(workout.name);
         this.name.disable();
         this.exercises.setValue(workout.exercises);
+        this.orderedList = workout.exercises;
         this.setExerciseRoutineFormArray(workout.exercises, workout);
     }
 
@@ -84,16 +117,9 @@ export class WorkoutFormComponent implements OnInit {
     setExerciseRoutineFormArray(exercises: Exercise[], workout: Workout) {
         this.exerciseRoutines = new FormArray([]);
         exercises.forEach((exercise) => {
-            let defaultValues: ExerciseRoutine = {
-                'sets': null,
-                'reps': null,
-                'percentageOfOneRepMax': null,
-                'rateOfPerceivedExertion': null,
-                'tempo': null,
-                'rest': null,
-            };
+            let defaultValues: ExerciseRoutine = {...this.INIT_EXERCISE_ROUTINE};
             if (workout) {
-                defaultValues = {...workout.exerciseRoutines[exercise.name]};
+                defaultValues = { ...workout.exerciseRoutines[exercise.id] };
             }
             const routineGroup: FormGroup = new FormGroup({
                 'sets': new FormControl(defaultValues.sets),
@@ -108,6 +134,23 @@ export class WorkoutFormComponent implements OnInit {
         });
     }
 
+    /**
+     * Add a form control to the exerciseRoutines form array.
+     * @param index the index to insert the form control at in the exerciseRoutines form array
+     */
+    addExerciseRoutine(index: number) {
+        const defaultValues: ExerciseRoutine = {...this.INIT_EXERCISE_ROUTINE};
+        const routineGroup: FormGroup = new FormGroup({
+            'sets': new FormControl(defaultValues.sets),
+            'reps': new FormControl(defaultValues.reps),
+            '%1rm': new FormControl(defaultValues.percentageOfOneRepMax),
+            'rpe': new FormControl(defaultValues.rateOfPerceivedExertion),
+            'tempo': new FormControl(defaultValues.tempo),
+            'rest': new FormControl(defaultValues.rest),
+        });
+        this.exerciseRoutines.insert(index, routineGroup);
+    }
+
     onSubmit(form) {
         const workout = this.form.getRawValue();
         try {
@@ -115,7 +158,7 @@ export class WorkoutFormComponent implements OnInit {
             values = {
                 'id': this.getSlug(workout.name),
                 'name': workout.name,
-                'exercises': workout.exercises,
+                'exercises': this.orderedList,
                 'exerciseRoutines': this.getExerciseRoutinesValue(workout),
                 'dateCreated': new Date(),
                 'photoURL': '',
@@ -138,7 +181,7 @@ export class WorkoutFormComponent implements OnInit {
         const routinesRaw = this.exerciseRoutines.getRawValue();
         const exerciseRoutines = {};
         workout.exercises.forEach((exercise, i) => {
-            exerciseRoutines[exercise.name] = routinesRaw[i];
+            exerciseRoutines[exercise.id] = routinesRaw[i];
         });
         return exerciseRoutines;
     }
@@ -160,6 +203,17 @@ export class WorkoutFormComponent implements OnInit {
 
     compareExercises(e1: Exercise, e2: Exercise): boolean {
         return e1 && e2 ? e1.id === e2.id : e1 === e2;
+    }
+
+    drop(event: CdkDragDrop < string[] > ) {
+        this.rearrangeExerciseRoutineControls(event);
+        moveItemInArray(this.orderedList, event.previousIndex, event.currentIndex);
+    }
+
+    rearrangeExerciseRoutineControls(event: CdkDragDrop < string[] > ) {
+        const array = this.exerciseRoutines.getRawValue();
+        moveItemInArray(array, event.previousIndex, event.currentIndex);
+        this.exerciseRoutines.setValue(array);
     }
 
 }
