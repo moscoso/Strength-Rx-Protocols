@@ -7,9 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { MenuListComponent } from './menu-list/menu-list.component';
 import { RouterModule } from '@angular/router';
 import { ImageComparisonModule } from './image-comparison/image-comparison.module';
-import { MenuItemLabelComponent } from './menu-item-label/menu-item-label.component';
-
-
 
 @NgModule({
     'imports': [
@@ -23,7 +20,6 @@ import { MenuItemLabelComponent } from './menu-item-label/menu-item-label.compon
         YoutubePlayerComponent,
         DismissModalButtonComponent,
         MenuListComponent,
-        MenuItemLabelComponent,
     ],
     'exports': [
         YouTubePlayerModule,
