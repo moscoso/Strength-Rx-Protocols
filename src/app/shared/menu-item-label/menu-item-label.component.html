@@ -1,3 +1,7 @@
-<p>
-  menu-item-label works!
-</p>
+<ng-container *ngIf="page.icon">
+    <ion-icon size="large" slot="start" [icon]="page.icon"></ion-icon>
+</ng-container>
+<ng-container *ngIf="page.src">
+    <ion-icon size="large" slot="start" [src]="page.src"></ion-icon>
+</ng-container>
+<ion-label>{{page.label}}</ion-label>
