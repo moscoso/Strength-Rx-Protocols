@@ -29,5 +29,6 @@ export interface MenuItem {
     icon ?: string;
     src ?: string;
     link ?: string;
+    href ?: string;
     scrollID ?: string;
 }

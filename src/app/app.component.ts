@@ -14,72 +14,91 @@ import { MenuItem } from './shared/menu-list/menu-list.component';
 })
 export class AppComponent implements OnInit {
     public landingPages: MenuItem[] = [
-    {
-        'label': 'Coaches',
-        'icon': 'people',
-        'scrollID': 'coaches'
-    },
-    {
-        'label': 'Transformations',
-        'icon': 'people',
-        'scrollID': 'transformations'
-    }];
+        {
+            'label': 'Coaches',
+            'icon': 'people',
+            'scrollID': 'coaches'
+        },
+        {
+            'label': 'Transformations',
+            'icon': 'people',
+            'scrollID': 'transformations'
+        },
+        {
+            'label': 'Services',
+            'icon': 'people',
+            'scrollID': 'services'
+        },
+        {
+            'label': 'Store',
+            'icon': 'shirt-outline',
+            'href': 'https://strengthrx-test.myshopify.com/collections/all'
+        }
+
+    ];
 
     public mainPages: MenuItem[] = [
-    {
-        'label': 'Profile',
-        'icon': 'people-outline',
-        'link': '/profile'
-    },
-    {
-        'label': 'Exercises',
-        'icon': 'barbell',
-        'link': '/exercises'
-    },
-    {
-        'label': 'Workouts',
-        'icon': 'fitness',
-        'link': '/workouts'
-    },
-    {
-        'label': 'Programs',
-        'icon': 'calendar-outline',
-        'link': '/programs'
-    },
-    {
-        'label': 'Clients',
-        'icon': 'list-outline',
-        'link': '/clients'
-    },
-    {
-        'label': 'Foods',
-        'src': '/assets/icon/food.svg',
-        'link': '/foods'
-    },
-    // {
-    //     'label': 'Meals',
-    //     'src': '/assets/icon/meal.svg',
-    //     'link': '/meals'
-    // },
-];
-
-    public clientPages: MenuItem[] = [
         {
             'label': 'Profile',
             'icon': 'people-outline',
             'link': '/profile'
         },
         {
-            'label': 'Check In',
-            'icon': 'checkbox-outline',
-            'link': '/check-in',
+            'label': 'Exercises',
+            'icon': 'barbell',
+            'link': '/exercises'
+        },
+        {
+            'label': 'Workouts',
+            'icon': 'fitness',
+            'link': '/workouts'
+        },
+        {
+            'label': 'Programs',
+            'icon': 'calendar-outline',
+            'link': '/programs'
+        },
+        {
+            'label': 'Clients',
+            'icon': 'list-outline',
+            'link': '/clients'
         },
         {
             'label': 'Foods',
             'src': '/assets/icon/food.svg',
             'link': '/foods'
         },
+
+        // {
+        //     'label': 'Meals',
+        //     'src': '/assets/icon/meal.svg',
+        //     'link': '/meals'
+        // },
     ];
+
+    public clientPages: MenuItem[] = [
+    {
+        'label': 'Profile',
+        'icon': 'people-outline',
+        'link': '/profile'
+    },
+    {
+        'label': 'Check In',
+        'icon': 'checkbox-outline',
+        'link': '/check-in',
+    },
+    {
+        'label': 'Foods',
+        'src': '/assets/icon/food.svg',
+        'link': '/foods'
+    },
+    {
+        'label': 'Store',
+        'icon': 'shirt-outline',
+        'href': 'https://strengthrx-test.myshopify.com/collections/all'
+    }
+
+];
 
     public accountPages: MenuItem[] = [
     {

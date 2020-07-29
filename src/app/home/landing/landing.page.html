@@ -2,16 +2,19 @@
     <ion-header #header>
         <ion-toolbar class="ion-text-center">
             <ion-buttons slot="start">
-                <ion-menu-button class="ion-hide-sm-up" auto-hide="false"></ion-menu-button>
-                <ion-button class="ion-hide-sm-down" (click)="scrollPage('coaches')">Coaches</ion-button>
-                <ion-button class="ion-hide-sm-down" (click)="scrollPage('transformations')">Transformations
+                <ion-menu-button class="ion-hide-md-up" auto-hide="false"></ion-menu-button>
+                <ion-button class="ion-hide-md-down" (click)="scrollPage('coaches')">Coaches</ion-button>
+                <ion-button class="ion-hide-md-down" (click)="scrollPage('transformations')">Transformations
                 </ion-button>
+                <ion-button class="ion-hide-md-down" (click)="scrollPage('services')">Services</ion-button>
             </ion-buttons>
             <img class="logo" src="/assets/icon/logo.png">
             <ion-buttons slot="end" *ngIf="(isAuthenticated$ | async) === true">
-                <ion-button class="ion-hide-sm-down" [routerLink]="'dashboard'">Dashboard</ion-button>
+                <ion-button class="ion-hide-md-down" [routerLink]="'dashboard'">Dashboard</ion-button>
             </ion-buttons>
-            <ion-buttons slot="end" *ngIf="(isAuthenticated$ | async) === false" class="ion-hide-sm-down">
+            <ion-buttons slot="end" *ngIf="(isAuthenticated$ | async) === false" class="ion-hide-md-down">
+                <ion-button class="ion-hide-md-down" href="https://strengthrx-test.myshopify.com/collections/all">Shop
+                </ion-button>
                 <ion-button [routerLink]="'register'">Join</ion-button>
                 <ion-button [routerLink]="'login'">Login</ion-button>
             </ion-buttons>
@@ -19,27 +22,90 @@
     </ion-header>
 
 
-    <video #video class="ion-hide-md-down" [ngStyle]="{'margin-top': headerHeight+'px', 'max-height': calcVideoHeight() }"
-           loop 
+    <video #video class="ion-hide-md-down"
+           [ngStyle]="{'margin-top': headerHeight+'px', 'max-height': calcVideoHeight() }"
+           loop
            playsinline preload="auto" muted="true" controlslist="nodownload nofullscreen">
         <source
                 [src]="getStorageURL('StrengthRx_Protocols_Landing_Muted.webm?alt=media&token=746c5ebb-9657-4cec-9290-d3bd42492941')" />
     </video>
 
-    <img class="ion-hide-md-up" [ngStyle]="{'margin-top': headerHeight+'px', 'max-height': calcVideoHeight() }" src="/assets/img/splash.PNG"/>
+    <img class="ion-hide-md-up" [ngStyle]="{'margin-top': headerHeight+'px', 'max-height': calcVideoHeight() }"
+         src="/assets/img/splash.PNG" />
 
     <ion-grid id="coaches" #coaches>
         <h1>Coaches</h1>
-        <ion-row>
-            <h2>David & Tiffany</h2>
+        <ion-row class="ion-text-center">
+            <ion-col sizeMd="6" sizeSm="12" sizeXs="12">
+                <h2>David</h2>
+                <img src="/assets/img/david2.JPG">
+            </ion-col>
+            <ion-col sizeMd="6" sizeSm="12" sizeXs="12">
+                <h2>Tiffany</h2>
+                <img src="/assets/img/david_tiff2.JPG">
+            </ion-col>
         </ion-row>
-        <ion-row>
-            <img src="/assets/img/david_tiff2.JPG">
-        </ion-row>
+
+        <section id="services">
+            <h1>Services</h1>
+
+            <ion-row>
+                <ion-col sizeMd="4" sizeSm="12" sizeXs="12">
+                    <div class="list-wrapper">
+                        <ul class="product">
+                            <li class="header">General/Lifestyle Coaching</li>
+                            <li class="gradient">Personalized Training Template</li>
+                            <li class="gradient">24/7 email contact</li>
+                            <li class="gradient">Macro-based nutrition guidance</li>
+                            <li class="gradient">Cardio adjustments (as needed)</li>
+                            <li class="gradient">Training video reviews and technique analysis</li>
+                        </ul>
+                    </div>
+                </ion-col>
+                <ion-col sizeMd="4" sizeSm="12" sizeXs="12">
+                    <div class="list-wrapper">
+                        <ul class="product">
+                            <li class="header">Powerlifting Meet Prep Coaching</li>
+                            <li class="gradient">Personalized Training Template</li>
+                            <li class="gradient">Macro-based nutrition guidance</li>
+                            <li class="gradient">Cardio adjustments (as needed)</li>
+                            <li class="gradient">Weekly check-ins</li>
+                            <li class="gradient">24/7 email contact</li>
+                            <li class="gradient">Training video reviews and technique analysis</li>
+                            <li class="gradient">List of powerlifting equipment that is approved</li>
+                            <li class="gradient">Deload week leading up to your meet</li>
+                            <li class="gradient">Assistance with attempts selection on meet day</li>
+                            <li class="gradient">Nutrition guidance after weigh-ins</li>
+                            <li class="gradient">Warm-up guidance</li>
+                        </ul>
+                    </div>
+                </ion-col>
+                <ion-col sizeMd="4" sizeSm="12" sizeXs="12">
+                    <div class="list-wrapper">
+                        <ul class="product">
+                            <li class="header">Contest Prep Coaching</li>
+                            <li class="gradient">A custom training program that fits your schedule </li>
+                            <li class="gradient">Email and contact personal with personal cell phone for texting and
+                                scheduling calls, guaranteed response in 16hrs.</li>
+                            <li class="gradient">Macro-based nutrition guidance</li>
+                            <li class="gradient">Cardio adjustments (as needed)</li>
+                            <li class="gradient">Weekly check-ins </li>
+                            <li class="gradient">Training video reviews and technique analysis</li>
+                            <li class="gradient">Weekly FaceTime/Skype calls for questions and concerns (by appointment)
+                            </li>
+                            <li class="gradient">A customized peak week protocol for your show week</li>
+                            <li class="gradient">Recommendations for trustworthy posing coaches</li>
+                            <li class="gradient">Nutrition guidance on show day</li>
+                            <li class="gradient">Reverse diet protocol for post-show diet control</li>
+                        </ul>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </section>
 
         <ion-button [routerLink]="'register'" size="large" class="join-btn center-btn">JOIN US TODAY!</ion-button>
-
     </ion-grid>
+
     <section id="transformations" #transformations>
         <h1>Transformations</h1>
         <ion-row>

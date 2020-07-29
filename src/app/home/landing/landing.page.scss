@@ -45,7 +45,7 @@
         color: black;
     }
 
-    
+
     #coaches img {
         max-height: 600px;
         filter: opacity(1);
@@ -80,6 +80,22 @@
         z-index: -1;
     }
 
+    #services h2 {
+        text-align: left;
+        text-decoration: underline;
+    }
+
+    // #services ul {
+    //     font-weight: bold;
+    //     font-size: 18px;
+    // }
+
+    // #services ul {
+    //     background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(56, 128, 255, 1) 50%, rgba(0, 0, 0, 1) 100%);
+    //     background-clip: text;
+    //     -webkit-text-fill-color: transparent;
+    // }
+
 
     #transformations {
         background-image: url('/assets/img/cool-background.png');
@@ -110,10 +126,56 @@
     .center-btn {
         display: table;
         margin: 25px auto;
-        --background: linear-gradient(90deg, rgba(0,212,255,1) 0%, rgba(56,128,255,1) 100%)
+        --background: linear-gradient(90deg, rgba(0, 212, 255, 1) 0%, rgba(56, 128, 255, 1) 100%)
     }
 
     section {
         padding-bottom: 25px;
     }
+
+    /** Products */
+    /* Style the list */
+    .product {
+        list-style-type: none;
+        border: 1px solid #eee;
+        background:white;
+        margin: 0;
+        padding: 0;
+        -webkit-transition: 0.3s;
+        transition: 0.3s;
+    }
+
+    /* Add shadows on hover */
+    .product:hover {
+        box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2)
+    }
+
+    /* Pricing header */
+    .product .header {
+        background: linear-gradient(135deg, rgba(0, 0, 0, 1) 0%, rgba(56, 128, 255, 1) 50%, rgba(0, 0, 0, 1) 100%);
+        color: white;
+        font-size: 25px;
+    }
+
+    /* List items */
+    .product li {
+        border-bottom: 1px solid #eee;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .product li.gradient {
+        background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(56, 128, 255, 1) 50%, rgba(0, 0, 0, 1) 100%);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    /* Grey list item */
+    .product .grey {
+        background-color: #eee;
+        font-size: 20px;
+    }
+
 }
