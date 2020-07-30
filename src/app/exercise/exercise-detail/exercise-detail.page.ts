@@ -17,8 +17,10 @@ import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
 export class ExerciseDetailPage implements OnInit {
 
     exercise$: Observable < Exercise > ;
-    isTrainer$: Observable < boolean > = of(false);
+    isTrainer$: Observable < boolean > = of (false);
     alternateExercises: Exercise[] = [];
+
+    requestInProgress$: Observable < boolean > = of (false);
 
     constructor(
         public profileService: ProfileStoreDispatcher,
@@ -31,7 +33,7 @@ export class ExerciseDetailPage implements OnInit {
         this.exerciseService.loadAll();
         this.exercise$ = this.exerciseService.selectExerciseByRouteURL();
         this.isTrainer$ = this.profileService.selectUserIsTrainer();
-
+        this.requestInProgress$ = this.exerciseService.selectRequestInProgress();
         this.exercise$.pipe(first(exercise => exercise != null), untilDestroyed(this)).subscribe(exercise => {
             const alternateExercises = [];
             if (!exercise.alternateIDs) { return; }
@@ -44,7 +46,7 @@ export class ExerciseDetailPage implements OnInit {
         });
     }
 
-    async doRefresh(event): Promise < void >  {
+    async doRefresh(event): Promise < void > {
         const exercise = await this.exercise$.pipe(take(1)).toPromise();
         this.exerciseService.refreshOne(exercise.id);
         this.exerciseService.selectRequestInProgress().pipe(

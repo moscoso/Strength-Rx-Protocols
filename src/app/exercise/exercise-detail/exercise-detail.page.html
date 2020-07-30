@@ -6,7 +6,7 @@
         </ion-buttons>
         <ion-title>Exercise</ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="doRefresh($event)">
+            <ion-button (click)="doRefresh($event)"  [disabled]="(requestInProgress$ | async)">
                 <ion-icon name="refresh"></ion-icon>Refresh
             </ion-button>
         </ion-buttons>
