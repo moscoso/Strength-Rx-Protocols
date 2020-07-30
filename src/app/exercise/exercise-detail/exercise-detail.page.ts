@@ -16,11 +16,10 @@ import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
 })
 export class ExerciseDetailPage implements OnInit {
 
+    requestInProgress$: Observable < boolean > = of (false);
     exercise$: Observable < Exercise > ;
     isTrainer$: Observable < boolean > = of (false);
     alternateExercises: Exercise[] = [];
-
-    requestInProgress$: Observable < boolean > = of (false);
 
     constructor(
         public profileService: ProfileStoreDispatcher,
