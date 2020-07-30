@@ -5,40 +5,45 @@
         </ion-buttons>
         <ion-title>Exercises</ion-title>
         <ion-buttons slot="end">
+            <ion-button (click)="doRefresh($event)" [disabled]="(requestInProgress$ | async)">
+                <ion-icon name="refresh"></ion-icon>Refresh
+            </ion-button>
             <ion-button (click)="presentModal()"
                         id="create-exercise"
-                        slot="end">New<ion-icon name="add"></ion-icon>
+                        slot="end">
+                <ion-icon name="add"></ion-icon>New
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <div class="ion-text-center">
+        <ion-spinner *ngIf="(requestInProgress$ | async)"></ion-spinner>
+    </div>
 
-    <ion-searchbar (ionChange)='search($event)' autocorrect="off"></ion-searchbar>
+    <ion-searchbar (ionChange)='search($event)' autocorrect="off" [hidden]="(exercises$ | async).length <= 1"></ion-searchbar>
 
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <ion-grid *ngIf="exerciseList as exercises">
-        <ng-template *ngIf="(requestInProgress$ | async) && exercises.length == 0; else loaded">
-                <ion-spinner></ion-spinner>
-        </ng-template>
-        <ng-template #loaded>
-            <ion-row>
-                <ion-card *ngIf="exercises.length === 0; else showExercises">
-                    <ion-card-header>No exercises found! Create one!</ion-card-header>
-                    <ion-card-content>
-                        <ion-button (click)="presentModal()">Create New Exercise</ion-button>
-                    </ion-card-content>
-                </ion-card>
-                <ng-template #showExercises>
-                    <ion-col *ngFor="let exercise of exercises" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
-                        <exercise-preview [routerLink]="'/exercises/' + exercise.id" [exercise]="exercise"></exercise-preview>
-                    </ion-col>
-                </ng-template>
-            </ion-row>
-        </ng-template>
+    <ion-grid *ngIf="(exercises$ | async).length > 0 || (requestInProgress$ | async); else noExercises;">
+        <ion-row>
+            <ion-col *ngFor="let exercise of filteredExerciseList" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+                <exercise-preview [routerLink]="'/exercises/' + exercise.id" [exercise]="exercise">
+                </exercise-preview>
+            </ion-col>
+        </ion-row>
     </ion-grid>
+    <ng-template #noExercises>
+        <ion-row>
+            <ion-card>
+                <ion-card-header>No exercises found! Create one!</ion-card-header>
+                <ion-card-content>
+                    <ion-button (click)="presentModal()">Create New Exercise</ion-button>
+                </ion-card-content>
+            </ion-card>
+        </ion-row>
+    </ng-template>
 </ion-content>

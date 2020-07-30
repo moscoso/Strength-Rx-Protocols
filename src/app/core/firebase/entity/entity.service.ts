@@ -1,6 +1,7 @@
 import { AngularFirestore, AngularFirestoreCollection, QuerySnapshot, DocumentData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
+import { FirebaseOptions } from '@angular/fire';
 
 /**
  * The Default behavior to perform CRUD operations on an Entity in Firestore.
@@ -15,11 +16,11 @@ export abstract class EntityService < T > {
     constructor(
         protected firestore: AngularFirestore,
         protected collectionName: string,
-        useDocID: boolean = true,
+        includeDocID: boolean = true,
     ) {
         this.entityCollection = firestore.collection < T > (collectionName);
-        if (useDocID) {
-            this.entities = this.entityCollection.valueChanges({ 'idField': 'id' });
+        if (includeDocID) {
+            this.entities = this.entityCollection.valueChanges({ 'idField': 'id'});
         } else {
             this.entities = this.entityCollection.valueChanges({});
         }
@@ -31,9 +32,9 @@ export abstract class EntityService < T > {
      * Retreive an entity
      * @param entityID the ID that corresponds to the entity's document in Firebase
      */
-    async get(entityID: string): Promise < T > {
-        const snapshot = await this.firestore.collection(this.collectionName).doc(entityID).get().pipe(first())
-            .toPromise();
+    async get(entityID: string, source: 'default' | 'server' | 'cache' = 'default'): Promise < T > {
+        const snapshot = await this.firestore.collection(this.collectionName).doc(entityID).get({source})
+            .pipe(first()).toPromise();
         const data = snapshot.data();
         if (data == null) {
             const errorMessage =
@@ -49,7 +50,22 @@ export abstract class EntityService < T > {
     }
 
     /**
-     * Retrieve all the entities of the Firestore collection as an array.
+     * Retrieve multiple entities
+     */
+    async getMultiple(entityIDs: string[], source: 'default' | 'server' | 'cache' = 'default'): Promise < Map<string, T> > {
+        const entities: Map<string, T> = new Map();
+        entityIDs.forEach(async (id) => {
+            this.get(id, source).then(entity => {
+                entities.set(id, entity);
+            }).catch(reason => {
+                entities.set(id, null);
+            });
+        });
+        return entities;
+    }
+
+    /**
+     * Retrieve all the entities from the Firestore collection.
      * If the default Entity is set, it will provide default values for any missing
      * data fields for each entity.
      */
@@ -66,6 +82,10 @@ export abstract class EntityService < T > {
         })).toPromise();
     }
 
+    /**
+     * Retreive all entities by forcing Firestore to avoid the cache,
+     * generating an error if the server cannot be reached.
+     */
     async getAllFromServer(): Promise < T[] > {
         const snapshot: QuerySnapshot < DocumentData > = await this.firestore.collection(this.collectionName)
             .get({ 'source': 'server' }).pipe(first()).toPromise();
@@ -74,7 +94,7 @@ export abstract class EntityService < T > {
             if (!this.defaultEntity) {
                 return data;
             }
-            return {...this.defaultEntity, ...data};
+            return { ...this.defaultEntity, ...data };
         });
     }
 

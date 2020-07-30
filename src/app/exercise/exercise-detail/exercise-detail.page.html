@@ -5,6 +5,11 @@
             <ion-back-button defaultHref="/exercises"></ion-back-button>
         </ion-buttons>
         <ion-title>Exercise</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="doRefresh($event)">
+                <ion-icon name="refresh"></ion-icon>Refresh
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 

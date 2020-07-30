@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 import { Observable, of , Subject, combineLatest } from 'rxjs';
-import { take, filter, startWith } from 'rxjs/operators';
+import { first, startWith } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 
@@ -20,9 +20,9 @@ import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.
 })
 export class ExerciseListPage implements OnInit {
 
-    exercises$: Observable < Exercise[] > ;
+    exercises$: Observable < Exercise[] > = of([]);
     searchTerm$: Subject < string > = new Subject();
-    exerciseList: Exercise[] = [];
+    filteredExerciseList: Exercise[] = [];
     requestInProgress$: Observable < boolean > = of (false);
 
 
@@ -43,17 +43,16 @@ export class ExerciseListPage implements OnInit {
         combineLatest([this.exercises$, this.searchTerm$.pipe(startWith(''))]).subscribe(
             ([exercises, searchTerm]) => this.filterExercises([exercises, searchTerm])
         );
-        this.exerciseList = await this.exercises$.pipe(filter(exercises => exercises.length > 0), take(1))
+        this.filteredExerciseList = await this.exercises$.pipe(first(exercises => exercises.length > 0))
             .toPromise();
     }
 
     doRefresh(event): void {
-        this.exerciseService.loadAll();
+        this.exerciseService.refreshAll();
         this.exerciseService.selectRequestInProgress().pipe(
-            filter(requestInProgress => requestInProgress === false),
-            take(1),
+            first(requestInProgress => requestInProgress === false),
         ).toPromise().then(() => {
-            event.target.complete();
+            if (event && event.target && event.target.complete) { event.target.complete(); }
         });
     }
 
@@ -76,7 +75,7 @@ export class ExerciseListPage implements OnInit {
         searchTerm = searchTerm.trim();
 
         if (searchTerm.length === 0) {
-            this.exerciseList = exercises;
+            this.filteredExerciseList = exercises;
         } else {
             const options = {
                 'includeScore': true,
@@ -85,7 +84,7 @@ export class ExerciseListPage implements OnInit {
             };
             const searcher = new Fuse(exercises, options);
             const matches = searcher.search(searchTerm);
-            this.exerciseList = matches.map(match => match.item);
+            this.filteredExerciseList = matches.map(match => match.item);
         }
     }
 }

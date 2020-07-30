@@ -22,6 +22,8 @@ export function exercisesReducer(state: ExercisesState = initialState, action: E
         case ExerciseActionType.CreateRequested:
         case ExerciseActionType.UpdateRequested:
         case ExerciseActionType.DeleteRequested:
+        case ExerciseActionType.RefreshAllRequested:
+        case ExerciseActionType.RefreshOneRequested:
             return {
                 ...state,
                 'requestInProgress': true,
@@ -29,6 +31,11 @@ export function exercisesReducer(state: ExercisesState = initialState, action: E
             };
         case ExerciseActionType.AllLoaded:
             return exerciseAdapter.setAll(action.exercises, {
+                ...state,
+                'requestInProgress': false,
+            });
+        case ExerciseActionType.OneLoaded:
+            return exerciseAdapter.setOne(action.exercise, {
                 ...state,
                 'requestInProgress': false,
             });

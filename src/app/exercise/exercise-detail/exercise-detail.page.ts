@@ -44,13 +44,13 @@ export class ExerciseDetailPage implements OnInit {
         });
     }
 
-    doRefresh(event): void {
-        this.exerciseService.loadAll();
+    async doRefresh(event): Promise < void >  {
+        const exercise = await this.exercise$.pipe(take(1)).toPromise();
+        this.exerciseService.refreshOne(exercise.id);
         this.exerciseService.selectRequestInProgress().pipe(
-            filter(requestInProgress => requestInProgress === false),
-            take(1),
+            first(requestInProgress => requestInProgress === false),
         ).toPromise().then(() => {
-            event.target.complete();
+            if (event && event.target && event.target.complete) { event.target.complete(); }
         });
     }
 

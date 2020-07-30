@@ -16,6 +16,7 @@ export class ExerciseEffects {
     @Effect({'dispatch': false}) error$: Observable<ExerciseAction> = this.actions$.pipe(
         ofType(ExerciseActionType.RequestFailed),
         tap((action: Exercises.RequestFailed) => {
+            console.log('ummmmmmmmmmm', action);
             this.toaster.failed('Request for exercise failed', action.error);
         })
     );
@@ -25,6 +26,26 @@ export class ExerciseEffects {
         switchMap((action: Exercises.AllRequested) => {
             return from(this.exerciseService.getAll()
                 .then(exercises => new Exercises.AllLoaded(exercises))
+                .catch(error => new Exercises.RequestFailed(error))
+            );
+        })
+    );
+
+    @Effect() refreshAllRequested$: Observable < ExerciseAction > = this.actions$.pipe(
+        ofType<ExerciseAction>(ExerciseActionType.RefreshAllRequested),
+        switchMap((action: Exercises.AllRequested) => {
+            return from(this.exerciseService.getAllFromServer()
+                .then(exercises => new Exercises.AllLoaded(exercises))
+                .catch(error => new Exercises.RequestFailed(error))
+            );
+        })
+    );
+
+    @Effect() refreshOneRequested$: Observable < ExerciseAction > = this.actions$.pipe(
+        ofType<ExerciseAction>(ExerciseActionType.RefreshOneRequested),
+        switchMap((action: Exercises.RefreshOneRequested) => {
+            return from(this.exerciseService.get(action.id, 'server')
+                .then(exercise => new Exercises.OneLoaded(exercise))
                 .catch(error => new Exercises.RequestFailed(error))
             );
         })

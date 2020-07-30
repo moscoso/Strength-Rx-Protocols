@@ -14,7 +14,6 @@ import {
     selectTotal,
     selectIds
 } from './exercises.selector';
-import { AllRequested } from './exercises.actions';
 import { Observable } from 'rxjs';
 import { Dictionary } from '@ngrx/entity';
 
@@ -48,7 +47,21 @@ export class ExerciseStoreDispatcher {
      * Dispatch an AllRequested action to the store
      */
     public loadAll(): void {
-        this.store.dispatch(new AllRequested());
+        this.store.dispatch(new ExerciseAction.AllRequested());
+    }
+
+    /**
+     * Dispatch a RefreshAllRequested action to the store
+     */
+    public refreshAll(): void {
+        this.store.dispatch(new ExerciseAction.RefreshAllRequested());
+    }
+
+    /**
+     * Dispatch a RefreshOneRequested action to the store
+     */
+    public refreshOne(id: string): void {
+        this.store.dispatch(new ExerciseAction.RefreshOneRequested(id));
     }
 
     public selectExercise(id: string): Observable < Exercise > {

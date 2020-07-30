@@ -2,8 +2,11 @@ import { Action } from '@ngrx/store';
 import { Exercise } from './exercises.state';
 
 export enum ExerciseActionType {
-    AllRequested = '[Exercise List Page] Exercises Requested',
+    AllRequested = '[Exercise List] Exercises Requested',
+    RefreshAllRequested = '[Exercise List Referesher] All Exercises Refresh Requested',
+    RefreshOneRequested = '[Exercise List Referesher] One Exercise Refresh Requested',
     AllLoaded = '[Exercise Service] All Exercises Loaded',
+    OneLoaded = '[Exercise Service] One Exercise Loaded',
     Selected = '[Exercises Page] Exercise Selected',
     CreateRequested = '[Create Exercise Page] Create Exercise Requested',
     Created = '[Exercises Effect] Exercise Created',
@@ -19,10 +22,29 @@ export class AllRequested implements Action {
     constructor() {}
 }
 
+export class RefreshAllRequested implements Action {
+    readonly type = ExerciseActionType.RefreshAllRequested;
+    constructor() {}
+}
+
+export class RefreshOneRequested implements Action {
+    readonly type = ExerciseActionType.RefreshOneRequested;
+    constructor(
+        public id: string
+    ) {}
+}
+
 export class AllLoaded implements Action {
     readonly type = ExerciseActionType.AllLoaded;
     constructor(
         public exercises: Exercise[],
+    ) {}
+}
+
+export class OneLoaded implements Action {
+    readonly type = ExerciseActionType.OneLoaded;
+    constructor(
+        public exercise: Exercise
     ) {}
 }
 
@@ -81,10 +103,13 @@ export class DeleteRequested implements Action {
 export type ExerciseAction =
     AllRequested |
     AllLoaded |
+    OneLoaded |
     CreateRequested |
     Created |
     Updated |
     UpdateRequested |
     Deleted |
     DeleteRequested |
+    RefreshAllRequested |
+    RefreshOneRequested |
     RequestFailed;
