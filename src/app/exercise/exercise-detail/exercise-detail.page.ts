@@ -20,6 +20,7 @@ export class ExerciseDetailPage implements OnInit {
     exercise$: Observable < Exercise > ;
     isTrainer$: Observable < boolean > = of (false);
     alternateExercises: Exercise[] = [];
+    loading = true;
 
     constructor(
         public profileService: ProfileStoreDispatcher,
@@ -49,7 +50,7 @@ export class ExerciseDetailPage implements OnInit {
         this.refresh();
         this.exerciseService.selectRequestInProgress().pipe(
             first(requestInProgress => requestInProgress === false),
-        ).toPromise().then(event.target.complete);
+        ).toPromise().then(() => {event.target.complete(); });
     }
 
     async refresh(): Promise <void> {

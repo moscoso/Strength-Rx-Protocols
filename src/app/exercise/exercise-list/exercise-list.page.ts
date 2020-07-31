@@ -24,7 +24,7 @@ export class ExerciseListPage implements OnInit {
     searchTerm$: Subject < string > = new Subject();
     filteredExerciseList: Exercise[] = [];
     requestInProgress$: Observable < boolean > = of (false);
-
+    loading = true;
 
     constructor(
         public modalController: ModalController,
@@ -38,6 +38,9 @@ export class ExerciseListPage implements OnInit {
     async initExerciseList() {
         this.exerciseService.loadAll();
         this.requestInProgress$ = this.exerciseService.selectRequestInProgress();
+        this.exerciseService.selectRequestInProgress().pipe(
+            first(requestInProgress => requestInProgress === false),
+        ).toPromise().then(() => {this.loading = false; });
         this.exercises$ = this.exerciseService.selectAll();
         this.exercises$.pipe(untilDestroyed(this)).subscribe();
         combineLatest([this.exercises$, this.searchTerm$.pipe(startWith(''))]).subscribe(
@@ -50,7 +53,7 @@ export class ExerciseListPage implements OnInit {
     doRefresh(event): void {
         this.exerciseService.selectRequestInProgress().pipe(
             first(requestInProgress => requestInProgress === false),
-        ).toPromise().then(event.target.complete);
+        ).toPromise().then(() => {event.target.complete(); });
     }
 
     refresh(): void {

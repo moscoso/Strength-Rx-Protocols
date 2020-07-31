@@ -19,7 +19,7 @@
 
 <ion-content>
     <div class="ion-text-center">
-        <ion-spinner *ngIf="(requestInProgress$ | async)"></ion-spinner>
+        <ion-spinner *ngIf="loading"></ion-spinner>
     </div>
 
     <ion-searchbar (ionChange)='search($event)' autocorrect="off" [hidden]="(exercises$ | async).length <= 1"></ion-searchbar>
@@ -29,7 +29,7 @@
     </ion-refresher>
 
     <ion-grid *ngIf="(exercises$ | async).length > 0 || (requestInProgress$ | async); else noExercises;">
-        <ion-row>
+        <ion-row [hidden]="loading">
             <ion-col *ngFor="let exercise of filteredExerciseList" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
                 <exercise-preview [routerLink]="'/exercises/' + exercise.id" [exercise]="exercise">
                 </exercise-preview>
