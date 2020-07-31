@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, pipe, of } from 'rxjs';
-import { filter, take, first } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { Exercise } from 'src/app/core/state/exercises/exercises.state';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { EditExerciseComponent } from '../edit-exercise/edit-exercise.component';
@@ -46,13 +46,15 @@ export class ExerciseDetailPage implements OnInit {
     }
 
     async doRefresh(event): Promise < void > {
-        const exercise = await this.exercise$.pipe(take(1)).toPromise();
-        this.exerciseService.refreshOne(exercise.id);
+        this.refresh();
         this.exerciseService.selectRequestInProgress().pipe(
             first(requestInProgress => requestInProgress === false),
-        ).toPromise().then(() => {
-            if (event && event.target && event.target.complete) { event.target.complete(); }
-        });
+        ).toPromise().then(event.target.complete);
+    }
+
+    async refresh(): Promise <void> {
+        const exercise = await this.exercise$.pipe(first()).toPromise();
+        this.exerciseService.refreshOne(exercise.id);
     }
 
     async showEditModal(): Promise < void > {
@@ -84,7 +86,7 @@ export class ExerciseDetailPage implements OnInit {
     }
 
     async requestDelete(): Promise < void > {
-        const exercise = await this.exercise$.pipe(take(1)).toPromise();
+        const exercise = await this.exercise$.pipe(first()).toPromise();
         this.exerciseService.delete(exercise.id);
     }
 

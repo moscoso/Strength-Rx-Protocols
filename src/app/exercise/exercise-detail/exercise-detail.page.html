@@ -6,7 +6,7 @@
         </ion-buttons>
         <ion-title>Exercise</ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="doRefresh($event)"  [disabled]="(requestInProgress$ | async)">
+            <ion-button (click)="refresh()"  [disabled]="(requestInProgress$ | async)">
                 <ion-icon name="refresh"></ion-icon>Refresh
             </ion-button>
         </ion-buttons>
@@ -37,7 +37,7 @@
                     <ion-label>Instructions</ion-label>
                     <ion-row class="instructions-container">
                         <br>
-                        <ion-textarea class="instructions">{{(exercise$ | async)?.instructions}}</ion-textarea>
+                        <ion-textarea class="instructions">{{exercise.instructions}}</ion-textarea>
                     </ion-row>
                     <ng-container *ngIf="alternateExercises.length > 0">
                         <ion-label>Alternate Exercise<span [hidden]="alternateExercises.length <= 1">s</span>

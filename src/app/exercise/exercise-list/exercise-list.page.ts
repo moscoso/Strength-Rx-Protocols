@@ -48,12 +48,13 @@ export class ExerciseListPage implements OnInit {
     }
 
     doRefresh(event): void {
-        this.exerciseService.refreshAll();
         this.exerciseService.selectRequestInProgress().pipe(
             first(requestInProgress => requestInProgress === false),
-        ).toPromise().then(() => {
-            if (event && event.target && event.target.complete) { event.target.complete(); }
-        });
+        ).toPromise().then(event.target.complete);
+    }
+
+    refresh(): void {
+        this.exerciseService.refreshAll();
     }
 
     async presentModal(): Promise < void > {
