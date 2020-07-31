@@ -6,12 +6,12 @@
         <ion-title>Exercises</ion-title>
         <ion-buttons slot="end">
             <ion-button (click)="refresh()" [disabled]="(requestInProgress$ | async)">
-                <ion-icon name="refresh"></ion-icon>Refresh
+                <ion-icon name="refresh"></ion-icon><span class="ion-hide-sm-down">Refresh</span>
             </ion-button>
             <ion-button (click)="presentModal()"
                         id="create-exercise"
                         slot="end">
-                <ion-icon name="add"></ion-icon>New
+                <ion-icon name="add"></ion-icon><span class="ion-hide-sm-down">New</span>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
