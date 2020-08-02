@@ -8,13 +8,15 @@ import { EditProfilePageRoutingModule } from './edit-profile-routing.module';
 
 import { EditProfilePage } from './edit-profile.page';
 import { ProfileModule } from '../profile.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
     'imports': [
         CommonModule,
         IonicModule,
         ProfileModule,
-        EditProfilePageRoutingModule
+        EditProfilePageRoutingModule,
+        SharedModule,
     ],
     'declarations': [EditProfilePage]
 })
