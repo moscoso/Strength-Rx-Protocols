@@ -6,6 +6,8 @@ import { AuthStoreDispatcher } from './core/state/auth/auth.dispatcher';
 import { ProfileStoreDispatcher } from './core/state/profile/profiles.dispatcher';
 import { RouterStoreDispatcher } from './core/state/router/router.dispatcher';
 import { MenuItem } from './shared/menu-list/menu-list.component';
+import { first } from 'rxjs/operators';
+import { Profile } from './core/state/profile/profile.state';
 
 @Component({
     'selector': 'app-root',
@@ -77,28 +79,28 @@ export class AppComponent implements OnInit {
     ];
 
     public clientPages: MenuItem[] = [
-    {
-        'label': 'Profile',
-        'icon': 'people-outline',
-        'link': '/profile'
-    },
-    {
-        'label': 'Check In',
-        'icon': 'checkbox-outline',
-        'link': '/check-in',
-    },
-    {
-        'label': 'Foods',
-        'src': '/assets/icon/food.svg',
-        'link': '/foods'
-    },
-    {
-        'label': 'Store',
-        'icon': 'shirt-outline',
-        'href': 'https://strengthrx-test.myshopify.com/collections/all'
-    }
+        {
+            'label': 'Profile',
+            'icon': 'people-outline',
+            'link': '/profile'
+        },
+        {
+            'label': 'Check In',
+            'icon': 'checkbox-outline',
+            'link': '/check-in',
+        },
+        {
+            'label': 'Foods',
+            'src': '/assets/icon/food.svg',
+            'link': '/foods'
+        },
+        {
+            'label': 'Store',
+            'icon': 'shirt-outline',
+            'href': 'https://strengthrx-test.myshopify.com/collections/all'
+        }
 
-];
+    ];
 
     public accountPages: MenuItem[] = [
     {
@@ -125,10 +127,11 @@ export class AppComponent implements OnInit {
         this.initializeApp();
     }
 
-    initializeApp() {
+    async initializeApp() {
         this.platform.ready().then(() => {});
         this.profileService.loadAll();
         this.iAmTrainer$ = this.profileService.selectUserIsTrainer();
+        this.addAvatarToMenu();
     }
 
     ngOnInit() {
@@ -138,5 +141,13 @@ export class AppComponent implements OnInit {
 
     logout() {
         this.authService.logout();
+    }
+
+    async addAvatarToMenu() {
+        const avatar = await this.profileService.getUserAvatar();
+        delete this.mainPages[0].icon;
+        this.mainPages[0].img = avatar;
+        delete this.clientPages[0].icon;
+        this.clientPages[0].img = avatar;
     }
 }

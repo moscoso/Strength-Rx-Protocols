@@ -10,6 +10,11 @@
         <ng-container *ngIf="page.src">
             <ion-icon size="large" slot="start" [src]="page.src"></ion-icon>
         </ng-container>
+        <ng-container *ngIf="page.img">
+            <ion-avatar slot="start">
+                <img [src]="page.img">
+            </ion-avatar>
+        </ng-container>
         <ion-label>{{page.label}}</ion-label>
     </ion-item>
     <ion-item *ngIf="page.href" [href]="page.href">
@@ -19,6 +24,11 @@
         <ng-container *ngIf="page.src">
             <ion-icon size="large" slot="start" [src]="page.src"></ion-icon>
         </ng-container>
+        <ng-container *ngIf="page.img">
+            <ion-avatar slot="start">
+                <img [src]="page.img">
+            </ion-avatar>
+        </ng-container>
         <ion-label>{{page.label}}</ion-label>
     </ion-item >
     <ion-item *ngIf="page.scrollID" (click)="scrollPage(page.scrollID)">
@@ -27,6 +37,11 @@
         </ng-container>
         <ng-container *ngIf="page.src">
             <ion-icon size="large" slot="start" [src]="page.src"></ion-icon>
+        </ng-container>
+        <ng-container *ngIf="page.img">
+            <ion-avatar slot="start">
+                <img [src]="page.img">
+            </ion-avatar>
         </ng-container>
         <ion-label>{{page.label}}</ion-label>
     </ion-item>

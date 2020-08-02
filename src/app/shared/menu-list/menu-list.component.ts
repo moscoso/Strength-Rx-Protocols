@@ -28,6 +28,7 @@ export interface MenuItem {
     label: string;
     icon ?: string;
     src ?: string;
+    img ?: string;
     link ?: string;
     href ?: string;
     scrollID ?: string;
