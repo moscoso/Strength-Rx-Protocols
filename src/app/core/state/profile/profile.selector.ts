@@ -45,7 +45,8 @@ export const selectUserProfile = createSelector(
 );
 
 /**
- * Select whether or not the currently viewed profile (based by route URL) belongs to the current user
+ * Select whether or not the currently viewed profile (based by route URL)
+ * belongs to the currently authorized user
  */
 export const selectProfileBelongsToUser = createSelector(
     fromAuth.selectState,

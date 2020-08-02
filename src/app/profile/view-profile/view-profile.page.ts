@@ -58,13 +58,8 @@ export class ViewProfilePage implements OnInit {
         }
     }
 
-    getAvatar(profile: Profile) {
-        const photoURLExists = profile.photoURL != null && profile.photoURL.length > 0;
-        return photoURLExists ?  profile.photoURL : this.getInitialsAvatar(profile);
-    }
-
-    getInitialsAvatar(profile: Profile) {
-        return `https://ui-avatars.com/api/?name=${profile.firstName}+${profile.lastName}`;
+    getAvatar(profile: Profile): string {
+        return this.profileService.getAvatar(profile);
     }
 
     async presentModal(): Promise < void > {

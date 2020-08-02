@@ -22,6 +22,7 @@ import { Observable } from 'rxjs';
 import { Dictionary } from '@ngrx/entity';
 import { Profile } from './profile.state';
 import { AllRequested } from './profile.actions';
+import { first } from 'rxjs/operators';
 
 /**
  * This service is responsible for dispatching profile actions to the Store and selecting
@@ -87,23 +88,54 @@ export class ProfileStoreDispatcher {
     /**
      * Select the authenticated user's profile
      */
-    public selectUserProfile(): Observable< Profile> {
+    public selectUserProfile(): Observable < Profile > {
         return this.store.select(selectUserProfile);
     }
 
-    public selectProfileBelongsToUser(): Observable <boolean> {
+    /**
+     * Select the Avatar that belongs to the authenticated user
+     */
+    public async getUserAvatar(): Promise < string > {
+        const profile = await this.selectUserProfile()
+            .pipe(first(user => user != null)).toPromise();
+        return this.getAvatar(profile);
+    }
+
+    /**
+     * Select a flag indicating whether or not the currently
+     * viewed profile (based on route URL) belongs to the
+     * authenticated user
+     */
+    public selectProfileBelongsToUser(): Observable < boolean > {
         return this.store.select(selectProfileBelongsToUser);
     }
 
-    public selectUserIsTrainer(): Observable< boolean> {
+    /**
+     * Select a flag indicating whether the user is a trainer
+     */
+    public selectUserIsTrainer(): Observable < boolean > {
         return this.store.select(selectUserIsTrainer);
     }
 
-    public selectAllClients(): Observable< Profile[]> {
+    public selectAllClients(): Observable < Profile[] > {
         return this.store.select(selectAllClients);
     }
 
-    public selectAllTrainers(): Observable< Profile[]> {
+    public selectAllTrainers(): Observable < Profile[] > {
         return this.store.select(selectAllTrainers);
+    }
+
+    /**
+     * Get the Avatar of a profile. If no photoURL exists for the profile,
+     * fallback to genetating an avatar using their initials.
+     * @param profile the profile to get the Avatar of
+     */
+    public getAvatar(profile: Profile): string {
+        const photoURLExists = profile.photoURL != null && profile.photoURL.length > 0;
+        return photoURLExists ? profile.photoURL : this.getInitialsAvatar(profile);
+    }
+
+    private getInitialsAvatar(profile: Profile): string {
+        return `https://ui-avatars.com/api/?name=${profile.firstName}+${profile.lastName}`;
     }
 }
