@@ -7,11 +7,19 @@ import { ModalController } from '@ionic/angular';
 })
 export class DismissModalButtonComponent implements OnInit {
 
+    overlayExists = false;
     @Input() modalID: string;
 
     constructor(private modalController: ModalController) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.checkForOverlay();
+    }
+
+    async checkForOverlay() {
+        const overlay = await this.modalController.getTop();
+        this.overlayExists = overlay != null;
+    }
 
     dismiss() {
         this.modalController.dismiss(this.modalID);
