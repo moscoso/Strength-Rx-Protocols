@@ -40,7 +40,7 @@ ion-title {
 }
 
 .modal-80-width {
-    --width: 80%;
+    --min-width: 80%;
 }
 
 form {
@@ -65,9 +65,7 @@ mat-error {
     font-size: 14px;
 }
 
-ion-spinner,
 ion-card,
-ion-avatar,
 mat-radio-group {
     margin: 0 auto;
 }
