@@ -6,7 +6,9 @@
         </ion-buttons>
         <ion-title>Profile</ion-title>
         <ion-buttons slot="end">
-            <ion-button *ngIf="thisIsMe$ | async" (click)="presentModal()">Update Profile</ion-button>
+            <ion-button *ngIf="thisIsMe$ | async" (click)="presentModal()">
+                <ion-icon name="create-outline"></ion-icon>Edit Profile
+            </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -24,17 +26,20 @@
         <h2 *ngIf="(thisIsMe$ | async) && (iAmTrainer$ | async)">Trainer 💪🏼 </h2>
         <ion-note>USER ID: {{profile.id}}</ion-note>
         <ion-list>
-            <ion-item>Sex: {{profile.sex === 'M' ? 'Male' : 'Female'}}
-                <ion-icon *ngIf="profile.sex === 'M'" name="male-outline"></ion-icon>
-                <ion-icon *ngIf="profile.sex === 'F'" name="female-outline"></ion-icon>
+            <ion-item>
+                <ion-icon [name]="profile.sex === 'M' ? 'male-outline' : 'female-outline'"></ion-icon>
+                Sex: {{profile.sex === 'M' ? 'Male' : 'Female'}}
             </ion-item>
             <ion-item>Height: {{profile.height.feet}}" {{profile.height.inches}}"</ion-item>
-            <assign-trainer [clientID]="profile.id" [hidden]="(iAmTrainer$ | async) && (thisIsMe$ | async)"></assign-trainer>
-            <assign-program [clientID]="profile.id" [hidden]="(iAmTrainer$ | async) && (thisIsMe$ | async)"></assign-program>
+            <assign-trainer [clientID]="profile.id" [hidden]="(iAmTrainer$ | async) && (thisIsMe$ | async)">
+            </assign-trainer>
+            <assign-program [clientID]="profile.id" [hidden]="(iAmTrainer$ | async) && (thisIsMe$ | async)">
+            </assign-program>
         </ion-list>
 
 
-        <div [hidden]="(thisIsMe$ | async) && (iAmTrainer$ | async)" *ngIf="(thisIsMe$ | async) || (iAmTrainer$ | async)">
+        <div [hidden]="(thisIsMe$ | async) && (iAmTrainer$ | async)"
+             *ngIf="(thisIsMe$ | async) || (iAmTrainer$ | async)">
             <cancel-subscription></cancel-subscription>
             <my-charges></my-charges>
             <!-- <my-sources></my-sources> -->
