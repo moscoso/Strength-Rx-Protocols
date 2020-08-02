@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Observable, of , Subject, combineLatest } from 'rxjs';
-import { take, filter, startWith } from 'rxjs/operators';
+import { startWith, first } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Workout } from 'src/app/core/state/workouts/workouts.state';
 import { CreateWorkoutPage } from '../create-workout/create-workout.page';
@@ -19,24 +19,17 @@ export class WorkoutListPage implements OnInit {
     workouts$: Observable < Workout[] > = of ([]);
     searchTerm$: Subject < string > = new Subject();
     workoutList: Workout[] = [];
-    requestInProgress$: Observable < boolean > = of(false);
 
-    requestInProgress = false;
+    requestInProgress$ = of(false);
 
     constructor(
         public modalController: ModalController,
         public workoutService: WorkoutStoreDispatcher,
         public changeDetector: ChangeDetectorRef
-    ) {
-        this.requestInProgress$ = of(false);
-    }
+    ) {}
 
     ngOnInit(): void {
         this.initWorkoutList();
-        this.requestInProgress$.pipe(untilDestroyed(this)).subscribe(requestInProgress => {
-            this.requestInProgress = requestInProgress;
-            this.changeDetector.detectChanges();
-        });
     }
 
     async initWorkoutList() {
@@ -52,8 +45,7 @@ export class WorkoutListPage implements OnInit {
     doRefresh(event): void {
         this.workoutService.loadAll();
         this.workoutService.selectRequestInProgress().pipe(
-            filter(requestInProgress => requestInProgress === false),
-            take(1),
+            first(requestInProgress => requestInProgress === false),
         ).toPromise().then(() => {
             event.target.complete();
         });

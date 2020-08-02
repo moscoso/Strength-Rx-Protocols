@@ -60,7 +60,7 @@ export class WorkoutFormComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        // this.workoutService.loadAll();
+        this.workoutService.loadAll();
         this.form = new FormGroup({
             'name': this.name,
             'exercises': this.exercises,

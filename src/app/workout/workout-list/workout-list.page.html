@@ -14,7 +14,7 @@
 </ion-header>
 
 <ion-content>
-    <span class="ion-text-center" [hidden]="!requestInProgress">
+    <span class="ion-text-center" [hidden]="!(requestInProgress$ | async)">
         <ion-spinner></ion-spinner>
     </span>
     <ion-searchbar (ionChange)='search($event)' autocorrect="off" [hidden]="workoutList.length <= 1"></ion-searchbar>
@@ -22,7 +22,7 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <ion-grid [hidden]="requestInProgress">
+    <ion-grid [hidden]="requestInProgress$ | async">
         <ion-row>
             <ion-card *ngIf="workoutList.length === 0; else showWorkouts">
                 <ion-card-header>No workouts found! Create one!</ion-card-header>
