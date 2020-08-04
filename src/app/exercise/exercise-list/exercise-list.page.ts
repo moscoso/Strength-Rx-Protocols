@@ -11,6 +11,7 @@ import Fuse from 'fuse.js';
 import { Exercise } from 'src/app/core/state/exercises/exercises.state';
 import { CreateExerciseComponent } from '../create-exercise/create-exercise.component';
 import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
+import { HighlightIndicesMap, removeIndicesThatAreTypos } from 'src/app/pipes/highlight-search.pipe';
 
 @UntilDestroy()
 @Component({
@@ -20,9 +21,10 @@ import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.
 })
 export class ExerciseListPage implements OnInit {
 
-    exercises$: Observable < Exercise[] > = of([]);
+    exercises$: Observable < Exercise[] > = of ([]);
     searchTerm$: Subject < string > = new Subject();
     filteredExerciseList: Exercise[] = [];
+    highlights: HighlightIndicesMap = {};
     requestInProgress$: Observable < boolean > = of (false);
     loading = true;
 
@@ -40,7 +42,7 @@ export class ExerciseListPage implements OnInit {
         this.requestInProgress$ = this.exerciseService.selectRequestInProgress();
         this.exerciseService.selectRequestInProgress().pipe(
             first(requestInProgress => requestInProgress === false),
-        ).toPromise().then(() => {this.loading = false; });
+        ).toPromise().then(() => { this.loading = false; });
         this.exercises$ = this.exerciseService.selectAll();
         this.exercises$.pipe(untilDestroyed(this)).subscribe();
         combineLatest([this.exercises$, this.searchTerm$.pipe(startWith(''))]).subscribe(
@@ -53,7 +55,7 @@ export class ExerciseListPage implements OnInit {
     doRefresh(event): void {
         this.exerciseService.selectRequestInProgress().pipe(
             first(requestInProgress => requestInProgress === false),
-        ).toPromise().then(() => {event.target.complete(); });
+        ).toPromise().then(() => { event.target.complete(); });
     }
 
     refresh(): void {
@@ -80,15 +82,33 @@ export class ExerciseListPage implements OnInit {
 
         if (searchTerm.length === 0) {
             this.filteredExerciseList = exercises;
+            this.highlights = {};
         } else {
             const options = {
                 'includeScore': true,
-                'keys': ['name', 'tags'],
+                'ignoreLocation': false,
+                'keys': ['name'],
                 'shouldSort': true,
+                'minMatchCharLength': 3,
+                'includeMatches': true,
             };
             const searcher = new Fuse(exercises, options);
-            const matches = searcher.search(searchTerm);
+            const matches: Fuse.FuseResult < Exercise > [] = searcher.search(searchTerm);
+            this.highlights = this.generateHighlightIndices(matches, searchTerm);
             this.filteredExerciseList = matches.map(match => match.item);
         }
+    }
+
+    private generateHighlightIndices(searchResults: Fuse.FuseResult < Exercise > [], searchTerm: string): HighlightIndicesMap {
+        const highlights: HighlightIndicesMap = {};
+        searchResults.forEach(result => {
+            const exerciseID = result.item.id;
+            const resultHasMatch = result.matches.length > 0;
+            if (resultHasMatch) {
+                const indices = result.matches[0].indices;
+                highlights[exerciseID] = removeIndicesThatAreTypos(indices, result.item.name, searchTerm);
+            }
+        });
+        return highlights;
     }
 }

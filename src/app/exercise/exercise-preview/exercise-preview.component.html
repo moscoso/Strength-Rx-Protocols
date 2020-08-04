@@ -6,7 +6,10 @@
         <ion-note>No video URL ⚠️</ion-note>
     </ng-template>
     <ion-card-header>
-        <ion-card-title class="name">{{exercise.name}}</ion-card-title>
+        <ion-card-title class="name" [innerHtml]="exercise.name | highlight: highlights"></ion-card-title>
+        <div class="ion-text-center" *ngIf="!exercise.instructions || (exercise.instructions && exercise.instructions.length === 0)">
+            <ion-note>No instructions ⚠️</ion-note>
+        </div>
         <ion-card-subtitle>{{notes}}</ion-card-subtitle>
     </ion-card-header>
 </ion-card>

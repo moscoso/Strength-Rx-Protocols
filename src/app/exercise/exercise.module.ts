@@ -10,6 +10,8 @@ import { MaterialsModule } from '../materials.module';
 import { CreateExerciseComponent } from './create-exercise/create-exercise.component';
 import { EditExerciseComponent } from './edit-exercise/edit-exercise.component';
 import { SharedModule } from '../shared/shared.module';
+import { HighlightSearchPipe } from '../pipes/highlight-search.pipe';
+import { PipeModule } from '../pipes/pipe.module';
 
 
 @NgModule({
@@ -20,8 +22,10 @@ import { SharedModule } from '../shared/shared.module';
         IonicModule,
         MaterialsModule,
         SharedModule,
+        PipeModule,
     ],
     'declarations': [ExercisePreviewComponent, ExerciseFormComponent, CreateExerciseComponent, EditExerciseComponent, ],
+    'providers': [HighlightSearchPipe],
     'exports': [
         ExerciseFormComponent,
         ExercisePreviewComponent,

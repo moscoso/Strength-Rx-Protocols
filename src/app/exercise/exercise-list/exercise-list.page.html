@@ -22,7 +22,8 @@
         <ion-spinner *ngIf="loading"></ion-spinner>
     </div>
 
-    <ion-searchbar (ionChange)='search($event)' autocorrect="off" [hidden]="(exercises$ | async).length <= 1"></ion-searchbar>
+    <ion-searchbar (ionChange)='search($event)' autocorrect="off" [hidden]="(exercises$ | async).length <= 1">
+    </ion-searchbar>
 
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
@@ -30,10 +31,18 @@
 
     <ion-grid *ngIf="(exercises$ | async).length > 0 || (requestInProgress$ | async); else noExercises;">
         <ion-row [hidden]="loading">
-            <ion-col *ngFor="let exercise of filteredExerciseList" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
-                <exercise-preview [routerLink]="'/exercises/' + exercise.id" [exercise]="exercise">
-                </exercise-preview>
-            </ion-col>
+            <ng-container *ngIf="filteredExerciseList.length > 0; else noMatches">
+                <ion-col *ngFor="let exercise of filteredExerciseList" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+                    <exercise-preview [routerLink]="'/exercises/' + exercise.id" [exercise]="exercise"
+                                      [highlights]="highlights[exercise.id]">
+                    </exercise-preview>
+                </ion-col>
+            </ng-container>
+            <ng-template #noMatches>
+                <ion-card>
+                    <ion-card-header>Nothing matched that search term</ion-card-header>
+                </ion-card>
+            </ng-template>
         </ion-row>
     </ion-grid>
     <ng-template #noExercises>
