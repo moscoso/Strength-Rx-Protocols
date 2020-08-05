@@ -8,5 +8,5 @@ export function transformToSlug(s: string): string {
     if (s == null) {
         throw new Error(`Cannot transform undefined into a slug`);
     }
-    return s.trim().replace(/\s+/g, '-').toLowerCase();
+    return s.trim().replace(/[^0-9a-z\s]/gi, '').replace(/\s+/g, '-').toLowerCase();
 }
