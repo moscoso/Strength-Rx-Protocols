@@ -11,21 +11,7 @@ export class MealService extends EntityService < Meal > {
     constructor(
         public firestore: AngularFirestore,
     ) {
-        super(firestore, 'meals');
+        super(firestore, 'meals', false);
         this.setDefaultEntity(INIT_MEAL);
-    }
-
-    /**
-     * Create a new Firestore document for the entity.
-     * The ID of the entity will be the meal name.
-     * @param meal the exercise entity being created
-     */
-    async create(meal: Meal): Promise < Meal > {
-        const doc = await this.firestore.doc(`exercises/${meal.name}`).ref.get();
-        if (doc.exists) {
-            throw new Error(`Meals ${meal.name} already exists`);
-        }
-        await this.entityCollection.doc(`${meal.name}`).set(meal);
-        return meal;
     }
 }

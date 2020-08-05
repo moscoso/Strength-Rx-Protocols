@@ -1,7 +1,9 @@
 import { AngularFirestore, AngularFirestoreCollection, QuerySnapshot, DocumentData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
-import { FirebaseOptions } from '@angular/fire';
+import { CreateMechanism } from './create/CreateMechanism';
+import { CreateIDFromName } from './create/CreateIDFromName';
+import { CreateWithRandomID } from './create/CreateWithRandomID';
 
 /**
  * The Default behavior to perform CRUD operations on an Entity in Firestore.
@@ -9,6 +11,7 @@ import { FirebaseOptions } from '@angular/fire';
  */
 export abstract class EntityService < T > {
 
+    protected creationMechanism: CreateMechanism < T >;
     protected entityCollection: AngularFirestoreCollection < T > ;
     entities: Observable < T[] > ;
     defaultEntity: T;
@@ -16,17 +19,14 @@ export abstract class EntityService < T > {
     constructor(
         protected firestore: AngularFirestore,
         protected collectionName: string,
+        useRandomIDs: boolean = true,
         includeDocID: boolean = true,
     ) {
+        this.setCreationMechanism(useRandomIDs);
         this.entityCollection = firestore.collection < T > (collectionName);
-        if (includeDocID) {
-            this.entities = this.entityCollection.valueChanges({ 'idField': 'id'});
-        } else {
-            this.entities = this.entityCollection.valueChanges({});
-        }
+        const options = includeDocID ? { 'idField': 'id'} : {};
+        this.entities = this.entityCollection.valueChanges(options);
     }
-
-
 
     /**
      * Retreive an entity
@@ -132,5 +132,18 @@ export abstract class EntityService < T > {
      */
     setDefaultEntity(entity: T) {
         this.defaultEntity = entity;
+    }
+
+    /**
+     * Determins the behavior for creating an entity and storing it in Firebase.
+     * @param useRandomIDs if set to true the ID for the document will be randomly generated,
+     * otherwise an ID will be created based on the Name of the entity
+     */
+    setCreationMechanism(useRandomIDs: boolean) {
+        if (useRandomIDs) {
+            this.creationMechanism = new CreateWithRandomID(this.entityCollection);
+        } else {
+            this.creationMechanism = new CreateIDFromName(this.entityCollection, this.firestore, this.collectionName);
+        }
     }
 }
