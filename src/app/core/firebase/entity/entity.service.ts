@@ -22,10 +22,10 @@ export abstract class EntityService < T > {
         useRandomIDs: boolean = true,
         includeDocID: boolean = true,
     ) {
-        this.setCreationMechanism(useRandomIDs);
         this.entityCollection = firestore.collection < T > (collectionName);
         const options = includeDocID ? { 'idField': 'id'} : {};
         this.entities = this.entityCollection.valueChanges(options);
+        this.setCreationMechanism(useRandomIDs);
     }
 
     /**
@@ -104,7 +104,7 @@ export abstract class EntityService < T > {
      * @param entity the entity being created
      */
     async create(entity: T): Promise < T > {
-        await this.entityCollection.add(entity);
+        await this.creationMechanism.create(entity);
         return entity;
     }
 
@@ -135,7 +135,7 @@ export abstract class EntityService < T > {
     }
 
     /**
-     * Determins the behavior for creating an entity and storing it in Firebase.
+     * Sets the behavior for creating an entity and storing it in Firebase.
      * @param useRandomIDs if set to true the ID for the document will be randomly generated,
      * otherwise an ID will be created based on the Name of the entity
      */
