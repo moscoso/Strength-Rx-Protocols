@@ -1,6 +1,6 @@
 import { AngularFirestore, AngularFirestoreCollection, QuerySnapshot, DocumentData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map, first } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { CreateMechanism } from './create/CreateMechanism';
 import { CreateIDFromName } from './create/CreateIDFromName';
 import { CreateWithRandomID } from './create/CreateWithRandomID';
@@ -11,7 +11,7 @@ import { CreateWithRandomID } from './create/CreateWithRandomID';
  */
 export abstract class EntityService < T > {
 
-    protected creationMechanism: CreateMechanism < T >;
+    protected creationMechanism: CreateMechanism < T > ;
     protected entityCollection: AngularFirestoreCollection < T > ;
     entities: Observable < T[] > ;
     defaultEntity: T;
@@ -20,11 +20,9 @@ export abstract class EntityService < T > {
         protected firestore: AngularFirestore,
         protected collectionName: string,
         useRandomIDs: boolean = true,
-        includeDocID: boolean = true,
+        protected includeDocID: boolean = true,
     ) {
         this.entityCollection = firestore.collection < T > (collectionName);
-        const options = includeDocID ? { 'idField': 'id'} : {};
-        this.entities = this.entityCollection.valueChanges(options);
         this.setCreationMechanism(useRandomIDs);
     }
 
@@ -52,8 +50,8 @@ export abstract class EntityService < T > {
     /**
      * Retrieve multiple entities
      */
-    async getMultiple(entityIDs: string[], source: 'default' | 'server' | 'cache' = 'default'): Promise < Map<string, T> > {
-        const entities: Map<string, T> = new Map();
+    async getMultiple(entityIDs: string[], source: 'default' | 'server' | 'cache' = 'default'): Promise < Map <string, T > > {
+        const entities: Map < string, T > = new Map();
         entityIDs.forEach(async (id) => {
             this.get(id, source).then(entity => {
                 entities.set(id, entity);
@@ -70,16 +68,18 @@ export abstract class EntityService < T > {
      * data fields for each entity.
      */
     async getAll(): Promise < T[] > {
-        return this.entities.pipe(first(), map((entities) => {
-            if (!this.defaultEntity) {
-                return entities;
-            }
+        const options = this.includeDocID ? { 'idField': 'id' } : {};
+        const entities: T[] = await this.entityCollection.valueChanges(options)
+            .pipe(first()).toPromise();
+        if (!this.defaultEntity) {
+            return entities;
+        } else {
             const mappedEntities = [];
             entities.forEach(entity => {
                 mappedEntities.push({ ...this.defaultEntity, ...entity });
             });
             return mappedEntities;
-        })).toPromise();
+        }
     }
 
     /**
