@@ -32,7 +32,6 @@ export class CreateIDFromName < T > implements CreateMechanism < T > {
      */
     async create(entity: any): Promise < T > {
         const docID = transformToSlug(entity.name);
-        console.log(entity, docID);
         const doc = await this.firestore.doc(`${this.collectionName}/${docID}`).ref.get();
         if (doc.exists) {
             throw new Error(`Entity of ID ${docID} already exists`);
