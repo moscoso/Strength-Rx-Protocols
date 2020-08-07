@@ -3,6 +3,7 @@ import Stripe from 'stripe';
 import { getCount, incrementCounter } from '../counter/distributed_counter';
 // tslint:disable-next-line: no-implicit-dependencies
 import { Transaction, DocumentReference } from '@google-cloud/firestore';
+import * as functions from 'firebase-functions';
 
 /**
  * Creates a Firebase document in the clients collection with 
@@ -15,7 +16,7 @@ export async function createClient(userID: string, subscription: Stripe.Subscrip
         await incrementCounter(`clients`, transaction);
         const user = await auth.getUser(userID);
         const profile = (await db.collection(`profiles`).doc(userID).get()).data()
-        if (profile == null) {
+        if (profile === null || profile === undefined) {
             const errorMessage = `Could not create client because profile for ${userID} does not exist`
             throw new Error(errorMessage);
         }
@@ -31,6 +32,23 @@ export async function createClient(userID: string, subscription: Stripe.Subscrip
             }
         });
     })
-
-
 }
+
+export const createEvent = functions.firestore.document(`check-ins/{docID}`).onCreate(async (change, context) => {
+    const createTime = change.createTime;
+    const userID = change.data().userID;
+
+    const userData = (await db.doc(`clients/${userID}`).get()).data();
+
+    if (userData === null || userData === undefined) {
+        throw new Error(`Event creation failed because user Data does not exists`);
+    } else {
+        return db.collection('events').add({
+            userID,
+            'firstName': userData.firstName,
+            'timestamp': createTime,
+            'type': 'check-in',
+            'trainerID': userData.assignedTrainer.id
+        })
+    }
+})

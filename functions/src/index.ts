@@ -9,6 +9,8 @@ export const testFunction = functions.https.onCall(async (data, context: Callabl
 });
 
 export { stripeAttachSource } from './stripe/payment_sources';
-export { stripeCreateCharge, stripeGetCharges} from './stripe/charges';
-export { stripeCreateSubscription, stripeGetSubscriptions, stripeCancelSubscription} from './stripe/subscriptions';
-export { invoiceWebhookEndpoint} from './stripe/webhooks';
+export { stripeCreateCharge, stripeGetCharges } from './stripe/charges';
+export { stripeCreateSubscription, stripeGetSubscriptions, stripeCancelSubscription } from './stripe/subscriptions';
+export { invoiceWebhookEndpoint } from './stripe/webhooks';
+export { createEvent } from './strengthrx/clients';
+export { createEntity } from './strengthrx/entity';

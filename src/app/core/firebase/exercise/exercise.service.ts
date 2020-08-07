@@ -3,14 +3,14 @@ import { EntityService } from '../entity/entity.service';
 import { Exercise, INIT_EXERCISE } from '../../state/exercises/exercises.state';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FirebaseModule } from '../firebase.module';
-import { transformToSlug } from 'src/util/slug/transformToSlug';
+import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Injectable({'providedIn': FirebaseModule, })
 export class ExerciseService extends EntityService < Exercise > {
     constructor(
         public firestore: AngularFirestore,
+        public functions: AngularFireFunctions,
     ) {
-        super(firestore, 'exercises', false);
-        this.setDefaultEntity(INIT_EXERCISE);
+        super(firestore, functions, 'exercises', {'defaultEntity': INIT_EXERCISE, 'IDSource': 'name'});
     }
 }

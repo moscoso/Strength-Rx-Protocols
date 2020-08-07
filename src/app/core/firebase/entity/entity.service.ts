@@ -1,9 +1,12 @@
 import { AngularFirestore, AngularFirestoreCollection, QuerySnapshot, DocumentData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { CreateMechanism } from './create/CreateMechanism';
 import { CreateIDFromName } from './create/CreateIDFromName';
 import { CreateWithRandomID } from './create/CreateWithRandomID';
+import { EntityServiceOptions, DEFAULT_ENTITY_SERVICE_OPTIONS as DEFAULT_OPTIONS,
+    IDCreateBehavior } from './EntityServiceOptions';
+import { CreateIDFromAuthUser } from './create/CreateIDFromAuthUser';
+import { AngularFireFunctions } from '@angular/fire/functions';
 
 /**
  * The Default behavior to perform CRUD operations on an Entity in Firestore.
@@ -11,19 +14,24 @@ import { CreateWithRandomID } from './create/CreateWithRandomID';
  */
 export abstract class EntityService < T > {
 
-    protected creationMechanism: CreateMechanism < T > ;
-    protected entityCollection: AngularFirestoreCollection < T > ;
-    entities: Observable < T[] > ;
-    defaultEntity: T;
+    private creationMechanism: CreateMechanism < T > ;
+    private entityCollection: AngularFirestoreCollection < T > ;
+    private options: EntityServiceOptions < T > ;
+    /**
+     * The default entity for the service will provide default values for any missing data fields from Firestore documents.
+     */
+    private defaultEntity: T;
 
     constructor(
         protected firestore: AngularFirestore,
-        protected collectionName: string,
-        useRandomIDs: boolean = true,
-        protected includeDocID: boolean = true,
+        protected functions: AngularFireFunctions,
+        private collectionName: string,
+        options ?: EntityServiceOptions < T > ,
     ) {
+        this.options = options ? { ...DEFAULT_OPTIONS, ...options } : DEFAULT_OPTIONS;
+        this.defaultEntity = this.options.defaultEntity;
         this.entityCollection = firestore.collection < T > (collectionName);
-        this.setCreationMechanism(useRandomIDs);
+        this.setCreationMechanism(this.options.IDSource);
     }
 
     /**
@@ -31,7 +39,7 @@ export abstract class EntityService < T > {
      * @param entityID the ID that corresponds to the entity's document in Firebase
      */
     async get(entityID: string, source: 'default' | 'server' | 'cache' = 'default'): Promise < T > {
-        const snapshot = await this.firestore.collection(this.collectionName).doc(entityID).get({source})
+        const snapshot = await this.firestore.collection(this.collectionName).doc(entityID).get({ source })
             .pipe(first()).toPromise();
         const data = snapshot.data();
         if (data == null) {
@@ -50,7 +58,9 @@ export abstract class EntityService < T > {
     /**
      * Retrieve multiple entities
      */
-    async getMultiple(entityIDs: string[], source: 'default' | 'server' | 'cache' = 'default'): Promise < Map <string, T > > {
+    async getMultiple(entityIDs: string[], source: 'default' | 'server' | 'cache' = 'default'): Promise < Map <
+        string,
+    T > > {
         const entities: Map < string, T > = new Map();
         entityIDs.forEach(async (id) => {
             this.get(id, source).then(entity => {
@@ -68,8 +78,7 @@ export abstract class EntityService < T > {
      * data fields for each entity.
      */
     async getAll(): Promise < T[] > {
-        const options = this.includeDocID ? { 'idField': 'id' } : {};
-        const entities: T[] = await this.entityCollection.valueChanges(options)
+        const entities: T[] = await this.entityCollection.valueChanges({ 'idField': 'id' })
             .pipe(first()).toPromise();
         if (!this.defaultEntity) {
             return entities;
@@ -126,24 +135,17 @@ export abstract class EntityService < T > {
     }
 
     /**
-     * Set the default entity for the service.
-     * It will provide default values for missing data fields from Firestore documents.
-     * @param entity the initialized values that serve as the default for every entity
-     */
-    setDefaultEntity(entity: T) {
-        this.defaultEntity = entity;
-    }
-
-    /**
      * Sets the behavior for creating an entity and storing it in Firebase.
      * @param useRandomIDs if set to true the ID for the document will be randomly generated,
      * otherwise an ID will be created based on the Name of the entity
      */
-    setCreationMechanism(useRandomIDs: boolean) {
-        if (useRandomIDs) {
-            this.creationMechanism = new CreateWithRandomID(this.entityCollection);
-        } else {
+    setCreationMechanism(IDSource: IDCreateBehavior) {
+        if (IDSource === 'name') {
             this.creationMechanism = new CreateIDFromName(this.entityCollection, this.firestore, this.collectionName);
+        } else if (IDSource === 'authorizedUser') {
+            this.creationMechanism = new CreateIDFromAuthUser(this.functions);
+        } else {
+            this.creationMechanism = new CreateWithRandomID(this.entityCollection);
         }
     }
 }
