@@ -19,7 +19,9 @@ export class CreateWithRandomID < T > implements CreateMechanism < T > {
      * @param entity the entity being created
      */
     async create(entity: T): Promise < T > {
-        await this.entityCollection.add(entity);
+        const newDoc = this.entityCollection.doc();
+        const randomID = newDoc.ref.id;
+        await this.entityCollection.add({...entity, ...{'id': randomID}});
         return entity;
     }
 }
