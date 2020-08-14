@@ -1,4 +1,4 @@
-<!-- <div class="dropzone"
+<div class="dropzone"
      dropzone
      (hovered)="toggleHover($event)"
      (dropped)="onDrop($event)"
@@ -7,14 +7,17 @@
 
     <h3>AngularFire Drop Zone</h3>
     <p>Drag and Drop a File</p>
-</div> -->
-
+</div>
+<!-- 
 <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="onDrop($event)" accept="video/*">
     <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
         Optional custom content that replaces the the entire default content.
         <button type="button" (click)="openFileSelector()">Browse Files</button>
     </ng-template>
-</ngx-file-drop>
+</ngx-file-drop> -->
+
+<input type="file" accept="*">
+
 
 
 <h3>Uploads</h3>

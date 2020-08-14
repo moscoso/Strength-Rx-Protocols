@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     'selector': 'upload-image',
@@ -8,17 +8,12 @@ import { Component, OnInit } from '@angular/core';
 export class UploadImageComponent {
 
 
-    isHovering: boolean;
 
     files: File[] = [];
 
-    toggleHover(event: boolean) {
-        this.isHovering = event;
-    }
-
-    onDrop(files: FileList) {
-        for (let i = 0; i < files.length; i++) {
-            this.files.push(files.item(i));
+    onDrop(files: any) {
+        if (files.target.files && files.target.files[0]) {
+            this.files.push(files.target.files[0]);
         }
     }
 

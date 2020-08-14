@@ -41,9 +41,8 @@
 
         <div [hidden]="(thisIsMe$ | async) && (iAmTrainer$ | async)"
              *ngIf="(thisIsMe$ | async) || (iAmTrainer$ | async)">
-            <go-to-chat-button [userID]="profile.id"></go-to-chat-button>
-            <cancel-subscription></cancel-subscription>
-            <my-charges></my-charges>
+            <go-to-chat-button *ngIf="!(thisIsMe$ | async)" [userID]="profile.id"></go-to-chat-button>
+            
             <!-- <my-sources></my-sources> -->
             <!-- <logout-button>Log out</logout-button> -->
         </div>

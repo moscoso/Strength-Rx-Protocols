@@ -147,7 +147,11 @@ const routes: Routes = [
 {
     'path': 'chat/:id',
     'loadChildren': () => import('./chat/conversation/conversation.module').then(m => m.ConversationPageModule),
-}
+},  {
+    path: 'billing',
+    loadChildren: () => import('./stripe/billing/billing.module').then( m => m.BillingPageModule)
+  }
+
 
 
 ];

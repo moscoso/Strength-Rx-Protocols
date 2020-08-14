@@ -1,9 +1,15 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>reviews</ion-title>
+        <ion-title>Reviews</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <upload-video></upload-video>
 
+
+
+    <ion-list>
+        <video controls *ngFor="let review of reviews$ | async" [src]="review.downloadURL"></video>
+    </ion-list>
 </ion-content>

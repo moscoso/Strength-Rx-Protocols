@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     'selector': 'upload-video',
@@ -6,18 +6,13 @@ import { Component, OnInit } from '@angular/core';
     'styleUrls': ['./upload-video.component.scss'],
 })
 export class UploadVideoComponent {
-
-    isHovering: boolean;
-
     files: File[] = [];
 
-    toggleHover(event: boolean) {
-        this.isHovering = event;
-    }
+    constructor() {}
 
-    onDrop(files: FileList) {
-        for (let i = 0; i < files.length; i++) {
-            this.files.push(files.item(i));
+    onDrop(files: any) {
+        if (files.target.files && files.target.files[0]) {
+            this.files.push(files.target.files[0]);
         }
     }
 

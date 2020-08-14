@@ -1,13 +1,7 @@
-<ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="onDrop($event)" accept="image/*">
-    <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-        Optional custom content that replaces the the entire default content.
-        <button type="button" (click)="openFileSelector()">Browse Files</button>
-    </ng-template>
-</ngx-file-drop>
+<h2>Upload a Picture for Profile</h2>
+<input type="file" accept="image/*" (change)="onDrop($event)" placeholder="Upload image...">
 
-
-<h3>Uploads</h3>
 
 <div *ngFor="let file of files">
-    <upload-task [file]="file"></upload-task>
+    <upload-profile-pic [file]="file"></upload-profile-pic>
 </div>

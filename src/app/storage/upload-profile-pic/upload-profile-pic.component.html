@@ -11,11 +11,11 @@
 
     <div *ngIf="downloadURL as url">
         <!-- <h3>Results!</h3> -->
-        <img *ngIf="isImage" [src]="url"><br>
+        <img [src]="url"><br>
         <a [href]="url" target="_blank" rel="noopener">Download Me!</a>
     </div>
 
     <!-- <ion-button (click)="task.pause()" [disabled]="!isActive(snap)">Pause</ion-button> -->
-    <ion-button (click)="task.cancel()" [disabled]="!isActive(snap)">Cancel</ion-button>
+    <!-- <ion-button (click)="task.cancel()" [disabled]="!isActive(snap)">Cancel</ion-button> -->
     <!-- <ion-button (click)="task.resume()" [disabled]="!(snap?.state === 'paused')">Resume</ion-button> -->
 </div>

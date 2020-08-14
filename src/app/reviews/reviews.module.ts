@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ReviewsPageRoutingModule } from './reviews-routing.module';
 
 import { ReviewsPage } from './reviews.page';
+import { StorageModule } from '../storage/storage.module';
 
 @NgModule({
     'imports': [
         CommonModule,
         FormsModule,
         IonicModule,
-        ReviewsPageRoutingModule
+        ReviewsPageRoutingModule,
+        StorageModule,
     ],
     'declarations': [ReviewsPage]
 })

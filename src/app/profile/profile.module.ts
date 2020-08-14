@@ -4,6 +4,7 @@ import { ProfileFormComponent } from './profile-form/profile-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialsModule } from '../materials.module';
 import { IonicModule } from '@ionic/angular';
+import { StorageModule } from '../storage/storage.module';
 
 @NgModule({
     'declarations': [
@@ -14,6 +15,7 @@ import { IonicModule } from '@ionic/angular';
         ReactiveFormsModule,
         IonicModule,
         MaterialsModule,
+        StorageModule,
     ],
     'exports': [
         ProfileFormComponent
