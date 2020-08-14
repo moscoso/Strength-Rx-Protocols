@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { HighlightSearchPipe } from './highlight-search.pipe';
+import { TimestampPipe } from './timestamp.pipe';
 
 @NgModule({
     'imports': [],
-    'declarations': [HighlightSearchPipe],
-    'exports': [HighlightSearchPipe],
+    'declarations': [HighlightSearchPipe, TimestampPipe],
+    'exports': [HighlightSearchPipe, TimestampPipe],
 })
 
 export class PipeModule {

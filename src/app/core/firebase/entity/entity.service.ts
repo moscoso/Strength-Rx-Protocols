@@ -3,24 +3,20 @@ import { first } from 'rxjs/operators';
 import { CreateMechanism } from './create/CreateMechanism';
 import { CreateIDFromName } from './create/CreateIDFromName';
 import { CreateWithRandomID } from './create/CreateWithRandomID';
-import { EntityServiceOptions, DEFAULT_ENTITY_SERVICE_OPTIONS as DEFAULT_OPTIONS,
-    IDCreateBehavior } from './EntityServiceOptions';
+import {
+    EntityServiceOptions,
+    DEFAULT_ENTITY_SERVICE_OPTIONS as DEFAULT_OPTIONS,
+    IDCreateBehavior
+} from './EntityServiceOptions';
 import { CreateIDFromAuthUser } from './create/CreateIDFromAuthUser';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { transformToSlug } from 'src/util/slug/transformToSlug';
 
 /**
  * The Default behavior to perform CRUD operations on an Entity in Firestore.
  * An entity will be saved as a document in the root level collection specified by collectionName"
  */
 export abstract class EntityService < T > {
-
-    private creationMechanism: CreateMechanism < T > ;
-    private entityCollection: AngularFirestoreCollection < T > ;
-    private options: EntityServiceOptions < T > ;
-    /**
-     * The default entity for the service will provide default values for any missing data fields from Firestore documents.
-     */
-    private defaultEntity: T;
 
     constructor(
         protected firestore: AngularFirestore,
@@ -33,6 +29,16 @@ export abstract class EntityService < T > {
         this.entityCollection = firestore.collection < T > (collectionName);
         this.setCreationMechanism(this.options.IDSource);
     }
+
+    private 'creationMechanism': CreateMechanism < T > ;
+    private 'entityCollection': AngularFirestoreCollection < T > ;
+    private 'options': EntityServiceOptions < T > ;
+    /**
+     * The default entity for the service will provide default values for any missing data fields from Firestore documents.
+     */
+    private 'defaultEntity': T;
+
+    private move;
 
     /**
      * Retreive an entity
@@ -120,18 +126,60 @@ export abstract class EntityService < T > {
     /**
      * Update an entity's document in Firestore
      * @param entityID the ID of the entity that corresponds to the matching document ID in Firestore
-     * @param entity the partial object that represents the entity data to update
+     * @param changes the partial object that represents the changes to the entity data
      */
-    async update(entityID: string, entity: Partial < T > ): Promise < void > {
-        return this.entityCollection.doc(entityID).update(entity);
+    async update(entityID: string, changes: Partial < any> ): Promise < Partial <any> > {
+        console.log(changes, entityID);
+        if (this.options.IDSource === 'name' && changes.name) {
+            console.log('ummm');
+            return this.updateAndMoveDocument(entityID, changes);
+        } else {
+            console.log('regular');
+            await this.entityCollection.doc(entityID).update(changes);
+            return changes;
+        }
     }
 
     /**
-     * Delete an entity's document in Firestore
+     * Update an entity and the data to a new document.
+     * This fails if there is already an existing document at the new ID.
+     * @param entityID the ID of the entity that corresponds to the matching document ID in Firestore
+     * @param changes the partial object that represents the changes to the entity data
+     */
+    private async updateAndMoveDocument(entityID: string, changes: Partial < any> ): Promise<Partial<any>> {
+        return this.firestore.firestore.runTransaction(async (transaction) => {
+            const newSlugID = transformToSlug(changes.name);
+            const newRef = this.firestore.doc(`${this.collectionName}/${newSlugID}`).ref;
+            const newDoc = await transaction.get(newRef);
+            if (newDoc.exists) {
+                throw new Error(`Entity of ID ${newSlugID} already exists`);
+            }
+            const oldRef = this.firestore.doc(`${this.collectionName}/${entityID}`).ref;
+            const oldDoc = await transaction.get(oldRef);
+            const currentData = oldDoc.data();
+            console.log(this.collectionName);
+            console.log('new', newSlugID);
+            console.log('old', entityID);
+            transaction.set(newRef, { ...currentData, ...changes, ...{ 'id': newSlugID } });
+            transaction.delete(oldRef);
+            transaction.set(this.firestore.doc(`tsm/ew`).ref, {'test': 'yo2'});
+            return changes;
+        });
+    }
+
+    /**
+     * Delete an entity's document in Firestore by moving the data to the deleted collection
      * @param entityID the ID of the entity that corresponds to the matching document ID in Firestore
      */
     async delete(entityID: string): Promise < void > {
-        return this.entityCollection.doc(entityID).delete();
+        return this.firestore.firestore.runTransaction(async (transaction) => {
+            const newRef = this.firestore.collection(`deleted/${this.collectionName}/deleted`).doc().ref;
+            const oldRef = this.firestore.doc(`${this.collectionName}/${entityID}`).ref;
+            const oldDoc = await transaction.get(oldRef);
+            const currentData = oldDoc.data();
+            transaction.set(newRef, currentData);
+            transaction.delete(oldRef);
+        });
     }
 
     /**
@@ -141,7 +189,7 @@ export abstract class EntityService < T > {
      */
     setCreationMechanism(IDSource: IDCreateBehavior) {
         if (IDSource === 'name') {
-            this.creationMechanism = new CreateIDFromName(this.entityCollection, this.firestore, this.collectionName);
+            this.creationMechanism = new CreateIDFromName(this.entityCollection);
         } else if (IDSource === 'authorizedUser') {
             this.creationMechanism = new CreateIDFromAuthUser(this.functions);
         } else {

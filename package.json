@@ -42,6 +42,7 @@
     "firebase": "^7.16.0",
     "fuse.js": "^6.0.4",
     "image-comparison": "^2.0.4",
+    "moment": "^2.27.0",
     "ngx-file-drop": "^9.0.1",
     "rxjs": "~6.5.1",
     "smoothscroll-polyfill": "^0.4.4",

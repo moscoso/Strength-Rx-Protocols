@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
 import { Client } from 'src/app/core/state/client/client.state';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { first } from 'rxjs/operators';
 
 @Component({
     'selector': 'app-client-list',
@@ -11,13 +13,14 @@ import { Client } from 'src/app/core/state/client/client.state';
 export class ClientListPage implements OnInit {
 
     clientList$: Observable < Client[] > = of ([]);
+    events = [];
 
-    constructor(public clientService: ClientStoreDispatcher) {}
+    constructor(public clientService: ClientStoreDispatcher, public firestore: AngularFirestore) {}
 
     ngOnInit() {
         this.clientService.loadAll();
         this.clientList$ = this.clientService.selectAll();
-        this.clientList$.subscribe(x => console.log(x));
+        this.getActivityFeed();
     }
 
     getDateFromTimestamp(timestamp) {
@@ -35,5 +38,10 @@ export class ClientListPage implements OnInit {
 
     getInitialsAvatar(client: Client) {
         return `https://ui-avatars.com/api/?name=${client.firstName}+${client.lastName}`;
+    }
+
+    async getActivityFeed() {
+        const events = await this.firestore.collection('events').get().toPromise();
+        this.events = events.docs.map(doc => doc.data());
     }
 }

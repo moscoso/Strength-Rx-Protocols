@@ -6,6 +6,7 @@ import { ModalController } from '@ionic/angular';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
+import { ChatStoreDispatcher } from 'src/app/core/state/chat/chat.dispatcher';
 @Component({
     'selector': 'app-view-profile',
     'templateUrl': './view-profile.page.html',
@@ -24,6 +25,7 @@ export class ViewProfilePage implements OnInit {
         public profileService: ProfileStoreDispatcher,
         public routerService: RouterStoreDispatcher,
         public modalController: ModalController,
+        public chatService: ChatStoreDispatcher,
     ) {}
 
     ngOnInit() {
@@ -43,12 +45,19 @@ export class ViewProfilePage implements OnInit {
         });
     }
 
+    // async getConversationLink() {
+    //     const profile = await this.profile$.pipe(first()).toPromise();
+    //     const myID = await this.profileService.selectUserProfile().pipe(first()).toPromise();
+    //     const conversationID = this.chatService.calculateConversationID(myID, profile.id);
+    //     return `/chat/${conversationID}`;
+    // }
+
     retryLoad() {
         this.profileService.loadAll();
     }
 
     async fetchProfile() {
-        const router = await this.routerService.selectState().pipe(take(1)).toPromise();
+        const router = await this.routerService.selectState().pipe(first()).toPromise();
         const routeID = router.state.params.id;
         if (routeID) {
             this.routeID = routeID;

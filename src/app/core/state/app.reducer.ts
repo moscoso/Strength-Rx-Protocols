@@ -10,12 +10,14 @@ import { foodsReducer } from './food/food.reducer';
 import { mealsReducer } from './meals/meals.reducer';
 import { programsReducer } from './program/program.reducer';
 import { clientsReducer } from './client/client.reducer';
+import { chatReducer } from './chat/chat.reducer';
 
 /**
  * The root reducer for the app's ngrx/store
  */
 export const appReducers: ActionReducerMap < AppState > = {
     'auth': authReducer,
+    'chat': chatReducer,
     'clients': clientsReducer,
     'check-ins': checkInsReducer,
     'exercises': exercisesReducer,

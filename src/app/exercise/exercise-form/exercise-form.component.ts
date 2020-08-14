@@ -64,7 +64,7 @@ export class ExerciseFormComponent implements OnInit {
 
     initFormValues(exercise: Exercise) {
         this.name.setValue(exercise.name);
-        this.name.disable();
+        // this.name.disable();
         this.instructions.setValue(exercise.instructions);
         this.youtubeURL.setValue(`https://youtu.be/${exercise.youtubeID}`);
         this.youtubeURL.markAsDirty();

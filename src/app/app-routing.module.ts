@@ -140,7 +140,17 @@ const routes: Routes = [
     'path': 'choose-membership',
     'loadChildren': () => import('./client/choose-membership/choose-membership.module').then(m => m
         .ChooseMembershipPageModule)
-}, ];
+}, {
+    'path': 'reviews',
+    'loadChildren': () => import('./reviews/reviews.module').then(m => m.ReviewsPageModule)
+},
+{
+    'path': 'chat/:id',
+    'loadChildren': () => import('./chat/conversation/conversation.module').then(m => m.ConversationPageModule),
+}
+
+
+];
 
 @NgModule({
     'imports': [

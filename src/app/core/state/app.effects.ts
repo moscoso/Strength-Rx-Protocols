@@ -7,9 +7,11 @@ import { FoodEffects } from './food/food.effects';
 import { MealEffects } from './meals/meals.effects';
 import { ProgramEffects } from './program/program.effects';
 import { ClientEffects } from './client/client.effects';
+import { ChatEffects } from './chat/chat.effects';
 
 export const appEffects = [
     AuthEffects,
+    ChatEffects,
     CheckInEffects,
     ClientEffects,
     ExerciseEffects,

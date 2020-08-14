@@ -4,8 +4,8 @@ import { ProfileAction, ProfileActionType } from './profile.actions';
 
 
 export const profilesAdapter = createEntityAdapter < Profile > ({
-    'selectId': exercise => exercise.id,
-    'sortComparer': (exerciseA, exerciseB) => exerciseA.lastName.localeCompare(exerciseB.lastName)
+    'selectId': profile => profile.id,
+    'sortComparer': (profileA, profileB) => profileA.lastName.localeCompare(profileB.lastName)
 });
 const initialState: ProfilesState = profilesAdapter.getInitialState({
     'requestInProgress': false,

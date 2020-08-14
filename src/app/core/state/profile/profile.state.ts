@@ -32,8 +32,8 @@ export enum ClientApplicationStatus { 'NOT_STARTED', 'PENDING', 'APPROVED' }
 
 /**
  * Profiles are represented by an EntityState that
- * includes a dictionary of exercises and the
- * list of ids that corresponds to each exercise
+ * includes a dictionary of profiles and the
+ * list of ids that corresponds to each profile
  */
 export interface ProfilesState extends EntityState < Profile > {
     requestInProgress: boolean;

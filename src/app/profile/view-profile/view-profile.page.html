@@ -22,6 +22,7 @@
             <img [src]='getAvatar(profile)' />
         </ion-avatar>
 
+
         <h1 class="name">{{profile.firstName}} {{profile.lastName}}</h1>
         <h2 *ngIf="(thisIsMe$ | async) && (iAmTrainer$ | async)">Trainer 💪🏼 </h2>
         <ion-note>USER ID: {{profile.id}}</ion-note>
@@ -40,6 +41,7 @@
 
         <div [hidden]="(thisIsMe$ | async) && (iAmTrainer$ | async)"
              *ngIf="(thisIsMe$ | async) || (iAmTrainer$ | async)">
+            <go-to-chat-button [userID]="profile.id"></go-to-chat-button>
             <cancel-subscription></cancel-subscription>
             <my-charges></my-charges>
             <!-- <my-sources></my-sources> -->

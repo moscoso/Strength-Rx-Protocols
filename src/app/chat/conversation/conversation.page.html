@@ -1,0 +1,42 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            <user-item *ngIf="friendID" [id]='friendID'></user-item>
+            <!-- <ion-item lines="none">
+                <ion-avatar item-start>
+                    <img [src]="friend?.photoURL">
+                </ion-avatar>
+                <p style="color: white; font-weight: 100;"> {{friend?.displayName}}</p>
+            </ion-item> -->
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="conversation">
+
+    <!-- Chat list -->
+    <ion-list class="conversation-container" #chatList>
+        <div *ngFor="let message of messages$ | async" class="message" [ngClass]='{sent: message.senderID === myID, received: message.senderID !== myID}'>
+            <div class="message">{{message.text}}</div>
+            <span class="metadata">
+                <p class="time">{{message.timestamp.toDate() | timestamp:'h:m A'}}</p>
+            </span>
+        </div>
+    </ion-list>
+
+</ion-content>
+
+<ion-footer>
+    <!-- Message Box -->
+    <ion-item>
+        <ion-input style="color:black" type="text" placeholder="Type your message" [(ngModel)]="messageInput" (keypress)="onType($event.keyCode)"></ion-input>
+        <ion-button id="send-message-btn" (click)="sendMessage()" [disabled]="!messageInput">
+            <!-- <ion-icon src="assets/icon/send.svg"></ion-icon> -->
+            <ion-icon name="send"></ion-icon>
+        </ion-button>
+    </ion-item>
+</ion-footer>

@@ -11,6 +11,7 @@ import { ProfileModule } from '../profile.module';
 import { AccountModule } from 'src/app/account/account.module';
 import { ClientModule } from 'src/app/client/client.module';
 import { StripeModule } from 'src/app/stripe/stripe.module';
+import { ChatModule } from 'src/app/chat/chat.module';
 
 @NgModule({
     'imports': [
@@ -21,6 +22,7 @@ import { StripeModule } from 'src/app/stripe/stripe.module';
         ClientModule,
         ProfileModule,
         StripeModule,
+        ChatModule,
         ViewProfilePageRoutingModule
     ],
     'declarations': [ViewProfilePage]

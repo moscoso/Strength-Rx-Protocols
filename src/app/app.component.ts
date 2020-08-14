@@ -98,6 +98,16 @@ export class AppComponent implements OnInit {
             'label': 'Store',
             'icon': 'shirt-outline',
             'href': 'https://strengthrx-test.myshopify.com/collections/all'
+        },
+        {
+            'label': 'Reviews',
+            'icon': 'videocam-outline',
+            'href': '/reviews',
+        },
+        {
+            'label': 'Billing',
+            'icon': 'card-outline',
+            'link': '/billing'
         }
 
     ];

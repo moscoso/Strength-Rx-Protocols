@@ -1,0 +1,35 @@
+:host {
+
+	.item-ios ion-avatar ion-img, .item-ios ion-avatar img {
+		border-radius: 50%;
+		overflow: hidden;
+		width: 75px;
+		height: 75px;
+		object-fit: cover;
+	}
+
+
+	ion-item{
+        text-transform:uppercase;
+        color:white;
+	}
+
+	.item, .item-ios {
+		text-align:left;
+		color: white;
+		background: none;
+		object-fit: cover;
+		// border: #E4BF6A solid 2px;
+		// color: black;
+		// background: white;
+		// border: black solid 2px;
+		margin-top: 3vh;
+		border-radius: 10px;
+		text-transform: capitalize;
+	}
+
+	.item .item-inner, .item-ios .item-inner, .item-block:first-child .item-inner {
+		border-top: none !important;
+		border-bottom: none !important;
+	}
+}

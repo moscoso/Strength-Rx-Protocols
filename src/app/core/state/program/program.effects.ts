@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, from } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { Observable, from, of } from 'rxjs';
+import { switchMap, tap, timeout, catchError } from 'rxjs/operators';
 
 import { ProgramAction, ProgramActionType } from './program.actions';
 import * as Programs from './program.actions';
@@ -13,10 +13,12 @@ import { Router } from '@angular/router';
 @Injectable()
 export class ProgramEffects {
 
+    TIMEOUT_WINDOW = 10000;
+
     @Effect({ 'dispatch': false }) error$: Observable < ProgramAction > = this.actions$.pipe(
         ofType(ProgramActionType.RequestFailed),
         tap((action: Programs.RequestFailed) => {
-            this.toaster.failed('Programs failed', action.error.message);
+            this.toaster.failed('Programs Error', action.error.message);
         })
     );
 
@@ -26,6 +28,13 @@ export class ProgramEffects {
             return from(this.programService.getAll()
                 .then(programs => new Programs.AllLoaded(programs))
                 .catch(error => new Programs.RequestFailed(error))
+            ).pipe(
+                timeout(this.TIMEOUT_WINDOW),
+                catchError(() => {
+                    const errorMessage = `The request to load programs timed out. ${this.TIMEOUT_WINDOW / 1000} seconds.
+                    Please check your internet connection and try again`;
+                    return of(new Programs.RequestFailed(new Error(errorMessage)));
+                })
             );
         })
     );
@@ -68,8 +77,8 @@ export class ProgramEffects {
         })
     );
 
-    @Effect({'dispatch': false}) deleteCompleted$: Observable < ProgramAction > = this.actions$.pipe(
-        ofType<ProgramAction>(ProgramActionType.Deleted),
+    @Effect({ 'dispatch': false }) deleteCompleted$: Observable < ProgramAction > = this.actions$.pipe(
+        ofType < ProgramAction > (ProgramActionType.Deleted),
         tap((action: Programs.CreateRequested) => {
             this.router.navigateByUrl('/programs');
         })

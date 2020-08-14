@@ -1,0 +1,93 @@
+:host {
+    /* Conversation */
+
+    .conversation {
+        position: relative;
+        z-index: 0;
+    }
+
+    .conversation ::-webkit-scrollbar {
+        transition: all .5s;
+        width: 5px;
+        height: 1px;
+        z-index: 10;
+    }
+
+    .conversation ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .conversation ::-webkit-scrollbar-thumb {
+        background: #b3ada7;
+    }
+
+    .conversation .conversation-container {
+        box-shadow: inset 0 10px 10px -10px #000000;
+        overflow-x: hidden;
+        padding: 0 16px;
+        margin-bottom: 5px;
+    }
+
+    // .conversation .conversation-container:after {
+    //     content: "";
+    //     display: table;
+    //     clear: both;
+    // }
+
+    /* Messages */
+
+    .message {
+        color: #000;
+        clear: both;
+        line-height: 18px;
+        font-size: 15px;
+        padding: 8px;
+        position: relative;
+        margin: 8px 0;
+        max-width: 85%;
+        word-wrap: break-word;
+        z-index: -1;
+    }
+
+    .metadata {
+        float: right;
+        padding: 0 0 0 7px;
+        position: relative;
+        bottom: -4px;
+    }
+
+    .metadata .time {
+        color: rgba(0, 0, 0, .45);
+        font-size: 11px;
+        display: inline-block;
+    }
+
+
+    .message:first-child {
+        margin: 16px 0 8px;
+    }
+
+    .message.received {
+        background: #fff;
+        border-radius: 0px 5px 5px 5px;
+        float: left;
+    }
+
+    .message.received .metadata {
+        padding: 0 0 0 16px;
+    }
+    
+    .message.sent {
+        background: #e1ffc7;
+        border-radius: 5px 0px 5px 5px;
+        float: right;
+    }
+
+    ion-item {
+        color: white;
+    }
+
+    #send-message-btn {
+        --background: var(--ion-color-primary);
+    }
+}

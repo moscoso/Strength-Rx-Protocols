@@ -1,0 +1,15 @@
+<ion-item *ngIf="profile else loading">
+    <ion-avatar item-start>
+        <img [src]="getAvatar(profile)">
+    </ion-avatar>
+    <p> {{profile.firstName}}</p>
+</ion-item>
+
+<ng-template #loading>
+    <ion-item>
+        <ion-avatar item-start>
+            <ion-spinner></ion-spinner>
+        </ion-avatar>
+        <ion-spinner name="dots"></ion-spinner>
+    </ion-item>
+</ng-template>

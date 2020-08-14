@@ -1,5 +1,4 @@
 import { CreateMechanism } from './CreateMechanism';
-import { transformToSlug } from 'src/util/slug/transformToSlug';
 import { AngularFireFunctions } from '@angular/fire/functions';
 
 /**

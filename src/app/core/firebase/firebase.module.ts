@@ -16,4 +16,6 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     ],
     'providers': []
 })
-export class FirebaseModule {}
+export class FirebaseModule {
+    constructor() { }
+}

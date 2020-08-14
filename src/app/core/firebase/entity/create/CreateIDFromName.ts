@@ -12,18 +12,7 @@ export class CreateIDFromName < T > implements CreateMechanism < T > {
      */
     constructor(
         protected entityCollection: AngularFirestoreCollection < T > ,
-        protected firestore: AngularFirestore,
-        protected collectionName: string,
-    ) {
-        if (!firestore) {
-            const errorMessage = `Cannot create CreateIDFromName mechanism because firestore is undefined`;
-            throw new Error(errorMessage);
-        }
-        if (!collectionName || collectionName.length === 0) {
-            const errorMessage = `Cannot create CreateIDFromName mechanism because collectionName ${collectionName} is undefined`;
-            throw new Error(errorMessage);
-        }
-    }
+    ) {}
 
     /**
      * Create a new Firestore document for the entity.
@@ -31,10 +20,13 @@ export class CreateIDFromName < T > implements CreateMechanism < T > {
      * @param entity the entity being created
      */
     async create(entity: any): Promise < T > {
+        if (!entity.name) {
+            throw new Error(`Cannot create an entity with ID from name because name does not exist`);
+        }
         const slugID = transformToSlug(entity.name);
-        const doc = await this.firestore.doc(`${this.collectionName}/${slugID}`).ref.get();
+        const doc = await this.entityCollection.doc(`${slugID}`).ref.get();
         if (doc.exists) {
-            throw new Error(`Entity of ID ${slugID} already exists`);
+            throw new Error(`Entity of document ID ${slugID} already exists in Firestore`);
         }
         await this.entityCollection.doc(`${slugID}`).set({...entity, ...{'id': slugID}});
         return entity;
