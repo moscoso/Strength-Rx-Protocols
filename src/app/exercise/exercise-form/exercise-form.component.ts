@@ -1,16 +1,14 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl, Validators, FormGroup, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/core/state/app.state';
 import { Exercise } from 'src/app/core/state/exercises/exercises.state';
 import { ToastService } from 'src/app/shared/toast/toast.service';
-import { selectExerciseByRouteURL } from 'src/app/core/state/exercises/exercises.selector';
 import { first } from 'rxjs/operators';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
 import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
+import { Delta } from 'src/util/delta/Delta';
 
 @Component({
     'selector': 'exercise-form',
@@ -41,6 +39,8 @@ export class ExerciseFormComponent implements OnInit {
     alternateIDs = new FormControl([], []);
     exerciseList$: Observable < Exercise[] > = of ([]);
 
+    defaultValue: Exercise;
+
 
     constructor(
         public exerciseService: ExerciseStoreDispatcher,
@@ -63,8 +63,8 @@ export class ExerciseFormComponent implements OnInit {
     }
 
     initFormValues(exercise: Exercise) {
+        this.defaultValue = exercise;
         this.name.setValue(exercise.name);
-        // this.name.disable();
         this.instructions.setValue(exercise.instructions);
         this.youtubeURL.setValue(`https://youtu.be/${exercise.youtubeID}`);
         this.youtubeURL.markAsDirty();
@@ -72,18 +72,14 @@ export class ExerciseFormComponent implements OnInit {
     }
 
     onSubmit(form) {
-        const exercise: Exercise = this.form.getRawValue();
         try {
-            const youtubeID = this.scrapeIDfromYoutubeURL(form.youtubeURL);
-            let values: Partial < Exercise > ;
-            values = {
-                'id': this.getSlug(exercise.name),
-                'name': exercise.name,
-                'youtubeID': youtubeID,
-                'instructions': exercise.instructions,
-                'alternateIDs': exercise.alternateIDs
-            };
-            this.formSubmit.emit(values);
+            const values = this.createExerciseFromForm();
+            if  (this.defaultValue === undefined ) {
+                this.formSubmit.emit(values);
+             } else {
+                const changes = {...Delta.object(this.defaultValue, values), 'id': this.defaultValue.id};
+                this.formSubmit.emit(changes);
+            }
         } catch (error) {
             this.toastService.failed(`Could not submit exercise`, error);
         }
@@ -112,6 +108,24 @@ export class ExerciseFormComponent implements OnInit {
 
     verifyExerciseIsUnique(ctrl: AbstractControl): Promise < ValidationErrors | null > {
         return validateDocIDIsUnique(`exercises`, ctrl, this.firestore);
+    }
+
+    nameHasChanged() {
+        return this.defaultValue !== undefined && this.defaultValue.name !== this.name.value;
+    }
+
+    createExerciseFromForm() {
+        const exercise: Exercise = this.form.getRawValue();
+        const youtubeID = this.scrapeIDfromYoutubeURL(this.youtubeURL.value);
+        let values: Partial < Exercise > ;
+        values = {
+            'id': this.getSlug(exercise.name),
+            'name': exercise.name,
+            'youtubeID': youtubeID,
+            'instructions': exercise.instructions,
+            'alternateIDs': exercise.alternateIDs
+        };
+        return values;
     }
 
     /**

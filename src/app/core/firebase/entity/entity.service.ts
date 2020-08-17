@@ -157,12 +157,8 @@ export abstract class EntityService < T > {
             const oldRef = this.firestore.doc(`${this.collectionName}/${entityID}`).ref;
             const oldDoc = await transaction.get(oldRef);
             const currentData = oldDoc.data();
-            console.log(this.collectionName);
-            console.log('new', newSlugID);
-            console.log('old', entityID);
             transaction.set(newRef, { ...currentData, ...changes, ...{ 'id': newSlugID } });
             transaction.delete(oldRef);
-            transaction.set(this.firestore.doc(`tsm/ew`).ref, {'test': 'yo2'});
             return changes;
         });
     }

@@ -8,10 +8,16 @@
                        autocomplete="off"
                        enterKeyHint="next"
                        required>
+                <div mat-icon-button matSuffix [hidden]="this.defaultValue === undefined">
+                    <mat-icon [ngStyle]="{'color': nameHasChanged() ? 'orange':'green'}">adjust</mat-icon>
+                </div>
                 <mat-error *ngIf="name.hasError('required')">An exercise name is required.</mat-error>
-                <mat-error *ngIf="name.hasError('entityIDTaken')">An exercise named {{name.value}} already exists</mat-error>
-                <mat-error *ngIf="name.hasError('couldNotReachServer')">Could not reach server. Please check your connection and try again.</mat-error>
-                <mat-hint *ngIf="getSlug(name.value).length > 0 && name.enabled">This link will be at /exercise/{{getSlug(name.value)}}</mat-hint>
+                <mat-error *ngIf="name.hasError('entityIDTaken')">An exercise named {{name.value}} already exists
+                </mat-error>
+                <mat-error *ngIf="name.hasError('couldNotReachServer')">Could not reach server. Please check your
+                    connection and try again.</mat-error>
+                <mat-hint *ngIf="getSlug(name.value).length > 0 && name.enabled">This link will be at
+                    /exercise/{{getSlug(name.value)}}</mat-hint>
                 <mat-hint *ngIf="name.disabled">Cannot edit the name of an existing workout</mat-hint>
             </mat-form-field>
         </ion-row>
@@ -48,7 +54,8 @@
             <ion-spinner [hidden]="alternateIDs.dirty || (exerciseList$ | async).length !== 0"></ion-spinner>
             <mat-form-field [hidden]="(exerciseList$ | async).length === 0">
                 <mat-label>Alternate Exercise(s)</mat-label>
-                <mat-select multiple [formControl]="alternateIDs" name="alternateIDs" [compareWith]="compareExerciseIDs">
+                <mat-select multiple [formControl]="alternateIDs" name="alternateIDs"
+                            [compareWith]="compareExerciseIDs">
                     <mat-option *ngFor="let exercise of (exerciseList$ | async)"
                                 [value]="exercise.id">{{exercise.name}}</mat-option>
                 </mat-select>
@@ -57,7 +64,7 @@
 
 
         <ion-button type="submit"
-                    [disabled]="form.invalid || (requestInProgress$ | async)"
+                    [disabled]="form.invalid || (requestInProgress$ | async) || form.untouched"
                     expand="full">
             <ion-icon name="barbell"></ion-icon>&nbsp;{{buttonText}}
         </ion-button>

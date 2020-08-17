@@ -2,6 +2,7 @@ export class Delta {
 
     /**
      * Return an object that represents the difference between two objects.
+     * Order matters! The returned difference object will use the values from a
      * Only works with shallow objects. Nested objects will not be tested for equality.
      */
     public static object(a: object, b: object): object {
