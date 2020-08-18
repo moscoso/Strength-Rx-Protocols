@@ -13,7 +13,6 @@ import { ImageInputComponent } from 'src/app/storage/image-input/image-input.com
 export class SetAvatarComponent implements OnInit {
 
     photoURL: string;
-    defaultPhotoURL: string;
     profile: Profile;
 
     @ViewChild(ImageInputComponent) input: ImageInputComponent;
@@ -38,7 +37,6 @@ export class SetAvatarComponent implements OnInit {
         }
         this.profile = profile;
         this.photoURL = profile.photoURL;
-        this.defaultPhotoURL = profile.photoURL;
     }
 
 
