@@ -4,8 +4,7 @@
             <ion-buttons slot="start">
                 <ion-menu-button class="ion-hide-md-up" auto-hide="false"></ion-menu-button>
                 <ion-button class="ion-hide-md-down" (click)="scrollPage('coaches')">Coaches</ion-button>
-                <ion-button class="ion-hide-md-down" (click)="scrollPage('transformations')">Transformations
-                </ion-button>
+                <ion-button class="ion-hide-md-down" (click)="scrollPage('transformations')">Transformations</ion-button>
                 <ion-button class="ion-hide-md-down" (click)="scrollPage('services')">Services</ion-button>
             </ion-buttons>
             <img class="logo" src="/assets/icon/logo.png">
@@ -13,8 +12,7 @@
                 <ion-button class="ion-hide-md-down" [routerLink]="'dashboard'">Dashboard</ion-button>
             </ion-buttons>
             <ion-buttons slot="end" *ngIf="(isAuthenticated$ | async) === false" class="ion-hide-md-down">
-                <ion-button class="ion-hide-md-down" href="https://strengthrx-test.myshopify.com/collections/all">Shop
-                </ion-button>
+                <ion-button class="ion-hide-md-down" href="https://strengthrx-test.myshopify.com/collections/all">Shop</ion-button>
                 <ion-button [routerLink]="'register'">Join</ion-button>
                 <ion-button [routerLink]="'login'">Login</ion-button>
             </ion-buttons>
@@ -24,10 +22,8 @@
 
     <video #video class="ion-hide-md-down"
            [ngStyle]="{'margin-top': headerHeight+'px', 'max-height': calcVideoHeight() }"
-           loop
-           playsinline preload="auto" muted="true" controlslist="nodownload nofullscreen">
-        <source
-                [src]="getStorageURL('StrengthRx_Protocols_Landing_Muted.webm?alt=media&token=746c5ebb-9657-4cec-9290-d3bd42492941')" />
+           loop playsinline preload="auto" muted="true" controlslist="nodownload nofullscreen">
+        <source [src]="getStorageURL('StrengthRx_Protocols_Landing_Muted.webm?alt=media&token=746c5ebb-9657-4cec-9290-d3bd42492941')" />
     </video>
 
     <img class="ion-hide-md-up" [ngStyle]="{'margin-top': headerHeight+'px', 'max-height': calcVideoHeight() }"
@@ -38,7 +34,7 @@
         <ion-row class="ion-text-center">
             <ion-col sizeMd="6" sizeSm="12" sizeXs="12">
                 <h2>David</h2>
-                <img src="/assets/img/david4.jpg">
+                <img src="/assets/img/david2.JPG">
             </ion-col>
             <ion-col sizeMd="6" sizeSm="12" sizeXs="12">
                 <h2>Tiffany</h2>
@@ -46,17 +42,19 @@
             </ion-col>
         </ion-row>
 
-        <section id="about-us" class="ion-padding"> 
+        <section id="about-us" class="ion-padding">
             <h1>About Us</h1>
-            <p>Strength Rx Protocols was designed to deliver science-based, tried and true training and nutrition 
-                methods to each individual in our team. As an athlete, your health is important to us. 
-                This includes assessing exercise form videos to ensure you don’t get injured, as well 
-                as properly setting your nutrition so you are performing at your best. Each program is 
+            <p>Strength Rx Protocols was designed to deliver science-based, tried and true training and nutrition
+                methods to each individual in our team. As an athlete, your health is important to us.
+                This includes assessing exercise form videos to ensure you don’t get injured, as well
+                as properly setting your nutrition so you are performing at your best. Each program is
                 customized specifically for you with your goals in mind.</p>
-            <p>We are incredibly passionate about health and fitness. Whether you are aiming to lose body fat, gain muscle and strength, or have plans to step on a physique stage or powerlifting platform, we are here to guide you in the process!</p>
-            <p>Our goal is to educate you, explain our methods, and set you up for success. 
-                We are a team of hardworking, dedicated individuals, who are big on consistency and communication. 
-                All we ask is you do the same for us.</p> 
+            <p>We are incredibly passionate about health and fitness. Whether you are aiming to lose body fat, gain
+                muscle and strength, or have plans to step on a physique stage or powerlifting platform, we are here to
+                guide you in the process!</p>
+            <p>Our goal is to educate you, explain our methods, and set you up for success.
+                We are a team of hardworking, dedicated individuals, who are big on consistency and communication.
+                All we ask is you do the same for us.</p>
             <p><strong>Welcome to #StrengthRxProtocols</strong></p>
         </section>
 
