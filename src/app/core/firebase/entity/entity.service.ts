@@ -22,7 +22,7 @@ export abstract class EntityService < T > {
         protected firestore: AngularFirestore,
         protected functions: AngularFireFunctions,
         private collectionName: string,
-        options ? : EntityServiceOptions < T > ,
+        options ?: EntityServiceOptions < T > ,
     ) {
         this.options = options ? { ...DEFAULT_OPTIONS, ...options } : DEFAULT_OPTIONS;
         this.defaultEntity = this.options.defaultEntity;
