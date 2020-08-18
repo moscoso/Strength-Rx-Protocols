@@ -43,7 +43,7 @@ export abstract class EntityService < T > {
      * @param entityID the ID that corresponds to the entity's document in Firebase
      */
     async get(entityID: string, source: 'default' | 'server' | 'cache' = 'default'): Promise < T > {
-        const snapshot = await this.firestore.collection(this.collectionName).doc(entityID).get({ source })
+        const snapshot = await this.entityCollection.doc(entityID).get({ source })
             .pipe(first()).toPromise();
         const data = snapshot.data();
         if (data == null) {
@@ -100,7 +100,7 @@ export abstract class EntityService < T > {
      * generating an error if the server cannot be reached.
      */
     async getAllFromServer(): Promise < T[] > {
-        const snapshot: QuerySnapshot < DocumentData > = await this.firestore.collection(this.collectionName)
+        const snapshot: QuerySnapshot < DocumentData > = await this.entityCollection
             .get({ 'source': 'server' }).pipe(first()).toPromise();
         return snapshot.docs.map((doc: DocumentData) => {
             const data: any = doc.data();
@@ -126,7 +126,7 @@ export abstract class EntityService < T > {
      * @param entityID the ID of the entity that corresponds to the matching document ID in Firestore
      * @param changes the partial object that represents the changes to the entity data
      */
-    async update(entityID: string, changes: Partial < any> ): Promise < Partial <any> > {
+    async update(entityID: string, changes: Partial < any > ): Promise < Partial < any > > {
         if (this.options.IDSource === 'name' && changes.name) {
             return this.updateAndMoveDocument(entityID, changes);
         } else {
@@ -141,14 +141,12 @@ export abstract class EntityService < T > {
      * @param entityID the ID of the entity that corresponds to the matching document ID in Firestore
      * @param changes the partial object that represents the changes to the entity data
      */
-    private async updateAndMoveDocument(entityID: string, changes: Partial < any> ): Promise<Partial<any>> {
+    private async updateAndMoveDocument(entityID: string, changes: Partial < any > ): Promise < Partial < any >> {
         return this.firestore.firestore.runTransaction(async (transaction) => {
             const newSlugID = transformToSlug(changes.name);
             const newRef = this.firestore.doc(`${this.collectionName}/${newSlugID}`).ref;
             const newDoc = await transaction.get(newRef);
-            if (newDoc.exists) {
-                throw new Error(`Entity of ID ${newSlugID} already exists`);
-            }
+            if (newDoc.exists) { throw new Error(`Entity of ID ${newSlugID} already exists`); }
             const oldRef = this.firestore.doc(`${this.collectionName}/${entityID}`).ref;
             const oldDoc = await transaction.get(oldRef);
             const currentData = oldDoc.data();
