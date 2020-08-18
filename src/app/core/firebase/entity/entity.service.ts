@@ -22,7 +22,7 @@ export abstract class EntityService < T > {
         protected firestore: AngularFirestore,
         protected functions: AngularFireFunctions,
         private collectionName: string,
-        options ?: EntityServiceOptions < T > ,
+        options ? : EntityServiceOptions < T > ,
     ) {
         this.options = options ? { ...DEFAULT_OPTIONS, ...options } : DEFAULT_OPTIONS;
         this.defaultEntity = this.options.defaultEntity;
@@ -122,6 +122,21 @@ export abstract class EntityService < T > {
     }
 
     /**
+     * Sets the behavior for creating an entity and storing it in Firebase.
+     * @param useRandomIDs if set to true the ID for the document will be randomly generated,
+     * otherwise an ID will be created based on the Name of the entity
+     */
+    setCreationMechanism(IDSource: IDCreateBehavior) {
+        if (IDSource === 'name') {
+            this.creationMechanism = new CreateIDFromName(this.entityCollection);
+        } else if (IDSource === 'authorizedUser') {
+            this.creationMechanism = new CreateIDFromAuthUser(this.functions);
+        } else {
+            this.creationMechanism = new CreateWithRandomID(this.entityCollection);
+        }
+    }
+
+    /**
      * Update an entity's document in Firestore
      * @param entityID the ID of the entity that corresponds to the matching document ID in Firestore
      * @param changes the partial object that represents the changes to the entity data
@@ -169,20 +184,5 @@ export abstract class EntityService < T > {
             transaction.set(newRef, currentData);
             transaction.delete(oldRef);
         });
-    }
-
-    /**
-     * Sets the behavior for creating an entity and storing it in Firebase.
-     * @param useRandomIDs if set to true the ID for the document will be randomly generated,
-     * otherwise an ID will be created based on the Name of the entity
-     */
-    setCreationMechanism(IDSource: IDCreateBehavior) {
-        if (IDSource === 'name') {
-            this.creationMechanism = new CreateIDFromName(this.entityCollection);
-        } else if (IDSource === 'authorizedUser') {
-            this.creationMechanism = new CreateIDFromAuthUser(this.functions);
-        } else {
-            this.creationMechanism = new CreateWithRandomID(this.entityCollection);
-        }
     }
 }
