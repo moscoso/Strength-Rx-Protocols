@@ -6,9 +6,9 @@ import { AuthStoreDispatcher } from './core/state/auth/auth.dispatcher';
 import { ProfileStoreDispatcher } from './core/state/profile/profiles.dispatcher';
 import { RouterStoreDispatcher } from './core/state/router/router.dispatcher';
 import { MenuItem } from './shared/menu-list/menu-list.component';
-import { first } from 'rxjs/operators';
-import { Profile } from './core/state/profile/profile.state';
+import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
     'selector': 'app-root',
     'templateUrl': 'app.component.html',
@@ -142,6 +142,11 @@ export class AppComponent implements OnInit {
         this.profileService.loadAll();
         this.iAmTrainer$ = this.profileService.selectUserIsTrainer();
         this.addAvatarToMenu();
+        this.profileService.selectUserProfile().pipe(
+            untilDestroyed(this)
+        ).subscribe(profile => {
+            this.addAvatarToMenu();
+        });
     }
 
     ngOnInit() {

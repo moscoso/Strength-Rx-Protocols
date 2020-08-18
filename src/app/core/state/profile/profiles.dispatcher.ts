@@ -135,7 +135,7 @@ export class ProfileStoreDispatcher {
         return photoURLExists ? profile.photoURL : this.getInitialsAvatar(profile);
     }
 
-    private getInitialsAvatar(profile: Profile): string {
-        return `https://ui-avatars.com/api/?name=${profile.firstName}+${profile.lastName}`;
+    public getInitialsAvatar(profile: Profile): string {
+        return `https://ui-avatars.com/api/?name=${profile.firstName}+${profile.lastName}&size=200&background=3880ff&color=fff`;
     }
 }

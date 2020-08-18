@@ -43,6 +43,12 @@ ion-title {
     --min-width: 80%;
 }
 
+.modal-short-height {
+    @media screen and (min-width: 769px) {
+        --height: 350px;
+    }
+}
+
 form {
     width: 100%;
 }

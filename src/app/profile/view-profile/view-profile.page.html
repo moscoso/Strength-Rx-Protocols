@@ -18,8 +18,9 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-grid *ngIf="profile$ | async as profile else noProfile" text-center>
-        <ion-avatar>
+        <ion-avatar (click)="presentAvatar()" [ngClass]="(thisIsMe$ | async) ? 'thisIsMe' : 'thisIsNotMe'">
             <img [src]='getAvatar(profile)' />
+            <ion-icon [hidden]="!(thisIsMe$ | async)" name="camera" size="large" [color]="'white'"></ion-icon>
         </ion-avatar>
 
 

@@ -1,0 +1,7 @@
+<input #myInput type="file" accept="image/*" (change)="onChange($event)" placeholder="Upload image...">
+
+<upload-task *ngIf="file"
+             [file]="file"
+             showImage="true"
+             [storageFolder]="storageFolder"
+             (fileUpload)="onFileUpload($event)"></upload-task>

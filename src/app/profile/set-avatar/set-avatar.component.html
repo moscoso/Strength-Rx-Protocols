@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Set Profile Picture</ion-title>
+        <ion-buttons slot="end">
+            <dismiss-modal-button modalID="set-avatar"></dismiss-modal-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <image-input storageFolder="profile_pic" (fileUpload)="onFileUploaded($event)"></image-input>
+            </ion-col>
+            <ion-col class="ion-text-center">   
+                <h2>Preview</h2>
+                <ion-avatar *ngIf="profile else loading">
+                    <ion-img [src]='photoURL && photoURL.length > 0 ? photoURL : getAvatar()'></ion-img>
+                    <ion-icon *ngIf="photoURL" (click)="clearInput()" name="close-circle-outline" size="large" color="danger" title="Remove picture"></ion-icon>
+                </ion-avatar>
+                <ng-template #loading>
+                    <ion-spinner></ion-spinner>
+                </ng-template>
+            </ion-col>
+        </ion-row>
+       
+    </ion-grid>
+</ion-content>
+<ion-footer>
+    <ion-button [disabled]="photoURL === defaultPhotoURL" (click)="changeAvatar()">Save</ion-button>
+</ion-footer>

@@ -7,8 +7,6 @@ import { Component } from '@angular/core';
 })
 export class UploadImageComponent {
 
-
-
     files: File[] = [];
 
     onDrop(files: any) {

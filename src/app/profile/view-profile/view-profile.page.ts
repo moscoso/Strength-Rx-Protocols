@@ -7,6 +7,7 @@ import { EditProfilePage } from '../edit-profile/edit-profile.page';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { ChatStoreDispatcher } from 'src/app/core/state/chat/chat.dispatcher';
+import { SetAvatarComponent } from '../set-avatar/set-avatar.component';
 @Component({
     'selector': 'app-view-profile',
     'templateUrl': './view-profile.page.html',
@@ -15,7 +16,6 @@ import { ChatStoreDispatcher } from 'src/app/core/state/chat/chat.dispatcher';
 export class ViewProfilePage implements OnInit {
 
     public profile$: Observable < Profile > ;
-    public routeID = null;
 
     public thisIsMe$: Observable < boolean > = of (false);
     public iAmTrainer$: Observable < boolean > = of (false);
@@ -60,7 +60,6 @@ export class ViewProfilePage implements OnInit {
         const router = await this.routerService.selectState().pipe(first()).toPromise();
         const routeID = router.state.params.id;
         if (routeID) {
-            this.routeID = routeID;
             this.profile$ = this.profileService.selectProfile(routeID);
         } else {
             this.profile$ = this.profileService.selectUserProfile();
@@ -79,5 +78,20 @@ export class ViewProfilePage implements OnInit {
         });
         await modal.present();
         return;
+    }
+
+    async presentAvatar(): Promise < void > {
+        const thisIsMe = await this.thisIsMe$.pipe(first()).toPromise();
+        if (!thisIsMe) {
+            return;
+        } else {
+            const modal = await this.modalController.create({
+                'id': 'set-avatar',
+                'component': SetAvatarComponent,
+                'cssClass': 'modal-short-height'
+            });
+            await modal.present();
+            return;
+        }
     }
 }

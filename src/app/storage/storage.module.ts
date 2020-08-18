@@ -12,6 +12,7 @@ import { FileUploadModule } from '@iplab/ngx-file-upload';
 import { FormsModule } from '@angular/forms';
 import { UploadReviewComponent } from './upload-review/upload-review.component';
 import { UploadProfilePicComponent } from './upload-profile-pic/upload-profile-pic.component';
+import { ImageInputComponent } from './image-input/image-input.component';
 
 
 @NgModule({
@@ -30,12 +31,14 @@ import { UploadProfilePicComponent } from './upload-profile-pic/upload-profile-p
         UploadReviewComponent,
         UploadProfilePicComponent,
         UploaderComponent,
+        ImageInputComponent,
     ],
     'exports': [
         UploadVideoComponent,
         UploadImageComponent,
         UploadReviewComponent,
         UploadProfilePicComponent,
+        ImageInputComponent,
     ]
 })
 export class StorageModule {}

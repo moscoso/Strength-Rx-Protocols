@@ -5,10 +5,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialsModule } from '../materials.module';
 import { IonicModule } from '@ionic/angular';
 import { StorageModule } from '../storage/storage.module';
+import { SetAvatarComponent } from './set-avatar/set-avatar.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     'declarations': [
         ProfileFormComponent,
+        SetAvatarComponent,
     ],
     'imports': [
         CommonModule,
@@ -16,9 +19,11 @@ import { StorageModule } from '../storage/storage.module';
         IonicModule,
         MaterialsModule,
         StorageModule,
+        SharedModule,
     ],
     'exports': [
-        ProfileFormComponent
+        ProfileFormComponent,
+        SetAvatarComponent,
     ]
 })
 export class ProfileModule {}

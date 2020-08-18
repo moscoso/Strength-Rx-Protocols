@@ -129,12 +129,9 @@ export abstract class EntityService < T > {
      * @param changes the partial object that represents the changes to the entity data
      */
     async update(entityID: string, changes: Partial < any> ): Promise < Partial <any> > {
-        console.log(changes, entityID);
         if (this.options.IDSource === 'name' && changes.name) {
-            console.log('ummm');
             return this.updateAndMoveDocument(entityID, changes);
         } else {
-            console.log('regular');
             await this.entityCollection.doc(entityID).update(changes);
             return changes;
         }

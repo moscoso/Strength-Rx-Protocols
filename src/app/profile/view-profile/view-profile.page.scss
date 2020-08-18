@@ -1,5 +1,24 @@
 ion-avatar {
     margin: 0 auto;
+    border: 3px solid black;
+    width: 175px;
+    height: 175px;
+    position:relative;
+}
+
+.thisIsMe{
+    cursor: pointer;
+}
+
+.thisIsMe:hover{
+    filter:brightness(110%);
+}
+
+ion-avatar ion-icon{
+    position:absolute;
+    right: 0px;
+    bottom: 0px;
+    --color: white;
 }
 
 .name {
