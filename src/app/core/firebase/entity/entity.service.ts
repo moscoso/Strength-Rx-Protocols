@@ -38,8 +38,6 @@ export abstract class EntityService < T > {
      */
     private 'defaultEntity': T;
 
-    private move;
-
     /**
      * Retreive an entity
      * @param entityID the ID that corresponds to the entity's document in Firebase
