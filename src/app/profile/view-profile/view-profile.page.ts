@@ -29,7 +29,6 @@ export class ViewProfilePage implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.profileService.loadAll();
         this.fetchProfile();
         this.requestInProgress$ = this.profileService.selectRequestInProgress();
         this.thisIsMe$ = this.profileService.selectProfileBelongsToUser();
@@ -52,11 +51,8 @@ export class ViewProfilePage implements OnInit {
     //     return `/chat/${conversationID}`;
     // }
 
-    retryLoad() {
-        this.profileService.loadAll();
-    }
-
     async fetchProfile() {
+        this.profileService.loadAll();
         const router = await this.routerService.selectState().pipe(first()).toPromise();
         const routeID = router.state.params.id;
         if (routeID) {

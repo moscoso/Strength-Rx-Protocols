@@ -67,7 +67,7 @@
         </ng-container>
         <ng-container *ngIf="!(requestInProgress$ | async)">
             <h1>Profile Failed to load</h1>
-            <ion-button (click)="retryLoad()">Click to retry</ion-button>
+            <ion-button (click)="fetchProfile()">Click to retry</ion-button>
         </ng-container>
     </ng-template>
 
