@@ -5,6 +5,7 @@
 
     ion-header {
         position: fixed;
+        transform: translate3d(0,0,0);
     }
 
     video {
@@ -63,39 +64,10 @@
         filter: opacity(25%);
     }
 
-    #coaches::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #000;
-        -webkit-transform-origin: 100% 0;
-        -ms-transform-origin: 100% 0;
-        transform-origin: 100% 0;
-        -webkit-transform: skew(-45deg);
-        -ms-transform: skew(-45deg);
-        transform: skew(-45deg);
-        z-index: -1;
-    }
-
     #services h2 {
         text-align: left;
         text-decoration: underline;
     }
-
-    // #services ul {
-    //     font-weight: bold;
-    //     font-size: 18px;
-    // }
-
-    // #services ul {
-    //     background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(56, 128, 255, 1) 50%, rgba(0, 0, 0, 1) 100%);
-    //     background-clip: text;
-    //     -webkit-text-fill-color: transparent;
-    // }
-
 
     #transformations {
         background-image: url('/assets/img/cool-background.png');
