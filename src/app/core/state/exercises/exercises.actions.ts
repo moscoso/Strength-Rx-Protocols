@@ -2,7 +2,13 @@ import { Action } from '@ngrx/store';
 import { Exercise } from './exercises.state';
 
 export enum ExerciseActionType {
+    /* FetchAllFromServerRequested, // Try this after we check the cache
+    FetchAllFromCacheRequested, // Try this first when all requested or FetchAllFromServerRequested fails,
+    // but skip this if it was checked in the last 24 hours?
+    FetchOneFromServerRequested, // Do this when you visit the entity detail
+    FetchOneFromCacheRequested, // Do this if fetch one from server fails,*/
     AllRequested = '[Exercise List] Exercises Requested',
+    OneRequested = '[Exercise Detail Page] One Exercise Requested',
     RefreshAllRequested = '[Exercise List Referesher] All Exercises Refresh Requested',
     RefreshOneRequested = '[Exercise List Referesher] One Exercise Refresh Requested',
     AllLoaded = '[Exercise Service] All Exercises Loaded',

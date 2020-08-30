@@ -58,7 +58,7 @@ export function exercisesReducer(state: ExercisesState = initialState, action: E
             return {
                 ...state,
                 'error': action.error,
-                    'requestInProgress': false,
+                'requestInProgress': false,
             };
         default:
             return state;
