@@ -11,6 +11,8 @@ import 'firebase/firestore';
 import { StateModule } from '../state.module';
 import { selectAll } from './chat.selector';
 import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { getOtherIDFromConversationID } from 'src/util/chat/ConversationHelpers';
 
 
 /**
@@ -23,6 +25,7 @@ export class ChatStoreDispatcher {
         private store: Store < AppState > ,
         private profileService: ProfileStoreDispatcher,
         private chatService: ChatService,
+        private firestore: AngularFirestore
     ) {}
 
     // public loadConversationList(userID: string) {
@@ -35,6 +38,10 @@ export class ChatStoreDispatcher {
 
     public selectMessages(): Observable <Message[]> {
         return this.store.select(selectAll);
+    }
+
+    public selectScuffedMessages(conversationID): Observable<any[]> {
+        return this.firestore.collection(`conversations/${conversationID}/messages`).valueChanges();
     }
 
     public async sendMessage(conversationID: string, text: string) {
@@ -55,6 +62,6 @@ export class ChatStoreDispatcher {
     }
 
     public getOtherIDFromConversationID(userID: string, conversationID: string) {
-        return this.chatService.getOtherIDFromConversationID(userID, conversationID);
+        return getOtherIDFromConversationID(userID, conversationID);
     }
 }

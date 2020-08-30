@@ -4,21 +4,24 @@ import { createEntityAdapter } from '@ngrx/entity';
 
 export const chatAdapter = createEntityAdapter < Message > ({
     'selectId': message => message.id,
-    'sortComparer': (messageA: Message, messageB: Message) => {
-        let dateA, dateB;
-        if (typeof messageA.timestamp.toDate === 'function') {
-            dateA = messageA.timestamp.toDate();
-        } else {
-            dateA = messageA.timestamp;
-        }
-        if (typeof messageB.timestamp.toDate === 'function') {
-            dateB = messageB.timestamp.toDate();
-        } else {
-            dateB = messageB.timestamp;
-        }
-        return dateA.toLocaleTimeString().localeCompare(dateB.toLocaleTimeString());
-    }
+    'sortComparer': sortByTimestamp,
 });
+
+export function sortByTimestamp(a: Message, b: Message): number {
+    let dateA, dateB;
+    if (typeof a.timestamp.toDate === 'function') {
+        dateA = a.timestamp.toDate();
+    } else {
+        dateA = a.timestamp;
+    }
+    if (typeof b.timestamp.toDate === 'function') {
+        dateB = b.timestamp.toDate();
+    } else {
+        dateB = b.timestamp;
+    }
+    return dateA.toLocaleTimeString().localeCompare(dateB.toLocaleTimeString());
+}
+
 const INIT_STATE: ChatState = chatAdapter.getInitialState({
     'conversationList': [],
     'requestInProgress': false,

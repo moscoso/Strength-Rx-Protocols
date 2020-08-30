@@ -4,8 +4,8 @@ import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatch
 import { first } from 'rxjs/operators';
 import { ChatStoreDispatcher } from 'src/app/core/state/chat/chat.dispatcher';
 import { Message, Conversation } from 'src/app/core/state/chat/chat.state';
-import { Observable, of } from 'rxjs';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { sortByTimestamp } from 'src/app/core/state/chat/chat.reducer';
 
 @Component({
     'selector': 'app-conversation',
@@ -18,7 +18,7 @@ export class ConversationPage implements OnInit, AfterViewInit {
     @ViewChild(IonList, {'read': ElementRef}) chatList: ElementRef;
     mutationObserver: MutationObserver;
 
-    messages$: Observable<Message[]> = of([]);
+    messages: Message[] = [];
     messageInput: string;
 
     friendID: string;
@@ -54,7 +54,10 @@ export class ConversationPage implements OnInit, AfterViewInit {
         const routeID = router.state.params.id;
         this.conversationID = routeID;
         this.chatService.loadMessages(this.conversationID);
-        this.messages$ = this.chatService.selectMessages();
+        // this.messages$ = this.chatService.selectMessages();
+        this.chatService.selectScuffedMessages(this.conversationID).subscribe(messages => {
+            this.messages = messages.sort(sortByTimestamp);
+        });
         this.myID = (await this.profileService.selectUserProfile().pipe(first(profile => profile != null)).toPromise()).id;
         this.friendID = this.chatService.getOtherIDFromConversationID(this.myID, this.conversationID);
     }

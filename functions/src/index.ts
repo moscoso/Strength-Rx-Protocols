@@ -14,3 +14,4 @@ export { stripeCreateSubscription, stripeGetSubscriptions, stripeCancelSubscript
 export { invoiceWebhookEndpoint } from './stripe/webhooks';
 export { createEvent } from './strengthrx/clients';
 export { createEntity } from './strengthrx/entity';
+export { onMessageCreated } from './strengthrx/chat';
