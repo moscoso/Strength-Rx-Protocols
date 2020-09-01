@@ -1,9 +1,11 @@
 import * as functions from 'firebase-functions';
 import { CallableContext } from 'firebase-functions/lib/providers/https';
 
-/** 
- * Validates a data payload object of a Firebase Functions callable function
+/**
+ * Validates that a key-value pair exists in the data payload object of a Firebase Functions callable function
  * The assertion fails and throws an error when a specified key is missing from the data object
+ * @param data the data passed through the callable function
+ * @param key the variable name of the key-value pair to validate
  */
 export function assert(data: any, key: string) {
     if (data[key]) {
@@ -14,16 +16,16 @@ export function assert(data: any, key: string) {
 }
 
 /**
- * Validates auth context for callable function. 
+ * Validates auth context for callable function, i.e the user calling this function must be authorized
  * The assertion fails and throws an error when the function is called by an unauthorized user
  * @returns the unique ID corresponding to the the authorized user
  */
 export function assertUID(context: CallableContext): string {
-    const loggedInUser = context.auth;
-    if (loggedInUser) {
-        return loggedInUser.uid;
+    const userIsAuthorized = context.auth;
+    if (userIsAuthorized) {
+        return userIsAuthorized.uid;
     } else {
-        throw new functions.https.HttpsError('permission-denied', 'function called without context.auth');
+        throw new functions.https.HttpsError('permission-denied', 'The function must be called while authenticated!');
     }
 }
 

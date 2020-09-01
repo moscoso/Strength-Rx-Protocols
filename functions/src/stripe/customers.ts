@@ -21,10 +21,10 @@ export async function updateUser(userID: string, data: Object) {
 }
 
 /**
- * Gets a customer object from Firebase to be used for the Stripe API
+ * Gets a customer ID that corresponds to a User from Firebase to be used for the Stripe API
  * @param userID the ID corresponding to the user
  */
-export async function getCustomer(userID: string): Promise < FirebaseFirestore.DocumentData | undefined >  {
+export async function getCustomerID(userID: string): Promise < string >  {
     const user = await getUser(userID);
     return assert(user, 'stripeCustomerID');
 }
@@ -44,8 +44,8 @@ export async function createCustomer(userID: string): Promise < Stripe.Customer 
 }
 
 /**
- * Read the stripe customer ID from firestore, or create a new one if missing
- * @param userID the ID corresponding to the user
+ * Retrieves the details of an existing customer ID from firestore, or create a new one if missing
+ * @param userID the ID corresponding to the user of Firebase
  */
 export async function getOrCreateCustomer(userID: string) {
     const user = await getUser(userID);

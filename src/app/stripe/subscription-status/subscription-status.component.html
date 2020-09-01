@@ -1,0 +1,15 @@
+<ion-grid>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>Subscription</ion-card-title>
+        </ion-card-header>
+        <ion-card-content *ngIf="subscription">
+            <ion-card-subtitle>You currently have access to <strong>Strength Rx Protocols!</strong></ion-card-subtitle>
+            <ion-label>Membership valid thru: <strong>{{getDate(subscription.current_period_end)}}</strong></ion-label>
+        </ion-card-content>
+    </ion-card>
+
+    <ng-container *ngIf="subscription">
+        <billing-portal></billing-portal>
+    </ng-container>
+</ion-grid>

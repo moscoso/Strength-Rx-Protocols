@@ -1,9 +1,9 @@
 import * as functions from 'firebase-functions';
 import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 import { db } from '../config';
-import { getIDListFromConversationID, getOtherIDFromConversationID } from '../../../src/util/chat/ConversationHelpers';
 import { getProfileData } from './user';
 import { sendMessageNotification } from '../notification/message';
+import { getOtherIDFromConversationID, getIDListFromConversationID } from './ConversationHelpers';
 
 export const onMessageCreated = functions.firestore.document(`conversations/{conversationID}/messages/{messageID}`)
     .onCreate(async (snapshot: QueryDocumentSnapshot, context: functions.EventContext) => {

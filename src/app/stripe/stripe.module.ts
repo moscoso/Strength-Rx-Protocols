@@ -8,6 +8,8 @@ import { BuySubscriptionComponent } from './buy-subscription/buy-subscription.co
 import { MyChargesComponent } from './my-charges/my-charges.component';
 import { MySourcesComponent } from './my-sources/my-sources.component';
 import { CancelSubscriptionComponent } from './cancel-subscription/cancel-subscription.component';
+import { BillingPortalComponent } from './billing-portal/billing-portal.component';
+import { SubscriptionStatusComponent } from './subscription-status/subscription-status.component';
 
 
 
@@ -18,6 +20,8 @@ import { CancelSubscriptionComponent } from './cancel-subscription/cancel-subscr
         BuySubscriptionComponent,
         MyChargesComponent,
         MySourcesComponent,
+        BillingPortalComponent,
+        SubscriptionStatusComponent,
         CancelSubscriptionComponent,
     ],
     'imports': [
@@ -31,6 +35,8 @@ import { CancelSubscriptionComponent } from './cancel-subscription/cancel-subscr
         BuySubscriptionComponent,
         MyChargesComponent,
         MySourcesComponent,
+        BillingPortalComponent,
+        SubscriptionStatusComponent,
         CancelSubscriptionComponent,
     ]
 })

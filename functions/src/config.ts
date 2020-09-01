@@ -1,5 +1,4 @@
 // Initialize Firebase Admin SDK
-import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 admin.initializeApp();
 
@@ -10,7 +9,8 @@ export const messaging = admin.messaging();
 const settings: FirebaseFirestore.Settings = { timestampsInSnapshots: true};
 db.settings(settings);
 
-// ENV Variables
+// Initialize ENV Variables for Firebase Functions
+import * as functions from 'firebase-functions';
 export const stripeSecret = functions.config().stripe.secret;
 export const stripeWebhookSignature = functions.config().stripe.webhook_signature;
 
