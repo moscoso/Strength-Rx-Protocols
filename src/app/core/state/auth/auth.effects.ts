@@ -37,22 +37,8 @@ export class AuthEffects {
             AuthActionType.SignupCompleted),
         tap(() => {
             this.toaster.dismiss();
-            this.router.navigateByUrl('/create-profile');
-        })
-    );
-
-    @Effect({ 'dispatch': false }) loggedOut$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.NotAuthenticated),
-        tap(() => {
-            this.toaster.dismiss();
-            this.router.navigateByUrl('/');
-        })
-    );
-
-    @Effect({ 'dispatch': false }) signupSuccess$: Observable < AuthAction > = this.actions$.pipe(
-        ofType(AuthActionType.SignupCompleted),
-        tap(async () => {
             this.toaster.success('Sign up completed!');
+            this.router.navigateByUrl('/create-profile');
         })
     );
 
@@ -114,6 +100,9 @@ export class AuthEffects {
 
     @Effect() logout$: Observable < AuthAction > = this.actions$.pipe(
         ofType(AuthActionType.LogoutRequested),
+        tap(_ => {
+            this.router.navigateByUrl('/');
+        }),
         switchMap(_ => {
             return from(this.authService.signOut()
                 .then(async () => new NotAuthenticated())

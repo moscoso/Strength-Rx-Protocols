@@ -4,13 +4,12 @@ import { take, filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { ToastController } from '@ionic/angular';
 import { AppState } from 'src/app/core/state/app.state';
-
-@Injectable({
-    'providedIn': 'root'
-})
 /**
  * A route guard that checks to make sure the user does not already have a valid profile before activating the route
  */
+@Injectable({
+    'providedIn': 'root'
+})
 export class NoProfileGuard implements CanActivate {
     constructor(private store: Store, private router: Router, private toaster: ToastController) {}
     async canActivate(

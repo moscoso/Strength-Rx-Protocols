@@ -13,7 +13,7 @@ import {
     NotAuthenticated
 } from './auth.actions';
 import { FireAuthService } from '../../firebase/auth/auth.service';
-import { pluck, take } from 'rxjs/operators';
+import { pluck, take, first, distinct } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserInfo } from 'firebase';
 import { selectUserData, selectAuthenticated, selectState, selectUserID } from './auth.selector';
@@ -30,7 +30,7 @@ export class AuthStoreDispatcher {
         protected store: Store < AppState > ,
         protected fireAuth: FireAuthService
     ) {
-        this.fireAuth.getUser().subscribe(async (authenticatedUser: firebase.User) => {
+        this.fireAuth.getUser().pipe(distinct()).subscribe(async (authenticatedUser: firebase.User) => {
             if (authenticatedUser) {
                 const userInfo = this.scrapeUserInfo(authenticatedUser);
                 this.store.dispatch(new Authenticated(userInfo));
@@ -76,7 +76,7 @@ export class AuthStoreDispatcher {
     }
 
     public getUserID(): Promise < string > {
-        return this.selectUserData().pipe(pluck('uid'), take(1)).toPromise();
+        return this.selectUserData().pipe(first(userData => userData != null), pluck('uid')).toPromise();
     }
 
     public selectUserData(): Observable < UserInfo > {

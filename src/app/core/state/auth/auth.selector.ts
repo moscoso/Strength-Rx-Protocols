@@ -20,7 +20,7 @@ export const selectUserID = createSelector(
 );
 
 /**
- * Select the user ID
+ * Select the authentication data belonging to the signed-in User
  */
 export const selectUserData = createSelector(
     selectState,

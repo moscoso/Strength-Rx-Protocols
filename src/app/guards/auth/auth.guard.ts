@@ -3,13 +3,12 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { take } from 'rxjs/operators';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { FireAuthService } from 'src/app/core/firebase/auth/auth.service';
-
-@Injectable({
-    'providedIn': 'root'
-})
 /**
  * A route guard that checks if the user is authenticated before activating the route
  */
+@Injectable({
+    'providedIn': 'root'
+})
 export class AuthGuard implements CanActivate {
     constructor(private authService: FireAuthService, private router: Router, private toast: ToastService) {}
     async canActivate(
