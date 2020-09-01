@@ -21,7 +21,7 @@ import {
 import { Observable } from 'rxjs';
 import { Dictionary } from '@ngrx/entity';
 import { Profile } from './profile.state';
-import { AllRequested } from './profile.actions';
+import { AllRequested, RefreshAllRequested, RefreshOneRequested } from './profile.actions';
 import { first } from 'rxjs/operators';
 
 /**
@@ -55,6 +55,20 @@ export class ProfileStoreDispatcher {
      */
     public loadAll(): void {
         this.store.dispatch(new AllRequested());
+    }
+
+    /**
+     * Dispatch a RefreshAllRequested action to the store
+     */
+    public refreshAll(): void {
+        this.store.dispatch(new RefreshAllRequested());
+    }
+
+    /**
+     * Dispatch a RefreshOneRequested action to the store
+     */
+    public refreshOne(id: string): void {
+        this.store.dispatch(new RefreshOneRequested(id));
     }
 
     public selectProfile(id: string): Observable < Profile > {

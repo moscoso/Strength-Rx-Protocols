@@ -20,14 +20,12 @@ export class ProfileGuard implements CanActivate {
     ) {}
     async canActivate(
         next: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot): Promise < boolean | UrlTree > {
-        this.profileService.loadAll();
+        state: RouterStateSnapshot
+    ): Promise < boolean | UrlTree > {
+        const authData = await this.authService.selectUserData().pipe(first(userData => userData != null)).toPromise();
+        this.profileService.refreshOne(authData.uid);
         await this.profileService.selectRequestInProgress().pipe(first(requestInProgress => requestInProgress === false)).toPromise();
-        await this.authService.selectUserData().pipe(first(userData => userData != null)).toPromise();
-        return this.profileService.selectUserProfile()
-            .pipe(
-                first(),
-            ).toPromise()
+        return this.profileService.selectUserProfile().pipe(first()).toPromise()
             .then(async (profile) => {
                 if (profile) {
                     return true;
@@ -36,8 +34,7 @@ export class ProfileGuard implements CanActivate {
                     return this.router.parseUrl('/create-profile');
                 }
             }).catch((reason) => {
-                this.toaster.failed(
-                    'Profile failed to load. Check your internet connection and refresh the page', reason);
+                this.toaster.failed('Profile failed to load. Check your internet connection and refresh the page', reason);
                 return false;
             });
     }

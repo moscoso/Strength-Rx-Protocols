@@ -32,6 +32,26 @@ export class ProfileEffects {
         }),
     );
 
+    @Effect() refreshAllRequested$: Observable < Profiles.ProfileAction > = this.actions$.pipe(
+        ofType<ProfileAction>(ProfileActionType.RefreshAllRequested),
+        switchMap((action: Profiles.RefreshAllRequested) => {
+            return from(this.profileService.getAllFromServer()
+                .then(exercises => new Profiles.AllLoaded(exercises))
+                .catch(error => new Profiles.RequestFailed(error))
+            );
+        })
+    );
+
+    @Effect() refreshOneRequested$: Observable < ProfileAction > = this.actions$.pipe(
+        ofType<ProfileAction>(ProfileActionType.RefreshOneRequested),
+        switchMap((action: Profiles.RefreshOneRequested) => {
+            return from(this.profileService.get(action.id, 'server')
+                .then(exercise => new Profiles.OneLoaded(exercise))
+                .catch(error => new Profiles.RequestFailed(error))
+            );
+        })
+    );
+
     @Effect() createRequested$: Observable < ProfileAction > = this.actions$.pipe(
         ofType < ProfileAction > (ProfileActionType.CreateRequested),
         switchMap((action: Profiles.CreateRequested) => {
@@ -55,7 +75,7 @@ export class ProfileEffects {
     @Effect({ 'dispatch': false }) created$: Observable < ProfileAction > = this.actions$.pipe(
         ofType < ProfileAction > (ProfileActionType.Created),
         tap((action: Profiles.Created) => {
-            this.router.navigateByUrl('/start-membership');
+            this.router.navigateByUrl('/choose-membership');
         })
     );
 

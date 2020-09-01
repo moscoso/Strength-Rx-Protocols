@@ -130,7 +130,7 @@ export abstract class EntityService < T > {
         if (IDSource === 'name') {
             this.creationMechanism = new CreateIDFromName(this.entityCollection);
         } else if (IDSource === 'authorizedUser') {
-            this.creationMechanism = new CreateIDFromAuthUser(this.functions);
+            this.creationMechanism = new CreateIDFromAuthUser(this.functions, this.collectionName);
         } else {
             this.creationMechanism = new CreateWithRandomID(this.entityCollection);
         }

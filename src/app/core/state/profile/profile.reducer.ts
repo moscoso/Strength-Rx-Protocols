@@ -15,6 +15,11 @@ const initialState: ProfilesState = profilesAdapter.getInitialState({
 export function profilesReducer(state: ProfilesState = initialState, action: ProfileAction): ProfilesState {
     switch (action.type) {
         case ProfileActionType.AllRequested:
+        case ProfileActionType.CreateRequested:
+        case ProfileActionType.UpdateRequested:
+        case ProfileActionType.DeleteRequested:
+        case ProfileActionType.RefreshAllRequested:
+        case ProfileActionType.RefreshOneRequested:
             return {
                 ...state,
                 'requestInProgress': true,
@@ -26,14 +31,11 @@ export function profilesReducer(state: ProfilesState = initialState, action: Pro
                 'requestInProgress': false,
                 'initialized': action.profiles.length > 0,
             });
-        case ProfileActionType.CreateRequested:
-        case ProfileActionType.UpdateRequested:
-        case ProfileActionType.DeleteRequested:
-            return {
+        case ProfileActionType.OneLoaded:
+            return profilesAdapter.setOne(action.profile, {
                 ...state,
-                'requestInProgress': true,
-                'error': null,
-            };
+                'requestInProgress': false,
+            });
         case ProfileActionType.Created:
             return profilesAdapter.addOne(action.profile, {
                 ...state,
@@ -55,11 +57,9 @@ export function profilesReducer(state: ProfilesState = initialState, action: Pro
             return {
                 ...state,
                 'error': action.error,
-                'requestInProgress': false,
+                    'requestInProgress': false,
             };
         default:
             return state;
     }
 }
-
-

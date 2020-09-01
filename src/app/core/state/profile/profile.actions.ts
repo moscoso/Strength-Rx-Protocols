@@ -3,7 +3,10 @@ import { Profile } from './profile.state';
 
 export enum ProfileActionType {
     AllRequested = '[Profiles Page] Profiles Requested',
+    RefreshAllRequested = '[Profile List Referesher] All Profiles Refresh Requested',
+    RefreshOneRequested = '[Profile List Referesher] One Profile Refresh Requested',
     AllLoaded = '[Profile Service] All Profiles Loaded',
+    OneLoaded = '[Profile Service] One Profile Loaded',
     Selected = '[Profiles Page] Profile Selected',
     CreateRequested = '[Profile Service] Create Profile Requested',
     Created = 'Profiles Effect] Profiles Created',
@@ -12,7 +15,7 @@ export enum ProfileActionType {
     DeleteRequested = '[Profile Service] Delete Profile Requested',
     Deleted = '[Profile Page] Profile Deleted',
     RequestFailed = '[Profile Service] Request Failed',
-    SignedOut = '[Auth Effects] SignedOut'
+    SignedOut = '[Auth Effects] SignedOut',
 }
 
 export class AllRequested implements Action {
@@ -27,9 +30,28 @@ export class AllLoaded implements Action {
     ) {}
 }
 
+export class OneLoaded implements Action {
+    readonly type = ProfileActionType.OneLoaded;
+    constructor(
+        public profile: Profile
+    ) {}
+}
+
 export class RequestFailed implements Action {
     readonly type = ProfileActionType.RequestFailed;
     constructor(public error: any) {}
+}
+
+export class RefreshAllRequested implements Action {
+    readonly type = ProfileActionType.RefreshAllRequested;
+    constructor() {}
+}
+
+export class RefreshOneRequested implements Action {
+    readonly type = ProfileActionType.RefreshOneRequested;
+    constructor(
+        public id: string
+    ) {}
 }
 
 export class Created implements Action {
@@ -83,11 +105,14 @@ export class SignedOut implements Action {
 export type ProfileAction =
     AllRequested |
     AllLoaded |
+    OneLoaded |
     CreateRequested |
     Created |
     Updated |
     UpdateRequested |
     Deleted |
     DeleteRequested |
+    RefreshAllRequested |
+    RefreshOneRequested |
     RequestFailed |
     SignedOut;

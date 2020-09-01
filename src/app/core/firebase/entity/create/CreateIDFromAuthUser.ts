@@ -11,6 +11,7 @@ export class CreateIDFromAuthUser < T > implements CreateMechanism < T > {
      */
     constructor(
         protected functions: AngularFireFunctions,
+        protected collectionName: string,
     ) {
         if (!functions) {
             const errorMessage =
@@ -24,10 +25,12 @@ export class CreateIDFromAuthUser < T > implements CreateMechanism < T > {
      * The ID of the entity will be a slug of the entity name.
      * @param entity the entity being created
      */
-    async create(entity: T): Promise < T > {
+    async create(entity: any): Promise < T > {
         const fun = this.functions.httpsCallable('createEntity');
         const response = await fun({
-            'entity': entity
+            'entity': entity,
+            'collection': this.collectionName,
+            'docID': entity.id,
         }).toPromise();
         return response;
     }
