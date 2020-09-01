@@ -13,7 +13,7 @@ import { createClient } from '../strengthrx/clients';
  * @param planID the ID corresponding to the Plan of the subscription. (https://stripe.com/docs/api/plans)
  * @param subscriptionID the ID corresponding to the Subscription instance belonging to this customer
  */
-async function activateSubscription(userID: string, planID: string, subscriptionID: string): Promise<FirebaseFirestore.WriteResult> {
+export async function activateSubscription(userID: string, planID: string, subscriptionID: string): Promise<FirebaseFirestore.WriteResult> {
     const docData: { planID: string, subscriptionID: string, 'status': Stripe.Subscription
         .Status, 'created': Date } = {
             planID,

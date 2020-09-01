@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Component({
@@ -10,8 +10,11 @@ export class SubscriptionStatusComponent implements OnInit {
 
     subscription: any;
 
+    hasSubscription: boolean;
+
     constructor(
-        public functions: AngularFireFunctions
+        public functions: AngularFireFunctions,
+        public change: ChangeDetectorRef,
     ) {}
 
     ngOnInit() {
@@ -20,10 +23,11 @@ export class SubscriptionStatusComponent implements OnInit {
 
     getSubscriptions() {
         const fun = this.functions.httpsCallable('stripeGetSubscriptions');
-        console.log('starting call');
         fun({}).toPromise().then(response => {
+            this.hasSubscription = response.data.length > 0;
             const subscription = response.data[0];
             this.subscription = subscription;
+            this.change.markForCheck();
         });
     }
 

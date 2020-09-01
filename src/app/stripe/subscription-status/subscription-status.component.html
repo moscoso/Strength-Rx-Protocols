@@ -3,13 +3,14 @@
         <ion-card-header>
             <ion-card-title>Subscription</ion-card-title>
         </ion-card-header>
-        <ion-card-content *ngIf="subscription">
+        <ion-spinner *ngIf="!subscription"></ion-spinner>
+        <ion-card-content *ngIf="hasSubscription">
             <ion-card-subtitle>You currently have access to <strong>Strength Rx Protocols!</strong></ion-card-subtitle>
             <ion-label>Membership valid thru: <strong>{{getDate(subscription.current_period_end)}}</strong></ion-label>
         </ion-card-content>
     </ion-card>
 
-    <ng-container *ngIf="subscription">
+    <ng-container *ngIf="hasSubscription">
         <billing-portal></billing-portal>
     </ng-container>
 </ion-grid>

@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ChooseMembershipPageRoutingModule } from './choose-membership-routing.module';
 
 import { ChooseMembershipPage } from './choose-membership.page';
+import { StripeModule } from 'src/app/stripe/stripe.module';
 
 @NgModule({
     'imports': [
         CommonModule,
         FormsModule,
         IonicModule,
-        ChooseMembershipPageRoutingModule
+        ChooseMembershipPageRoutingModule,
+        StripeModule,
     ],
     'declarations': [ChooseMembershipPage]
 })

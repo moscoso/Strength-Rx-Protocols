@@ -4,6 +4,7 @@ import { AuthGuard } from './guards/auth/auth.guard';
 import { ProfileGuard } from './guards/profile/profile.guard';
 import { NoProfileGuard } from './guards/no-profile/no-profile.guard';
 import { NoAuthGuard } from './guards/no-auth/no-auth.guard';
+import { ClientGuard } from './guards/client/client.guard';
 
 const routes: Routes = [
     {
@@ -136,10 +137,10 @@ const routes: Routes = [
         'loadChildren': () => import('./program/program-list/program-list.module').then(m => m
             .ProgramListPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
-    }, {
+    },  {
         'path': 'start-membership',
-        'loadChildren': () => import('./account/start-membership/start-membership.module').then(m => m
-            .StartMembershipPageModule),
+        'loadChildren': () => import('./client/choose-membership/choose-membership.module').then(m => m
+            .ChooseMembershipPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
     }, {
         'path': 'choose-membership',
@@ -159,8 +160,12 @@ const routes: Routes = [
     {
         'path': 'billing',
         'loadChildren': () => import('./stripe/billing/billing.module').then(m => m.BillingPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
-    }
+        'canActivate': [AuthGuard, ProfileGuard, ClientGuard],
+    },  {
+    path: 'thank-you',
+    loadChildren: () => import('./stripe/thank-you/thank-you.module').then( m => m.ThankYouPageModule)
+  }
+
 
 
 

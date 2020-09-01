@@ -1,4 +1,4 @@
-import { db, auth } from '../config';
+import { db, auth, STRIPE_COLLECTION } from '../config';
 import Stripe from 'stripe';
 import { getCount, incrementCounter } from '../counter/distributed_counter';
 // tslint:disable-next-line: no-implicit-dependencies
@@ -33,6 +33,21 @@ export async function createClient(userID: string, subscription: Stripe.Subscrip
         });
     })
 }
+
+async function updateClient(userID: string, status: Stripe.Subscription) {
+    return db.doc(`${STRIPE_COLLECTION}/${userID}`).set({status}, {'merge': true});
+}
+
+export const updateMembershipStatus = functions.firestore.document(`${STRIPE_COLLECTION}/{userID}/subscriptions/{docID}`)
+    .onWrite(async (change, context) => {
+        const userID = context.params.userID;
+        const subscription = change.after.data();
+        if(subscription){
+            return updateClient(userID, subscription.status);
+        }else {
+            throw new Error(`Could not update membership for ${userID}`)
+        }
+    })
 
 export const createEvent = functions.firestore.document(`check-ins/{docID}`).onCreate(async (change, context) => {
     const createTime = change.createTime;

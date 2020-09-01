@@ -13,6 +13,7 @@ db.settings(settings);
 import * as functions from 'firebase-functions';
 export const stripeSecret = functions.config().stripe.secret;
 export const stripeWebhookSignature = functions.config().stripe.webhook_signature;
+export const stripeCreateSubscriptionSignature = functions.config().stripe.scss;
 
 // Initialize Stripe
 import Stripe from 'stripe';
