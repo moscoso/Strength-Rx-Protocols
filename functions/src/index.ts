@@ -14,6 +14,6 @@ export { stripeCreateCheckoutSession} from './stripe/checkout';
 export { stripeCreateCharge, stripeGetCharges } from './stripe/charges';
 export { stripeCreateSubscription, stripeGetSubscriptions, stripeCancelSubscription } from './stripe/subscriptions';
 export { invoiceWebhookEndpoint, subscriptionCreatedWebhook } from './stripe/webhooks';
-export { createEvent, updateMembershipStatus } from './strengthrx/clients';
+export { onCreatedCheckIn, onCreatedClient, onCreatedProgressPics, onCreatedReview, updateMembershipStatus } from './strengthrx/clients';
 export { createEntity } from './strengthrx/entity';
 export { onMessageCreated } from './strengthrx/chat';

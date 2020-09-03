@@ -49,21 +49,45 @@ export const updateMembershipStatus = functions.firestore.document(`${STRIPE_COL
         }
     })
 
-export const createEvent = functions.firestore.document(`check-ins/{docID}`).onCreate(async (change, context) => {
-    const createTime = change.createTime;
-    const userID = change.data().userID;
 
-    const userData = (await db.doc(`clients/${userID}`).get()).data();
+async function createClientEvent(clientID: string, timestamp: FirebaseFirestore.Timestamp, eventType: string) {
+    const clientData = (await db.doc(`clients/${clientID}`).get()).data();
 
-    if (userData === null || userData === undefined) {
-        throw new Error(`Event creation failed because user Data does not exists`);
+    if (clientData === null || clientData === undefined) {
+        const errorMessage = `Event creation failed because client Data does not exist for ${clientID}`
+        throw new Error(errorMessage);
     } else {
         return db.collection('events').add({
-            userID,
-            'firstName': userData.firstName,
-            'timestamp': createTime,
-            'type': 'check-in',
-            'trainerID': userData.assignedTrainer.id
+            userID: clientID,
+            'firstName': clientData.firstName,
+            'timestamp': timestamp,
+            'type': 'review',
+            'trainerID': clientData.assignedTrainer.id
         })
     }
-})
+}
+
+export const onCreatedClient = functions.firestore.document(`clients/{clientID}`).onCreate(async (change, context) => {
+    const createTime = change.createTime;
+    const userID = change.data().userID;
+    return createClientEvent(userID, createTime, 'started-membership')
+});
+
+
+export const onCreatedCheckIn = functions.firestore.document(`check-ins/{docID}`).onCreate(async (change, context) => {
+    const createTime = change.createTime;
+    const userID = change.data().userID;
+    return createClientEvent(userID, createTime, 'check-in')
+});
+
+export const onCreatedReview = functions.firestore.document(`clients/{clientID}/reviews/{docID}`).onCreate(async (change, context) => {
+    const createTime = change.createTime;
+    const clientID = context.params.clientID;
+    return createClientEvent(clientID, createTime, 'review');
+});
+
+export const onCreatedProgressPics = functions.firestore.document(`clients/{clientID}/progress-pics/{docID}`).onCreate(async (change, context) => {
+    const createTime = change.createTime;
+    const clientID = context.params.clientID;
+    return createClientEvent(clientID, createTime, 'progress-pic');
+});
