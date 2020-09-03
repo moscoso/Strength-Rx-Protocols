@@ -177,7 +177,7 @@ export abstract class EntityService < T > {
      */
     async delete(entityID: string): Promise < void > {
         return this.firestore.firestore.runTransaction(async (transaction) => {
-            const newRef = this.firestore.collection(`deleted/${this.collectionName}/deleted`).doc().ref;
+            const newRef = this.firestore.collection(`deleted/${this.collectionName}/deleted`).doc(this.firestore.createId()).ref;
             const oldRef = this.firestore.doc(`${this.collectionName}/${entityID}`).ref;
             const oldDoc = await transaction.get(oldRef);
             const currentData = oldDoc.data();
