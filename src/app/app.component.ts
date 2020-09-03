@@ -70,12 +70,11 @@ export class AppComponent implements OnInit {
             'src': '/assets/icon/food.svg',
             'link': '/foods'
         },
-
-        // {
-        //     'label': 'Meals',
-        //     'src': '/assets/icon/meal.svg',
-        //     'link': '/meals'
-        // },
+        {
+            'label': 'Meals',
+            'src': '/assets/icon/meal.svg',
+            'link': '/meals'
+        },
     ];
 
     public clientPages: MenuItem[] = [
@@ -83,6 +82,11 @@ export class AppComponent implements OnInit {
             'label': 'Profile',
             'icon': 'people-outline',
             'link': '/profile'
+        },
+        {
+            'label': 'Workout Program',
+            'icon': 'today-outline',
+            'link': '/check-in',
         },
         {
             'label': 'Check In',
@@ -103,6 +107,11 @@ export class AppComponent implements OnInit {
             'label': 'Reviews',
             'icon': 'videocam-outline',
             'href': '/reviews',
+        },
+        {
+            'label': 'Progress Pics',
+            'icon': 'aperture-outline',
+            'href': '/progress-pics',
         },
         {
             'label': 'Billing',

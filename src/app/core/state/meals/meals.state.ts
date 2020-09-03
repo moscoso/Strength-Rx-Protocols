@@ -7,6 +7,7 @@ import { Food } from '../food/food.state';
 export interface Meal {
     id: string;
     name: string;
+    description: string;
     foods: Food[];
     photoURL: string;
     dateCreated: Date;
@@ -15,6 +16,7 @@ export interface Meal {
 export const INIT_MEAL: Meal = {
     'id': '',
     'name': '',
+    'description': '',
     'foods': [],
     'photoURL': '',
     'dateCreated': new Date(),

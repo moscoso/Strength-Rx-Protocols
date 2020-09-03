@@ -21,6 +21,7 @@
     <!-- Chat list -->
     <ion-list class="conversation-container" #chatList>
         <div *ngFor="let message of messages" class="message" [ngClass]='{sent: message.senderID === myID, received: message.senderID !== myID}'>
+            <user-item [id]="message.senderID"></user-item>
             <div class="message">{{message.text}}</div>
             <span class="metadata">
                 <p class="time">{{message.timestamp.toDate() | timestamp:'h:m A'}}</p>

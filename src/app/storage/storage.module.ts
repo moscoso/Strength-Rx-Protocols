@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { UploadReviewComponent } from './upload-review/upload-review.component';
 import { UploadProfilePicComponent } from './upload-profile-pic/upload-profile-pic.component';
 import { ImageInputComponent } from './image-input/image-input.component';
+import { UploadProgressImageComponent } from './upload-progress-image/upload-progress-image.component';
+import { UploadProgressPicComponent } from './upload-progress-pic/upload-progress-pic.component';
 
 
 @NgModule({
@@ -31,12 +33,16 @@ import { ImageInputComponent } from './image-input/image-input.component';
         UploadReviewComponent,
         UploadProfilePicComponent,
         UploaderComponent,
+        UploadProgressImageComponent,
+        UploadProgressPicComponent,
         ImageInputComponent,
     ],
     'exports': [
         UploadVideoComponent,
         UploadImageComponent,
         UploadReviewComponent,
+        UploadProgressPicComponent,
+        UploadProgressImageComponent,
         UploadProfilePicComponent,
         ImageInputComponent,
     ]

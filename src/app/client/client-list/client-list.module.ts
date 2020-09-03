@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ClientListPageRoutingModule } from './client-list-routing.module';
 
 import { ClientListPage } from './client-list.page';
+import { PipeModule } from 'src/app/pipes/pipe.module';
 
 @NgModule({
     'imports': [
         CommonModule,
         FormsModule,
         IonicModule,
-        ClientListPageRoutingModule
+        ClientListPageRoutingModule,
+        PipeModule,
     ],
     'declarations': [ClientListPage]
 })

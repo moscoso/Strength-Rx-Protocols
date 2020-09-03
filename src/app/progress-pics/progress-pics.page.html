@@ -1,0 +1,17 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Progress Pics</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <upload-progress-image></upload-progress-image>
+
+
+
+    <ion-list>
+        <ng-container *ngFor="let review of progressPics$ | async">
+            <img [src]="review.downloadURL"/>
+        </ng-container>
+    </ion-list>
+</ion-content>

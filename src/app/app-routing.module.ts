@@ -137,7 +137,7 @@ const routes: Routes = [
         'loadChildren': () => import('./program/program-list/program-list.module').then(m => m
             .ProgramListPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
-    },  {
+    }, {
         'path': 'start-membership',
         'loadChildren': () => import('./client/choose-membership/choose-membership.module').then(m => m
             .ChooseMembershipPageModule),
@@ -161,10 +161,15 @@ const routes: Routes = [
         'path': 'billing',
         'loadChildren': () => import('./stripe/billing/billing.module').then(m => m.BillingPageModule),
         'canActivate': [AuthGuard, ProfileGuard, ClientGuard],
-    },  {
-    path: 'thank-you',
-    loadChildren: () => import('./stripe/thank-you/thank-you.module').then( m => m.ThankYouPageModule)
-  }
+    },
+    {
+        'path': 'thank-you',
+        'loadChildren': () => import('./stripe/thank-you/thank-you.module').then(m => m.ThankYouPageModule)
+    },
+    {
+        'path': 'progress-pics',
+        'loadChildren': () => import('./progress-pics/progress-pics.module').then(m => m.ProgressPicsPageModule)
+    }
 
 
 

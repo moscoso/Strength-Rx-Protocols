@@ -1,0 +1,7 @@
+<h2>Upload a Progress Picture</h2>
+<input type="file" accept="image/*" (change)="onDrop($event)" placeholder="Upload image...">
+
+
+<div *ngFor="let file of files">
+    <upload-progress-pic [file]="file"></upload-progress-pic>
+</div>

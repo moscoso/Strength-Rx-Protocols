@@ -3,7 +3,6 @@ import { Observable, of } from 'rxjs';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
 import { Client } from 'src/app/core/state/client/client.state';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { first } from 'rxjs/operators';
 
 @Component({
     'selector': 'app-client-list',

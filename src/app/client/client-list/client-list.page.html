@@ -25,7 +25,7 @@
                 <h1>Activity Feed</h1>
                 <ion-list >
                     <ion-item *ngFor="let event of events">
-                        <ion-label>Test checked in about 3 minutes ago</ion-label>
+                        <ion-label>{{event.firstName}} {{event.type}} {{getDateFromTimestamp(event.timestamp) | timestamp}}</ion-label>
                     </ion-item>
                 </ion-list>
             </ion-col>

@@ -1,22 +1,22 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AngularFireUploadTask, AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { finalize, first } from 'rxjs/operators';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { first, finalize } from 'rxjs/operators';
 
 @Component({
-    'selector': 'upload-review',
-    'templateUrl': './upload-review.component.html',
-    'styleUrls': ['./upload-review.component.scss'],
+    'selector': 'upload-progress-pic',
+    'templateUrl': './upload-progress-pic.component.html',
+    'styleUrls': ['./upload-progress-pic.component.scss'],
 })
-export class UploadReviewComponent implements OnInit {
+export class UploadProgressPicComponent implements OnInit {
 
     @Input() file: File;
 
     @Input() isImage = false;
 
-    @Input() storageFolder = 'review_video';
+    @Input() storageFolder = 'profile_pic';
 
     @Output() fileUpload = new EventEmitter();
 
@@ -33,11 +33,13 @@ export class UploadReviewComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.profileService.loadAll();
         this.startUpload();
     }
 
     async startUpload() {
+
+        const profile = await this.profileService.selectUserProfile().pipe(first()).toPromise();
+
 
         // The storage path
         const path = `${this.storageFolder}/${Date.now()}_${this.file.name}`;
@@ -56,8 +58,9 @@ export class UploadReviewComponent implements OnInit {
             finalize(async () => {
                 this.downloadURL = await ref.getDownloadURL().toPromise();
                 this.firestore.collection('files').add({ 'downloadURL': this.downloadURL, path });
-                const profile = await this.profileService.selectUserProfile().pipe(first()).toPromise();
-                this.firestore.collection(`clients/${profile.id}/reviews`).add({'downloadURL': this.downloadURL});
+                const client = await this.profileService.selectUserProfile().pipe(first()).toPromise();
+                const data = {'downloadURL': this.downloadURL, 'dateCreated': new Date()};
+                this.firestore.collection(`clients/${client.id}/progress-pics`).add(data);
                 this.fileUpload.emit(this.downloadURL);
             }),
         );
@@ -70,7 +73,6 @@ export class UploadReviewComponent implements OnInit {
     onDrop(files: any) {
         if (files.target.files && files.target.files[0]) {
             this.file = files.target.files[0];
-            this.startUpload();
         }
     }
 
