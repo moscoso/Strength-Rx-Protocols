@@ -6,7 +6,7 @@ import { EditProgramPage } from '../edit-program/edit-program.page';
 import { take, first } from 'rxjs/operators';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { ModalController, ActionSheetController } from '@ionic/angular';
-import { ExerciseRoutine } from 'src/app/core/state/workouts/workouts.state';
+import { Workout } from 'src/app/core/state/workouts/workouts.state';
 
 @Component({
     'selector': 'app-program-detail',
@@ -38,6 +38,14 @@ export class ProgramDetailPage implements OnInit {
         ).toPromise().then(() => {
             event.target.complete();
         });
+    }
+
+    getDayList() {
+        return ['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'];
+    }
+
+    getWorkout(workoutID: string, program: Program): Workout {
+        return program.workouts[workoutID];
     }
 
     async showEditModal(): Promise < void > {

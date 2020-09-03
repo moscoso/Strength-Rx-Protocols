@@ -13,8 +13,9 @@ export class ProgramPreviewComponent {
     constructor() {}
 
     getYoutubeThumbnail() {
-        if (this.program && this.program.schedule && this.program.schedule.day1) {
-            return `https://i3.ytimg.com/vi/${this.program.schedule.day1.exercises[0].youtubeID}/mqdefault.jpg`;
+        if (this.program && this.program.phases[0] && this.program.phases[0].schedule && this.program.phases[0].schedule.day1) {
+            const workoutID = this.program.phases[0].schedule.day1;
+            return `https://i3.ytimg.com/vi/${this.program.workouts[workoutID].exercises[0].youtubeID}/mqdefault.jpg`;
         }
     }
 }

@@ -1,34 +1,56 @@
 import { EntityState } from '@ngrx/entity';
-import { Workout } from '../workouts/workouts.state';
+import { WorkoutDictionary, WorkoutID } from '../workouts/workouts.state';
 
 /**
- * The main data model for an Program
+ * The main data model for a Program
  */
 export interface Program {
     id: string;
     name: string;
-    lengthInWeeks: number;
-    workouts: Workout[];
-    schedule: ProgramSchedule;
+    totalLengthInWeeks: number;
+    workouts: WorkoutDictionary;
+    phases: ProgramPhase[];
     photoURL: string;
     dateCreated: Date;
 }
 
-export interface ProgramSchedule {
-    day1: Workout | null;
-    day2: Workout | null;
-    day3: Workout | null;
-    day4: Workout | null;
-    day5: Workout | null;
-    day6: Workout | null;
-    day7: Workout | null;
+/**
+ * The workout schedule for a week of a Program's phase
+ */
+export interface WorkoutSchedule {
+    day1: WorkoutID | null;
+    day2: WorkoutID | null;
+    day3: WorkoutID | null;
+    day4: WorkoutID | null;
+    day5: WorkoutID | null;
+    day6: WorkoutID | null;
+    day7: WorkoutID | null;
 }
 
 export const INIT_PROGRAM: Program = {
     'id': '',
     'name': '',
-    'lengthInWeeks': 0,
-    'workouts': [],
+    'workouts': {},
+    'totalLengthInWeeks': 0,
+    'phases': [],
+    'photoURL': '',
+    'dateCreated': new Date(),
+};
+
+/**
+ * A distinct stage in a training Program.
+ * Each phase is broken up into a weekly schedule and each phase typically lasts for several weeks.
+ */
+export interface ProgramPhase {
+    schedule: WorkoutSchedule;
+    lengthInWeeks: number;
+}
+
+/**
+ * Initialize a Program Phase with default values
+ */
+export const INIT_PROGRAM_PHASE: ProgramPhase = {
+    'lengthInWeeks': 1,
     'schedule': {
         'day1': null,
         'day2': null,
@@ -38,8 +60,6 @@ export const INIT_PROGRAM: Program = {
         'day6': null,
         'day7': null,
     },
-    'photoURL': '',
-    'dateCreated': new Date(),
 };
 
 /**

@@ -8,7 +8,7 @@ import {
 import { FormControl, Validators, FormGroup, AbstractControl, ValidationErrors, FormArray } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { Exercise } from 'src/app/core/state/exercises/exercises.state';
-import { Workout, ExerciseRoutine } from 'src/app/core/state/workouts/workouts.state';
+import { Workout, ExerciseRoutine, INIT_EXERCISE_ROUTINE } from 'src/app/core/state/workouts/workouts.state';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -43,15 +43,6 @@ export class WorkoutFormComponent implements OnInit {
 
     orderedList: Exercise[] = [];
 
-    readonly INIT_EXERCISE_ROUTINE: ExerciseRoutine = {
-        'sets': null,
-        'reps': null,
-        'percentageOfOneRepMax': null,
-        'rateOfPerceivedExertion': null,
-        'tempo': null,
-        'rest': null,
-    };
-
     constructor(
         public workoutService: WorkoutStoreDispatcher,
         public exerciseService: ExerciseStoreDispatcher,
@@ -76,20 +67,7 @@ export class WorkoutFormComponent implements OnInit {
             }
 
             this.exercises.valueChanges.subscribe((exercises: Exercise[]) => {
-                const oneExerciseAdded = exercises.length === this.orderedList.length + 1;
-                const oneExerciseRemoved = exercises.length === this.orderedList.length - 1;
-                if (oneExerciseAdded) {
-                    const addedElement = exercises.filter(element => !this.orderedList.includes(
-                        element))[0];
-                    const index = exercises.indexOf(addedElement);
-                    this.addExerciseRoutine(index);
-                } else if (oneExerciseRemoved) {
-                    const removedElement = this.orderedList.filter(element => !exercises.includes(
-                        element))[0];
-                    const index = this.orderedList.indexOf(removedElement);
-                    this.exerciseRoutines.removeAt(index);
-                }
-                this.orderedList = exercises;
+                this.updateExerciseRoutineFormArray(exercises);
             });
         });
     }
@@ -99,35 +77,51 @@ export class WorkoutFormComponent implements OnInit {
         this.name.disable();
         this.exercises.setValue(workout.exercises);
         this.orderedList = workout.exercises;
-        this.setExerciseRoutineFormArray(workout.exercises, workout);
+        this.setExerciseRoutineFormArray(workout);
     }
-
 
     /**
      * Set the exerciseRoutines form array by inserting a new FormGroup
      * for each exercise in the value of the exercises formControl.
-     * In other words, creating a sub form for each exercise.
-     * @param exercises the value from the exercises formControl.
-     * @param workout if it exists, it provides the default values for the exercise routine
+     * In other words, create a sub-form for each exercise.
+     * @param workout it provides the default values for the exercise routine
      */
-    setExerciseRoutineFormArray(exercises: Exercise[], workout: Workout) {
+    setExerciseRoutineFormArray(workout: Workout) {
         this.exerciseRoutines = new FormArray([]);
-        exercises.forEach((exercise) => {
-            let defaultValues: ExerciseRoutine = {...this.INIT_EXERCISE_ROUTINE};
-            if (workout) {
-                defaultValues = { ...workout.exerciseRoutines[exercise.id] };
-            }
-            const routineGroup: FormGroup = new FormGroup({
-                'sets': new FormControl(defaultValues.sets),
-                'reps': new FormControl(defaultValues.reps),
-                '%1rm': new FormControl(defaultValues.percentageOfOneRepMax),
-                'rpe': new FormControl(defaultValues.rateOfPerceivedExertion),
-                'tempo': new FormControl(defaultValues.tempo),
-                'rest': new FormControl(defaultValues.rest),
-            });
+        workout.exercises.forEach((exercise) => {
+            const defaultValues: ExerciseRoutine = { ...INIT_EXERCISE_ROUTINE, ...workout.exerciseRoutines[exercise.id] };
+            const formGroup: FormGroup = this.initExerciseRoutineFormControl(defaultValues);
             const length = this.exerciseRoutines.length;
-            this.exerciseRoutines.insert(length, routineGroup);
+            this.exerciseRoutines.insert(length, formGroup);
         });
+    }
+
+    initExerciseRoutineFormControl(routine: ExerciseRoutine): FormGroup {
+        return new FormGroup({
+            'sets': new FormControl(routine.sets),
+            'reps': new FormControl(routine.reps),
+            '%1rm': new FormControl(routine.percentageOfOneRepMax),
+            'rpe': new FormControl(routine.rateOfPerceivedExertion),
+            'tempo': new FormControl(routine.tempo),
+            'rest': new FormControl(routine.rest),
+        });
+    }
+
+    updateExerciseRoutineFormArray(exercises: Exercise[]) {
+        const oneExerciseAdded = exercises.length === this.orderedList.length + 1;
+        const oneExerciseRemoved = exercises.length === this.orderedList.length - 1;
+        if (oneExerciseAdded) {
+            const addedElement = exercises.filter(element => !this.orderedList.includes(
+                element))[0];
+            const index = exercises.indexOf(addedElement);
+            this.addExerciseRoutine(index);
+        } else if (oneExerciseRemoved) {
+            const removedElement = this.orderedList.filter(element => !exercises.includes(
+                element))[0];
+            const index = this.orderedList.indexOf(removedElement);
+            this.exerciseRoutines.removeAt(index);
+        }
+        this.orderedList = exercises;
     }
 
     /**
@@ -135,7 +129,7 @@ export class WorkoutFormComponent implements OnInit {
      * @param index the index to insert the form control at in the exerciseRoutines form array
      */
     addExerciseRoutine(index: number) {
-        const defaultValues: ExerciseRoutine = {...this.INIT_EXERCISE_ROUTINE};
+        const defaultValues: ExerciseRoutine = { ...INIT_EXERCISE_ROUTINE };
         const routineGroup: FormGroup = new FormGroup({
             'sets': new FormControl(defaultValues.sets),
             'reps': new FormControl(defaultValues.reps),
