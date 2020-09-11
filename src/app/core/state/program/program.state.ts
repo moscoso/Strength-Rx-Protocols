@@ -42,6 +42,7 @@ export const INIT_PROGRAM: Program = {
  * Each phase is broken up into a weekly schedule and each phase typically lasts for several weeks.
  */
 export interface ProgramPhase {
+    name: string;
     schedule: WorkoutSchedule;
     lengthInWeeks: number;
 }
@@ -50,6 +51,7 @@ export interface ProgramPhase {
  * Initialize a Program Phase with default values
  */
 export const INIT_PROGRAM_PHASE: ProgramPhase = {
+    'name': 'unnamed phase',
     'lengthInWeeks': 1,
     'schedule': {
         'day1': null,

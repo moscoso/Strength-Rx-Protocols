@@ -30,7 +30,7 @@ export class CheckoutComponent implements OnInit {
     ngOnInit() {
         this.checkout = StripeCheckout.configure({
             'key': 'pk_test_0kffL6wokyI4iGhZPXFIriPT',
-            'image': '/assets/icon/logo.png',
+            'image': '/assets/icon/logo-square.png',
             'locale': 'auto',
             'source': async (source) => {
                 this.loading = true;

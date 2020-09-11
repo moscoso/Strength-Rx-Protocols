@@ -63,18 +63,13 @@ const routes: Routes = [
         'canActivate': [AuthGuard, ProfileGuard],
     },
     {
-        'path': 'check-in',
-        'loadChildren': () => import('./check-in/check-in.module').then(m => m.CheckInPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
-    },
-    {
         'path': 'create-food',
         'loadChildren': () => import('./food/create-food/create-food.module').then(m => m.CreateFoodPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
     },
     {
         'path': 'create-meal',
-        'loadChildren': () => import('./create-meal/create-meal.module').then(m => m.CreateMealPageModule),
+        'loadChildren': () => import('./meals/create-meal/create-meal.module').then(m => m.CreateMealPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
     },
     {
@@ -147,10 +142,6 @@ const routes: Routes = [
         'loadChildren': () => import('./client/choose-membership/choose-membership.module').then(m => m
             .ChooseMembershipPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
-    }, {
-        'path': 'reviews',
-        'loadChildren': () => import('./reviews/reviews.module').then(m => m.ReviewsPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
     },
     {
         'path': 'chat/:id',
@@ -168,8 +159,47 @@ const routes: Routes = [
     },
     {
         'path': 'progress-pics',
-        'loadChildren': () => import('./progress-pics/progress-pics.module').then(m => m.ProgressPicsPageModule)
-    }
+        'loadChildren': () => import('./client/progress-pics/progress-pics.module').then(m => m.ProgressPicsPageModule)
+    },
+    {
+        'path': 'clients/:id/progress-pics',
+        'loadChildren': () => import('./client/progress-pics/progress-pics.module').then(m => m.ProgressPicsPageModule)
+    },
+    {
+        'path': 'check-in',
+        'loadChildren': () => import('./check-in/check-in.module').then(m => m.CheckInPageModule),
+        'canActivate': [AuthGuard, ProfileGuard],
+    },
+    {
+        'path': 'clients/:id/check-in',
+        'loadChildren': () => import('./check-in/view-check-ins/view-check-ins.module').then(m => m.ViewCheckInsPageModule)
+    },
+    {
+        'path': 'clients/:id/check-ins',
+        'loadChildren': () => import('./check-in/view-check-ins/view-check-ins.module').then(m => m.ViewCheckInsPageModule)
+    },
+    {
+        'path': 'reviews',
+        'loadChildren': () => import('./reviews/reviews.module').then(m => m.ReviewsPageModule),
+        'canActivate': [AuthGuard, ProfileGuard],
+    },
+    {
+        'path': 'clients/:id/reviews',
+        'loadChildren': () => import('./reviews/reviews.module').then(m => m.ReviewsPageModule),
+        'canActivate': [AuthGuard, ProfileGuard],
+    },
+    {
+        'path': 'calendar',
+        'loadChildren': () => import('./client/calendar/calendar.module').then(m => m.CalendarPageModule)
+    },
+    {
+        'path': 'terms-of-service',
+        'loadChildren': () => import('./home/terms-of-service/terms-of-service.module').then(m => m.TermsOfServicePageModule)
+    },
+    {
+        'path': 'privacy-policy',
+        'loadChildren': () => import('./home/privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyPageModule)
+    },
 
 
 

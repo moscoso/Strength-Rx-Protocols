@@ -7,6 +7,9 @@ import { MaterialsModule } from '../materials.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ProgramModule } from '../program/program.module';
+import { ProgressPicListComponent } from './progress-pic-list/progress-pic-list.component';
+import { PipeModule } from '../pipes/pipe.module';
+import { CheckInListComponent } from '../check-in/check-in-list/check-in-list.component';
 
 
 
@@ -14,6 +17,8 @@ import { ProgramModule } from '../program/program.module';
     'declarations': [
         AssignProgramComponent,
         AssignTrainerComponent,
+        ProgressPicListComponent,
+        CheckInListComponent,
     ],
     'imports': [
         CommonModule,
@@ -22,10 +27,13 @@ import { ProgramModule } from '../program/program.module';
         MaterialsModule,
         ProgramModule,
         ReactiveFormsModule,
+        PipeModule,
     ],
     'exports': [
         AssignProgramComponent,
         AssignTrainerComponent,
-    ]
+        ProgressPicListComponent,
+        CheckInListComponent,
+    ],
 })
 export class ClientModule {}

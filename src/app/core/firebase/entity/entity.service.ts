@@ -48,7 +48,7 @@ export abstract class EntityService < T > {
         const data = snapshot.data();
         if (data == null) {
             const errorMessage =
-                `Document data for ${this.collectionName} collection does not exist for id: ${entityID}`;
+                `Document data for ${this.collectionName} collection does not exist for id: ${entityID}. Source: ${source}`;
             throw new Error(errorMessage);
         } else {
             if (this.defaultEntity) {
@@ -62,9 +62,7 @@ export abstract class EntityService < T > {
     /**
      * Retrieve multiple entities
      */
-    async getMultiple(entityIDs: string[], source: 'default' | 'server' | 'cache' = 'default'): Promise < Map <
-        string,
-    T > > {
+    async getMultiple(entityIDs: string[], source: 'default' | 'server' | 'cache' = 'default'): Promise < EntityMap < T > > {
         const entities: Map < string, T > = new Map();
         entityIDs.forEach(async (id) => {
             this.get(id, source).then(entity => {
@@ -177,7 +175,8 @@ export abstract class EntityService < T > {
      */
     async delete(entityID: string): Promise < void > {
         return this.firestore.firestore.runTransaction(async (transaction) => {
-            const newRef = this.firestore.collection(`deleted/${this.collectionName}/deleted`).doc(this.firestore.createId()).ref;
+            const newRef = this.firestore.collection(`deleted/${this.collectionName}/deleted`).doc(this.firestore
+                .createId()).ref;
             const oldRef = this.firestore.doc(`${this.collectionName}/${entityID}`).ref;
             const oldDoc = await transaction.get(oldRef);
             const currentData = oldDoc.data();
@@ -186,3 +185,5 @@ export abstract class EntityService < T > {
         });
     }
 }
+
+type EntityMap < T > = Map < string, T > ;

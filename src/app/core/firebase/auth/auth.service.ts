@@ -29,8 +29,8 @@ export class FireAuthService {
      * @param email the email address to register the account with
      * @param password the password to regsiter the account with
      */
-    async createUserWithEmailAndPassword(email: string, password: string): Promise < void > {
-        await this.firebaseAuth.createUserWithEmailAndPassword(email, password);
+    async createUserWithEmailAndPassword(email: string, password: string): Promise < firebase.auth.UserCredential > {
+        return this.firebaseAuth.createUserWithEmailAndPassword(email, password);
     }
 
     /**
@@ -38,15 +38,15 @@ export class FireAuthService {
      * @param email the email address of the user
      * @param password the password of the user
      */
-    async signInWithEmailAndPassword(email: string, password: string): Promise < void > {
-        await this.firebaseAuth.signInWithEmailAndPassword(email, password);
+    async signInWithEmailAndPassword(email: string, password: string): Promise < firebase.auth.UserCredential > {
+        return this.firebaseAuth.signInWithEmailAndPassword(email, password);
     }
 
     /**
      * Initiates a sign in to Firebase anonymously
      */
-    async signInAsGuest(): Promise < void > {
-        await this.firebaseAuth.signInAnonymously();
+    async signInAsGuest(): Promise < firebase.auth.UserCredential > {
+        return this.firebaseAuth.signInAnonymously();
     }
 
     /**
@@ -54,14 +54,14 @@ export class FireAuthService {
      * @param email the address associated with the account to initiate the password reset
      */
     async sendPasswordResetEmail(email: string): Promise < void > {
-        await this.firebaseAuth.sendPasswordResetEmail(email);
+        return this.firebaseAuth.sendPasswordResetEmail(email);
     }
 
     /**
      * Initiates a sign out with Firebase. The authenticated user will be set to null.
      */
     async signOut(): Promise < void > {
-        await this.firebaseAuth.signOut();
+        return this.firebaseAuth.signOut();
     }
 
 }

@@ -1,0 +1,10 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Progress Pics</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <upload-progress-image *ngIf="!clientID"></upload-progress-image>
+    <app-progress-pic-list *ngIf="clientID" [clientID]="clientID"></app-progress-pic-list>
+</ion-content>

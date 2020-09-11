@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { first, pluck } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 
 @Component({
-    'selector': 'reviews',
-    'templateUrl': './reviews.page.html',
-    'styleUrls': ['./reviews.page.scss'],
+    'selector': 'app-progress-pics',
+    'templateUrl': './progress-pics.page.html',
+    'styleUrls': ['./progress-pics.page.scss'],
 })
-export class ReviewsPage implements OnInit {
+export class ProgressPicsPage implements OnInit {
 
-    reviews$: Observable < any > ;
+    progressPics$: Observable < any > ;
     clientID: string;
 
     constructor(

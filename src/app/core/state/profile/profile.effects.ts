@@ -9,7 +9,7 @@ import { ProfileService } from '../../firebase/profile/profile.service';
 import { Router } from '@angular/router';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { ModalController } from '@ionic/angular';
-import { AuthAction, AuthActionType } from '../auth/auth.actions';
+import { AuthActionType } from '../auth/auth.actions';
 
 @Injectable()
 export class ProfileEffects {
@@ -17,8 +17,7 @@ export class ProfileEffects {
     @Effect({ 'dispatch': false }) error$: Observable < ProfileAction > = this.actions$.pipe(
         ofType(ProfileActionType.RequestFailed),
         tap((action: Profiles.RequestFailed) => {
-            console.log(action);
-            this.toaster.failed('Request for profile failed', action.error);
+            // this.toaster.failed('Request for profile failed', action.error);
         })
     );
 

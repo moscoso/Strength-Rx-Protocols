@@ -17,7 +17,7 @@
                         <ion-label>{{client.firstName}} {{client.lastName}}</ion-label>
                         <ion-label>Trainer: {{client.assignedTrainer ? client.assignedTrainer.firstName : 'unassigned ⚠️'}}</ion-label>
                         <ion-label>Program: {{client.assignedProgram ? client.assignedProgram.name : 'unassigned ⚠️'}}</ion-label>
-                        <ion-note>Joined: {{getDateFromTimestamp(client.joined) | date}} <br/><span *ngIf="client.birthday">Birthday : {{getDateFromTimestamp(client.birthday) | date}}</span></ion-note>
+                        <ion-note>Joined: {{getDateFromTimestamp(client.joined) | timestamp}} <br/><span *ngIf="client.birthday">Birthday : {{getDateFromTimestamp(client.birthday) | timestamp}}</span></ion-note>
                     </ion-item>
                 </ion-list>
             </ion-col>

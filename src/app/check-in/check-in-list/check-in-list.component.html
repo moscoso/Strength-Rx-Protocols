@@ -1,0 +1,17 @@
+<ion-list *ngFor="let checkIn of checkIns$ | async" [hidden]="checkIn.userID !== clientID" style="margin-bottom:25px">
+    <ion-item>Timestamp: {{getDateFromTimestamp(checkIn.timestamp) | timestamp}}</ion-item>
+    <ion-item>Macros: {{checkIn.macros}}</ion-item>
+    <ion-item>Medical Issues: {{checkIn.medicalIssues}}</ion-item>
+    <ion-item>MissedCardio: {{checkIn.missedCardio}}</ion-item>
+    <ion-item>Questions or Concerns: {{checkIn.questions}}</ion-item>
+    <ion-item>Monday Weight: {{checkIn.monday}}</ion-item>
+    <ion-item>Tuesday Weight: {{checkIn.tuesday}}</ion-item>
+    <ion-item>Wednesday Weight: {{checkIn.wednesday}}</ion-item>
+    <ion-item>Thursday Weight: {{checkIn.thursday}}</ion-item>
+    <ion-item>Friday Weight: {{checkIn.friday}}</ion-item>
+    <ion-item>Saturday Weight: {{checkIn.saturday}}</ion-item>
+    <ion-item>Sunday Weight: {{checkIn.sunday}}</ion-item>
+    <ion-item>Week summary: {{checkIn.weekSummary}}</ion-item>
+    <ion-item>Energy Level: {{checkIn.energyLevel}}</ion-item>
+    <ion-item>AdherenceLevel Level: {{checkIn.adherenceLevel}}</ion-item>
+</ion-list>

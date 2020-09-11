@@ -39,6 +39,10 @@ ion-title {
     line-height: 30px;
 }
 
+.ion-page > ion-content{
+    --background: url("assets/img/gym_pattern_50.png") 0 0 / 300px 300px repeat;
+}
+
 .modal-80-width {
     --min-width: 80%;
 }

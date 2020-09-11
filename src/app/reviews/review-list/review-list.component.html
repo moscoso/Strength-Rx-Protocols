@@ -1,0 +1,3 @@
+<ion-list>
+    <video controls *ngFor="let review of reviews$ | async" [src]="review.downloadURL"></video>
+</ion-list>

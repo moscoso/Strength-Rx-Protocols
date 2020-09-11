@@ -1,0 +1,9 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Check-Ins</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <app-check-in-list *ngIf="clientID" [clientID]="clientID"></app-check-in-list>
+</ion-content>

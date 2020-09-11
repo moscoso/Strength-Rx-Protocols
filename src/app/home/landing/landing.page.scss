@@ -26,8 +26,8 @@
     }
 
     /**
- * This is a fix for Android, as the poster seems to be zoomed if we don't set object-fit to "none"
- */
+    * This is a fix for Android, as the poster seems to be zoomed if we don't set object-fit to "none"
+    */
     :host-context(.plt-android) video[poster] {
         object-fit: none;
     }

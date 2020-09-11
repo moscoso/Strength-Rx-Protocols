@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { first, pluck } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
+import { first, pluck } from 'rxjs/operators';
 
 @Component({
-    'selector': 'reviews',
-    'templateUrl': './reviews.page.html',
-    'styleUrls': ['./reviews.page.scss'],
+    'selector': 'app-view-check-ins',
+    'templateUrl': './view-check-ins.page.html',
+    'styleUrls': ['./view-check-ins.page.scss'],
 })
-export class ReviewsPage implements OnInit {
+export class ViewCheckInsPage implements OnInit {
 
-    reviews$: Observable < any > ;
     clientID: string;
 
     constructor(
@@ -37,4 +36,5 @@ export class ReviewsPage implements OnInit {
                 .pipe(first(profile => profile != null), pluck('id')).toPromise();
         }
     }
+
 }

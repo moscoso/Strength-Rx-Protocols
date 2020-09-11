@@ -1,0 +1,5 @@
+<ion-list>
+    <ng-container *ngFor="let review of progressPics$ | async">
+        <img [src]="review.downloadURL"/>
+    </ng-container>
+</ion-list>

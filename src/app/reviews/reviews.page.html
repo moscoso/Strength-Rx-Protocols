@@ -5,11 +5,9 @@
 </ion-header>
 
 <ion-content>
-    <upload-video></upload-video>
-
-
-
-    <ion-list>
+    <upload-video *ngIf="!clientID"></upload-video>
+    <!-- <ion-list>
         <video controls *ngFor="let review of reviews$ | async" [src]="review.downloadURL"></video>
-    </ion-list>
+    </ion-list> -->
+    <review-list *ngIf="clientID" [clientID]="clientID"></review-list>
 </ion-content>

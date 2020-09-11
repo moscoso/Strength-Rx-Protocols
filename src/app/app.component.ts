@@ -84,9 +84,9 @@ export class AppComponent implements OnInit {
             'link': '/profile'
         },
         {
-            'label': 'Workout Program',
+            'label': 'Training Calendar',
             'icon': 'today-outline',
-            'link': '/check-in',
+            'link': '/training',
         },
         {
             'label': 'Check In',
@@ -106,12 +106,12 @@ export class AppComponent implements OnInit {
         {
             'label': 'Reviews',
             'icon': 'videocam-outline',
-            'href': '/reviews',
+            'link': '/reviews',
         },
         {
             'label': 'Progress Pics',
             'icon': 'aperture-outline',
-            'href': '/progress-pics',
+            'link': '/progress-pics',
         },
         {
             'label': 'Billing',
