@@ -189,10 +189,6 @@ const routes: Routes = [
         'canActivate': [AuthGuard, ProfileGuard],
     },
     {
-        'path': 'calendar',
-        'loadChildren': () => import('./client/calendar/calendar.module').then(m => m.CalendarPageModule)
-    },
-    {
         'path': 'terms-of-service',
         'loadChildren': () => import('./home/terms-of-service/terms-of-service.module').then(m => m.TermsOfServicePageModule)
     },
