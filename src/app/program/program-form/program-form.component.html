@@ -24,11 +24,7 @@
             <mat-form-field>
                 <mat-label>Number of Phases</mat-label>
                 <mat-select [formControl]="numberOfPhases">
-                    <mat-option [value]="1">1</mat-option>
-                    <mat-option [value]="2">2</mat-option>
-                    <mat-option [value]="3">3</mat-option>
-                    <mat-option [value]="4">4</mat-option>
-                    <mat-option [value]="5">5</mat-option>
+                    <mat-option *ngFor="let in of getListOfIntegers(26); let i = index" [value]="i">{{i}}</mat-option>
                 </mat-select>
                 <mat-error *ngIf="name.hasError('required')">Number of Phases is required.</mat-error>
             </mat-form-field>
@@ -52,14 +48,13 @@
 
                 <ion-label>Weekly Schedule</ion-label>
                 <ng-container *ngFor="let day of getDayList(); let dayIndex = index">
-                    <ng-template let-dayControl [ngTemplateOutletContext]="{ $implicit: getDayControl(day, phaseControl) }" [ngTemplateOutlet]="t" #t>
+                    <ng-template let-dayControl
+                                 [ngTemplateOutletContext]="{ $implicit: getDayControl(day, phaseControl) }"
+                                 [ngTemplateOutlet]="t" #t>
                         <ion-row>
-                            <ion-skeleton-text [hidden]="dayControl.dirty || (workoutList$ | async).length !== 0"></ion-skeleton-text>
-                            <mat-form-field [hidden]="(workoutList$ | async).length === 0">
+                            <mat-form-field class="workout-form-field">
                                 <mat-label>Day {{dayIndex + 1}} Workout</mat-label>
-                                <mat-select [formControl]="dayControl" [compareWith]="compareWorkouts" [required]="dayIndex === 0"> 
-                                    <mat-option *ngFor="let workout of (workoutList$ | async)"
-                                                [value]="workout">{{workout.name}}</mat-option>
+                                <mat-select [formControl]="dayControl" [required]="dayIndex === 0"> 
                                 </mat-select>
                                 <mat-error *ngIf="dayControl.hasError('required')">A workout is required for Day 1 of the week
                                 </mat-error>
@@ -68,6 +63,10 @@
                                           [hidden]="!dayControl.value"
                                           (click)="resetControl(dayControl)">Reset</mat-hint>
                             </mat-form-field>
+                            <workout-preview *ngIf="dayControl.value" [workout]="dayControl.value"></workout-preview>
+                            <ion-button class="create-button" (click)="createCustomWorkout(dayControl)" [hidden]="dayControl.value">Create Custom Workout</ion-button>
+                            <ion-button class="subscribe-button" (click)="subscribeToWorkout(dayControl)" [hidden]="dayControl.value">Subscribe To Master</ion-button>
+                            <ion-button class="copy-button" (click)="copyWorkout(dayControl)" [hidden]="dayControl.value">Copy from Client</ion-button>
                         </ion-row>
                     </ng-template>
                 </ng-container>

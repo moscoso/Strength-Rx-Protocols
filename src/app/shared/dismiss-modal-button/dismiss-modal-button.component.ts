@@ -8,6 +8,7 @@ import { ModalController } from '@ionic/angular';
 export class DismissModalButtonComponent implements OnInit {
 
     overlayExists = false;
+    @Input() buttonText = 'Dismiss';
     @Input() modalID: string;
 
     constructor(private modalController: ModalController) {}

@@ -47,7 +47,6 @@ export class AssignProgramComponent implements OnInit {
         ).subscribe((client) => {
             this.defaultProgram = client.assignedProgram;
             this.programs.setValue(this.defaultProgram);
-
         });
     }
 

@@ -53,6 +53,13 @@ ion-title {
     }
 }
 
+.modal-short-form {
+    --backdrop-opacity: 0.5;
+    @media screen and (min-width: 769px) {
+        --height: 275px;
+    }
+}
+
 form {
     width: 100%;
 }

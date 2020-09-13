@@ -13,7 +13,7 @@
                 </mat-error>
                 <mat-error *ngIf="name.hasError('couldNotReachServer')">Could not reach server. Please check your
                     connection and try again.</mat-error>
-                <mat-hint *ngIf="getSlug(name.value).length > 0 && name.enabled">This link will be at
+                <mat-hint *ngIf="getSlug(name.value).length > 0 && name.enabled && !isCustom">This link will be at
                     /workout/{{getSlug(name.value)}}
                 </mat-hint>
                 <mat-hint *ngIf="name.disabled">Cannot edit the name of an existing workout</mat-hint>

@@ -1,3 +1,12 @@
 .reset-phase {
     cursor: pointer;
 }
+
+.workout-form-field {
+    display: inline-block;
+    width: 25%;
+}
+
+ion-button.create-button, ion-button.copy-button, ion-button.subscribe-button {
+    width: 24%;
+}

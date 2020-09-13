@@ -44,9 +44,9 @@ export class ProgramDetailPage implements OnInit {
         return ['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'];
     }
 
-    getWorkout(workoutID: string, program: Program): Workout {
-        return program.workouts[workoutID];
-    }
+    // getWorkout(workoutID: string, program: Program): Workout {
+    //     return program.workouts[workoutID];
+    // }
 
     async showEditModal(): Promise < void > {
         const modal = await this.modalCtrl.create({

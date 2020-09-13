@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar>\
+    <ion-toolbar>
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
             <ion-back-button defaultHref="/programs"></ion-back-button>
@@ -15,11 +15,11 @@
     <ng-container *ngIf="program$ | async as program">
         <h1 class="program-name">{{program.name}}</h1>
         <ion-grid *ngFor="let phase of program.phases; let phaseIndex = index;">
-            <h2>Phase {{phaseIndex + 1}}</h2>
-            <ion-label>Length: {{phase.lengthInWeeks}} weeks</ion-label>
+            <h2>{{phase.lengthInWeeks > 1 ? 'Phase': 'Week'}} {{phaseIndex + 1}}</h2>
+            <ion-label [hidden]="phase.lengthInWeeks <= 1">Length: {{phase.lengthInWeeks}} weeks</ion-label>
             <ion-row>
                 <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12" *ngFor="let day of getDayList(); let dayIndex = index;">
-                    <ng-template let-workout [ngTemplateOutletContext]="{ $implicit: getWorkout(phase.schedule[day], program) }"
+                    <ng-template let-workout [ngTemplateOutletContext]="{ $implicit: phase.schedule[day] }"
                                  [ngTemplateOutlet]="t" #t>
                         <ion-label>Day {{dayIndex + 1}}</ion-label>
                         <workout-preview *ngIf="workout"

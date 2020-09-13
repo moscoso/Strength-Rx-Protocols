@@ -25,6 +25,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 })
 export class WorkoutFormComponent implements OnInit {
 
+    @Input() isCustom = 'false';
     @Input() buttonText = 'Submit';
     @Output() formSubmit = new EventEmitter < Partial < Workout >> ();
 
@@ -164,6 +165,7 @@ export class WorkoutFormComponent implements OnInit {
     }
 
     verifyWorkoutIsUnique(ctrl: AbstractControl): Promise < ValidationErrors | null > {
+        if (this.isCustom) { return null; }
         return validateDocIDIsUnique(`workouts`, ctrl, this.firestore);
     }
 

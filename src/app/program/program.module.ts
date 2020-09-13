@@ -5,6 +5,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialsModule } from '../materials.module';
 import { IonicModule } from '@ionic/angular';
 import { ProgramPreviewComponent } from './program-preview/program-preview.component';
+import { SubscribeToWorkoutComponent } from './program-form/subscribe-to-workout/subscribe-to-workout.component';
+import { CreateCustomWorkoutComponent } from './program-form/create-custom-workout/create-custom-workout.component';
+import { CopyWorkoutComponent } from './program-form/copy-workout/copy-workout.component';
+import { SharedModule } from '../shared/shared.module';
+import { WorkoutModule } from '../workout/workout.module';
 
 
 
@@ -12,16 +17,24 @@ import { ProgramPreviewComponent } from './program-preview/program-preview.compo
     'declarations': [
         ProgramFormComponent,
         ProgramPreviewComponent,
+        SubscribeToWorkoutComponent,
+        CreateCustomWorkoutComponent,
+        CopyWorkoutComponent,
     ],
     'imports': [
         CommonModule,
         ReactiveFormsModule,
         MaterialsModule,
         IonicModule,
+        SharedModule,
+        WorkoutModule,
     ],
     'exports': [
         ProgramFormComponent,
         ProgramPreviewComponent,
+        SubscribeToWorkoutComponent,
+        CreateCustomWorkoutComponent,
+        CopyWorkoutComponent,
     ]
 })
 export class ProgramModule {}

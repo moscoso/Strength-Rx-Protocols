@@ -1,15 +1,17 @@
-import { Component, OnInit, Input, EventEmitter, Output, ɵCompiler_compileModuleSync__POST_R3__ } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, } from '@angular/core';
 import { Program, ProgramPhase, INIT_PROGRAM_PHASE } from 'src/app/core/state/program/program.state';
 import { FormGroup, FormControl, Validators, FormArray, AbstractControl, ValidationErrors } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { first } from 'rxjs/operators';
-import { Workout, WorkoutDictionary } from 'src/app/core/state/workouts/workouts.state';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
 import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
+import { ModalController } from '@ionic/angular';
+import { SubscribeToWorkoutComponent } from './subscribe-to-workout/subscribe-to-workout.component';
+import { CopyWorkoutComponent } from './copy-workout/copy-workout.component';
+import { CreateCustomWorkoutComponent } from './create-custom-workout/create-custom-workout.component';
 
 @Component({
     'selector': 'program-form',
@@ -27,58 +29,34 @@ export class ProgramFormComponent implements OnInit {
         'validators': Validators.required,
         'asyncValidators': this.verifyProgramIsUnique.bind(this)
     });
-    numberOfPhases = new FormControl(1, [Validators.required, Validators.min(1), Validators.max(5)]);
+    numberOfPhases = new FormControl(1, [Validators.required, Validators.min(1), Validators.max(26)]);
     phases: FormArray;
-    workoutList$: Observable < Workout[] > = of ([]);
     requestInProgress$: Observable < boolean > ;
 
     constructor(
-        public workoutService: WorkoutStoreDispatcher,
         public programService: ProgramStoreDispatcher,
+        public modalController: ModalController,
         public toastService: ToastService,
         public firestore: AngularFirestore,
     ) {}
 
     ngOnInit() {
-        this.programService.loadAll();
         this.phases = new FormArray([this.initPhaseFormControl()]);
         this.form = new FormGroup({
             'name': this.name,
             'numberOfPhases': this.numberOfPhases,
             'phases': this.phases
         });
-        this.requestInProgress$ = this.workoutService.selectRequestInProgress();
-        this.workoutService.loadAll();
-        this.workoutList$ = this.workoutService.selectAll();
-
-        this.programService.selectProgramByRouteURL().pipe(first()).toPromise().then(program => {
-            console.log(program);
-            if (program) {
-                this.initFormValues(program);
-            }
-
-            this.numberOfPhases.valueChanges.subscribe((n: number) => {
-                this.updateExerciseRoutineFormArray(n);
-            });
+        this.programService.loadAll();
+        this.requestInProgress$ = this.programService.selectRequestInProgress();
+        this.programService.selectProgramByRouteURL().pipe(first(program => program != null)).toPromise()
+            .then(program => this.initFormValues.bind(this, program));
+        this.numberOfPhases.valueChanges.subscribe((n: number) => {
+            this.updatePhasesFormGroup(n);
         });
     }
 
-    /**
-     * Set the phases FormArray by inserting a new FormGroup
-     * for each exercise in the value of the exercises formControl.
-     * In other words, create a sub-form for each exercise.
-     * @param exercises the value from the exercises formControl.
-     * @param workout if it exists, it provides the default values for the exercise routine
-     */
-    setExerciseRoutineFormArray(program: Program) {
-        this.phases = new FormArray([]);
-        program.phases.forEach((phase) => {
-            const defaultValues: ProgramPhase = { ...INIT_PROGRAM_PHASE, ...phase };
-            this.addPhaseFormcontrol(defaultValues);
-        });
-    }
-
-    updateExerciseRoutineFormArray(n: number) {
+    updatePhasesFormGroup(n: number) {
         const difference = Math.abs(this.phases.length - n);
         const phasesAdded = this.phases.length < n;
         const phasesRemoved = this.phases.length > n;
@@ -98,13 +76,13 @@ export class ProgramFormComponent implements OnInit {
         return new FormGroup({
             'lengthInWeeks': new FormControl(phase.lengthInWeeks, [Validators.required, Validators.min(1)]),
             'schedule': new FormGroup({
-                'day1': new FormControl(phase.schedule.day1, [Validators.required]),
-                'day2': new FormControl(phase.schedule.day2, []),
-                'day3': new FormControl(phase.schedule.day3, []),
-                'day4': new FormControl(phase.schedule.day4, []),
-                'day5': new FormControl(phase.schedule.day5, []),
-                'day6': new FormControl(phase.schedule.day6, []),
-                'day7': new FormControl(phase.schedule.day7, []),
+                'day1': new FormControl({ 'value': phase.schedule.day1, 'disabled': true }, [Validators.required]),
+                'day2': new FormControl({ 'value': phase.schedule.day2, 'disabled': true }, []),
+                'day3': new FormControl({ 'value': phase.schedule.day3, 'disabled': true }, []),
+                'day4': new FormControl({ 'value': phase.schedule.day4, 'disabled': true }, []),
+                'day5': new FormControl({ 'value': phase.schedule.day5, 'disabled': true }, []),
+                'day6': new FormControl({ 'value': phase.schedule.day6, 'disabled': true }, []),
+                'day7': new FormControl({ 'value': phase.schedule.day7, 'disabled': true }, []),
             })
         });
     }
@@ -119,28 +97,21 @@ export class ProgramFormComponent implements OnInit {
         this.name.setValue(program.name);
         this.name.disable();
         this.numberOfPhases.setValue(program.phases.length);
-        this.updateExerciseRoutineFormArray(program.phases.length);
+        this.updatePhasesFormGroup(program.phases.length);
         program.phases.forEach((phase, index) => {
-            this.phases.controls[index].get('lengthInWeeks').setValue(phase.lengthInWeeks);
-            this.phases.controls[index].get('schedule').get('day1').setValue(this.getWorkout(phase.schedule.day1, program));
-            this.phases.controls[index].get('schedule').get('day2').setValue(this.getWorkout(phase.schedule.day2, program));
-            this.phases.controls[index].get('schedule').get('day3').setValue(this.getWorkout(phase.schedule.day3, program));
-            this.phases.controls[index].get('schedule').get('day4').setValue(this.getWorkout(phase.schedule.day4, program));
-            this.phases.controls[index].get('schedule').get('day5').setValue(this.getWorkout(phase.schedule.day5, program));
-            this.phases.controls[index].get('schedule').get('day6').setValue(this.getWorkout(phase.schedule.day6, program));
-            this.phases.controls[index].get('schedule').get('day7').setValue(this.getWorkout(phase.schedule.day7, program));
+            const phaseControl = this.phases.controls[index];
+            phaseControl.get('lengthInWeeks').setValue(phase.lengthInWeeks);
+            for (const day of this.getDayList()) {
+                phaseControl.get('schedule').get(day).setValue(phase.schedule[day], program);
+            }
         });
-    }
-
-    getWorkout(workoutID: string, program: Program): Workout {
-        return program.workouts[workoutID];
     }
 
     resetControl(control: FormControl) {
         control.setValue(null);
     }
 
-    getDayList() {
+    getDayList(): ['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'] {
         return ['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'];
     }
 
@@ -156,8 +127,7 @@ export class ProgramFormComponent implements OnInit {
                 'id': this.getSlug(program.name),
                 'name': program.name,
                 'totalLengthInWeeks': this.sumWeeks(program.phases),
-                'workouts': this.mapWorkouts(program.phases),
-                'phases': this.transformSchedule(program.phases),
+                'phases': program.phases,
                 'dateCreated': new Date(),
                 'photoURL': '',
             };
@@ -177,39 +147,6 @@ export class ProgramFormComponent implements OnInit {
         return sum;
     }
 
-    mapWorkouts(phases: any[]): WorkoutDictionary {
-        if (phases.length === 0) { throw new Error(`Cannot map workouts of 0 phases`); }
-        const map: WorkoutDictionary = {};
-        phases.forEach(phase => {
-            const days = Object.keys(phase.schedule);
-            days.forEach(day => {
-                const workout = phase.schedule[day];
-                if (workout) {
-                    map[workout.id] = workout;
-                }
-            });
-        });
-        return map;
-    }
-
-    /**
-     * Transform phase schedule so that the schedule uses workout IDs instead of workout values
-     */
-    transformSchedule(phases: any[]): ProgramPhase[] {
-        const transformedPhases = [];
-        phases.forEach(phase => transformedPhases.push(phase));
-        transformedPhases.forEach(phase => {
-            const days = Object.keys(phase.schedule);
-            days.forEach(day => {
-                const workout = phase.schedule[day];
-                if (workout) {
-                    phase.schedule[day] = workout.id;
-                }
-            });
-        });
-        return transformedPhases;
-    }
-
     getSlug(name: string) {
         return transformToSlug(name);
     }
@@ -218,15 +155,44 @@ export class ProgramFormComponent implements OnInit {
         return validateDocIDIsUnique(`programs`, ctrl, this.firestore);
     }
 
-    /**
-     * A function to compare the option values with the selected values.
-     * @param e1 the first argument is a value from an option.
-     * @param e2 the second is a value from the selection.
-     * @returns a boolean should be returned.
-     */
-
-    compareWorkouts(e1: Workout, e2: Workout): boolean {
-        return e1 && e2 ? e1.id === e2.id : e1 === e2;
+    async setWorkoutControlFromModal(dayControl: FormControl, options: { 'id': string, 'component': any, 'cssClass' ?: string }) {
+        const modal = await this.modalController.create(options);
+        modal.onDidDismiss().then(event => {
+            if (event && event.data && event.data.workout) {
+                dayControl.setValue(event.data.workout);
+            }
+        });
+        return await modal.present();
     }
 
+    async subscribeToWorkout(dayControl: FormControl) {
+        const options = {
+            'id': 'subscribe-to-workout',
+            'component': SubscribeToWorkoutComponent,
+            'cssClass': 'modal-short-form'
+        };
+        this.setWorkoutControlFromModal(dayControl, options);
+    }
+
+    async copyWorkout(dayControl: FormControl) {
+        const options = {
+            'id': '',
+            'component': CopyWorkoutComponent,
+            'cssClass': 'modal-short-form'
+        };
+        this.setWorkoutControlFromModal(dayControl, options);
+    }
+
+    async createCustomWorkout(dayControl: FormControl) {
+        const options = {
+            'id': 'create-custom-workout',
+            'component': CreateCustomWorkoutComponent,
+            'cssClass': 'modal-80-width',
+        };
+        this.setWorkoutControlFromModal(dayControl, options);
+    }
+
+    getListOfIntegers(i: number) {
+        return new Array(i).map(x => x + 1);
+    }
 }

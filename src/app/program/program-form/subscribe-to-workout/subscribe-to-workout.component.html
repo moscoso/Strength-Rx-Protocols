@@ -1,0 +1,29 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Subscribe to a Master Workout</ion-title>
+        <ion-buttons slot="end">
+            <!-- <dismiss-modal-button modalID="subscribe-to-workout" buttonText="Cancel"></dismiss-modal-button> -->
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]=form (ngSubmit)=onSubmit(form.value)>
+        <ion-skeleton-text [hidden]="(workoutList$ | async).length !== 0"></ion-skeleton-text>
+        <mat-form-field [hidden]="(workoutList$ | async).length === 0">
+            <mat-form-field class="workout-form-field">
+                <mat-label>Choose a Master Workout</mat-label>
+                <mat-select [formControl]="workoutControl" [compareWith]="compareWorkouts">
+                    <mat-option *ngFor="let workout of (workoutList$ | async)"
+                                [value]="workout">{{workout.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="workoutControl.hasError('required')">A workout is required</mat-error>
+            </mat-form-field>
+            <ion-button type="submit"
+                        [disabled]="form.invalid || (requestInProgress$ | async) || !form.touched"
+                        expand="full">
+                <ion-icon name="fitness"></ion-icon>&nbsp;Subscribe to Workout
+            </ion-button>
+        </mat-form-field>
+    </form>
+</ion-content>

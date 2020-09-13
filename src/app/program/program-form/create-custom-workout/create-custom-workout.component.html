@@ -1,0 +1,12 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Create Custom Workout</ion-title>
+        <ion-buttons slot="end">
+            <dismiss-modal-button modalID="create-custom-workout" buttonText="Cancel"></dismiss-modal-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <workout-form (formSubmit)="onSubmit($event)" buttonText="Create Workout" [isCustom]="true"></workout-form>
+</ion-content>

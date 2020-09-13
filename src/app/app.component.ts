@@ -46,19 +46,19 @@ export class AppComponent implements OnInit {
             'link': '/profile'
         },
         {
-            'label': 'Exercises',
-            'icon': 'barbell',
-            'link': '/exercises'
+            'label': 'Master Programs',
+            'icon': 'calendar-outline',
+            'link': '/programs'
         },
         {
-            'label': 'Workouts',
+            'label': 'Master Workouts',
             'icon': 'fitness',
             'link': '/workouts'
         },
         {
-            'label': 'Programs',
-            'icon': 'calendar-outline',
-            'link': '/programs'
+            'label': 'Exercises',
+            'icon': 'barbell',
+            'link': '/exercises'
         },
         {
             'label': 'Clients',
@@ -70,11 +70,11 @@ export class AppComponent implements OnInit {
             'src': '/assets/icon/food.svg',
             'link': '/foods'
         },
-        {
-            'label': 'Meals',
-            'src': '/assets/icon/meal.svg',
-            'link': '/meals'
-        },
+        // {
+        //     'label': 'Meals',
+        //     'src': '/assets/icon/meal.svg',
+        //     'link': '/meals'
+        // },
     ];
 
     public clientPages: MenuItem[] = [

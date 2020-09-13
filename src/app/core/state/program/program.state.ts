@@ -1,5 +1,5 @@
 import { EntityState } from '@ngrx/entity';
-import { WorkoutDictionary, WorkoutID } from '../workouts/workouts.state';
+import { WorkoutDictionary, WorkoutID, Workout } from '../workouts/workouts.state';
 
 /**
  * The main data model for a Program
@@ -8,7 +8,6 @@ export interface Program {
     id: string;
     name: string;
     totalLengthInWeeks: number;
-    workouts: WorkoutDictionary;
     phases: ProgramPhase[];
     photoURL: string;
     dateCreated: Date;
@@ -18,19 +17,18 @@ export interface Program {
  * The workout schedule for a week of a Program's phase
  */
 export interface WorkoutSchedule {
-    day1: WorkoutID | null;
-    day2: WorkoutID | null;
-    day3: WorkoutID | null;
-    day4: WorkoutID | null;
-    day5: WorkoutID | null;
-    day6: WorkoutID | null;
-    day7: WorkoutID | null;
+    day1: Workout | null;
+    day2: Workout | null;
+    day3: Workout | null;
+    day4: Workout | null;
+    day5: Workout | null;
+    day6: Workout | null;
+    day7: Workout | null;
 }
 
 export const INIT_PROGRAM: Program = {
     'id': '',
     'name': '',
-    'workouts': {},
     'totalLengthInWeeks': 0,
     'phases': [],
     'photoURL': '',
