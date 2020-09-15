@@ -10,6 +10,7 @@ import { CreateCustomWorkoutComponent } from './program-form/create-custom-worko
 import { CopyWorkoutComponent } from './program-form/copy-workout/copy-workout.component';
 import { SharedModule } from '../shared/shared.module';
 import { WorkoutModule } from '../workout/workout.module';
+import { EditCustomWorkoutComponent } from './program-form/edit-custom-workout/edit-custom-workout.component';
 
 
 
@@ -20,6 +21,7 @@ import { WorkoutModule } from '../workout/workout.module';
         SubscribeToWorkoutComponent,
         CreateCustomWorkoutComponent,
         CopyWorkoutComponent,
+        EditCustomWorkoutComponent,
     ],
     'imports': [
         CommonModule,
@@ -35,6 +37,7 @@ import { WorkoutModule } from '../workout/workout.module';
         SubscribeToWorkoutComponent,
         CreateCustomWorkoutComponent,
         CopyWorkoutComponent,
+        EditCustomWorkoutComponent,
     ]
 })
 export class ProgramModule {}

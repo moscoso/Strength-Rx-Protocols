@@ -27,6 +27,7 @@ export class WorkoutFormComponent implements OnInit {
 
     @Input() isCustom = 'false';
     @Input() buttonText = 'Submit';
+    @Input() workout: Workout;
     @Output() formSubmit = new EventEmitter < Partial < Workout >> ();
 
     form: FormGroup;
@@ -61,15 +62,14 @@ export class WorkoutFormComponent implements OnInit {
         this.requestInProgress$ = this.workoutService.selectRequestInProgress();
         this.exerciseService.loadAll();
         this.exerciseList$ = this.exerciseService.selectAll();
-
-        this.workoutService.selectWorkoutByRouteURL().pipe(first()).toPromise().then(workout => {
-            if (workout) {
-                this.initFormValues(workout);
-            }
-
-            this.exercises.valueChanges.subscribe((exercises: Exercise[]) => {
-                this.updateExerciseRoutineFormArray(exercises);
-            });
+        if (this.workout) {
+            this.initFormValues(this.workout);
+        } else {
+            this.workoutService.selectWorkoutByRouteURL().pipe(first(workout => workout != null)).toPromise()
+                .then(workout => { this.initFormValues(workout); });
+        }
+        this.exercises.valueChanges.subscribe((exercises: Exercise[]) => {
+            this.updateExerciseRoutineFormArray(exercises);
         });
     }
 
@@ -165,7 +165,7 @@ export class WorkoutFormComponent implements OnInit {
     }
 
     verifyWorkoutIsUnique(ctrl: AbstractControl): Promise < ValidationErrors | null > {
-        if (this.isCustom) { return null; }
+        if (this.isCustom) { return Promise.resolve(null); }
         return validateDocIDIsUnique(`workouts`, ctrl, this.firestore);
     }
 

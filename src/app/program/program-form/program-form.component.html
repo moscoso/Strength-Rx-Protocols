@@ -24,9 +24,10 @@
             <mat-form-field>
                 <mat-label>Number of Phases</mat-label>
                 <mat-select [formControl]="numberOfPhases">
-                    <mat-option *ngFor="let in of getListOfIntegers(26); let i = index" [value]="i">{{i}}</mat-option>
+                    <mat-option *ngFor="let n of getListOfIntegers(26); let i = index" [value]="i + 1">{{i + 1}}</mat-option>
                 </mat-select>
                 <mat-error *ngIf="name.hasError('required')">Number of Phases is required.</mat-error>
+                <mat-error *ngIf="name.hasError('min')">Minimum of 1 Phase per workout</mat-error>
             </mat-form-field>
         </ion-row>
 
@@ -42,8 +43,13 @@
                     <mat-label>Number of Weeks</mat-label>
                     <input matInput type="number" [formControl]="phaseControl.get('lengthInWeeks')"
                            name="sets"
+                           min=1
+                           max=26
                            autocomplete="off"
                            enterKeyHint="next">
+                    <mat-error *ngIf="name.hasError('min')">Minimum of 1 Week per phase</mat-error>
+                    <mat-error *ngIf="name.hasError('max')">Maximum of 1 Week per phase</mat-error>
+
                 </mat-form-field>
 
                 <ion-label>Weekly Schedule</ion-label>
@@ -54,7 +60,7 @@
                         <ion-row>
                             <mat-form-field class="workout-form-field">
                                 <mat-label>Day {{dayIndex + 1}} Workout</mat-label>
-                                <mat-select [formControl]="dayControl" [required]="dayIndex === 0"> 
+                                <mat-select [formControl]="dayControl" [required]="dayIndex === 0">
                                 </mat-select>
                                 <mat-error *ngIf="dayControl.hasError('required')">A workout is required for Day 1 of the week
                                 </mat-error>
@@ -64,9 +70,25 @@
                                           (click)="resetControl(dayControl)">Reset</mat-hint>
                             </mat-form-field>
                             <workout-preview *ngIf="dayControl.value" [workout]="dayControl.value"></workout-preview>
-                            <ion-button class="create-button" (click)="createCustomWorkout(dayControl)" [hidden]="dayControl.value">Create Custom Workout</ion-button>
-                            <ion-button class="subscribe-button" (click)="subscribeToWorkout(dayControl)" [hidden]="dayControl.value">Subscribe To Master</ion-button>
-                            <ion-button class="copy-button" (click)="copyWorkout(dayControl)" [hidden]="dayControl.value">Copy from Client</ion-button>
+                            <ion-button mat-button
+                                        [matMenuTriggerFor]="menu"
+                                        [hidden]="dayControl.value"
+                                        class="add-workout-button">Add Workout</ion-button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="createCustomWorkout(dayControl)">
+                                    <span>Create Custom Workout</span>
+                                </button>
+                                <button mat-menu-item (click)="subscribeToWorkout(dayControl)">
+                                    <span>Subscribe To Master</span>
+                                </button>
+                                <button mat-menu-item (click)="copyWorkout(dayControl)">
+                                    <span>Copy from Client</span>
+                                </button>
+                            </mat-menu>
+                            <ion-button [hidden]="!dayControl.value"
+                                        (click)="editCustomWorkout(dayControl, dayControl.value)"
+                                        class="edit-workout-button">Edit Workout
+                            </ion-button>
                         </ion-row>
                     </ng-template>
                 </ng-container>

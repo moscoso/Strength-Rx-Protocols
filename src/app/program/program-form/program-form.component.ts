@@ -12,6 +12,8 @@ import { ModalController } from '@ionic/angular';
 import { SubscribeToWorkoutComponent } from './subscribe-to-workout/subscribe-to-workout.component';
 import { CopyWorkoutComponent } from './copy-workout/copy-workout.component';
 import { CreateCustomWorkoutComponent } from './create-custom-workout/create-custom-workout.component';
+import { Workout } from 'src/app/core/state/workouts/workouts.state';
+import { EditCustomWorkoutComponent } from './edit-custom-workout/edit-custom-workout.component';
 
 @Component({
     'selector': 'program-form',
@@ -19,6 +21,7 @@ import { CreateCustomWorkoutComponent } from './create-custom-workout/create-cus
     'styleUrls': ['./program-form.component.scss'],
 })
 export class ProgramFormComponent implements OnInit {
+    @Input() program: Program;
     @Input() buttonText = 'Submit';
     @Output() formSubmit = new EventEmitter < Partial < Program >> ();
 
@@ -50,7 +53,7 @@ export class ProgramFormComponent implements OnInit {
         this.programService.loadAll();
         this.requestInProgress$ = this.programService.selectRequestInProgress();
         this.programService.selectProgramByRouteURL().pipe(first(program => program != null)).toPromise()
-            .then(program => this.initFormValues.bind(this, program));
+            .then(program => {this.initFormValues(program); });
         this.numberOfPhases.valueChanges.subscribe((n: number) => {
             this.updatePhasesFormGroup(n);
         });
@@ -74,7 +77,7 @@ export class ProgramFormComponent implements OnInit {
 
     initPhaseFormControl(phase: ProgramPhase = INIT_PROGRAM_PHASE): FormGroup {
         return new FormGroup({
-            'lengthInWeeks': new FormControl(phase.lengthInWeeks, [Validators.required, Validators.min(1)]),
+            'lengthInWeeks': new FormControl(phase.lengthInWeeks, [Validators.required, Validators.min(1), Validators.max(52)]),
             'schedule': new FormGroup({
                 'day1': new FormControl({ 'value': phase.schedule.day1, 'disabled': true }, [Validators.required]),
                 'day2': new FormControl({ 'value': phase.schedule.day2, 'disabled': true }, []),
@@ -109,6 +112,7 @@ export class ProgramFormComponent implements OnInit {
 
     resetControl(control: FormControl) {
         control.setValue(null);
+        control.markAsTouched();
     }
 
     getDayList(): ['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'] {
@@ -155,11 +159,18 @@ export class ProgramFormComponent implements OnInit {
         return validateDocIDIsUnique(`programs`, ctrl, this.firestore);
     }
 
-    async setWorkoutControlFromModal(dayControl: FormControl, options: { 'id': string, 'component': any, 'cssClass' ?: string }) {
+    async setWorkoutControlFromModal(dayControl: FormControl, options: {
+        'id': string,
+        'component': any,
+        'cssClass' ?: string,
+        'componentProps' ?: any
+    }) {
         const modal = await this.modalController.create(options);
         modal.onDidDismiss().then(event => {
             if (event && event.data && event.data.workout) {
                 dayControl.setValue(event.data.workout);
+                dayControl.markAsDirty();
+                dayControl.markAsTouched();
             }
         });
         return await modal.present();
@@ -176,7 +187,7 @@ export class ProgramFormComponent implements OnInit {
 
     async copyWorkout(dayControl: FormControl) {
         const options = {
-            'id': '',
+            'id': 'copy-workout',
             'component': CopyWorkoutComponent,
             'cssClass': 'modal-short-form'
         };
@@ -188,6 +199,18 @@ export class ProgramFormComponent implements OnInit {
             'id': 'create-custom-workout',
             'component': CreateCustomWorkoutComponent,
             'cssClass': 'modal-80-width',
+        };
+        this.setWorkoutControlFromModal(dayControl, options);
+    }
+
+    async editCustomWorkout(dayControl: FormControl, workout: Workout) {
+        const options = {
+            'id': 'edit-custom-workout',
+            'component': EditCustomWorkoutComponent,
+            'cssClass': 'modal-80-width',
+            'componentProps': {
+                'workout': workout
+            }
         };
         this.setWorkoutControlFromModal(dayControl, options);
     }
