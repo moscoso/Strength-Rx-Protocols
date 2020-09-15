@@ -17,6 +17,7 @@ import { first } from 'rxjs/operators';
 import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
 import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Delta } from 'src/util/delta/Delta';
 
 @Component({
     'selector': 'workout-form',
@@ -25,7 +26,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 })
 export class WorkoutFormComponent implements OnInit {
 
-    @Input() isCustom = 'false';
+    @Input() isCustom = false;
     @Input() buttonText = 'Submit';
     @Input() workout: Workout;
     @Output() formSubmit = new EventEmitter < Partial < Workout >> ();
@@ -44,6 +45,8 @@ export class WorkoutFormComponent implements OnInit {
     requestInProgress$: Observable < boolean > ;
 
     orderedList: Exercise[] = [];
+
+    defaultValue: Workout;
 
     constructor(
         public workoutService: WorkoutStoreDispatcher,
@@ -74,8 +77,8 @@ export class WorkoutFormComponent implements OnInit {
     }
 
     initFormValues(workout: Workout) {
+        this.defaultValue = workout;
         this.name.setValue(workout.name);
-        this.name.disable();
         this.exercises.setValue(workout.exercises);
         this.orderedList = workout.exercises;
         this.setExerciseRoutineFormArray(workout);
@@ -143,21 +146,35 @@ export class WorkoutFormComponent implements OnInit {
     }
 
     onSubmit(form) {
-        const workout = this.form.getRawValue();
         try {
-            let values: Partial < Workout > ;
-            values = {
-                'id': this.getSlug(workout.name),
-                'name': workout.name,
-                'exercises': this.orderedList,
-                'exerciseRoutines': this.getExerciseRoutinesValue(workout),
-                'dateCreated': new Date(),
-                'photoURL': '',
-            };
-            this.formSubmit.emit(values);
+            const values = this.createWorkoutFromForm();
+            if (this.defaultValue === undefined || this.isCustom) {
+                this.formSubmit.emit(values);
+            } else {
+                const changes = {...Delta.object(this.defaultValue, values), 'id': this.defaultValue.id};
+                this.formSubmit.emit(changes);
+            }
         } catch (error) {
             this.toastService.failed(`Could not submit workout`, error);
         }
+    }
+
+    createWorkoutFromForm(): Partial<Workout> {
+        const workout: Workout = this.form.getRawValue();
+        let values: Partial < Workout > ;
+        values = {
+            'id': this.getSlug(workout.name),
+            'name': workout.name,
+            'exercises': this.orderedList,
+            'exerciseRoutines': this.getExerciseRoutinesValue(workout),
+            'dateCreated': new Date(),
+            'photoURL': '',
+        };
+        return values;
+    }
+
+    nameHasChanged() {
+        return this.defaultValue !== undefined && this.defaultValue.name !== this.name.value;
     }
 
     getSlug(name: string) {
@@ -199,7 +216,13 @@ export class WorkoutFormComponent implements OnInit {
 
     drop(event: CdkDragDrop < string[] > ) {
         this.rearrangeExerciseRoutineControls(event);
-        moveItemInArray(this.orderedList, event.previousIndex, event.currentIndex);
+        this.rearrangeOrderedList(event);
+    }
+
+    rearrangeOrderedList(event: CdkDragDrop < string[] >) {
+        const array = [...this.orderedList];
+        moveItemInArray(array, event.previousIndex, event.currentIndex);
+        this.orderedList = array;
     }
 
     rearrangeExerciseRoutineControls(event: CdkDragDrop < string[] > ) {

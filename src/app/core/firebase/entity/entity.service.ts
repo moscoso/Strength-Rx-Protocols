@@ -140,6 +140,8 @@ export abstract class EntityService < T > {
      * @param changes the partial object that represents the changes to the entity data
      */
     async update(entityID: string, changes: Partial < any > ): Promise < Partial < any > > {
+        console.log(this.collectionName, entityID, changes);
+        console.log(`&&&&&&&&&&&&&&&`);
         if (this.options.IDSource === 'name' && changes.name) {
             return this.updateAndMoveDocument(entityID, changes);
         } else {
@@ -155,13 +157,15 @@ export abstract class EntityService < T > {
      * @param changes the partial object that represents the changes to the entity data
      */
     private async updateAndMoveDocument(entityID: string, changes: Partial < any > ): Promise < Partial < any >> {
+        console.log(this.collectionName, entityID, changes);
         return this.firestore.firestore.runTransaction(async (transaction) => {
             const newSlugID = transformToSlug(changes.name);
             const newRef = this.firestore.doc(`${this.collectionName}/${newSlugID}`).ref;
             const newDoc = await transaction.get(newRef);
-            if (newDoc.exists) { throw new Error(`Entity of ID ${newSlugID} already exists`); }
+            if (newDoc.exists) { throw new Error(`Update failed. Document at ${this.collectionName}/${newSlugID} already exists.`); }
             const oldRef = this.firestore.doc(`${this.collectionName}/${entityID}`).ref;
             const oldDoc = await transaction.get(oldRef);
+            if (!oldDoc.exists) { throw new Error(`Update failed. Cannot find entity at ${this.collectionName}/${oldDoc.ref.id}`); }
             const currentData = oldDoc.data();
             transaction.set(newRef, { ...currentData, ...changes, ...{ 'id': newSlugID } });
             transaction.delete(oldRef);

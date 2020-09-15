@@ -18,7 +18,6 @@
                     connection and try again.</mat-error>
                 <mat-hint *ngIf="getSlug(name.value).length > 0 && name.enabled">This link will be at
                     /exercise/{{getSlug(name.value)}}</mat-hint>
-                <mat-hint *ngIf="name.disabled">Cannot edit the name of an existing workout</mat-hint>
             </mat-form-field>
         </ion-row>
 

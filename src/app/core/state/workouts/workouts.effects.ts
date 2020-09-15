@@ -65,10 +65,11 @@ export class WorkoutEffects {
         ofType < WorkoutAction > (WorkoutActionType.Created, WorkoutActionType.Updated),
         tap((action: Workouts.CreateRequested) => {
             this.modalController.dismiss();
+            this.router.navigateByUrl('/workouts');
         })
     );
 
-    @Effect({'dispatch': false}) deleteCompleted$: Observable < WorkoutAction > = this.actions$.pipe(
+    @Effect({'dispatch': false}) deleted$: Observable < WorkoutAction > = this.actions$.pipe(
         ofType<WorkoutAction>(WorkoutActionType.Deleted),
         tap((action: Workouts.CreateRequested) => {
             this.router.navigateByUrl('/workouts');
