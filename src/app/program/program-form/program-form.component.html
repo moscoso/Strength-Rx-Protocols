@@ -8,15 +8,17 @@
                        autocomplete="off"
                        enterKeyHint="next"
                        required>
+                <div mat-icon-button matSuffix [hidden]="this.defaultValue === undefined">
+                    <mat-icon [ngStyle]="{'color': nameHasChanged() ? 'orange':'green'}">adjust</mat-icon>
+                </div>
                 <mat-error *ngIf="name.hasError('required')">Name is required.</mat-error>
                 <mat-error *ngIf="name.hasError('entityIDTaken')">A program named {{name.value}} already exists
                 </mat-error>
                 <mat-error *ngIf="name.hasError('couldNotReachServer')">Could not reach server. Please check your
                     connection and try again.</mat-error>
-                <mat-hint *ngIf="getSlug(name.value).length > 0 && name.enabled">This link will be at
+                <mat-hint *ngIf="getSlug(name.value).length > 0 && name.enabled && !isCustom">This link will be at
                     /program/{{getSlug(name.value)}}
                 </mat-hint>
-                <mat-hint *ngIf="name.disabled">Cannot edit the name of an existing program</mat-hint>
             </mat-form-field>
         </ion-row>
 
@@ -61,6 +63,14 @@
                             <mat-form-field class="workout-form-field">
                                 <mat-label>Day {{dayIndex + 1}} Workout</mat-label>
                                 <mat-select [formControl]="dayControl" [required]="dayIndex === 0">
+                                    <div [hidden]="dayControl.value">
+                                        <mat-option (click)="createCustomWorkout(dayControl)">Create Workout</mat-option>
+                                        <mat-option (click)="subscribeToWorkout(dayControl)">Import Master Workout</mat-option>
+                                        <mat-option (click)="copyWorkout(dayControl)">Copy Workout from Client</mat-option>
+                                    </div>
+                                    <div [hidden]="!dayControl.value">
+                                        <mat-option [value]="null">Reset to Rest Day</mat-option>
+                                    </div>
                                 </mat-select>
                                 <mat-error *ngIf="dayControl.hasError('required')">A workout is required for Day 1 of the week
                                 </mat-error>
@@ -69,26 +79,8 @@
                                           [hidden]="!dayControl.value"
                                           (click)="resetControl(dayControl)">Reset</mat-hint>
                             </mat-form-field>
-                            <workout-preview *ngIf="dayControl.value" [workout]="dayControl.value"></workout-preview>
-                            <ion-button mat-button
-                                        [matMenuTriggerFor]="menu"
-                                        [hidden]="dayControl.value"
-                                        class="add-workout-button">Add Workout</ion-button>
-                            <mat-menu #menu="matMenu">
-                                <button mat-menu-item (click)="createCustomWorkout(dayControl)">
-                                    <span>Create Custom Workout</span>
-                                </button>
-                                <button mat-menu-item (click)="subscribeToWorkout(dayControl)">
-                                    <span>Subscribe To Master</span>
-                                </button>
-                                <button mat-menu-item (click)="copyWorkout(dayControl)">
-                                    <span>Copy from Client</span>
-                                </button>
-                            </mat-menu>
-                            <ion-button [hidden]="!dayControl.value"
-                                        (click)="editCustomWorkout(dayControl, dayControl.value)"
-                                        class="edit-workout-button">Edit Workout
-                            </ion-button>
+                            <workout-preview *ngIf="dayControl.value && dayControl.value.exercises" [workout]="dayControl.value"></workout-preview>
+                            <ion-button [hidden]="!dayControl.value" (click)="editCustomWorkout(dayControl)">Edit Workout</ion-button>
                         </ion-row>
                     </ng-template>
                 </ng-container>

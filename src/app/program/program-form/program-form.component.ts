@@ -14,6 +14,7 @@ import { CopyWorkoutComponent } from './copy-workout/copy-workout.component';
 import { CreateCustomWorkoutComponent } from './create-custom-workout/create-custom-workout.component';
 import { Workout } from 'src/app/core/state/workouts/workouts.state';
 import { EditCustomWorkoutComponent } from './edit-custom-workout/edit-custom-workout.component';
+import { Delta } from 'src/util/delta/Delta';
 
 @Component({
     'selector': 'program-form',
@@ -21,6 +22,7 @@ import { EditCustomWorkoutComponent } from './edit-custom-workout/edit-custom-wo
     'styleUrls': ['./program-form.component.scss'],
 })
 export class ProgramFormComponent implements OnInit {
+    @Input() isCustom = false;
     @Input() program: Program;
     @Input() buttonText = 'Submit';
     @Output() formSubmit = new EventEmitter < Partial < Program >> ();
@@ -35,6 +37,8 @@ export class ProgramFormComponent implements OnInit {
     numberOfPhases = new FormControl(1, [Validators.required, Validators.min(1), Validators.max(26)]);
     phases: FormArray;
     requestInProgress$: Observable < boolean > ;
+
+    defaultValue: Program;
 
     constructor(
         public programService: ProgramStoreDispatcher,
@@ -52,8 +56,12 @@ export class ProgramFormComponent implements OnInit {
         });
         this.programService.loadAll();
         this.requestInProgress$ = this.programService.selectRequestInProgress();
-        this.programService.selectProgramByRouteURL().pipe(first(program => program != null)).toPromise()
-            .then(program => {this.initFormValues(program); });
+        if (this.program) {
+            this.initFormValues(this.program);
+        } else {
+            this.programService.selectProgramByRouteURL().pipe(first(program => program != null)).toPromise()
+            .then(program => { this.initFormValues(program); });
+        }
         this.numberOfPhases.valueChanges.subscribe((n: number) => {
             this.updatePhasesFormGroup(n);
         });
@@ -79,13 +87,13 @@ export class ProgramFormComponent implements OnInit {
         return new FormGroup({
             'lengthInWeeks': new FormControl(phase.lengthInWeeks, [Validators.required, Validators.min(1), Validators.max(52)]),
             'schedule': new FormGroup({
-                'day1': new FormControl({ 'value': phase.schedule.day1, 'disabled': true }, [Validators.required]),
-                'day2': new FormControl({ 'value': phase.schedule.day2, 'disabled': true }, []),
-                'day3': new FormControl({ 'value': phase.schedule.day3, 'disabled': true }, []),
-                'day4': new FormControl({ 'value': phase.schedule.day4, 'disabled': true }, []),
-                'day5': new FormControl({ 'value': phase.schedule.day5, 'disabled': true }, []),
-                'day6': new FormControl({ 'value': phase.schedule.day6, 'disabled': true }, []),
-                'day7': new FormControl({ 'value': phase.schedule.day7, 'disabled': true }, []),
+                'day1': new FormControl({ 'value': phase.schedule.day1, }, [Validators.required]),
+                'day2': new FormControl({ 'value': phase.schedule.day2, }, []),
+                'day3': new FormControl({ 'value': phase.schedule.day3, }, []),
+                'day4': new FormControl({ 'value': phase.schedule.day4, }, []),
+                'day5': new FormControl({ 'value': phase.schedule.day5, }, []),
+                'day6': new FormControl({ 'value': phase.schedule.day6, }, []),
+                'day7': new FormControl({ 'value': phase.schedule.day7, }, []),
             })
         });
     }
@@ -97,8 +105,8 @@ export class ProgramFormComponent implements OnInit {
     }
 
     initFormValues(program: Program) {
+        this.defaultValue = program;
         this.name.setValue(program.name);
-        this.name.disable();
         this.numberOfPhases.setValue(program.phases.length);
         this.updatePhasesFormGroup(program.phases.length);
         program.phases.forEach((phase, index) => {
@@ -124,21 +132,35 @@ export class ProgramFormComponent implements OnInit {
     }
 
     onSubmit(form) {
-        const program = this.form.getRawValue();
         try {
-            let values: Partial < Program > ;
-            values = {
-                'id': this.getSlug(program.name),
-                'name': program.name,
-                'totalLengthInWeeks': this.sumWeeks(program.phases),
-                'phases': program.phases,
-                'dateCreated': new Date(),
-                'photoURL': '',
-            };
-            this.formSubmit.emit(values);
+            const values = this.createProgramFromForm();
+            if (this.defaultValue === undefined || this.isCustom) {
+                this.formSubmit.emit(values);
+            } else {
+                const changes = { ...Delta.object(this.defaultValue, values), 'id': this.defaultValue.id };
+                this.formSubmit.emit(changes);
+            }
         } catch (error) {
             this.toastService.failed(`Could not submit program`, error);
         }
+    }
+
+    createProgramFromForm(): Partial < Program > {
+        const program: Program = this.form.getRawValue();
+        let values: Partial < Program > ;
+        values = {
+            'id': this.getSlug(program.name),
+            'name': program.name,
+            'totalLengthInWeeks': this.sumWeeks(program.phases),
+            'phases': program.phases,
+            'dateCreated': new Date(),
+            'photoURL': '',
+        };
+        return program;
+    }
+
+    nameHasChanged() {
+        return this.defaultValue !== undefined && this.defaultValue.name !== this.name.value;
     }
 
     sumWeeks(phases: any[]): number {
@@ -167,6 +189,7 @@ export class ProgramFormComponent implements OnInit {
     }) {
         const modal = await this.modalController.create(options);
         modal.onDidDismiss().then(event => {
+            console.log(event);
             if (event && event.data && event.data.workout) {
                 dayControl.setValue(event.data.workout);
                 dayControl.markAsDirty();
@@ -203,13 +226,14 @@ export class ProgramFormComponent implements OnInit {
         this.setWorkoutControlFromModal(dayControl, options);
     }
 
-    async editCustomWorkout(dayControl: FormControl, workout: Workout) {
+    async editCustomWorkout(dayControl: FormControl) {
+        console.log(dayControl.value);
         const options = {
             'id': 'edit-custom-workout',
             'component': EditCustomWorkoutComponent,
             'cssClass': 'modal-80-width',
             'componentProps': {
-                'workout': workout
+                'workout': dayControl.value
             }
         };
         this.setWorkoutControlFromModal(dayControl, options);

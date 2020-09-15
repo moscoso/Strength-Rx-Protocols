@@ -74,10 +74,11 @@ export class ProgramEffects {
         ofType < ProgramAction > (ProgramActionType.Created, ProgramActionType.Updated),
         tap((action: Programs.CreateRequested) => {
             this.modalController.dismiss();
+            this.router.navigateByUrl('/programs');
         })
     );
 
-    @Effect({ 'dispatch': false }) deleteCompleted$: Observable < ProgramAction > = this.actions$.pipe(
+    @Effect({ 'dispatch': false }) deleted$: Observable < ProgramAction > = this.actions$.pipe(
         ofType < ProgramAction > (ProgramActionType.Deleted),
         tap((action: Programs.CreateRequested) => {
             this.router.navigateByUrl('/programs');
