@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../core/state/app.state';
 import { Observable } from 'rxjs';
 import { selectUserID } from '../core/state/auth/auth.selector';
-import { take, map, first } from 'rxjs/operators';
+import { map, first } from 'rxjs/operators';
 import { CheckIn } from '../core/state/check-ins/check-in.state';
 import { CreateRequested } from '../core/state/check-ins/check-in.actions';
 import { ClientStoreDispatcher } from '../core/state/client/client.dispatcher';
@@ -76,7 +76,7 @@ export class CheckInPage implements OnInit {
     }
 
     async onSubmit(form) {
-        const userID = await this.store.select(selectUserID).pipe(take(1)).toPromise();
+        const userID = await this.store.select(selectUserID).pipe(first()).toPromise();
         const checkIn: CheckIn = {
             ...form,
             userID,
