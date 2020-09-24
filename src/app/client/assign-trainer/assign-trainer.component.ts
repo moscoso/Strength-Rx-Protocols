@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Profile } from 'src/app/core/state/profile/profile.state';
 import { Observable, of } from 'rxjs';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
-import { take, first } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
 
 @Component({
@@ -32,7 +32,7 @@ export class AssignTrainerComponent implements OnInit {
     }
 
     async assignTrainer() {
-        const trainer: Profile = await this.profileService.selectUserProfile().pipe(take(1)).toPromise();
+        const trainer: Profile = await this.profileService.selectUserProfile().pipe(first()).toPromise();
         this.clientService.assignTrainer(this.clientID, trainer);
     }
 

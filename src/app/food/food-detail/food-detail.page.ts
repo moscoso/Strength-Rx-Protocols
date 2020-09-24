@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of, } from 'rxjs';
 import { Food } from 'src/app/core/state/food/food.state';
-import { selectUserIsTrainer } from 'src/app/core/state/profile/profile.selector';
 import * as fromFoods from 'src/app/core/state/food/food.selector';
 import { AppState } from 'src/app/core/state/app.state';
-import { filter, take } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { AllRequested, DeleteRequested } from 'src/app/core/state/food/food.actions';
@@ -37,8 +36,7 @@ export class FoodDetailPage implements OnInit {
     doRefresh(event): void {
         this.store.dispatch(new AllRequested());
         this.store.select((state: AppState) => state.exercises.requestInProgress).pipe(
-            filter(requestInProgress => requestInProgress === false),
-            take(1),
+            first(requestInProgress => requestInProgress === false),
         ).toPromise().then(() => {
             event.target.complete();
         });
@@ -67,7 +65,7 @@ export class FoodDetailPage implements OnInit {
     }
 
     async requestDelete(): Promise < void > {
-        const food = await this.food$.pipe(take(1)).toPromise();
+        const food = await this.food$.pipe(first()).toPromise();
         this.store.dispatch(new DeleteRequested(food.id));
     }
 }

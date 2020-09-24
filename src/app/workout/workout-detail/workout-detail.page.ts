@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Workout, ExerciseRoutine } from 'src/app/core/state/workouts/workouts.state';
 import { ModalController, ActionSheetController } from '@ionic/angular';
-import { filter, take, first } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { EditWorkoutPage } from '../edit-workout/edit-workout.page';
 import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
@@ -35,8 +35,7 @@ export class WorkoutDetailPage implements OnInit {
     doRefresh(event): void {
         this.workoutService.loadAll();
         this.workoutService.selectRequestInProgress().pipe(
-            filter(requestInProgress => requestInProgress === false),
-            take(1),
+            first(requestInProgress => requestInProgress === false),
         ).toPromise().then(() => {
             event.target.complete();
         });
@@ -71,7 +70,7 @@ export class WorkoutDetailPage implements OnInit {
     }
 
     async requestDelete(): Promise < void > {
-        const workout = await this.workout$.pipe(take(1)).toPromise();
+        const workout = await this.workout$.pipe(first()).toPromise();
         this.workoutService.delete(workout.id);
     }
 

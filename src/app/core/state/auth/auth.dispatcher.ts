@@ -13,7 +13,7 @@ import {
     NotAuthenticated
 } from './auth.actions';
 import { FireAuthService } from '../../firebase/auth/auth.service';
-import { pluck, take, first, distinct } from 'rxjs/operators';
+import { pluck, first, distinct } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserInfo } from 'firebase';
 import { selectUserData, selectAuthenticated, selectState, selectUserID } from './auth.selector';
@@ -84,7 +84,7 @@ export class AuthStoreDispatcher {
     }
 
     public isAuthenticated(): Promise < boolean > {
-        return this.selectAuthenticated().pipe(take(1)).toPromise();
+        return this.selectAuthenticated().pipe(first()).toPromise();
     }
 
     public selectAuthenticated(): Observable < boolean > {

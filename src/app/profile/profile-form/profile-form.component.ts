@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { take, first } from 'rxjs/operators';
-import { Profile, ClientApplicationStatus } from 'src/app/core/state/profile/profile.state';
+import { first } from 'rxjs/operators';
+import { Profile } from 'src/app/core/state/profile/profile.state';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
@@ -63,7 +63,7 @@ export class ProfileFormComponent implements OnInit {
     }
 
     async onSubmit(form) {
-        const user = await this.authService.selectUserData().pipe(take(1)).toPromise();
+        const user = await this.authService.selectUserData().pipe(first()).toPromise();
         const profile = this.form.getRawValue();
         try {
             let values: Partial < Profile > ;

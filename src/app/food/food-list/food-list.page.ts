@@ -4,7 +4,7 @@ import { Food } from 'src/app/core/state/food/food.state';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/state/app.state';
-import { filter, take } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import * as fromFoods from '../../core/state/food/food.selector';
 import { AllRequested } from 'src/app/core/state/food/food.actions';
 import { CreateFoodPage } from '../create-food/create-food.page';
@@ -34,8 +34,7 @@ export class FoodsListPage implements OnInit {
     doRefresh(event): void {
         this.store.dispatch(new AllRequested());
         this.store.select((state: AppState) => state.foods.requestInProgress).pipe(
-            filter(requestInProgress => requestInProgress === false),
-            take(1),
+            first(requestInProgress => requestInProgress === false),
         ).toPromise().then(() => {
             event.target.complete();
         });

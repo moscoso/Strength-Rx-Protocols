@@ -3,10 +3,9 @@ import { Program } from 'src/app/core/state/program/program.state';
 import { Observable } from 'rxjs';
 import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
 import { EditProgramPage } from '../edit-program/edit-program.page';
-import { take, first } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { ModalController, ActionSheetController } from '@ionic/angular';
-import { Workout } from 'src/app/core/state/workouts/workouts.state';
 
 @Component({
     'selector': 'app-program-detail',
@@ -77,7 +76,7 @@ export class ProgramDetailPage implements OnInit {
     }
 
     async requestDelete(): Promise < void > {
-        const program = await this.program$.pipe(take(1)).toPromise();
+        const program = await this.program$.pipe(first()).toPromise();
         this.programService.delete(program.id);
     }
 }
