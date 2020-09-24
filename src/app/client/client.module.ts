@@ -10,6 +10,10 @@ import { ProgramModule } from '../program/program.module';
 import { ProgressPicListComponent } from './progress-pic-list/progress-pic-list.component';
 import { PipeModule } from '../pipes/pipe.module';
 import { CheckInListComponent } from '../check-in/check-in-list/check-in-list.component';
+import { CreateCustomProgramComponent } from './assign-program/create-custom-program/create-custom-program.component';
+import { EditCustomProgramComponent } from './assign-program/edit-custom-program/edit-custom-program.component';
+import { SubscribeToProgramComponent } from './assign-program/subscribe-to-program/subscribe-to-program.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -19,6 +23,9 @@ import { CheckInListComponent } from '../check-in/check-in-list/check-in-list.co
         AssignTrainerComponent,
         ProgressPicListComponent,
         CheckInListComponent,
+        CreateCustomProgramComponent,
+        EditCustomProgramComponent,
+        SubscribeToProgramComponent,
     ],
     'imports': [
         CommonModule,
@@ -26,6 +33,7 @@ import { CheckInListComponent } from '../check-in/check-in-list/check-in-list.co
         RouterModule,
         MaterialsModule,
         ProgramModule,
+        SharedModule,
         ReactiveFormsModule,
         PipeModule,
     ],

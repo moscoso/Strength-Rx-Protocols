@@ -39,16 +39,7 @@
                 <ion-label>Exercise Order:</ion-label>
                 <div cdkDropList (cdkDropListDropped)="drop($event)" class="ordered-list">
                     <div *ngFor="let exercise of orderedList" cdkDrag class="ordered-box">
-                        <ion-label>{{exercise.name}}
-                            <!-- <div class="drag-handle" cdkDragHandle>
-                                <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                          d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
-                                    </path>
-                                    <path d="M0 0h24v24H0z" fill="none"></path>
-                                </svg>
-                            </div> -->
-                        </ion-label>
+                        <ion-label>{{exercise.name}}</ion-label>
                     </div>
                 </div>
             </ion-col>
@@ -128,7 +119,7 @@
             </ion-col>
         </ion-row>
         <ion-button type="submit"
-                    [disabled]="form.invalid || (requestInProgress$ | async) || form.untouched"
+                    [disabled]="form.invalid || (requestInProgress$ | async)"
                     expand="full">
             <ion-icon name="fitness"></ion-icon>&nbsp;{{buttonText}}
         </ion-button>

@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Client, INIT_CLIENT } from 'src/app/core/state/client/client.state';
 import { Observable, of } from 'rxjs';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
@@ -7,6 +6,10 @@ import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispa
 import { Program } from 'src/app/core/state/program/program.state';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { ModalController } from '@ionic/angular';
+import { CreateCustomProgramComponent } from './create-custom-program/create-custom-program.component';
+import { SubscribeToProgramComponent } from './subscribe-to-program/subscribe-to-program.component';
+import { EditCustomProgramComponent } from './edit-custom-program/edit-custom-program.component';
 
 @Component({
     'selector': 'assign-program',
@@ -24,6 +27,7 @@ export class AssignProgramComponent implements OnInit {
 
     form: FormGroup;
     programs = new FormControl([], [Validators.required]);
+    program = new FormControl(null);
 
     defaultProgram: Program;
 
@@ -31,6 +35,7 @@ export class AssignProgramComponent implements OnInit {
         public profileService: ProfileStoreDispatcher,
         public clientService: ClientStoreDispatcher,
         public programService: ProgramStoreDispatcher,
+        public modalController: ModalController,
     ) {}
 
     ngOnInit() {
@@ -59,14 +64,54 @@ export class AssignProgramComponent implements OnInit {
     }
 
 
-    /**
-     * A function to compare the option values with the selected values.
-     * @param e1 the first argument is a value from an option.
-     * @param e2 the second is a value from the selection.
-     * @returns a boolean should be returned.
-     */
+    async setProgramControlFromModal(options: {
+        'id': string,
+        'component': any,
+        'cssClass' ?: string,
+        'componentProps' ?: any
+    }) {
+        const modal = await this.modalController.create(options);
+        modal.onDidDismiss().then(event => {
+            console.log(event);
+            if (event && event.data && event.data.program) {
+                // dayControl.setValue(event.data.workout);
+                // dayControl.markAsDirty();
+                // dayControl.markAsTouched();
+                this.clientService.assignProgram(this.clientID, event.data.program);
+                this.defaultProgram = event.data.program;
+            }
+        });
+        return await modal.present();
+    }
 
-    comparePrograms(e1: Program, e2: Program): boolean {
-        return e1 && e2 ? e1.id === e2.id : e1 === e2;
+    async subscribeToProgram() {
+        const options = {
+            'id': 'subscribe-to-program',
+            'component': SubscribeToProgramComponent,
+            'cssClass': 'modal-short-form'
+        };
+        this.setProgramControlFromModal(options);
+    }
+
+    async editCustomProgram() {
+        console.log(this.defaultProgram);
+        const options = {
+            'id': 'edit-custom-program',
+            'component': EditCustomProgramComponent,
+            'cssClass': 'modal-80-width',
+            'componentProps': {
+                'program': this.defaultProgram
+            }
+        };
+        this.setProgramControlFromModal(options);
+    }
+
+    async createCustomProgram() {
+        const options = {
+            'id': 'create-custom-program',
+            'component': CreateCustomProgramComponent,
+            'cssClass': 'modal-80-width',
+        };
+        this.setProgramControlFromModal(options);
     }
 }

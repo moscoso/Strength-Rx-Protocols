@@ -87,13 +87,13 @@ export class ProgramFormComponent implements OnInit {
         return new FormGroup({
             'lengthInWeeks': new FormControl(phase.lengthInWeeks, [Validators.required, Validators.min(1), Validators.max(52)]),
             'schedule': new FormGroup({
-                'day1': new FormControl({ 'value': phase.schedule.day1, }, [Validators.required]),
-                'day2': new FormControl({ 'value': phase.schedule.day2, }, []),
-                'day3': new FormControl({ 'value': phase.schedule.day3, }, []),
-                'day4': new FormControl({ 'value': phase.schedule.day4, }, []),
-                'day5': new FormControl({ 'value': phase.schedule.day5, }, []),
-                'day6': new FormControl({ 'value': phase.schedule.day6, }, []),
-                'day7': new FormControl({ 'value': phase.schedule.day7, }, []),
+                'day1': new FormControl(phase.schedule.day1, [Validators.required]),
+                'day2': new FormControl(phase.schedule.day2, []),
+                'day3': new FormControl(phase.schedule.day3, []),
+                'day4': new FormControl(phase.schedule.day4, []),
+                'day5': new FormControl(phase.schedule.day5, []),
+                'day6': new FormControl(phase.schedule.day6, []),
+                'day7': new FormControl(phase.schedule.day7, []),
             })
         });
     }

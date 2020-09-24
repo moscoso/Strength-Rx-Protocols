@@ -211,7 +211,7 @@ export class WorkoutFormComponent implements OnInit {
      */
 
     compareExercises(e1: Exercise, e2: Exercise): boolean {
-        return e1 && e2 ? e1.id === e2.id : e1 === e2;
+        return e1 && e1.id && e2 && e2.id ? e1.id === e2.id : e1 === e2;
     }
 
     drop(event: CdkDragDrop < string[] > ) {

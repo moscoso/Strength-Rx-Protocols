@@ -69,7 +69,7 @@
                                         <mat-option (click)="copyWorkout(dayControl)">Copy Workout from Client</mat-option>
                                     </div>
                                     <div [hidden]="!dayControl.value">
-                                        <mat-option [value]="null">Reset to Rest Day</mat-option>
+                                        <mat-option (click)="resetControl(dayControl)">Reset to Rest Day</mat-option>
                                     </div>
                                 </mat-select>
                                 <mat-error *ngIf="dayControl.hasError('required')">A workout is required for Day 1 of the week

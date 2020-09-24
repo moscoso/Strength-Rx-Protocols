@@ -1,0 +1,15 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Edit Program</ion-title>
+        <ion-buttons slot="end">
+            <dismiss-modal-button modalID="edit-custom-workout" buttonText="Cancel"></dismiss-modal-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <program-form (formSubmit)="onSubmit($event)"
+                  buttonText="Edit Program"
+                  [isCustom]="true"
+                  [program]="customProgram"></program-form>
+</ion-content>
