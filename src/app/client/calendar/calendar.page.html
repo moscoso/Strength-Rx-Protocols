@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Calendar</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="calendar">
+        <div class="header">
+            <div class="day-labels">Sun</div>
+            <div class="day-labels">Mon</div>
+            <div class="day-labels">Tue</div>
+            <div class="day-labels">Wed</div>
+            <div class="day-labels">Thu</div>
+            <div class="day-labels">Fri</div>
+            <div class="day-labels">Sat</div>
+        </div>
+        <div class="week" *ngFor="let week of calendar">
+            <div #square class="day"
+                 *ngFor="let day of week.days"
+                 [ngStyle]="{'height.px': square.offsetWidth}">
+                <div [ngClass]="{'outsideThisMonth': outsideThisMonth(day), 'today': isToday(day)}"
+                     class="date">{{day.toDate().getDate()}}</div>
+            </div>
+        </div>
+    </div>
+</ion-content>

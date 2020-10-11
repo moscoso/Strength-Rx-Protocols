@@ -1,0 +1,47 @@
+.calendar {
+    display: table;
+    width: 100%;
+    max-width: 100vh;
+    table-layout: fixed;
+}
+
+.header {
+    display: table-row;
+}
+
+.day-labels {
+    text-align: center;
+    display: table-cell;
+}
+
+.week {
+    display: table-row;
+    cursor: pointer;
+}
+
+.day {
+    display: table-cell;
+    background: white;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.date {
+    border-radius: 50%;
+    padding: 5px;
+    float: right;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    color: black;
+}
+
+.date.outsideThisMonth {
+    color: rgb(170, 170, 170);
+}
+
+.date.today {
+    background: #007bff;
+    border-radius: 50%;
+    color: white;
+}
