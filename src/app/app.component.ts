@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
         {
             'label': 'Training Calendar',
             'icon': 'today-outline',
-            'link': '/training',
+            'link': '/calendar',
         },
         {
             'label': 'Check In',

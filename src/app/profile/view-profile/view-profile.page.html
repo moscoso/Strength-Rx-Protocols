@@ -27,6 +27,10 @@
         <h1 class="name">{{profile.firstName}} {{profile.lastName}}</h1>
         <h2 *ngIf="(thisIsMe$ | async) && (iAmTrainer$ | async)">Trainer 💪🏼 </h2>
         <ion-note>USER ID: {{profile.id}}</ion-note>
+        <div [hidden]="(thisIsMe$ | async)"
+             *ngIf="(iAmTrainer$ | async)">
+            <go-to-chat-button *ngIf="!(thisIsMe$ | async)" [userID]="profile.id"></go-to-chat-button>
+        </div>
         <ion-list>
             <ion-item>
                 <ion-icon [name]="profile.sex === 'M' ? 'male-outline' : 'female-outline'"></ion-icon>
@@ -38,15 +42,6 @@
             <assign-program [clientID]="profile.id" [hidden]="(iAmTrainer$ | async) && (thisIsMe$ | async)">
             </assign-program>
         </ion-list>
-
-
-        <div [hidden]="(thisIsMe$ | async) && (iAmTrainer$ | async)"
-             *ngIf="(thisIsMe$ | async) || (iAmTrainer$ | async)">
-            <go-to-chat-button *ngIf="!(thisIsMe$ | async)" [userID]="profile.id"></go-to-chat-button>
-            
-            <!-- <my-sources></my-sources> -->
-            <!-- <logout-button>Log out</logout-button> -->
-        </div>
 
     </ion-grid>
 

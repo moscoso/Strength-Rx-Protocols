@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { FireAuthService } from 'src/app/core/firebase/auth/auth.service';
 
@@ -15,7 +15,7 @@ export class NoAuthGuard implements CanActivate {
     async canActivate(
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Promise < boolean | UrlTree > {
-        const user = await this.authService.getUser().pipe(take(1)).toPromise();
+        const user = await this.authService.getUser().pipe(first()).toPromise();
         if (user) {
             return this.router.parseUrl('/profile');
         } else {

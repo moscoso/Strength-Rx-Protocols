@@ -18,6 +18,10 @@ import { transformToSlug } from 'src/util/slug/transformToSlug';
  */
 export abstract class EntityService < T > {
 
+    private creationMechanism: CreateMechanism < T > ;
+    private entityCollection: AngularFirestoreCollection < T > ;
+    private options: EntityServiceOptions < T > ;
+
     constructor(
         protected firestore: AngularFirestore,
         protected functions: AngularFireFunctions,
@@ -25,18 +29,9 @@ export abstract class EntityService < T > {
         options ?: EntityServiceOptions < T > ,
     ) {
         this.options = options ? { ...DEFAULT_OPTIONS, ...options } : DEFAULT_OPTIONS;
-        this.defaultEntity = this.options.defaultEntity;
         this.entityCollection = firestore.collection < T > (collectionName);
         this.setCreationMechanism(this.options.IDSource);
     }
-
-    private 'creationMechanism': CreateMechanism < T > ;
-    private 'entityCollection': AngularFirestoreCollection < T > ;
-    private 'options': EntityServiceOptions < T > ;
-    /**
-     * The default entity for the service will provide default values for any missing data fields from Firestore documents.
-     */
-    private 'defaultEntity': T;
 
     /**
      * Retreive an entity
@@ -47,15 +42,15 @@ export abstract class EntityService < T > {
             .pipe(first()).toPromise();
         const data = snapshot.data();
         if (data == null) {
-            const errorMessage =
-                `Document data for ${this.collectionName} collection does not exist for id: ${entityID}. Source: ${source}`;
+            const errorMessage = `Document data for "${this.collectionName}/${entityID} does not exist". Source: ${source}`;
             throw new Error(errorMessage);
+        }
+
+        const defaultEntity = this.options.defaultEntity;
+        if (defaultEntity) {
+            return { ...defaultEntity, ...data, ...{ 'id': entityID } };
         } else {
-            if (this.defaultEntity) {
-                return { ...this.defaultEntity, ...data, ...{ 'id': entityID } };
-            } else {
-                throw new Error(`Default entity must be set before calling get() on EntityService`);
-            }
+            return {...(data as T), ...{ 'id': entityID } };
         }
     }
 
@@ -68,7 +63,7 @@ export abstract class EntityService < T > {
             this.get(id, source).then(entity => {
                 entities.set(id, entity);
             }).catch(reason => {
-                entities.set(id, null);
+                throw new Error(reason);
             });
         });
         return entities;
@@ -82,15 +77,14 @@ export abstract class EntityService < T > {
     async getAll(): Promise < T[] > {
         const entities: T[] = await this.entityCollection.valueChanges({ 'idField': 'id' })
             .pipe(first()).toPromise();
-        if (!this.defaultEntity) {
-            return entities;
-        } else {
-            const mappedEntities = [];
-            entities.forEach(entity => {
-                mappedEntities.push({ ...this.defaultEntity, ...entity });
-            });
-            return mappedEntities;
-        }
+        return entities.map(entity => {
+            const defaultEntity = this.options.defaultEntity;
+            if (defaultEntity) {
+                return { ...defaultEntity, ...entity };
+            } else {
+                return entity;
+            }
+        });
     }
 
     /**
@@ -101,11 +95,13 @@ export abstract class EntityService < T > {
         const snapshot: QuerySnapshot < DocumentData > = await this.entityCollection
             .get({ 'source': 'server' }).pipe(first()).toPromise();
         return snapshot.docs.map((doc: DocumentData) => {
-            const data: any = doc.data();
-            if (!this.defaultEntity) {
-                return data;
+            const entity = doc.data();
+            const defaultEntity = this.options.defaultEntity;
+            if (defaultEntity) {
+                return { ...defaultEntity, ...entity };
+            } else {
+                return entity;
             }
-            return { ...this.defaultEntity, ...data };
         });
     }
 
@@ -140,9 +136,8 @@ export abstract class EntityService < T > {
      * @param changes the partial object that represents the changes to the entity data
      */
     async update(entityID: string, changes: Partial < any > ): Promise < Partial < any > > {
-        console.log(this.collectionName, entityID, changes);
-        console.log(`&&&&&&&&&&&&&&&`);
-        if (this.options.IDSource === 'name' && changes.name) {
+        const nameIsID = this.options.IDSource === 'name';
+        if (nameIsID && changes.name) {
             return this.updateAndMoveDocument(entityID, changes);
         } else {
             await this.entityCollection.doc(entityID).update(changes);
@@ -157,15 +152,21 @@ export abstract class EntityService < T > {
      * @param changes the partial object that represents the changes to the entity data
      */
     private async updateAndMoveDocument(entityID: string, changes: Partial < any > ): Promise < Partial < any >> {
-        console.log(this.collectionName, entityID, changes);
         return this.firestore.firestore.runTransaction(async (transaction) => {
+            if (!changes.name) {
+                throw new Error(`Cannot updateAndMoveDocument because changes.name == null`);
+            }
             const newSlugID = transformToSlug(changes.name);
             const newRef = this.firestore.doc(`${this.collectionName}/${newSlugID}`).ref;
             const newDoc = await transaction.get(newRef);
-            if (newDoc.exists) { throw new Error(`Update failed. Document at ${this.collectionName}/${newSlugID} already exists.`); }
+            if (newDoc.exists) {
+                throw new Error(`Update failed. Document at ${this.collectionName}/${newSlugID} already exists.`);
+            }
             const oldRef = this.firestore.doc(`${this.collectionName}/${entityID}`).ref;
             const oldDoc = await transaction.get(oldRef);
-            if (!oldDoc.exists) { throw new Error(`Update failed. Cannot find entity at ${this.collectionName}/${oldDoc.ref.id}`); }
+            if (!oldDoc.exists) {
+                throw new Error(`Update failed. Cannot find entity at ${this.collectionName}/${oldDoc.ref.id}`);
+            }
             const currentData = oldDoc.data();
             transaction.set(newRef, { ...currentData, ...changes, ...{ 'id': newSlugID } });
             transaction.delete(oldRef);
@@ -174,18 +175,18 @@ export abstract class EntityService < T > {
     }
 
     /**
-     * Delete an entity's document in Firestore by moving the data to the deleted collection
+     * Delete an entity's document in Firestore by moving the data to the `"deleted"` collection
      * @param entityID the ID of the entity that corresponds to the matching document ID in Firestore
      */
     async delete(entityID: string): Promise < void > {
         return this.firestore.firestore.runTransaction(async (transaction) => {
-            const newRef = this.firestore.collection(`deleted/${this.collectionName}/deleted`).doc(this.firestore
-                .createId()).ref;
-            const oldRef = this.firestore.doc(`${this.collectionName}/${entityID}`).ref;
-            const oldDoc = await transaction.get(oldRef);
-            const currentData = oldDoc.data();
-            transaction.set(newRef, currentData);
-            transaction.delete(oldRef);
+            const ref = this.firestore.doc(`${this.collectionName}/${entityID}`).ref;
+            const doc = await transaction.get(ref);
+            const entityData = doc.data();
+            const recycleBinPath = `deleted/${this.collectionName}/deleted`;
+            const recycleBinRef = this.firestore.collection(recycleBinPath).doc(this.firestore.createId()).ref;
+            transaction.set(recycleBinRef, entityData);
+            transaction.delete(ref);
         });
     }
 }

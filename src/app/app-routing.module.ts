@@ -196,10 +196,15 @@ const routes: Routes = [
         'path': 'privacy-policy',
         'loadChildren': () => import('./home/privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyPageModule)
     },
-
-
-
-
+    {
+        'path': 'calendar',
+        'loadChildren': () => import('./client/calendar/calendar.module').then(m => m.CalendarPageModule)
+    },
+    {
+        'path': '**',
+        'loadChildren': () => import('./home/landing/landing.module').then(m => m.LandingPageModule),
+        'redirectTo': ''
+    },
 ];
 
 @NgModule({
