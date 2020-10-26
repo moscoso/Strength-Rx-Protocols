@@ -20,7 +20,7 @@
                                   [notes]="getNotes(workout.exerciseRoutines[exercise.id])"></exercise-preview>
             </ion-col>
         </ion-row>
-        <ng-container *ngIf="isTrainer$ | async">
+        <ng-container *ngIf="(isTrainer$ | async) && isMasterWorkout">
             <ion-button color="primary" (click)="showEditModal()">Edit</ion-button>
             <ion-button color="danger" (click)="showActionSheetToDelete()">Delete</ion-button>
         </ng-container>

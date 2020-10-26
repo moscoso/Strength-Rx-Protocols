@@ -53,26 +53,20 @@ export class ClientEffects {
         })
     );
 
-    // @Effect({ 'dispatch': false }) created$: Observable < ClientAction > = this.actions$.pipe(
-    //     ofType < ClientAction > (ClientActionType.Created),
-    //     tap((action: Clients.Created) => {
-    //         this.router.navigateByUrl('/');
-    //     })
-    // );
-
-    // @Effect({ 'dispatch': false }) updated$: Observable < ClientAction > = this.actions$.pipe(
-    //     ofType < ClientAction > (ClientActionType.Updated),
-    //     tap((action: Clients.Updated) => {
-    //         this.modalController.dismiss();
-    //         this.router.navigateByUrl('/client');
-    //     })
-    // );
+    @Effect() clearProgramRequested$: Observable < ClientAction > = this.actions$.pipe(
+        ofType < ClientAction > (ClientActionType.ClearProgramRequested),
+        switchMap((action: Clients.ClearProgramRequested) => {
+            const changes = {'assignedProgram': null};
+            return from(this.clientService.update(action.id, changes)
+                .then(() => new Clients.ProgramCleared(action.id))
+                .catch(error => new Clients.RequestFailed(error))
+            );
+        })
+    );
 
     constructor(
         private clientService: ClientService,
         private actions$: Actions,
-        private router: Router,
-        private modalController: ModalController,
         private toaster: ToastService,
     ) {}
 }

@@ -5,8 +5,8 @@ import { db } from '../config';
  *
  * @param {string} userID The unique ID that corresponds to the recipient user.
  */
-export async function getDeviceTokens(userID: string): Promise<any> {
-    const tokens = (await db.doc(`/profiles/${userID}/tokens`).get()).data();
+export async function getDeviceTokens(userID: string): Promise<string[]> {
+    const tokens = (await db.collection(`/profiles/${userID}/tokens`).get());
     if (tokens === undefined) {
         return [];
     } else {

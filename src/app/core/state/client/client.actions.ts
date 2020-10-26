@@ -10,6 +10,8 @@ export enum ClientActionType {
         TrainerAssigned = '[Assign Trainer Component] Assigned Trainer to Client',
         AssignProgramRequested = '[Client Service] Assign Program to Client Requested',
         ProgramAssigned = '[Assign Program Component] Assigned Program to Client',
+        ClearProgramRequested = '[Assign Program Component] Clear Program Requested',
+        ProgramCleared = '[Assign Program Component] Client Program Cleared',
         RequestFailed = '[Client Service] Request Failed',
 }
 
@@ -45,11 +47,20 @@ export class AssignProgramRequested implements Action {
     constructor(public id: string, public program: Program) {}
 }
 
+export class ClearProgramRequested implements Action {
+    readonly type = ClientActionType.ClearProgramRequested;
+    constructor(public id: string) {}
+}
+
 export class ProgramAssigned implements Action {
     readonly type = ClientActionType.ProgramAssigned;
     constructor(public id: string, public program: Program) {}
 }
 
+export class ProgramCleared implements Action {
+    readonly type = ClientActionType.ProgramCleared;
+    constructor(public id: string) {}
+}
 
 
 /**
@@ -62,4 +73,6 @@ export type ClientAction =
     TrainerAssigned |
     AssignProgramRequested |
     ProgramAssigned |
+    ClearProgramRequested |
+    ProgramCleared |
     RequestFailed;

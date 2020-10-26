@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Program } from 'src/app/core/state/program/program.state';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
 import { EditProgramPage } from '../edit-program/edit-program.page';
-import { first } from 'rxjs/operators';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { first, map } from 'rxjs/operators';
 import { ModalController, ActionSheetController } from '@ionic/angular';
+import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
+import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { Client } from 'src/app/core/state/client/client.state';
+import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 
 @Component({
     'selector': 'app-program-detail',
@@ -15,19 +18,49 @@ import { ModalController, ActionSheetController } from '@ionic/angular';
 export class ProgramDetailPage implements OnInit {
 
     program$: Observable < Program > ;
-    isTrainer$: Observable < boolean > ;
+    isMasterProgram = false;
+    isTrainer$: Observable < boolean > = of(false);
 
     constructor(
-        public profileService: ProfileStoreDispatcher,
         public programService: ProgramStoreDispatcher,
         public modalCtrl: ModalController,
+        public profileService: ProfileStoreDispatcher,
+        public clientService: ClientStoreDispatcher,
         public actionSheetCtrl: ActionSheetController,
+        public routerService: RouterStoreDispatcher,
     ) {}
 
     ngOnInit() {
-        this.programService.loadAll();
-        this.program$ = this.programService.selectProgramByRouteURL();
+        this.checkPrivileges();
+        this.loadProgram();
+    }
+
+    async checkPrivileges() {
         this.isTrainer$ = this.profileService.selectUserIsTrainer();
+    }
+
+    async loadProgram() {
+        const routerState = await this.routerService.selectState().pipe(first()).toPromise();
+        const url = routerState.state.url;
+        this.isMasterProgram = url.indexOf('/programs') === 0;
+        const belongsToUser = url === '/profile/program';
+        if (this.isMasterProgram) {
+            this.programService.loadAll();
+            this.program$ = this.programService.selectProgramByRouteURL();
+        } else {
+            this.clientService.loadAll();
+            let client$: Observable < Client >;
+            if (belongsToUser) {
+                client$ = this.clientService.selectUserAsClient();
+            } else {
+                const clientID = routerState.state.params.id;
+                client$ = this.clientService.selectClient(clientID);
+            }
+            this.program$ = client$.pipe(
+                first(client => client != null),
+                map(client => client.assignedProgram)
+            );
+        }
     }
 
     doRefresh(event): void {
@@ -42,10 +75,6 @@ export class ProgramDetailPage implements OnInit {
     getDayList() {
         return ['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'];
     }
-
-    // getWorkout(workoutID: string, program: Program): Workout {
-    //     return program.workouts[workoutID];
-    // }
 
     async showEditModal(): Promise < void > {
         const modal = await this.modalCtrl.create({
@@ -66,7 +95,7 @@ export class ProgramDetailPage implements OnInit {
                 'text': 'Delete',
                 'role': 'destructive',
                 'icon': 'trash',
-                'handler': () => {this.requestDelete(); }
+                'handler': () => { this.requestDelete(); }
             }, {
                 'text': 'Cancel',
                 'role': 'cancel'

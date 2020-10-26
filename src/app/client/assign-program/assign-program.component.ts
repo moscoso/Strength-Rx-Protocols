@@ -2,14 +2,14 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
-import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
 import { Program } from 'src/app/core/state/program/program.state';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { ModalController } from '@ionic/angular';
 import { CreateCustomProgramComponent } from './create-custom-program/create-custom-program.component';
 import { SubscribeToProgramComponent } from './subscribe-to-program/subscribe-to-program.component';
 import { EditCustomProgramComponent } from './edit-custom-program/edit-custom-program.component';
+import { Client } from 'src/app/core/state/client/client.state';
 
 @Component({
     'selector': 'assign-program',
@@ -21,9 +21,6 @@ export class AssignProgramComponent implements OnInit {
     @Input() clientID: string;
 
     public iAmTrainer$: Observable < boolean > = of (false);
-    public profileIsClient$: Observable < boolean > = of (false);
-    public programList$: Observable < Program[] > = of ([]);
-    public requestInProgress$: Observable < boolean > = of (false);
 
     form: FormGroup;
     programs = new FormControl([], [Validators.required]);
@@ -34,7 +31,6 @@ export class AssignProgramComponent implements OnInit {
     constructor(
         public profileService: ProfileStoreDispatcher,
         public clientService: ClientStoreDispatcher,
-        public programService: ProgramStoreDispatcher,
         public modalController: ModalController,
     ) {}
 
@@ -42,14 +38,11 @@ export class AssignProgramComponent implements OnInit {
         this.form = new FormGroup({
             'programs': this.programs
         });
-        this.programService.loadAll();
-        this.programList$ = this.programService.selectAll();
         this.iAmTrainer$ = this.profileService.selectUserIsTrainer();
-        this.requestInProgress$ = this.programService.selectRequestInProgress();
         this.clientService.loadAll();
         this.clientService.selectClient(this.clientID).pipe(
-            first(client => client != null && client.assignedProgram != null)
-        ).subscribe((client) => {
+            filter(client => client != null)
+        ).subscribe((client: Client) => {
             this.defaultProgram = client.assignedProgram;
             this.programs.setValue(this.defaultProgram);
         });
@@ -57,6 +50,11 @@ export class AssignProgramComponent implements OnInit {
 
     async assignProgram(program: Program) {
         this.clientService.assignProgram(this.clientID, program);
+    }
+
+    async clearProgram() {
+        this.clientService.clearProgram(this.clientID);
+        this.defaultProgram = null;
     }
 
     async onSubmit(form) {
@@ -72,11 +70,7 @@ export class AssignProgramComponent implements OnInit {
     }) {
         const modal = await this.modalController.create(options);
         modal.onDidDismiss().then(event => {
-            console.log(event);
             if (event && event.data && event.data.program) {
-                // dayControl.setValue(event.data.workout);
-                // dayControl.markAsDirty();
-                // dayControl.markAsTouched();
                 this.clientService.assignProgram(this.clientID, event.data.program);
                 this.defaultProgram = event.data.program;
             }
@@ -94,7 +88,6 @@ export class AssignProgramComponent implements OnInit {
     }
 
     async editCustomProgram() {
-        console.log(this.defaultProgram);
         const options = {
             'id': 'edit-custom-program',
             'component': EditCustomProgramComponent,
@@ -104,6 +97,10 @@ export class AssignProgramComponent implements OnInit {
             }
         };
         this.setProgramControlFromModal(options);
+    }
+
+    async deleteCustomProgram() {
+        this.clientService.clearProgram(this.clientID);
     }
 
     async createCustomProgram() {

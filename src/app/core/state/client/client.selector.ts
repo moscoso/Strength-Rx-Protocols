@@ -34,9 +34,9 @@ export const selectClientByID = (clientID: string) => createSelector(
 );
 
 /**
- * Select the authenticated user's client
+ * Select the authenticated user as a client
  */
-export const selectUserClient = createSelector(
+export const selectUserAsClient = createSelector(
     fromAuth.selectState,
     selectState,
     (auth: AuthState, clients: ClientsState) => clients.entities[auth.userID]

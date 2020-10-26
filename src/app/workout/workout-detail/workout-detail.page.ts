@@ -2,10 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Workout, ExerciseRoutine } from 'src/app/core/state/workouts/workouts.state';
 import { ModalController, ActionSheetController } from '@ionic/angular';
-import { first } from 'rxjs/operators';
+import { first, map, tap } from 'rxjs/operators';
 import { EditWorkoutPage } from '../edit-workout/edit-workout.page';
 import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
+import { Program } from 'src/app/core/state/program/program.state';
+import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
+import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { Client } from 'src/app/core/state/client/client.state';
+import { CustomRouterReducerState } from 'src/app/core/state/router/router.state';
 
 @Component({
     'selector': 'app-workout-detail',
@@ -15,21 +21,76 @@ import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.disp
 export class WorkoutDetailPage implements OnInit {
 
     workout$: Observable < Workout > ;
+    program$: Observable < Program > ;
     isTrainer$: Observable < boolean > ;
+    isMasterWorkout = false;
 
     constructor(
         public profileService: ProfileStoreDispatcher,
         public workoutService: WorkoutStoreDispatcher,
+        public programService: ProgramStoreDispatcher,
+        public clientService: ClientStoreDispatcher,
         public modalCtrl: ModalController,
         public actionSheetCtrl: ActionSheetController,
+        public routerService: RouterStoreDispatcher,
     ) {}
 
     ngOnInit() {
-        this.workoutService.loadAll();
-        this.workout$ = this.workoutService.selectWorkoutByRouteURL().pipe(first(workout => workout != null));
+        this.initWOrkout();
         this.isTrainer$ = this.profileService.selectUserIsTrainer();
+    }
 
-        this.workout$.subscribe(x => console.log(x));
+    async initWOrkout() {
+        const routerState = await this.routerService.selectState().pipe(first()).toPromise();
+        const url = routerState.state.url;
+        this.isMasterWorkout = url.indexOf('/workouts') === 0;
+        if (this.isMasterWorkout) {
+            this.workoutService.loadAll();
+            this.workout$ = this.workoutService.selectWorkoutByRouteURL().pipe(first(workout => workout != null));
+        } else {
+            this.findWorkoutInProgram();
+        }
+    }
+
+    async findWorkoutInProgram() {
+        const routerState = await this.routerService.selectState().pipe(first()).toPromise();
+        const url = routerState.state.url;
+        const isMasterProgram = url.indexOf('/programs') === 0;
+        let program$: Observable<Program>;
+        if (isMasterProgram) {
+            program$ = this.loadMasterProgram();
+        } else {
+            program$ = this.loadCustomProgram(routerState);
+        }
+        const phaseIndex = routerState.state.params.phase;
+        const dayIndex = routerState.state.params.day;
+        this.workout$ = program$.pipe(
+            first(program => program != null),
+            map(program => program.phases[phaseIndex].schedule[dayIndex])
+        );
+    }
+
+    loadMasterProgram(): Observable <Program> {
+        this.programService.loadAll();
+        return this.programService.selectProgramByRouteURL();
+    }
+
+    loadCustomProgram(routerState: CustomRouterReducerState): Observable < Program> {
+        const clientIsUser = routerState.state.url === '/profile/program';
+        this.clientService.loadAll();
+        let client$: Observable < Client > ;
+        if (clientIsUser) {
+            client$ = this.clientService.selectUserAsClient();
+        } else {
+            const clientID = routerState.state.params.profileID;
+            client$ = this.clientService.selectClient(clientID);
+        }
+        return client$.pipe(
+            tap(x => console.log(x)),
+            first(client => client != null),
+            map(client => client.assignedProgram),
+            tap(x => console.log(x))
+        );
     }
 
     doRefresh(event): void {
@@ -60,7 +121,7 @@ export class WorkoutDetailPage implements OnInit {
                 'text': 'Delete',
                 'role': 'destructive',
                 'icon': 'trash',
-                'handler': () => {this.requestDelete(); }
+                'handler': () => { this.requestDelete(); }
             }, {
                 'text': 'Cancel',
                 'role': 'cancel'

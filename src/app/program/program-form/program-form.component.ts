@@ -60,7 +60,7 @@ export class ProgramFormComponent implements OnInit {
             this.initFormValues(this.program);
         } else {
             this.programService.selectProgramByRouteURL().pipe(first(program => program != null)).toPromise()
-            .then(program => { this.initFormValues(program); });
+                .then(program => { this.initFormValues(program); });
         }
         this.numberOfPhases.valueChanges.subscribe((n: number) => {
             this.updatePhasesFormGroup(n);

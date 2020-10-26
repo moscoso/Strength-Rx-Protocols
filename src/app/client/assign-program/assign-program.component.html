@@ -1,42 +1,26 @@
 <ng-container>
     <h3>Program</h3>
-    <ion-spinner [hidden]="(programList$ | async).length !== 0"></ion-spinner>
     <form [formGroup]=form (ngSubmit)=onSubmit(form.value)>
-        <!-- <ion-row [hidden]="(programList$ | async).length === 0">
-            <ion-col size=12 *ngIf="(iAmTrainer$ | async)">
-                <mat-form-field>
-                    <mat-label>Programs</mat-label>
-                    <mat-select [formControl]="programs" name="programs" [compareWith]="comparePrograms">
-                        <mat-option *ngFor="let program of (programList$ | async)"
-                                    [value]="program">{{program.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <ion-button [disabled]="form.invalid || (requestInProgress$ | async) || programs.value === defaultProgram"
-                            type="submit"
-                            expand="full">
-                    <ion-icon name="fitness"></ion-icon>Assign Program
-                </ion-button>
-            </ion-col>
-            <ion-col size=12>
-                <program-preview *ngIf="defaultProgram"></program-preview>
-            </ion-col>
-        </ion-row> -->
-
         <ion-row>
             <mat-form-field class="workout-form-field" [hidden]="defaultProgram">
                 <mat-select [formControl]="program">
                     <div>
                         <mat-option (click)="createCustomProgram()">Create Program</mat-option>
-                        <mat-option disabled>Import Master Program</mat-option>
+                        <mat-option (click)="subscribeToProgram()">Import Master Program</mat-option>
                     </div>
                 </mat-select>
             </mat-form-field>
-            <!-- [routerLink]="'/programs/' + defaultProgram.id" -->
-            <program-preview *ngIf="defaultProgram" [program]="defaultProgram"> 
+            <program-preview *ngIf="defaultProgram" [program]="defaultProgram" routerLink="program">
             </program-preview>
         </ion-row>
-        <ion-row>
-            <ion-button id="edit-program-btn" [hidden]="!defaultProgram" (click)="editCustomProgram()" expand="block">Edit Program</ion-button>
+        <ion-row [hidden]="!defaultProgram" class="custom-program-btns">
+            <ion-button id="edit-program-btn"
+                        (click)="editCustomProgram()"
+                        expand="block">Edit</ion-button>
+            <ion-button id="delete-program-btn"
+                        (click)="deleteCustomProgram()"
+                        expand="block"
+                        color="danger">Clear</ion-button>
         </ion-row>
     </form>
 </ng-container>

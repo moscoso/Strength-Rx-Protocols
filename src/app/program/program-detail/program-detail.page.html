@@ -19,12 +19,13 @@
             <ion-label [hidden]="phase.lengthInWeeks <= 1">Length: {{phase.lengthInWeeks}} weeks</ion-label>
             <ion-row>
                 <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12" *ngFor="let day of getDayList(); let dayIndex = index;">
-                    <ng-template let-workout [ngTemplateOutletContext]="{ $implicit: phase.schedule[day] }"
-                                 [ngTemplateOutlet]="t" #t>
+                    <ng-template let-workout  #t
+                                 [ngTemplateOutletContext]="{ $implicit: phase.schedule[day] }"
+                                 [ngTemplateOutlet]="t">
                         <ion-label>Day {{dayIndex + 1}}</ion-label>
                         <workout-preview *ngIf="workout"
                                          [workout]=workout
-                                         [routerLink]="'/workouts/' + workout.id "></workout-preview>
+                                         [routerLink]="phaseIndex+'/'+day"></workout-preview>
                         <ion-label *ngIf="!workout">
                             <h1>Rest</h1>
                         </ion-label>
@@ -32,7 +33,7 @@
                 </ion-col>
             </ion-row>
         </ion-grid>
-        <ng-container *ngIf="isTrainer$ | async">
+        <ng-container *ngIf="isMasterProgram && (isTrainer$ | async)">
             <ion-button color="primary" (click)="showEditModal()">Edit</ion-button>
             <ion-button color="danger" (click)="showActionSheetToDelete()">Delete</ion-button>
         </ng-container>

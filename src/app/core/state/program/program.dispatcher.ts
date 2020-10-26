@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
-import { FireAuthService } from '../../firebase/auth/auth.service';
 import * as ProgramAction from './program.actions';
 import { StateModule } from '../state.module';
 import { Program } from './program.state';
@@ -12,7 +11,7 @@ import {
     selectAll,
     selectEntities,
     selectTotal,
-    selectIds
+    selectIds,
 } from './program.selector';
 import { AllRequested } from './program.actions';
 import { Observable } from 'rxjs';
@@ -20,13 +19,12 @@ import { Dictionary } from '@ngrx/entity';
 
 /**
  * This service is responsible for dispatching program actions to the Store and selecting
- * auth data from the Store
+ * program data from the Store
  */
 @Injectable({ 'providedIn': StateModule })
 export class ProgramStoreDispatcher {
     constructor(
         protected store: Store < AppState > ,
-        protected fireAuth: FireAuthService
     ) {}
 
     /** Dispatch a CreateRequested action to the store */

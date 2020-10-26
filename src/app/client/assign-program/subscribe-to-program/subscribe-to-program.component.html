@@ -1,3 +1,29 @@
-<p>
-  subscribe-to-program works!
-</p>
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Import a Master Program</ion-title>
+        <ion-buttons slot="end">
+            <dismiss-modal-button modalID="subscribe-to-program" buttonText="Cancel"></dismiss-modal-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]=form (ngSubmit)=onSubmit(form.value)>
+        <ion-skeleton-text [hidden]="(programList$ | async).length !== 0"></ion-skeleton-text>
+        <mat-form-field [hidden]="(programList$ | async).length === 0">
+            <mat-form-field class="program-form-field">
+                <mat-label>Choose a Master Program</mat-label>
+                <mat-select [formControl]="programControl" [compareWith]="comparePrograms">
+                    <mat-option *ngFor="let program of (programList$ | async)"
+                                [value]="program">{{program.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="programControl.hasError('required')">A program is required</mat-error>
+            </mat-form-field>
+            <ion-button type="submit"
+                        [disabled]="form.invalid || (requestInProgress$ | async) || !form.touched"
+                        expand="full">
+                <ion-icon name="fitness"></ion-icon>&nbsp;Import program
+            </ion-button>
+        </mat-form-field>
+    </form>
+</ion-content>

@@ -9,7 +9,7 @@ const routes: Routes = [
         'component': ProgramListPage
     },
     {
-        'path': ':id',
+        'path': ':programID',
         'loadChildren': () => import('../program-detail/program-detail.module').then(m => m
             .ProgramDetailPageModule)
     },

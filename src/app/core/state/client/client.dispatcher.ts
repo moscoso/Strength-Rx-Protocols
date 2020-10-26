@@ -12,7 +12,7 @@ import {
     selectEntities,
     selectTotal,
     selectIds,
-    selectUserClient,
+    selectUserAsClient,
     selectMyClients,
     selectUnassignedClients,
     selectClientBelongsToUser
@@ -43,6 +43,11 @@ export class ClientStoreDispatcher {
     /** Dispatch an AssignTrainerRequested action to the store */
     public assignTrainer(clientID: string, trainer: Profile): void {
         this.store.dispatch(new ClientAction.AssignTrainerRequested(clientID, trainer));
+    }
+
+    /** Dispatch a ClearProgramRequested action to the store */
+    public clearProgram(clientID: string): void {
+        this.store.dispatch(new ClientAction.ClearProgramRequested(clientID));
     }
 
     /**
@@ -80,18 +85,18 @@ export class ClientStoreDispatcher {
         return this.store.select(selectTotal);
     }
 
-    public selectUserClient(): Observable< Client> {
-        return this.store.select(selectUserClient);
+    public selectUserAsClient(): Observable < Client > {
+        return this.store.select(selectUserAsClient);
     }
 
-    public selectClientBelongsToUser(): Observable <boolean> {
+    public selectClientBelongsToUser(): Observable < boolean > {
         return this.store.select(selectClientBelongsToUser);
     }
 
-    public selectMyClients(): Observable< Client[]> {
+    public selectMyClients(): Observable < Client[] > {
         return this.store.select(selectMyClients);
     }
-    public selectUnassignedClients(): Observable< Client[]> {
+    public selectUnassignedClients(): Observable < Client[] > {
         return this.store.select(selectUnassignedClients);
     }
 }

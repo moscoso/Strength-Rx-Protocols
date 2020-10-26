@@ -34,14 +34,17 @@ export function clientsReducer(state: ClientsState = initialState, action: Clien
                 'error': null,
             };
         case ClientActionType.ProgramAssigned:
-            const changes1: Partial < Client > = {'assignedProgram': action.program};
-            return clientsAdapter.updateOne({ 'id': action.id, 'changes': changes1 }, {
+            return clientsAdapter.updateOne({ 'id': action.id, 'changes': { 'assignedProgram': action.program } }, {
+                ...state,
+                'requestInProgress': false,
+            });
+        case ClientActionType.ProgramCleared:
+            return clientsAdapter.updateOne({ 'id': action.id, 'changes': { 'assignedProgram': null } }, {
                 ...state,
                 'requestInProgress': false,
             });
         case ClientActionType.TrainerAssigned:
-            const changes2: Partial < Client > = {'assignedTrainer': action.trainer};
-            return clientsAdapter.updateOne({ 'id': action.id, 'changes': changes2 }, {
+            return clientsAdapter.updateOne({ 'id': action.id, 'changes': { 'assignedTrainer': action.trainer } }, {
                 ...state,
                 'requestInProgress': false,
             });

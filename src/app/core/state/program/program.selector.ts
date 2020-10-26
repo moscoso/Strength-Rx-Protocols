@@ -36,10 +36,9 @@ export const selectProgramByRouteURL = createSelector(
     selectEntities,
     selectRouterState,
     (entities: Dictionary<Program>, router: RouterReducerState<any>) => {
-        return router.state && entities[router.state.params.id];
+        return router.state && entities[router.state.params.programID];
     }
 );
-
 
 /**
  * Select a boolean that represents a Request is in progress

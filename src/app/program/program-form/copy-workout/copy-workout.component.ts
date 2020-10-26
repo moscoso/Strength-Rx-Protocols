@@ -15,12 +15,15 @@ import { Workout } from 'src/app/core/state/workouts/workouts.state';
 })
 export class CopyWorkoutComponent implements OnInit {
 
-    form: FormGroup;
     requestInProgress$: Observable < boolean > ;
     clientList$: Observable < Client[] > = of ([]);
     clientControl = new FormControl(null, [Validators.required]);
     phaseControl = new FormControl(null, [Validators.required]);
     workoutControl = new FormControl(null, [Validators.required]);
+
+    form: FormGroup = new FormGroup({
+        'workout': this.workoutControl,
+    });
 
     workoutOptions = [];
 
@@ -30,21 +33,12 @@ export class CopyWorkoutComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.form = new FormGroup({
-            'workout': this.workoutControl,
-        });
-
         this.requestInProgress$ = this.clientService.selectRequestInProgress();
         this.clientService.loadAll();
         this.clientList$ = this.clientService.selectAll()
             .pipe(map(clientList => clientList.filter(client => client.assignedProgram != null)));
 
-        this.clientControl.valueChanges.subscribe(client => {
-            console.log(client);
-        });
-
         this.phaseControl.valueChanges.subscribe(phase => {
-            console.log(phase);
             const client: Client = this.clientControl.value;
             const schedule = client.assignedProgram.phases[phase].schedule;
             const days = Object.keys(schedule);

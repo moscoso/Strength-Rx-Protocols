@@ -46,7 +46,7 @@ export class CheckInPage implements OnInit {
         public clientService: ClientStoreDispatcher
     ) {
         this.clientService.loadAll();
-        this.sex$ = this.clientService.selectUserClient().pipe(
+        this.sex$ = this.clientService.selectUserAsClient().pipe(
             first(client => client != null),
             map(client => client.sex)
         );

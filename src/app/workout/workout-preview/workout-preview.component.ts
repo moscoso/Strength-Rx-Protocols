@@ -12,9 +12,7 @@ export class WorkoutPreviewComponent implements OnInit {
 
     constructor() {}
 
-    ngOnInit() {
-        console.log(this.workout);
-    }
+    ngOnInit() {}
 
     getYoutubeThumbnail() {
         return `https://i3.ytimg.com/vi/${this.workout.exercises[0].youtubeID}/mqdefault.jpg`;
