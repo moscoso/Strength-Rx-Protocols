@@ -117,16 +117,20 @@ export abstract class EntityService < T > {
 
     /**
      * Sets the behavior for creating an entity and storing it in Firebase.
-     * @param useRandomIDs if set to true the ID for the document will be randomly generated,
+     * @param IDSource if set to true the ID for the document will be randomly generated,
      * otherwise an ID will be created based on the Name of the entity
      */
     setCreationMechanism(IDSource: IDCreateBehavior) {
-        if (IDSource === 'name') {
-            this.creationMechanism = new CreateIDFromName(this.entityCollection);
-        } else if (IDSource === 'authorizedUser') {
-            this.creationMechanism = new CreateIDFromAuthUser(this.functions, this.collectionName);
-        } else {
-            this.creationMechanism = new CreateWithRandomID(this.entityCollection);
+        switch (IDSource) {
+            case 'name':
+                this.creationMechanism = new CreateIDFromName(this.entityCollection);
+                return;
+            case 'authorizedUser':
+                this.creationMechanism = new CreateIDFromAuthUser(this.functions, this.collectionName);
+                return;
+            default:
+                this.creationMechanism = new CreateWithRandomID(this.entityCollection);
+                return;
         }
     }
 
@@ -138,7 +142,7 @@ export abstract class EntityService < T > {
     async update(entityID: string, changes: Partial < any > ): Promise < Partial < any > > {
         const nameIsID = this.options.IDSource === 'name';
         if (nameIsID && changes.name) {
-            return this.updateAndMoveDocument(entityID, changes);
+            return this.updateAndMoveDocument(entityID, changes.name, changes);
         } else {
             await this.entityCollection.doc(entityID).update(changes);
             return changes;
@@ -149,14 +153,12 @@ export abstract class EntityService < T > {
      * Update an entity and the data to a new document.
      * This fails if there is already an existing document at the new ID.
      * @param entityID the ID of the entity that corresponds to the matching document ID in Firestore
+     * @param newID the new document ID to set the document in Firestore
      * @param changes the partial object that represents the changes to the entity data
      */
-    private async updateAndMoveDocument(entityID: string, changes: Partial < any > ): Promise < Partial < any >> {
+    private async updateAndMoveDocument(entityID: string, newID: string, changes: Partial < T > ): Promise < Partial < T >> {
         return this.firestore.firestore.runTransaction(async (transaction) => {
-            if (!changes.name) {
-                throw new Error(`Cannot updateAndMoveDocument because changes.name == null`);
-            }
-            const newSlugID = transformToSlug(changes.name);
+            const newSlugID = transformToSlug(newID);
             const newRef = this.firestore.doc(`${this.collectionName}/${newSlugID}`).ref;
             const newDoc = await transaction.get(newRef);
             if (newDoc.exists) {
