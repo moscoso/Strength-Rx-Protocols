@@ -45,6 +45,7 @@
     "image-comparison": "^2.0.4",
     "moment": "^2.27.0",
     "ng2-pdf-viewer": "^6.3.2",
+    "ngx-countdown": "^10.0.1",
     "ngx-file-drop": "^9.0.1",
     "rxjs": "~6.5.1",
     "smoothscroll-polyfill": "^0.4.4",
