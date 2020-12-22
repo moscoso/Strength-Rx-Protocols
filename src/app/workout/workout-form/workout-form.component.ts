@@ -8,7 +8,12 @@ import {
 import { FormControl, Validators, FormGroup, AbstractControl, ValidationErrors, FormArray } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { Exercise } from 'src/app/core/state/exercises/exercises.state';
-import { Workout, ExerciseRoutine, INIT_EXERCISE_ROUTINE } from 'src/app/core/state/workouts/workouts.state';
+import {
+    Workout,
+    StandardExerciseRoutine,
+    INIT_STANDARD_EXERCISE_ROUTINE,
+    IntervalExerciseRoutine
+} from 'src/app/core/state/workouts/workouts.state';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -38,13 +43,23 @@ export class WorkoutFormComponent implements OnInit {
         'validators': Validators.required,
         'asyncValidators': this.verifyWorkoutIsUnique.bind(this)
     });
-    exercises = new FormControl([], [Validators.required]);
-    exerciseRoutines = new FormArray([]);
+    standardExercises = new FormControl([], [Validators.required]);
+    standardExerciseRoutines = new FormArray([]);
+    standardPhase = new FormGroup({
+        'exercises': this.standardExercises,
+        'exerciseRoutines': this.standardExerciseRoutines,
+    });
+
+    intervalSupersets = new FormArray([]);
+    intervalPhase = new FormGroup({
+        'supersets': this.intervalSupersets,
+    });
 
     exerciseList$: Observable < Exercise[] > = of ([]);
     requestInProgress$: Observable < boolean > ;
 
     orderedList: Exercise[] = [];
+    intervalOrderedList: Exercise[] = [];
 
     defaultValue: Workout;
 
@@ -59,8 +74,8 @@ export class WorkoutFormComponent implements OnInit {
         this.workoutService.loadAll();
         this.form = new FormGroup({
             'name': this.name,
-            'exercises': this.exercises,
-            'exerciseRoutines': this.exerciseRoutines,
+            'standardPhase': this.standardPhase,
+            'intervalPhase': this.intervalPhase,
         });
         this.requestInProgress$ = this.workoutService.selectRequestInProgress();
         this.exerciseService.loadAll();
@@ -71,7 +86,7 @@ export class WorkoutFormComponent implements OnInit {
             this.workoutService.selectWorkoutByRouteURL().pipe(first(workout => workout != null)).toPromise()
                 .then(workout => { this.initFormValues(workout); });
         }
-        this.exercises.valueChanges.subscribe((exercises: Exercise[]) => {
+        this.standardExercises.valueChanges.subscribe((exercises: Exercise[]) => {
             this.updateExerciseRoutineFormArray(exercises);
         });
     }
@@ -79,8 +94,10 @@ export class WorkoutFormComponent implements OnInit {
     initFormValues(workout: Workout) {
         this.defaultValue = workout;
         this.name.setValue(workout.name);
-        this.exercises.setValue(workout.exercises);
-        this.orderedList = workout.exercises;
+        this.standardPhase.get('exerciseRoutines').setValue(workout.standardPhase.exerciseRoutines);
+        this.orderedList = workout.standardPhase.exercises;
+        // this.intervalPhase.get('exerciseRoutines').setValue(workout.intervalPhase.exerciseRoutines);
+        // this.intervalOrderedList = workout.intervalPhase.exercises;
         this.setExerciseRoutineFormArray(workout);
     }
 
@@ -91,16 +108,23 @@ export class WorkoutFormComponent implements OnInit {
      * @param workout it provides the default values for the exercise routine
      */
     setExerciseRoutineFormArray(workout: Workout) {
-        this.exerciseRoutines = new FormArray([]);
-        workout.exercises.forEach((exercise) => {
-            const defaultValues: ExerciseRoutine = { ...INIT_EXERCISE_ROUTINE, ...workout.exerciseRoutines[exercise.id] };
+        this.standardExerciseRoutines = new FormArray([]);
+        workout.standardPhase.exercises.forEach((exercise) => {
+            const defaultValues = { ...INIT_STANDARD_EXERCISE_ROUTINE, ...workout.standardPhase.exerciseRoutines[exercise.id] };
             const formGroup: FormGroup = this.initExerciseRoutineFormControl(defaultValues);
-            const length = this.exerciseRoutines.length;
-            this.exerciseRoutines.insert(length, formGroup);
+            const length = this.standardExerciseRoutines.length;
+            this.standardExerciseRoutines.insert(length, formGroup);
         });
+
+        // workout.intervalPhase.exercises.forEach((exercise) => {
+        //     const defaultValues2 = { ...INIT_INTERVAL_EXERCISE_ROUTINE, ...workout.intervalPhase.exerciseRoutines[exercise.id] };
+        //     const formGroup: FormGroup = this.initIntervalRoutineFormControl(defaultValues2);
+        //     const length = this.intervalExerciseRoutines.length;
+        //     this.intervalExerciseRoutines.insert(length, formGroup);
+        // });
     }
 
-    initExerciseRoutineFormControl(routine: ExerciseRoutine): FormGroup {
+    initExerciseRoutineFormControl(routine: StandardExerciseRoutine): FormGroup {
         return new FormGroup({
             'sets': new FormControl(routine.sets),
             'reps': new FormControl(routine.reps),
@@ -108,6 +132,12 @@ export class WorkoutFormComponent implements OnInit {
             'rpe': new FormControl(routine.rateOfPerceivedExertion),
             'tempo': new FormControl(routine.tempo),
             'rest': new FormControl(routine.rest),
+        });
+    }
+
+    initIntervalRoutineFormControl(routine: IntervalExerciseRoutine): FormGroup {
+        return new FormGroup({
+            'duration': new FormControl(routine.duration)
         });
     }
 
@@ -123,7 +153,7 @@ export class WorkoutFormComponent implements OnInit {
             const removedElement = this.orderedList.filter(element => !exercises.includes(
                 element))[0];
             const index = this.orderedList.indexOf(removedElement);
-            this.exerciseRoutines.removeAt(index);
+            this.standardExerciseRoutines.removeAt(index);
         }
         this.orderedList = exercises;
     }
@@ -133,7 +163,7 @@ export class WorkoutFormComponent implements OnInit {
      * @param index the index to insert the form control at in the exerciseRoutines form array
      */
     addExerciseRoutine(index: number) {
-        const defaultValues: ExerciseRoutine = { ...INIT_EXERCISE_ROUTINE };
+        const defaultValues: StandardExerciseRoutine = { ...INIT_STANDARD_EXERCISE_ROUTINE };
         const routineGroup: FormGroup = new FormGroup({
             'sets': new FormControl(defaultValues.sets),
             'reps': new FormControl(defaultValues.reps),
@@ -142,7 +172,7 @@ export class WorkoutFormComponent implements OnInit {
             'tempo': new FormControl(defaultValues.tempo),
             'rest': new FormControl(defaultValues.rest),
         });
-        this.exerciseRoutines.insert(index, routineGroup);
+        this.standardExerciseRoutines.insert(index, routineGroup);
     }
 
     onSubmit(form) {
@@ -151,7 +181,7 @@ export class WorkoutFormComponent implements OnInit {
             if (this.defaultValue === undefined || this.isCustom) {
                 this.formSubmit.emit(values);
             } else {
-                const changes = {...Delta.object(this.defaultValue, values), 'id': this.defaultValue.id};
+                const changes = { ...Delta.object(this.defaultValue, values), 'id': this.defaultValue.id };
                 this.formSubmit.emit(changes);
             }
         } catch (error) {
@@ -159,14 +189,16 @@ export class WorkoutFormComponent implements OnInit {
         }
     }
 
-    createWorkoutFromForm(): Partial<Workout> {
+    createWorkoutFromForm(): Partial < Workout > {
         const workout: Workout = this.form.getRawValue();
         let values: Partial < Workout > ;
         values = {
             'id': this.getSlug(workout.name),
             'name': workout.name,
-            'exercises': this.orderedList,
-            'exerciseRoutines': this.getExerciseRoutinesValue(workout),
+            'standardPhase': workout.standardPhase,
+            'intervalPhase': workout.intervalPhase,
+            // 'exercises': this.orderedList,
+            // 'exerciseRoutines': this.getExerciseRoutinesValue(workout),
             'dateCreated': new Date(),
             'photoURL': '',
         };
@@ -187,11 +219,11 @@ export class WorkoutFormComponent implements OnInit {
     }
 
     getExerciseRoutinesValue(workout: Workout) {
-        const routinesRaw = this.exerciseRoutines.getRawValue();
+        const routinesRaw = this.standardExerciseRoutines.getRawValue();
         const exerciseRoutines = {};
-        workout.exercises.forEach((exercise, i) => {
-            exerciseRoutines[exercise.id] = routinesRaw[i];
-        });
+        // workout.exercises.forEach((exercise, i) => {
+        //     exerciseRoutines[exercise.id] = routinesRaw[i];
+        // });
         return exerciseRoutines;
     }
 
@@ -200,7 +232,7 @@ export class WorkoutFormComponent implements OnInit {
      * @param index the index of the exercises value array
      */
     getExerciseName(index: number) {
-        return this.exercises.value[index].name;
+        return this.standardExercises.value[index].name;
     }
 
     /**
@@ -219,16 +251,16 @@ export class WorkoutFormComponent implements OnInit {
         this.rearrangeOrderedList(event);
     }
 
-    rearrangeOrderedList(event: CdkDragDrop < string[] >) {
+    rearrangeOrderedList(event: CdkDragDrop < string[] > ) {
         const array = [...this.orderedList];
         moveItemInArray(array, event.previousIndex, event.currentIndex);
         this.orderedList = array;
     }
 
     rearrangeExerciseRoutineControls(event: CdkDragDrop < string[] > ) {
-        const array = this.exerciseRoutines.getRawValue();
+        const array = this.standardExerciseRoutines.getRawValue();
         moveItemInArray(array, event.previousIndex, event.currentIndex);
-        this.exerciseRoutines.setValue(array);
+        this.standardExerciseRoutines.setValue(array);
     }
 
 }
