@@ -16,7 +16,7 @@ export class ProgramPreviewComponent {
         if (this.program && this.program.phases && this.program.phases[0]
             && this.program.phases[0].schedule && this.program.phases[0].schedule.day1) {
             const workout = this.program.phases[0].schedule.day1;
-            return `https://i3.ytimg.com/vi/${workout.exercises[0].youtubeID}/mqdefault.jpg`;
+            return `https://i3.ytimg.com/vi/${workout.standardPhase.exercises[0].youtubeID}/mqdefault.jpg`;
         }
     }
 }

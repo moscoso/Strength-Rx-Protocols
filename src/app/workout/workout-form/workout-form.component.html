@@ -23,14 +23,25 @@
         </ion-row>
 
         <ion-row>
-            <ion-spinner [hidden]="exercises.dirty || (exerciseList$ | async).length !== 0"></ion-spinner>
+            <mat-form-field>
+                <mat-label>Standard Phase</mat-label>
+                <input type="checkbox">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Interval Phase</mat-label>
+                <input type="checkbox">
+            </mat-form-field>
+        </ion-row>
+
+        <ion-row>
+            <ion-spinner [hidden]="standardExercises.dirty || (exerciseList$ | async).length !== 0"></ion-spinner>
             <mat-form-field [hidden]="(exerciseList$ | async).length === 0">
                 <mat-label>Exercises</mat-label>
-                <mat-select multiple [formControl]="exercises" name="exercises" [compareWith]="compareExercises">
+                <mat-select multiple [formControl]="standardExercises" name="standardExercises" [compareWith]="compareExercises">
                     <mat-option *ngFor="let exercise of (exerciseList$ | async)"
                                 [value]="exercise">{{exercise.name}}</mat-option>
                 </mat-select>
-                <mat-error *ngIf="exercises.hasError('required')">At least one Exercise is required.</mat-error>
+                <mat-error *ngIf="standardExercises.hasError('required')">At least one Exercise is required.</mat-error>
             </mat-form-field>
         </ion-row>
 
@@ -44,7 +55,7 @@
                 </div>
             </ion-col>
             <ion-col sizeXs=12 sizeSm=12 sizeMd=8>
-                <div *ngFor="let routineControl of exerciseRoutines.controls; let i = index">
+                <div *ngFor="let routineControl of standardExerciseRoutines.controls; let i = index">
                     <ion-label>{{getExerciseName(i)}}</ion-label>
                     <form [formGroup]="routineControl">
                         <ion-row>
@@ -113,6 +124,41 @@
                                            enterKeyHint="next">
                                 </mat-form-field>
                             </ion-col>
+                        </ion-row>
+                    </form>
+                </div>
+            </ion-col>
+
+            <ion-col sizeXs=12 sizeSm=12 sizeMd=8>
+                <div *ngFor="let routineControl of intervalSupersets.controls; let i = index">
+                    <ion-label>Interval Routines</ion-label>
+                    <form [formGroup]="routineControl">
+                        <ion-row>
+                            <ion-col size="4">
+                                <mat-form-field>
+                                    <mat-label>Sets</mat-label>
+                                    <input matInput type="number" [formControl]="routineControl.get('sets')"
+                                           enterKeyHint="next">
+                                </mat-form-field>
+                            </ion-col>
+                            <!-- <div *ngFor="let nextLevelControl of routineControl; let j = index">
+                                <ion-col size="4">
+                                    <mat-form-field>
+                                        <mat-label>Duration (in seconds)</mat-label>
+                                        <input matInput type="number" [formControl]="routineControl.get('duration')"
+                                                placeholder="30"
+                                               enterKeyHint="next">
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <mat-label>Reps</mat-label>
+                                        <input matInput type="text" [formControl]="routineControl.get('reps')"
+                                               name="reps"
+                                               placeholder="AMRAP"
+                                               autocomplete="off"
+                                               enterKeyHint="next">
+                                    </mat-form-field>
+                                </ion-col>
+                            </div> -->
                         </ion-row>
                     </form>
                 </div>

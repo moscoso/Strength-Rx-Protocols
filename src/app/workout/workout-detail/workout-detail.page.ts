@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Workout, ExerciseRoutine } from 'src/app/core/state/workouts/workouts.state';
+import { Workout, StandardExerciseRoutine } from 'src/app/core/state/workouts/workouts.state';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { first, map, tap } from 'rxjs/operators';
 import { EditWorkoutPage } from '../edit-workout/edit-workout.page';
@@ -135,7 +135,7 @@ export class WorkoutDetailPage implements OnInit {
         this.workoutService.delete(workout.id);
     }
 
-    getNotes(routine: ExerciseRoutine) {
+    getNotes(routine: StandardExerciseRoutine) {
         if (!routine) { console.warn('getNotes failed because routine is undefined'); return; }
 
         let note = '';

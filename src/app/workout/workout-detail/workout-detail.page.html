@@ -15,9 +15,9 @@
     <ion-grid *ngIf="workout$ | async as workout">
         <h1>{{workout.name}}</h1>
         <ion-row>
-            <ion-col *ngFor="let exercise of workout.exercises" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+            <ion-col *ngFor="let exercise of workout.standardPhase.exercises" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
                 <exercise-preview [exercise]=exercise [routerLink]="'/exercises/' + exercise.id "
-                                  [notes]="getNotes(workout.exerciseRoutines[exercise.id])"></exercise-preview>
+                                  [notes]="getNotes(workout.standardPhase.exerciseRoutines[exercise.id])"></exercise-preview>
             </ion-col>
         </ion-row>
         <ng-container *ngIf="(isTrainer$ | async) && isMasterWorkout">
