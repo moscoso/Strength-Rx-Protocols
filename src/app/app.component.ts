@@ -70,16 +70,6 @@ export class AppComponent implements OnInit {
         //     'icon': 'shirt-outline',
         //     'href': 'https://strength-rx.myshopify.com/collections/all'
         // },
-        // {
-        //     'label': 'Foods',
-        //     'src': '/assets/icon/food.svg',
-        //     'link': '/foods'
-        // },
-        // {
-        //     'label': 'Meals',
-        //     'src': '/assets/icon/meal.svg',
-        //     'link': '/meals'
-        // },
     ];
 
     public clientPages: MenuItem[] = [
@@ -98,11 +88,6 @@ export class AppComponent implements OnInit {
             'icon': 'checkbox-outline',
             'link': '/check-in',
         },
-        // {
-        //     'label': 'Foods',
-        //     'src': '/assets/icon/food.svg',
-        //     'link': '/foods'
-        // },
         {
             'label': 'Store',
             'icon': 'shirt-outline',

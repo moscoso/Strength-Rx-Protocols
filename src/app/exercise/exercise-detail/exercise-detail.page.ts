@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Exercise } from 'src/app/core/state/exercises/exercises.state';
 import { ModalController, ActionSheetController } from '@ionic/angular';
-import { EditExerciseComponent } from '../edit-exercise/edit-exercise.component';
+import { EditExerciseComponent } from '../components/edit-exercise/edit-exercise.component';
 import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';

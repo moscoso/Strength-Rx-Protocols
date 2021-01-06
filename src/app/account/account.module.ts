@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LogoutButtonComponent } from './logout-button/logout-button.component';
+import { LogoutButtonComponent } from './components/logout-button/logout-button.component';
 import { IonicModule } from '@ionic/angular';
 
 

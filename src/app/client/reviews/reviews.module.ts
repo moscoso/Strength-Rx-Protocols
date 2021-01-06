@@ -5,8 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { ReviewsPageRoutingModule } from './reviews-routing.module';
 import { ReviewsPage } from './reviews.page';
 import { StorageModule } from 'src/app/storage/storage.module';
-import { ClientModule } from '../client/client.module';
-import { ReviewListComponent } from './review-list/review-list.component';
+import { ClientModule } from '../client.module';
 
 @NgModule({
     'imports': [
@@ -17,6 +16,6 @@ import { ReviewListComponent } from './review-list/review-list.component';
         StorageModule,
         ClientModule,
     ],
-    'declarations': [ReviewsPage, ReviewListComponent]
+    'declarations': [ReviewsPage]
 })
 export class ReviewsPageModule {}

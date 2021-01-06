@@ -188,17 +188,17 @@ const routes: Routes = [
     },
     {
         'path': 'reviews',
-        'loadChildren': () => import('./reviews/reviews.module').then(m => m.ReviewsPageModule),
+        'loadChildren': () => import('./client/reviews/reviews.module').then(m => m.ReviewsPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
     },
     {
         'path': 'reviews/:id',
-        'loadChildren': () => import('./reviews/reviews.module').then(m => m.ReviewsPageModule),
+        'loadChildren': () => import('./client/reviews/reviews.module').then(m => m.ReviewsPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
     },
     {
         'path': 'clients/:id/reviews',
-        'loadChildren': () => import('./reviews/reviews.module').then(m => m.ReviewsPageModule),
+        'loadChildren': () => import('./client/reviews/reviews.module').then(m => m.ReviewsPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
     },
     {
