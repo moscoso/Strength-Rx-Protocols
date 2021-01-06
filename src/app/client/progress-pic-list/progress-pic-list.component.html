@@ -3,3 +3,6 @@
         <img [src]="review.downloadURL"/>
     </ng-container>
 </ion-list>
+<ion-card *ngIf="(progressPics$|async).length === 0">
+    <ion-card-header>Progress Pics will appear here!</ion-card-header>
+</ion-card>

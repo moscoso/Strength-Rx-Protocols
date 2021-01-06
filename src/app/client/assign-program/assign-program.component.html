@@ -1,8 +1,12 @@
 <ng-container>
     <h3>Program</h3>
     <form [formGroup]=form (ngSubmit)=onSubmit(form.value)>
-        <ion-row>
-            <mat-form-field class="workout-form-field" [hidden]="defaultProgram">
+        <ion-row *ngIf="defaultProgram">
+            <program-preview  [program]="defaultProgram" routerLink="program">
+            </program-preview>
+        </ion-row>
+        <ion-row *ngIf="(iAmTrainer$ | async)">
+            <mat-form-field class="workout-form-field" [hidden]="defaultProgram" >
                 <mat-select [formControl]="program">
                     <div>
                         <mat-option (click)="createCustomProgram()">Create Program</mat-option>
@@ -10,10 +14,10 @@
                     </div>
                 </mat-select>
             </mat-form-field>
-            <program-preview *ngIf="defaultProgram" [program]="defaultProgram" routerLink="program">
-            </program-preview>
+            
         </ion-row>
-        <ion-row [hidden]="!defaultProgram" class="custom-program-btns">
+      
+        <ion-row *ngIf="(iAmTrainer$ | async)" [hidden]="!defaultProgram" class="custom-program-btns">
             <ion-button id="edit-program-btn"
                         (click)="editCustomProgram()"
                         expand="block">Edit</ion-button>

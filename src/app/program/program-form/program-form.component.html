@@ -28,8 +28,8 @@
                 <mat-select [formControl]="numberOfPhases">
                     <mat-option *ngFor="let n of getListOfIntegers(26); let i = index" [value]="i + 1">{{i + 1}}</mat-option>
                 </mat-select>
-                <mat-error *ngIf="name.hasError('required')">Number of Phases is required.</mat-error>
-                <mat-error *ngIf="name.hasError('min')">Minimum of 1 Phase per workout</mat-error>
+                <mat-error *ngIf="numberOfPhases.hasError('required')">Number of Phases is required.</mat-error>
+                <mat-error *ngIf="numberOfPhases.hasError('min')">Minimum of 1 Phase per workout</mat-error>
             </mat-form-field>
         </ion-row>
 
@@ -49,8 +49,8 @@
                            max=26
                            autocomplete="off"
                            enterKeyHint="next">
-                    <mat-error *ngIf="name.hasError('min')">Minimum of 1 Week per phase</mat-error>
-                    <mat-error *ngIf="name.hasError('max')">Maximum of 1 Week per phase</mat-error>
+                    <mat-error *ngIf="phaseControl.get('lengthInWeeks').hasError('min')">Minimum of 1 Week per phase</mat-error>
+                    <mat-error *ngIf="phaseControl.get('lengthInWeeks').hasError('max')">Maximum of 52 Weeks per phase</mat-error>
 
                 </mat-form-field>
 

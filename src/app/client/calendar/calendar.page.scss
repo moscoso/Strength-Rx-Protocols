@@ -19,11 +19,16 @@
     cursor: pointer;
 }
 
-.day {
+.square {
     display: table-cell;
     background: white;
     border: 1px solid black;
     box-sizing: border-box;
+    position:relative;
+}
+
+.square.outsideThisMonth {
+    background: rgb(170, 170, 170);
 }
 
 .date {
@@ -37,11 +42,26 @@
 }
 
 .date.outsideThisMonth {
-    color: rgb(170, 170, 170);
+    color: rgb(70,70,70);
 }
 
 .date.today {
     background: #007bff;
     border-radius: 50%;
     color: white;
+}
+
+.calendar {
+    margin: 0 auto;
+}
+
+.workout {
+    height: 25px;
+    width: 100%;
+    background-color: red;
+    color:white; 
+    text-align: center;
+
+    border-radius: 5px;
+    display: inline-block;
 }

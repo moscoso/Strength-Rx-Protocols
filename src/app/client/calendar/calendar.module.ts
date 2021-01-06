@@ -7,7 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { CalendarPageRoutingModule } from './calendar-routing.module';
 
 import { CalendarPage } from './calendar.page';
-import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
+import { HeightMatchWidthDirective } from './height-match-width.directive';
+import { WorkoutModule } from 'src/app/workout/workout.module';
 
 @NgModule({
     'imports': [
@@ -15,7 +16,8 @@ import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
         FormsModule,
         IonicModule,
         CalendarPageRoutingModule,
+        WorkoutModule,
     ],
-    'declarations': [CalendarPage],
+    'declarations': [CalendarPage, HeightMatchWidthDirective, ],
 })
 export class CalendarPageModule {}

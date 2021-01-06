@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { first } from 'rxjs/operators';
 
 @Component({
     'selector': 'app-choose-membership',
@@ -9,61 +11,29 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 export class ChooseMembershipPage implements OnInit {
 
 
-    planLength = '3month';
+    planLength = 'monthly';
 
     chosenPlanType: string | null = null;
     chosenPlanID: string | null = null;
 
-    plans = {
-        'general': {
-            'monthly': {
-                'price': 160,
-                'priceID': `price_1HMTC2CezgWh4f2jVtBeyKxK`
-            },
-            '3month': {
-                'price': 460,
-                'priceID': `price_1HMTC3CezgWh4f2j01PAPhpM`
-            },
-            '6month': {
-                'price': 880,
-                'priceID': `price_1HMTC2CezgWh4f2jkuNDMIgq`
-            },
-        },
-        'powerlift': {
-            'monthly': {
-                'price': 185,
-                'priceID': `price_1HMTDDCezgWh4f2jnmeATIB8`
-            },
-            '3month': {
-                'price': 540,
-                'priceID': `price_1HMTDECezgWh4f2j5uFbJslI`
-            },
-            '6month': {
-                'price': 1050,
-                'priceID': `price_1HMTDECezgWh4f2jmeP0qqv2`
-            },
-        },
-        'contest': {
-            'monthly': {
-                'price': 225,
-                'priceID': `price_1HMTDzCezgWh4f2jpX9pb7is`
-            },
-            '3month': {
-                'price': 645,
-                'priceID': `price_1HMTDzCezgWh4f2j75j7Rs5S`
-            },
-            '6month': {
-                'price': 1230,
-                'priceID': `price_1HMTDzCezgWh4f2jM4dE6IqW`
-            },
-        }
-    };
+    checkoutLoading = false;
+
+    plans;
 
     constructor(
-        private functions: AngularFireFunctions
+        private functions: AngularFireFunctions,
+        private firestore: AngularFirestore,
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.fetchPrices();
+    }
+
+    async fetchPrices() {
+        const x = await this.firestore.doc(`products/stripe_subscriptions`).get().pipe(first()).toPromise();
+        console.log(x.data());
+        this.plans = x.data().plans;
+    }
 
     segmentChanged(e) {
         this.planLength = e.detail.value;
@@ -72,32 +42,31 @@ export class ChooseMembershipPage implements OnInit {
     choosePlan(type: 'general' | 'powerlift' | 'contest') {
         this.chosenPlanType = type;
         this.chosenPlanID = this.plans[type][this.planLength].priceID;
-        console.log(this.chosenPlanID);
     }
 
-    getPrice(type: string): number {
+    getPrice(type: any): number {
         return this.plans[type][this.planLength].price;
     }
 
     getChosenPrice(): number {
-        return this.getPrice(this.chosenPlanType);
+        if (this.chosenPlanType) {
+            return this.getPrice(this.chosenPlanType);
+        } else {
+            return undefined;
+        }
     }
 
     getTimetable() {
-        if (this.planLength === '3month') {
-            return '/ 3 months';
-        } else if (this.planLength === '6month') {
-            return '/ 6 months';
+        if (this.planLength === '2week') {
+            return '/ 2 weeks';
         } else {
             return '/ month';
         }
     }
 
     getPeriod() {
-        if (this.planLength === '3month') {
-            return '3 months';
-        } else if (this.planLength === '6month') {
-            return '6 months';
+        if (this.planLength === '2week') {
+            return '2 week';
         } else {
             return '1 month';
         }
@@ -108,12 +77,17 @@ export class ChooseMembershipPage implements OnInit {
             const fun = this.functions.httpsCallable('stripeCreateCheckoutSession');
             fun({ 'priceID': this.chosenPlanID }).toPromise().then(response => {
                 console.log(response);
-                const stripe = Stripe('pk_test_0kffL6wokyI4iGhZPXFIriPT');
+                const stripe = Stripe('pk_live_T6qB2lI9q51daLjTsDEX5tPX00Hzpq5PY3');
                 stripe.redirectToCheckout({ 'sessionId': response.id });
             });
+            this.checkoutLoading = true;
         } else {
             console.warn(`Cannot checkout with undefined plan ID`);
         }
 
+    }
+
+    goBack() {
+        this.chosenPlanID = null;
     }
 }

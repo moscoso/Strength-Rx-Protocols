@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { first, pluck } from 'rxjs/operators';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
@@ -12,8 +12,10 @@ import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatch
 })
 export class ProgressPicsPage implements OnInit {
 
-    progressPics$: Observable < any > ;
+    progressPics$: Observable < any > = of([]);
     clientID: string;
+
+    hideUpload = false;
 
     constructor(
         public firestore: AngularFirestore,
@@ -32,6 +34,7 @@ export class ProgressPicsPage implements OnInit {
         if (routeID) {
             this.clientID = await this.profileService.selectProfile(routeID)
                 .pipe(first(profile => profile != null), pluck('id')).toPromise();
+            this.hideUpload = true;
         } else {
             this.clientID = await this.profileService.selectUserAsProfile()
                 .pipe(first(profile => profile != null), pluck('id')).toPromise();

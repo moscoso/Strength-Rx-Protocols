@@ -11,7 +11,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class ClientListPage implements OnInit {
 
-    clientList$: Observable < Client[] > = of ([]);
+    clientList$: Observable < any[] > = of ([]);
     events = [];
 
     constructor(public clientService: ClientStoreDispatcher, public firestore: AngularFirestore) {}

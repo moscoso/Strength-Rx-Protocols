@@ -8,6 +8,21 @@
 </ion-header>
 
 <ion-content>
+    <ion-row class="ion-text-center">
+        <ion-col size="4">
+            <ion-button (click)="getPrevMonth()" [disabled]="currentMonthNumber === TODAY.toDate().getMonth()">
+                <ion-icon name="arrow-back-outline"></ion-icon>
+            </ion-button>
+        </ion-col>
+        <ion-col>
+            <ion-title>{{getCalendarTitle()}}</ion-title>
+        </ion-col>
+        <ion-col>
+            <ion-button (click)="getNextMonth()" [disabled]="currentMonthNumber === 22">
+                <ion-icon name="arrow-forward-outline"></ion-icon>
+            </ion-button>
+        </ion-col>
+    </ion-row>
     <div class="calendar">
         <div class="header">
             <div class="day-labels">Sun</div>
@@ -18,13 +33,21 @@
             <div class="day-labels">Fri</div>
             <div class="day-labels">Sat</div>
         </div>
-        <div class="week" *ngFor="let week of calendar">
-            <div #square class="day"
-                 *ngFor="let day of week.days"
-                 [ngStyle]="{'height.px': square.offsetWidth}">
-                <div [ngClass]="{'outsideThisMonth': outsideThisMonth(day), 'today': isToday(day)}"
-                     class="date">{{day.toDate().getDate()}}</div>
+        <div class="week" *ngFor="let week of calendar; let weekIndex = index">
+            <div class="square" myMatchHeight
+                 *ngFor="let day of week.days; let dayIndex = index;"
+                 [ngClass]="{'outsideThisMonth': outsideThisMonth(day.moment)}">
+                <div [ngClass]="{'outsideThisMonth': outsideThisMonth(day.moment), 'today': isToday(day.moment)}"
+                     class="date">{{day.date}}</div>
+                <br />
+                <ion-label *ngIf="getWorkout(day.dateID) as workout" class="workout ion-text-center"
+                           (click)="selectWorkout(getWorkout(day.dateID))">WORKOUT</ion-label>
             </div>
         </div>
     </div>
+    <ion-grid>
+        <ion-row>
+            <app-workout-info *ngIf="selectedWorkout" [workout]="selectedWorkout"></app-workout-info>
+        </ion-row>
+    </ion-grid>
 </ion-content>

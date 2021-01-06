@@ -1,10 +1,13 @@
 <ion-header>
     <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/profile"></ion-back-button>
+        </ion-buttons>
         <ion-title>Progress Pics</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <upload-progress-image *ngIf="!clientID"></upload-progress-image>
+    <upload-progress-image [hidden]="hideUpload"></upload-progress-image>
     <app-progress-pic-list *ngIf="clientID" [clientID]="clientID"></app-progress-pic-list>
 </ion-content>
