@@ -13,6 +13,11 @@ export interface Workout {
      * The name of the workout
      */
     name: string;
+
+    /**
+     * Extra details to describe the workout
+     */
+    description: string;
     /**
      * A standard phase of a workout describes a normal exercise routine.
      *
@@ -139,6 +144,7 @@ export interface IntervalExerciseRoutine {
 export const INIT_WORKOUT: Workout = {
     'id': '',
     'name': '',
+    'description': '',
     'standardPhase': null,
     'intervalPhase': null,
     'photoURL': '',
@@ -158,6 +164,11 @@ export const INIT_INTERVAL_EXERCISE_ROUTINE: IntervalExerciseRoutine = {
     'exercise': null,
     'reps': 'AMRAP',
     'duration': 30,
+};
+
+export const INIT_INTERVAL_SUPERSET: IntervalSuperSet = {
+    'exerciseRoutines': [],
+    'sets': 1,
 };
 
 /**

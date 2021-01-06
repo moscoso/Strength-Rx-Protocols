@@ -1,3 +1,7 @@
 <ion-list>
     <video controls *ngFor="let review of reviews$ | async" [src]="review.downloadURL"></video>
 </ion-list>
+<ion-card *ngIf="(reviews$|async) && (reviews$|async).length === 0">
+    <ion-card-header>Reviews will appear here!</ion-card-header>
+</ion-card>
+

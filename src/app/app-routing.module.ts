@@ -191,11 +191,20 @@ const routes: Routes = [
         'loadChildren': () => import('./client/progress-pics/progress-pics.module').then(m => m.ProgressPicsPageModule)
     },
     {
+        'path': 'progress-pics/:id',
+        'loadChildren': () => import('./client/progress-pics/progress-pics.module').then(m => m.ProgressPicsPageModule)
+    },
+    {
         'path': 'clients/:id/progress-pics',
         'loadChildren': () => import('./client/progress-pics/progress-pics.module').then(m => m.ProgressPicsPageModule)
     },
     {
         'path': 'check-in',
+        'loadChildren': () => import('./check-in/check-in.module').then(m => m.CheckInPageModule),
+        'canActivate': [AuthGuard, ProfileGuard],
+    },
+    {
+        'path': 'check-in/:id',
         'loadChildren': () => import('./check-in/check-in.module').then(m => m.CheckInPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
     },
@@ -209,6 +218,11 @@ const routes: Routes = [
     },
     {
         'path': 'reviews',
+        'loadChildren': () => import('./reviews/reviews.module').then(m => m.ReviewsPageModule),
+        'canActivate': [AuthGuard, ProfileGuard],
+    },
+    {
+        'path': 'reviews/:id',
         'loadChildren': () => import('./reviews/reviews.module').then(m => m.ReviewsPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
     },
@@ -231,11 +245,14 @@ const routes: Routes = [
     },
     {
         'path': 'interval-timer',
-        'loadChildren': () => import('./interval-timer/interval-timer.module').then(m => m.IntervalTimerPageModule)
+        'loadChildren': () => import('./interval-timer/interval-timer-page/interval-timer.module').then(m => m.IntervalTimerPageModule)
+    },
+    {
+        'path': 'interval-timer/:id',
+        'loadChildren': () => import('./interval-timer/interval-timer-page/interval-timer.module').then(m => m.IntervalTimerPageModule)
     },
     {
         'path': '**',
-        'loadChildren': () => import('./home/landing/landing.module').then(m => m.LandingPageModule),
         'redirectTo': ''
     },
 ];

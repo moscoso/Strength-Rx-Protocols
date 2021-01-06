@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule, MatNativeDateModule } from '@angular/material/core';
@@ -9,7 +10,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatMenuModule } from '@angular/material/menu';
 
+
 const modules = [
+    MatCheckboxModule,
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,

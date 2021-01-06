@@ -28,7 +28,7 @@ export class ElementsComponent implements AfterViewInit {
     ) {}
 
     ngAfterViewInit() {
-        this.stripe = Stripe('pk_test_0kffL6wokyI4iGhZPXFIriPT');
+        this.stripe = Stripe('pk_live_T6qB2lI9q51daLjTsDEX5tPX00Hzpq5PY3');
         const elements = this.stripe.elements();
 
         this.card = elements.create('card');

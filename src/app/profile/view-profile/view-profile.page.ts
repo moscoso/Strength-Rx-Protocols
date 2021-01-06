@@ -8,6 +8,7 @@ import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.disp
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { ChatStoreDispatcher } from 'src/app/core/state/chat/chat.dispatcher';
 import { SetAvatarComponent } from '../set-avatar/set-avatar.component';
+import * as dayjs from 'dayjs';
 @Component({
     'selector': 'app-view-profile',
     'templateUrl': './view-profile.page.html',
@@ -20,6 +21,8 @@ export class ViewProfilePage implements OnInit {
     public thisIsMe$: Observable < boolean > = of (false);
     public iAmTrainer$: Observable < boolean > = of (false);
     public requestInProgress$: Observable < boolean > = of (false);
+
+    public dayjs = dayjs;
 
     constructor(
         public profileService: ProfileStoreDispatcher,
@@ -89,5 +92,12 @@ export class ViewProfilePage implements OnInit {
             await modal.present();
             return;
         }
+    }
+
+    getBirthday(profile: Profile) {
+        const birthdayExists = Object.keys(profile.birthday).length !== 0 && profile.birthday.toDate;
+
+        const date: any = birthdayExists ? profile.birthday.toDate() : profile.birthday;
+        return dayjs(date).format('MM/DD/YYYY');
     }
 }

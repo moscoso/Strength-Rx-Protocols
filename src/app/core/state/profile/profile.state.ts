@@ -10,6 +10,8 @@ export interface Profile {
     firstName: string;
     lastName: string;
     birthday: Timestamp;
+    goal: string;
+    healthConditions: string;
     joined: Date;
     height: Height;
     isClient: boolean;
@@ -48,7 +50,9 @@ export const INIT_PROFILE: Profile = {
     'firstName': '',
     'lastName': '',
     'birthday': undefined,
+    'goal': '',
     'joined': new Date(),
+    'healthConditions': '',
     'height': { 'feet': 0, 'inches': 0 },
     'isClient': false,
     'isTrainer': false,

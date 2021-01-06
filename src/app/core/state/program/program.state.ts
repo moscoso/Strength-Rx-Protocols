@@ -10,6 +10,7 @@ export interface Program {
     totalLengthInWeeks: number;
     phases: ProgramPhase[];
     photoURL: string;
+    startDate: Date;
     dateCreated: Date;
 }
 
@@ -32,6 +33,7 @@ export const INIT_PROGRAM: Program = {
     'totalLengthInWeeks': 0,
     'phases': [],
     'photoURL': '',
+    'startDate': new Date(),
     'dateCreated': new Date(),
 };
 

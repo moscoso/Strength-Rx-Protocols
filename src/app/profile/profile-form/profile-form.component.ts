@@ -24,6 +24,8 @@ export class ProfileFormComponent implements OnInit {
     lastName = new FormControl('', Validators.required);
     sex = new FormControl('', Validators.required);
     birthday = new FormControl('', Validators.required);
+    goal = new FormControl('');
+    healthConditions = new FormControl('');
     feet = new FormControl('', [Validators.required, Validators.min(3), Validators.max(7)]);
     inches = new FormControl('', [Validators.required, Validators.min(0), Validators.max(11)]);
 
@@ -41,6 +43,8 @@ export class ProfileFormComponent implements OnInit {
             'birthday': this.birthday,
             'feet': this.feet,
             'inches': this.inches,
+            'goal': this.goal,
+            'healthConditions': this.healthConditions,
         });
         this.requestInProgress$ = this.profileService.selectRequestInProgress();
         this.profileService.selectUserAsProfile().pipe(first(profile => profile != null))
@@ -76,6 +80,8 @@ export class ProfileFormComponent implements OnInit {
                 'isTrainer': false,
                 'joined': new Date(),
                 'photoURL': '',
+                'goal': profile.goal,
+                'healthConditions': profile.healthConditions,
                 'sex': profile.sex,
                 'birthday': profile.birthday,
                 'height': {

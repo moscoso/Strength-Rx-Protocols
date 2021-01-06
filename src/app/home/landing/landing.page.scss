@@ -1,5 +1,6 @@
 :host {
 
+    scroll-behavior: smooth;
     overflow-y: scroll;
 
 
@@ -25,6 +26,10 @@
         margin-right: 75px;
     }
 
+    .landing-splash {
+        width:100%
+    }
+
     /**
     * This is a fix for Android, as the poster seems to be zoomed if we don't set object-fit to "none"
     */
@@ -36,9 +41,9 @@
         font-size: 24px;
     }
 
-    #join {
-        background-image: url(/assets/img/gym_sticker.jpg);
-    }
+    // #join {
+    //     background-image: url(/assets/img/gym_sticker.jpg);
+    // }
 
     #coaches {
         position: relative;
@@ -60,7 +65,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-image: url(/assets/img/gym_sticker.jpg);
+        // background-image: url(/assets/img/gym_sticker.jpg);
         filter: opacity(25%);
     }
 
@@ -148,6 +153,7 @@
     .product .grey {
         background-color: #eee;
         font-size: 20px;
+        font-weight: bold;
     }
 
     #about-us {
@@ -155,7 +161,7 @@
     }
 
     #about-us p {
-        background: rgba(255, 255, 255, 0.5);
+        // background: rgba(255, 255, 255, 0.5);
         font-size:16px;
         margin: 0;
         padding-bottom: 12px;

@@ -28,7 +28,7 @@ export class BuySubscriptionComponent implements OnInit {
 
     ngOnInit() {
         this.checkout = StripeCheckout.configure({
-            'key': 'pk_test_0kffL6wokyI4iGhZPXFIriPT',
+            'key': 'pk_live_T6qB2lI9q51daLjTsDEX5tPX00Hzpq5PY3',
             // 'image': '/assets/icon/logo.png',
             'locale': 'auto',
             'source': async (source) => {

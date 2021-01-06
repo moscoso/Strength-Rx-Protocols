@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { filter, tap } from 'rxjs/operators';
 
 @Component({
     'selector': 'review-list',
@@ -10,7 +11,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class ReviewListComponent implements OnInit {
 
     @Input() clientID: string;
-    reviews$: Observable<any>;
+    reviews$: Observable < any > = of ([]);
 
     constructor(
         public firestore: AngularFirestore,
@@ -21,6 +22,8 @@ export class ReviewListComponent implements OnInit {
     }
 
     async fetchReviews() {
-        this.reviews$ = this.firestore.collection(`clients/${this.clientID}/reviews`).valueChanges();
+        this.reviews$ = this.firestore.collection(`clients/${this.clientID}/reviews`).valueChanges()
+            .pipe(filter(x => x != null));
+        this.reviews$.pipe(tap(x => console.log(x)));
     }
 }

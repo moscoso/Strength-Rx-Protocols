@@ -94,7 +94,7 @@ export class LandingPage implements OnInit, AfterViewInit {
     }
 
     scrollPage(s: string) {
-        const options: ScrollIntoViewOptions = { 'behavior': 'smooth', 'block': 'start', 'inline': 'nearest' };
-        document.getElementById(s).scrollIntoView(options);
+        // const options: ScrollIntoViewOptions = { 'behavior': 'smooth', 'block': 'start', 'inline': 'nearest' };
+        document.getElementById(s).scrollIntoView();
     }
 }

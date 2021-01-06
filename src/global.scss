@@ -31,6 +31,9 @@
 /** Google Fonts **/
 @import url('https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&display=swap');
 
+html {
+    scroll-behavior: smooth;
+}
 
 /** Global Form scss */
 ion-title {
@@ -40,7 +43,7 @@ ion-title {
 }
 
 .ion-page > ion-content{
-    --background: white 0 0 / 300px 300px repeat;
+    --background: #FFF 0 0 / 300px 300px repeat;
 }
 
 .modal-80-width {

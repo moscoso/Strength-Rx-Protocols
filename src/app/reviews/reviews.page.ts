@@ -15,6 +15,8 @@ export class ReviewsPage implements OnInit {
     reviews$: Observable < any > ;
     clientID: string;
 
+    hideUpload = false;
+
     constructor(
         public firestore: AngularFirestore,
         public profileService: ProfileStoreDispatcher,
@@ -29,9 +31,13 @@ export class ReviewsPage implements OnInit {
         this.profileService.loadAll();
         const router = await this.routerService.selectState().pipe(first()).toPromise();
         const routeID = router.state.params.id;
+        console.log(routeID);
+
+
         if (routeID) {
             this.clientID = await this.profileService.selectProfile(routeID)
                 .pipe(first(profile => profile != null), pluck('id')).toPromise();
+            this.hideUpload = true;
         } else {
             this.clientID = await this.profileService.selectUserAsProfile()
                 .pipe(first(profile => profile != null), pluck('id')).toPromise();

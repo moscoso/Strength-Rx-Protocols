@@ -67,6 +67,27 @@
         </ion-row>
 
 
+
+        <ion-row>
+            <mat-form-field>
+                <mat-label for='healthCondtions'>Do you have an underlying health conditions that we should know about?</mat-label>
+                <input matInput type="text" [formControl]="healthConditions" name="healthConditions"
+                       autocomplete="off"
+                       enterKeyHint="next"
+                       >
+            </mat-form-field>
+        </ion-row>
+
+        <ion-row>
+            <mat-form-field>
+                <mat-label for='goal'>What is your Fitness Goal?</mat-label>
+                <input matInput type="text" [formControl]="goal" name="goal"
+                       autocomplete="off"
+                       enterKeyHint="next"
+                       >
+            </mat-form-field>
+        </ion-row>
+
         <ion-button type="submit"
                     expand="full"
                     [disabled]="form.invalid || (requestInProgress$ | async)">

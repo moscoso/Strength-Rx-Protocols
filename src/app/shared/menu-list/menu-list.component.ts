@@ -17,8 +17,8 @@ export class MenuListComponent implements OnInit {
     ngOnInit() {}
 
     scrollPage(s: string) {
-        const options: ScrollIntoViewOptions = { 'behavior': 'smooth', 'block': 'start', 'inline': 'nearest' };
-        document.getElementById(s).scrollIntoView(options);
+        // const options: ScrollIntoViewOptions = { 'behavior': 'smooth', 'block': 'start', 'inline': 'nearest' };
+        document.getElementById(s).scrollIntoView();
         this.menuController.close();
     }
 }

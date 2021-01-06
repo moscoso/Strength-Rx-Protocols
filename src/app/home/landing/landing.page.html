@@ -9,12 +9,12 @@
             </ion-buttons>
             <img class="logo" src="/assets/icon/logo.png">
             <ion-buttons slot="end" *ngIf="(isAuthenticated$ | async) === true">
-                <ion-button class="ion-hide-md-down" [routerLink]="'dashboard'">Dashboard</ion-button>
+                <ion-button class="ion-hide-md-down" [routerLink]="'/dashboard'">Dashboard</ion-button>
             </ion-buttons>
             <ion-buttons slot="end" *ngIf="(isAuthenticated$ | async) === false" class="ion-hide-md-down">
-                <ion-button class="ion-hide-md-down" href="https://strengthrx-test.myshopify.com/collections/all">Shop</ion-button>
-                <ion-button [routerLink]="'register'">Join</ion-button>
-                <ion-button [routerLink]="'login'">Login</ion-button>
+                <!-- <ion-button class="ion-hide-md-down" href="https://strength-rx.myshopify.com/collections/all">Shop</ion-button> -->
+                <ion-button [routerLink]="'/register'">Join</ion-button>
+                <ion-button [routerLink]="'/login'">Login</ion-button>
             </ion-buttons>
         </ion-toolbar>
     </ion-header>
@@ -22,23 +22,30 @@
 
     <video #video class="ion-hide-md-down"
            [ngStyle]="{'margin-top': headerHeight+'px', 'max-height': calcVideoHeight() }"
-           loop playsinline preload="auto" muted="true" controlslist="nodownload nofullscreen">
+           loop playsinline="true" preload="auto" muted="true" disablePictureInPicture controlslist="nodownload nofullscreen">
         <source [src]="getStorageURL('StrengthRx_Protocols_Landing_Muted.webm?alt=media&token=746c5ebb-9657-4cec-9290-d3bd42492941')" />
+        <source [src]="getStorageURL('StrengthRx_Protocols_Landing_Muted.mp4?alt=media&token=34eeb74a-32b6-43e0-b8ad-dddbd74da901')" />
+
+
     </video>
 
-    <img class="ion-hide-md-up" [ngStyle]="{'margin-top': headerHeight+'px', 'max-height': calcVideoHeight() }"
+    <img class="ion-hide-md-up landing-splash" [ngStyle]="{'margin-top': headerHeight+'px', 'max-height': calcVideoHeight() }"
          src="/assets/img/splash.PNG" />
 
     <ion-grid id="coaches" #coaches>
         <h1>Coaches</h1>
         <ion-row class="ion-text-center">
-            <ion-col sizeMd="6" sizeSm="12" sizeXs="12">
-                <h2>David</h2>
+            <ion-col sizeMd="4" sizeSm="12" sizeXs="12">
                 <img src="/assets/img/David5.jpg">
+                <h2>David Iglesias, CISSN, CPT</h2>
             </ion-col>
-            <ion-col sizeMd="6" sizeSm="12" sizeXs="12">
-                <h2>Tiffany</h2>
+            <ion-col sizeMd="4" sizeSm="12" sizeXs="12">
                 <img src="/assets/img/tiff.jpg">
+                <h2>Tiffany Nguyen</h2>
+            </ion-col>
+            <ion-col sizeMd="4" sizeSm="12" sizeXs="12">
+                <img src="/assets/img/jordan.jpeg">
+                <h2>Dr. Jordan Estrada, DC</h2>
             </ion-col>
         </ion-row>
 
@@ -65,8 +72,10 @@
                 <ion-col sizeMd="4" sizeSm="12" sizeXs="12">
                     <div class="list-wrapper">
                         <ul class="product">
-                            <li class="header">General/Lifestyle Coaching</li>
+                            <li class="header"><span>General/Lifestyle Coaching</span></li>
+                            <!-- <li class="grey"><span style="text-decoration: line-through;"><strong>160</strong></span> $145 / month</li> -->
                             <li class="gradient">Personalized Training Template</li>
+                            <li class="gradient">Home Workouts Available! (Optional)</li>
                             <li class="gradient">24/7 email contact</li>
                             <li class="gradient">Macro-based nutrition guidance</li>
                             <li class="gradient">Cardio adjustments (as needed)</li>
@@ -78,6 +87,7 @@
                     <div class="list-wrapper">
                         <ul class="product">
                             <li class="header">Powerlifting Meet Prep Coaching</li>
+                            <!-- <li class="grey"><span style="text-decoration: line-through;"><strong>185</strong></span> $160 / month</li> -->
                             <li class="gradient">Personalized Training Template</li>
                             <li class="gradient">Macro-based nutrition guidance</li>
                             <li class="gradient">Cardio adjustments (as needed)</li>
@@ -96,6 +106,7 @@
                     <div class="list-wrapper">
                         <ul class="product">
                             <li class="header">Contest Prep Coaching</li>
+                            <!-- <li class="grey"><span style="text-decoration: line-through;"><strong>200</strong></span> $185 / month</li> -->
                             <li class="gradient">A custom training program that fits your schedule </li>
                             <li class="gradient">Email and contact personal with personal cell phone for texting and
                                 scheduling calls, guaranteed response in 16hrs.</li>
@@ -115,7 +126,7 @@
             </ion-row>
         </section>
 
-        <ion-button [routerLink]="'register'" size="large" class="join-btn center-btn">JOIN US TODAY!</ion-button>
+        <ion-button [routerLink]="'/register'" size="large" class="join-btn center-btn">JOIN US TODAY!</ion-button>
     </ion-grid>
 
     <section id="transformations" #transformations>

@@ -31,11 +31,11 @@ export class AppComponent implements OnInit {
             'icon': 'people',
             'scrollID': 'services'
         },
-        {
-            'label': 'Store',
-            'icon': 'shirt-outline',
-            'href': 'https://strengthrx-test.myshopify.com/collections/all'
-        }
+        // {
+        //     'label': 'Store',
+        //     'icon': 'shirt-outline',
+        //     'href': 'https://strength-rx.myshopify.com/collections/all'
+        // }
 
     ];
 
@@ -65,11 +65,16 @@ export class AppComponent implements OnInit {
             'icon': 'list-outline',
             'link': '/clients'
         },
-        {
-            'label': 'Foods',
-            'src': '/assets/icon/food.svg',
-            'link': '/foods'
-        },
+        // {
+        //     'label': 'Store',
+        //     'icon': 'shirt-outline',
+        //     'href': 'https://strength-rx.myshopify.com/collections/all'
+        // },
+        // {
+        //     'label': 'Foods',
+        //     'src': '/assets/icon/food.svg',
+        //     'link': '/foods'
+        // },
         // {
         //     'label': 'Meals',
         //     'src': '/assets/icon/meal.svg',
@@ -93,15 +98,15 @@ export class AppComponent implements OnInit {
             'icon': 'checkbox-outline',
             'link': '/check-in',
         },
-        {
-            'label': 'Foods',
-            'src': '/assets/icon/food.svg',
-            'link': '/foods'
-        },
+        // {
+        //     'label': 'Foods',
+        //     'src': '/assets/icon/food.svg',
+        //     'link': '/foods'
+        // },
         {
             'label': 'Store',
             'icon': 'shirt-outline',
-            'href': 'https://strengthrx-test.myshopify.com/collections/all'
+            'href': 'https://strength-rx.myshopify.com/collections/all'
         },
         {
             'label': 'Reviews',
