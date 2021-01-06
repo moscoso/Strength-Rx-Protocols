@@ -92,36 +92,6 @@ const routes: Routes = [
         'canActivate': [AuthGuard, ProfileGuard],
     },
     {
-        'path': 'create-food',
-        'loadChildren': () => import('./food/create-food/create-food.module').then(m => m.CreateFoodPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
-    },
-    {
-        'path': 'create-meal',
-        'loadChildren': () => import('./meals/create-meal/create-meal.module').then(m => m.CreateMealPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
-    },
-    {
-        'path': 'meals',
-        'loadChildren': () => import('./meals/meals.module').then(m => m.MealsPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
-    },
-    {
-        'path': 'meal',
-        'loadChildren': () => import('./meals/meal/meal.module').then(m => m.MealPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
-    },
-    {
-        'path': 'foods',
-        'loadChildren': () => import('./food/food-list/food-list.module').then(m => m.FoodsListPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
-    },
-    {
-        'path': 'edit-food',
-        'loadChildren': () => import('./food/edit-food/edit-food.module').then(m => m.EditFoodPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
-    },
-    {
         'path': 'create-workout',
         'loadChildren': () => import('./workout/create-workout/create-workout.module').then(m => m
             .CreateWorkoutPageModule),
