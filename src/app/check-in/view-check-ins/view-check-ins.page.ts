@@ -32,7 +32,7 @@ export class ViewCheckInsPage implements OnInit {
             this.clientID = await this.profileService.selectProfile(routeID)
                 .pipe(first(profile => profile != null), pluck('id')).toPromise();
         } else {
-            this.clientID = await this.profileService.selectUserProfile()
+            this.clientID = await this.profileService.selectUserAsProfile()
                 .pipe(first(profile => profile != null), pluck('id')).toPromise();
         }
     }

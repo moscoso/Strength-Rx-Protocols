@@ -32,7 +32,7 @@ export class AssignTrainerComponent implements OnInit {
     }
 
     async assignTrainer() {
-        const trainer: Profile = await this.profileService.selectUserProfile().pipe(first()).toPromise();
+        const trainer: Profile = await this.profileService.selectUserAsProfile().pipe(first()).toPromise();
         this.clientService.assignTrainer(this.clientID, trainer);
     }
 

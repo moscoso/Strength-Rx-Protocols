@@ -151,7 +151,7 @@ export class AppComponent implements OnInit {
         this.profileService.loadAll();
         this.iAmTrainer$ = this.profileService.selectUserIsTrainer();
         this.addAvatarToMenu();
-        this.profileService.selectUserProfile().pipe(
+        this.profileService.selectUserAsProfile().pipe(
             untilDestroyed(this)
         ).subscribe(profile => {
             this.addAvatarToMenu();

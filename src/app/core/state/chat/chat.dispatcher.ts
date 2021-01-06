@@ -45,7 +45,7 @@ export class ChatStoreDispatcher {
     }
 
     public async sendMessage(conversationID: string, text: string) {
-        const profile = await this.profileService.selectUserProfile().pipe(first()).toPromise();
+        const profile = await this.profileService.selectUserAsProfile().pipe(first()).toPromise();
         const message: Message = {
             'id': null,
             conversationID,

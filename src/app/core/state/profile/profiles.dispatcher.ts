@@ -102,7 +102,7 @@ export class ProfileStoreDispatcher {
     /**
      * Select the authenticated user's profile
      */
-    public selectUserProfile(): Observable < Profile > {
+    public selectUserAsProfile(): Observable < Profile > {
         return this.store.select(selectUserProfile);
     }
 
@@ -110,7 +110,7 @@ export class ProfileStoreDispatcher {
      * Select the Avatar that belongs to the authenticated user
      */
     public async getUserAvatar(): Promise < string > {
-        const profile = await this.selectUserProfile()
+        const profile = await this.selectUserAsProfile()
             .pipe(first(user => user != null)).toPromise();
         return this.getAvatar(profile);
     }

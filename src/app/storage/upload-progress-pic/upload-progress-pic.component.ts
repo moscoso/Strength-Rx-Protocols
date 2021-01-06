@@ -38,9 +38,6 @@ export class UploadProgressPicComponent implements OnInit {
 
     async startUpload() {
 
-        const profile = await this.profileService.selectUserProfile().pipe(first()).toPromise();
-
-
         // The storage path
         const path = `${this.storageFolder}/${Date.now()}_${this.file.name}`;
 
@@ -58,7 +55,7 @@ export class UploadProgressPicComponent implements OnInit {
             finalize(async () => {
                 this.downloadURL = await ref.getDownloadURL().toPromise();
                 this.firestore.collection('files').add({ 'downloadURL': this.downloadURL, path });
-                const client = await this.profileService.selectUserProfile().pipe(first()).toPromise();
+                const client = await this.profileService.selectUserAsProfile().pipe(first()).toPromise();
                 const data = {'downloadURL': this.downloadURL, 'dateCreated': new Date()};
                 this.firestore.collection(`clients/${client.id}/progress-pics`).add(data);
                 this.fileUpload.emit(this.downloadURL);

@@ -43,7 +43,7 @@ export class ProfileFormComponent implements OnInit {
             'inches': this.inches,
         });
         this.requestInProgress$ = this.profileService.selectRequestInProgress();
-        this.profileService.selectUserProfile().pipe(first(profile => profile != null))
+        this.profileService.selectUserAsProfile().pipe(first(profile => profile != null))
             .toPromise().then(this.initFormValues.bind(this));
     }
 

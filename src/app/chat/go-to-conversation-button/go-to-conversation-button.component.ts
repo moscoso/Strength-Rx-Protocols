@@ -26,7 +26,7 @@ export class GoToConversationButtonComponent implements OnInit {
     async setConversationLink() {
         const errorMessage = `GoToConversationButtonComponent expected ${this.userID}`;
         if (!this.userID) { throw new Error(errorMessage); }
-        const myProfile = await this.profileService.selectUserProfile().pipe(first(profile => profile != null)).toPromise();
+        const myProfile = await this.profileService.selectUserAsProfile().pipe(first(profile => profile != null)).toPromise();
         const conversationID = this.chatService.calculateConversationID(this.userID, myProfile.id);
         this.conversationLink = `/chat/${conversationID}`;
     }

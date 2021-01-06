@@ -38,7 +38,7 @@ export class UploadProfilePicComponent implements OnInit {
 
     async startUpload() {
 
-        const profile = await this.profileService.selectUserProfile().pipe(first()).toPromise();
+        const profile = await this.profileService.selectUserAsProfile().pipe(first()).toPromise();
 
 
         // The storage path

@@ -56,7 +56,7 @@ export class UploadReviewComponent implements OnInit {
             finalize(async () => {
                 this.downloadURL = await ref.getDownloadURL().toPromise();
                 this.firestore.collection('files').add({ 'downloadURL': this.downloadURL, path });
-                const profile = await this.profileService.selectUserProfile().pipe(first()).toPromise();
+                const profile = await this.profileService.selectUserAsProfile().pipe(first()).toPromise();
                 this.firestore.collection(`clients/${profile.id}/reviews`).add({'downloadURL': this.downloadURL});
                 this.fileUpload.emit(this.downloadURL);
             }),

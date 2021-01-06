@@ -25,7 +25,7 @@ export class ProfileGuard implements CanActivate {
         const authData = await this.authService.selectUserData().pipe(first(userData => userData != null)).toPromise();
         this.profileService.refreshOne(authData.uid);
         await this.profileService.selectRequestInProgress().pipe(first(requestInProgress => requestInProgress === false)).toPromise();
-        return this.profileService.selectUserProfile().pipe(first()).toPromise()
+        return this.profileService.selectUserAsProfile().pipe(first()).toPromise()
             .then(async (profile) => {
                 if (profile) {
                     return true;

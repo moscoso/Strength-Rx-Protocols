@@ -33,7 +33,7 @@ export class SetAvatarComponent implements OnInit {
         if (routeID) {
             profile = await this.profileService.selectProfile(routeID).pipe(first(p => p != null)).toPromise();
         } else {
-            profile = await this.profileService.selectUserProfile().pipe(first(p => p != null)).toPromise();
+            profile = await this.profileService.selectUserAsProfile().pipe(first(p => p != null)).toPromise();
         }
         this.profile = profile;
         this.photoURL = profile.photoURL;

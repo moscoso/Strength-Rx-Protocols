@@ -58,7 +58,7 @@ export class ViewProfilePage implements OnInit {
         if (routeID) {
             this.profile$ = this.profileService.selectProfile(routeID);
         } else {
-            this.profile$ = this.profileService.selectUserProfile();
+            this.profile$ = this.profileService.selectUserAsProfile();
         }
     }
 

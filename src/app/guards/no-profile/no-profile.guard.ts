@@ -34,7 +34,7 @@ export class NoProfileGuard implements CanActivate {
             timeExpired = true;
         });
         if (timeExpired) {return false; }
-        return this.profileService.selectUserProfile().pipe(first()).toPromise()
+        return this.profileService.selectUserAsProfile().pipe(first()).toPromise()
             .then(async (profile) => {
                 if (profile == null) {
                     return true;

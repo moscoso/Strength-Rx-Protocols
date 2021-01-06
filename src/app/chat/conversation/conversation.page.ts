@@ -58,7 +58,7 @@ export class ConversationPage implements OnInit, AfterViewInit {
         this.chatService.selectScuffedMessages(this.conversationID).subscribe(messages => {
             this.messages = messages.sort(sortByTimestamp);
         });
-        this.myID = (await this.profileService.selectUserProfile().pipe(first(profile => profile != null)).toPromise()).id;
+        this.myID = (await this.profileService.selectUserAsProfile().pipe(first(profile => profile != null)).toPromise()).id;
         this.friendID = this.chatService.getOtherIDFromConversationID(this.myID, this.conversationID);
     }
 
