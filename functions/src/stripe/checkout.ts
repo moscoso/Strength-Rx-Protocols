@@ -15,8 +15,8 @@ async function createCheckoutSession(userID: string, priceID: string, idempotenc
         payment_method_types: ['card'],
         customer: customer.id,
         mode: 'subscription',
-        success_url: 'http://localhost:8100/thank-you',
-        cancel_url: 'http://localhost:8100/start-membership',
+        success_url: 'http://strengthrx.pro/thank-you',
+        cancel_url: 'http://strengthrx.pro/start-membership',
     }
     // const options: Stripe.RequestOptions = { idempotencyKey }
     const session = await stripe.checkout.sessions.create(params);

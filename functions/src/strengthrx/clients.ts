@@ -4,6 +4,7 @@ import { getCount, incrementCounter } from '../counter/distributed_counter';
 // tslint:disable-next-line: no-implicit-dependencies
 import { Transaction, DocumentReference } from '@google-cloud/firestore';
 import * as functions from 'firebase-functions';
+import * as dayjs from 'dayjs';
 
 /**
  * Creates a Firebase document in the clients collection with 
@@ -35,16 +36,16 @@ export async function createClient(userID: string, subscription: Stripe.Subscrip
 }
 
 async function updateClient(userID: string, status: Stripe.Subscription) {
-    return db.doc(`${STRIPE_COLLECTION}/${userID}`).set({status}, {'merge': true});
+    return db.doc(`${STRIPE_COLLECTION}/${userID}`).set({ status }, { 'merge': true });
 }
 
 export const updateMembershipStatus = functions.firestore.document(`${STRIPE_COLLECTION}/{userID}/subscriptions/{docID}`)
     .onWrite(async (change, context) => {
         const userID = context.params.userID;
         const subscription = change.after.data();
-        if(subscription){
+        if (subscription) {
             return updateClient(userID, subscription.status);
-        }else {
+        } else {
             throw new Error(`Could not update membership for ${userID}`)
         }
     })
@@ -62,7 +63,7 @@ async function createClientEvent(clientID: string, timestamp: FirebaseFirestore.
             'firstName': clientData.firstName,
             'timestamp': timestamp,
             'type': 'review',
-            'trainerID': clientData.assignedTrainer.id
+            'trainerID': clientData.assignedTrainer ? clientData.assignedTrainer.id : '',
         })
     }
 }
@@ -72,6 +73,67 @@ export const onCreatedClient = functions.firestore.document(`clients/{clientID}`
     const userID = change.data().userID;
     return createClientEvent(userID, createTime, 'started-membership')
 });
+
+
+export const onWrittenClient = functions.firestore.document(`clients/{clientID}`).onWrite(async (change, context) => {
+    const clientID = context.params.clientID;
+    const data = change.after.data();
+    if (data) {
+        const assignedProgram = data.assignedProgram;
+        if (assignedProgram) {
+            const calendar = buildCalendar(assignedProgram);
+            return db.doc(`clients/${clientID}/calendar/calendar`).set({
+                calendar
+            });
+        } else {
+            return db.doc(`clients/${clientID}/calendar/calendar`).delete();
+        }
+    }
+    return;
+});
+
+function buildCalendar(program: Program): any {
+    const calendar: any = {};
+    const startDay: dayjs.Dayjs = dayjs(program.startDate);
+    program.phases.forEach((phase, phaseIndex) => {
+        let normalizedWeekIndex = 0;
+        for (let i = 1; i <= phase.lengthInWeeks; i++) {
+            Object.keys(phase.schedule).sort().forEach((day, dayIndex) => {
+                const workout = phase.schedule[day];
+                if (workout) {
+                    const DAYS_IN_A_WEEK = 7;
+                    const adjustment = dayIndex + (normalizedWeekIndex * DAYS_IN_A_WEEK)
+                    const assignedDay = dayjs(startDay).add(adjustment, 'day');
+                    const dayID = assignedDay.format('MM-DD-YYYY');
+                    const event = buildWorkoutEvent(dayID, assignedDay.toDate(), workout, phaseIndex, i,
+                        normalizedWeekIndex + 1)
+                    calendar[dayID] = event;
+                }
+            });
+            normalizedWeekIndex++;
+        }
+    });
+    return calendar;
+}
+
+function buildWorkoutEvent(
+    id: string,
+    assignedDate: Date,
+    workout: Workout,
+    phase: number,
+    week: number,
+    normalizedWeek: number
+): WorkoutEvent {
+    return {
+        id,
+        assignedDate,
+        workout,
+        phase,
+        week,
+        normalizedWeek,
+        completed: null,
+    }
+}
 
 
 export const onCreatedCheckIn = functions.firestore.document(`check-ins/{docID}`).onCreate(async (change, context) => {
@@ -86,8 +148,95 @@ export const onCreatedReview = functions.firestore.document(`clients/{clientID}/
     return createClientEvent(clientID, createTime, 'review');
 });
 
-export const onCreatedProgressPics = functions.firestore.document(`clients/{clientID}/progress-pics/{docID}`).onCreate(async (change, context) => {
+export const onCreatedProgressPics = functions.firestore.document(`clients/{clientID}/progress-pics/{docID}`).onCreate(async (change,
+    context) => {
     const createTime = change.createTime;
     const clientID = context.params.clientID;
     return createClientEvent(clientID, createTime, 'progress-pic');
 });
+
+
+interface Program {
+    id: string;
+    name: string;
+    totalLengthInWeeks: number;
+    phases: ProgramPhase[];
+    photoURL: string;
+    startDate: Date;
+    dateCreated: Date;
+}
+
+/**
+ * A distinct stage in a training Program.
+ * Each phase is broken up into a weekly schedule and each phase typically lasts for several weeks.
+ */
+interface ProgramPhase {
+    name: string;
+    schedule: WorkoutSchedule;
+    lengthInWeeks: number;
+}
+
+/**
+ * Initialize a Program Phase with default values
+ */
+// const INIT_PROGRAM_PHASE: ProgramPhase = {
+//     'name': 'unnamed phase',
+//     'lengthInWeeks': 1,
+//     'schedule': {
+//         'day1': null,
+//         'day2': null,
+//         'day3': null,
+//         'day4': null,
+//         'day5': null,
+//         'day6': null,
+//         'day7': null,
+//     },
+// };
+
+/**
+ * The workout schedule for a week of a Program's phase
+ */
+type WorkoutSchedule = any
+
+
+/**
+ * The main data model for an Workout
+ */
+interface Workout {
+    /**
+     * The unique identifier for a workout
+     */
+    id: string;
+    /**
+     * The name of the workout
+     */
+    name: string;
+    /**
+     * A standard phase of a workout describes a normal exercise routine.
+     *
+     * Note: A value of Null indicates that this workout does not include a StandardPhase
+     */
+    standardPhase: any | null;
+    /**
+     * An interval phase describes an interval training routine.
+     *
+     * Note: A value of Null indicates that this workout does not include a IntervalPhase
+     */
+    intervalPhase: any | null;
+    photoURL: string;
+    /**
+     * A timestamp denoting when this workout was created
+     */
+    dateCreated: Date;
+}
+
+
+interface WorkoutEvent {
+    'id': string;
+    'assignedDate': Date;
+    'workout': Workout;
+    'completed': Date | null;
+    'phase': number;
+    'week': number;
+    'normalizedWeek': number;
+}
