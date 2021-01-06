@@ -1,0 +1,23 @@
+<ng-container *ngIf="intervalPhase">
+    <ion-list *ngFor="let superset of intervalPhase.supersets; let i = index;"
+              class="ion-margin-start ion-margin-top ion-no-padding"
+              [ngStyle]="{'color': getColor(i)}">
+        <ion-list-header [ngStyle]="{'color': getColor(i)}">
+            <ion-label style="font-weight: 500;">Superset of {{superset.sets}} Set{{superset.sets > 1 ? 's': ''}}</ion-label>
+        </ion-list-header>
+
+        <ion-item *ngFor="let routine of superset.exerciseRoutines"
+                  class="ion-no-padding ion-margin-start">
+
+            <ion-thumbnail>
+                <img [src]="getYoutubeThumbnail(routine.exercise?.youtubeID)" />
+            </ion-thumbnail>
+            <ion-label class="ion-padding-start">
+                <p style="font-weight: 500;">{{routine.exercise ? routine.exercise.name : 'REST'}}</p>
+                <p>{{routine.duration}} seconds</p>
+                <p [hidden]="routine.exercise == null">{{routine.reps}}</p>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</ng-container>
+<!-- <ion-button expand="full">Begin</ion-button> -->

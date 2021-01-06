@@ -17,7 +17,7 @@
     <span class="ion-text-center" [hidden]="!(requestInProgress$ | async)">
         <ion-spinner></ion-spinner>
     </span>
-    <ion-searchbar (ionChange)='search($event)' autocorrect="off" [hidden]="workoutList.length <= 1"></ion-searchbar>
+    <!-- <ion-searchbar (ionChange)='search($event)' autocorrect="off" [hidden]="workoutList.length <= 1"></ion-searchbar> -->
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>

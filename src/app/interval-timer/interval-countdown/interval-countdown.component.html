@@ -1,0 +1,59 @@
+<ng-container *ngIf="listOfRoutines[exerciseIndex] as routine">
+    <app-youtube-player *ngIf="routine.exercise != null; else rest"
+                        [videoID]="routine.exercise.youtubeID"
+                        [autoplay]="true"
+                        #ytPlayer
+                        height="33%">
+    </app-youtube-player>
+    <ng-template #rest>
+        <img style="display: block;" src="/assets/icon/rest.png" />
+    </ng-template>
+
+</ng-container>
+<ion-item *ngIf="exerciseIndex < listOfRoutines.length"
+          class="ion-no-padding ion-margin-start">
+    <span>UP NEXT:</span>
+    <ng-container *ngIf="listOfRoutines[exerciseIndex + 1] as nextRoutine; else done">
+
+        <ion-thumbnail>
+            <img [src]="getYoutubeThumbnail(nextRoutine.exercise?.youtubeID)" />
+        </ion-thumbnail>
+        <ion-label class="ion-padding-start">
+            <p style="font-weight: 500;">{{nextRoutine.exercise ? nextRoutine.exercise.name : 'REST'}}</p>
+            <p>{{nextRoutine.duration}} seconds</p>
+            <p [hidden]="nextRoutine.exercise == null">{{nextRoutine.reps}}</p>
+        </ion-label>
+    </ng-container>
+    <ng-template #done>
+        <span>FINISH! 🏁</span>
+    </ng-template>
+</ion-item>
+
+<ng-container *ngIf="exerciseIndex < listOfRoutines.length; else done">
+    <countdown #cd [config]="{'leftTime': listOfRoutines[exerciseIndex].duration,
+        'demand': true, notify: 0, format: 'mm:ss'}" (event)="handleEvent($event)"></countdown>
+    <ion-button (click)="pause()" [hidden]="status === 1">
+        <ion-icon name="pause"></ion-icon>
+    </ion-button>
+    <ion-button (click)="resume()" [hidden]="status === 0">
+        <ion-icon name="play"></ion-icon>
+    </ion-button>
+    <!-- <ion-button (click)="stop()" ><ion-icon name="stop"></ion-icon></ion-button> -->
+    <ion-button (click)="prev()" [disabled]="exerciseIndex === 0">
+        <ion-icon name="play-skip-back"></ion-icon>
+    </ion-button>
+    <ion-button (click)="next()">
+        <ion-icon name="play-skip-forward"></ion-icon>
+    </ion-button>
+</ng-container>
+<ng-template #done>
+    <div class="ion-text-center">
+        <h1>Workout Complete! 🏁 </h1>
+        <h2>Yes, you did it! Way to go!</h2>
+        <ion-button routerLink="/profile">Go Back</ion-button>
+    </div>
+</ng-template>
+
+<!-- <ion-button (click)="restart()" expand="full">
+            <ion-icon name="refresh"></ion-icon>Restart Exercise
+        </ion-button> -->

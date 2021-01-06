@@ -1,0 +1,17 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+            <ion-back-button defaultHref="/workouts"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Workout</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <app-interval-exercise-list [intervalPhase]="intervalPhase" [hidden]="isRunning"></app-interval-exercise-list>
+    <app-interval-countdown [listOfRoutines]="listOfRoutines" #myCD [hidden]="!isRunning"></app-interval-countdown>
+    <ion-toolbar>
+        <ion-button (click)="start()" [hidden]="isRunning" expand="full">START!</ion-button>
+    </ion-toolbar>
+</ion-content>

@@ -1,0 +1,20 @@
+:host{
+    ion-list-header {
+        color: orange;
+    }
+
+    ion-list {
+        margin-left: 5px;
+        border-left: 2px solid;
+    }
+
+    ion-label {
+        text-overflow: initial;
+        white-space: initial;
+        padding-left: 5px;
+    }
+
+    ion-label p {
+        margin: 0px;
+    }
+}

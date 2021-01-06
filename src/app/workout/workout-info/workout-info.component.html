@@ -1,0 +1,14 @@
+<h1 class="name ion-text-center">{{workout.name}}</h1>
+
+<ion-row *ngIf="workout.standardPhase && workout.standardPhase.exercises">
+    <h2 style="width:100%" class="ion-text-center">Standard Phase</h2>
+    <ion-col *ngFor="let exercise of workout.standardPhase.exercises" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+        <exercise-preview [exercise]=exercise [routerLink]="'/exercises/' + exercise.id "
+                          [notes]="getNotes(workout.standardPhase.exerciseRoutines[exercise.id])"></exercise-preview>
+    </ion-col>
+</ion-row>
+<ion-row *ngIf="workout.intervalPhase">
+    <h2 style="width:100%" class="ion-text-center">Interval Phase</h2><br>
+    <app-interval-exercise-list [intervalPhase]="workout.intervalPhase"
+                                [routerLink]="'/interval-timer/'+workout.id"></app-interval-exercise-list>
+</ion-row>

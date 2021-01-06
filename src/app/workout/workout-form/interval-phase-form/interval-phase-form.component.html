@@ -1,0 +1,96 @@
+<ion-label>INTERVAL PHASE</ion-label>
+
+<ion-row>
+    <mat-form-field>
+        <mat-label>Number of Supersets</mat-label>
+        <mat-select [formControl]="numberOfSupersets">
+            <mat-option *ngFor="let n of getListOfIntegers(7); let i = index" [value]="i + 1">{{i + 1}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="numberOfSupersets.hasError('required')">Number of Phases is required.</mat-error>
+        <mat-error *ngIf="numberOfSupersets.hasError('min')">Minimum of 1 Phase per workout</mat-error>
+    </mat-form-field>
+</ion-row>
+
+
+<ng-container *ngFor="let supersetControl of supersets.controls; let supersetIndex = index">
+    <ion-label>
+        <h3>Superset {{supersetIndex + 1}}</h3>
+    </ion-label>
+
+    <form [formGroup]="supersetControl">
+
+        <mat-form-field>
+            <mat-label>How many sets should this superset be performed for?</mat-label>
+            <input matInput type="number" [formControl]="supersetControl.get('sets')"
+                   name="sets"
+                   min=1
+                   max=10
+                   autocomplete="off"
+                   enterKeyHint="next">
+            <mat-error *ngIf="supersetControl.get('sets').hasError('min')">Minimum of 1 Set per Superset</mat-error>
+            <mat-error *ngIf="supersetControl.get('sets').hasError('max')">Maximum of 10 Sets per Supersets</mat-error>
+
+        </mat-form-field>
+
+        <ion-label>Exercises</ion-label>
+        <ng-container *ngFor="let routineControl of getExerciseRoutinesControls(supersetControl); let routineIndex = index ">
+            <ng-template let-exerciseControl
+                         [ngTemplateOutletContext]="{ $implicit: routineControl.get('exercise') }"
+                         [ngTemplateOutlet]="t" #t>
+                <ion-row>
+                    <ion-col size="4">
+                        <mat-form-field class="routine-form-field">
+                            <mat-label>Exercise Routine {{routineIndex + 1}}</mat-label>
+                            <mat-select [formControl]="exerciseControl" name="exercise" [required]="routineIndex === 0"
+                                        [compareWith]="compareExercises">
+                                <div [hidden]="exerciseControl.value">
+                                    <mat-option *ngFor="let exercise of (exerciseList$ | async)"
+                                                [value]="exercise">{{exercise.name}}</mat-option>
+                                </div>
+                                <div [hidden]="!exerciseControl.value">
+                                    <mat-option (click)="resetControl(exerciseControl)">Reset to Rest Period</mat-option>
+                                </div>
+                            </mat-select>
+                            <mat-error *ngIf="exerciseControl.hasError('required')">An exercise routine is required
+                            </mat-error>
+                            <mat-hint [hidden]="exerciseControl.value || routineIndex === 0" [align]="'start'">Currently set as Rest Period</mat-hint>
+                            <mat-hint class="reset-phase" [align]="'end'"
+                                      [hidden]="!exerciseControl.value"
+                                      (click)="resetControl(exerciseControl)">Reset</mat-hint>
+                        </mat-form-field>
+                    </ion-col>
+                    <ion-col size="4">
+                        <mat-form-field>
+                            <mat-label>DURATION (IN SECONDS)</mat-label>
+                            <input matInput type="text" [formControl]="routineControl.get('duration')"
+                                   name="duration"
+                                   pattern="[0-9\-]+"
+                                   placeholder="0"
+                                   autocomplete="off"
+                                   enterKeyHint="next">
+                        </mat-form-field>
+                    </ion-col>
+                    <ion-col size="3">
+                        <mat-form-field>
+                            <mat-label>REPS</mat-label>
+                            <input matInput type="text" [formControl]="routineControl.get('reps')"
+                                   name="reps"
+                                   pattern="[0-9\-]+"
+                                   placeholder="0"
+                                   autocomplete="off"
+                                   enterKeyHint="next">
+                        </mat-form-field>
+                    </ion-col>
+                    <ion-col size="1">
+                        <ion-button (click)="removeExerciseRoutine(supersetControl.get('exerciseRoutines'), routineIndex)">Remove
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </ng-template>
+        </ng-container>
+        <ion-row>
+            <ion-button (click)="addExerciseRoutine(supersetControl.get('exerciseRoutines'))">Add Exercise Routine
+            </ion-button>
+        </ion-row>
+    </form>
+</ng-container>

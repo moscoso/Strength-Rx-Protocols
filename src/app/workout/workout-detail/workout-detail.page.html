@@ -13,17 +13,27 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-grid *ngIf="workout$ | async as workout">
-        <h1>{{workout.name}}</h1>
-        <ion-row>
+        <h1 class="name">{{workout.name}}</h1>
+        <p *ngIf="workout.description">{{workout.description}}</p>
+        <ion-row *ngIf="workout.standardPhase && workout.standardPhase.exercises">
+            <h2 style="width:100%">Standard Phase</h2> 
             <ion-col *ngFor="let exercise of workout.standardPhase.exercises" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
                 <exercise-preview [exercise]=exercise [routerLink]="'/exercises/' + exercise.id "
                                   [notes]="getNotes(workout.standardPhase.exerciseRoutines[exercise.id])"></exercise-preview>
             </ion-col>
         </ion-row>
+        <ion-row *ngIf="workout.intervalPhase">
+            <h2 style="width:100%">Interval Phase</h2><br>
+            <app-interval-exercise-list [intervalPhase]="workout.intervalPhase"
+                                        [routerLink]="'/interval-timer/'+workout.id"></app-interval-exercise-list>
+        </ion-row>
+
+
         <ng-container *ngIf="(isTrainer$ | async) && isMasterWorkout">
             <ion-button color="primary" (click)="showEditModal()">Edit</ion-button>
             <ion-button color="danger" (click)="showActionSheetToDelete()">Delete</ion-button>
         </ng-container>
+
     </ion-grid>
 
 </ion-content>

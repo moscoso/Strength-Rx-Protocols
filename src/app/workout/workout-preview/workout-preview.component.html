@@ -1,5 +1,5 @@
 <ion-card>
-    <ng-container *ngIf="workout.standardPhase.exercises && workout.standardPhase.exercises[0] && workout.standardPhase.exercises[0].youtubeID != '' else noVideoURL">
+    <ng-container *ngIf="extractExercise(workout) != null">
         <img [src]="getYoutubeThumbnail()"/>
     </ng-container>
     <ng-template #noVideoURL>
@@ -8,6 +8,7 @@
 
     <ion-card-header>
         <ion-card-title class="name" *ngIf="workout.name">{{workout.name}}</ion-card-title>
-        <ion-card-subtitle class="name" *ngIf="workout.standardPhase.exercises && workout.standardPhase.exercises.length">{{workout.standardPhase.exercises.length}} Exercises</ion-card-subtitle>
+        <ion-card-subtitle class="name" *ngIf="workout.standardPhase && workout.standardPhase.exercises && workout.standardPhase.exercises.length">{{workout.standardPhase.exercises.length}} Exercises</ion-card-subtitle>
+        <ion-card-subtitle class="name" *ngIf="workout.intervalPhase">Interval Phase</ion-card-subtitle>
     </ion-card-header>
 </ion-card>

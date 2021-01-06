@@ -1,26 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
+import { IntervalExerciseListComponent } from './interval-exercise-list/interval-exercise-list.component';
 import { IonicModule } from '@ionic/angular';
-
-import { IntervalTimerPageRoutingModule } from './interval-timer-routing.module';
-
-import { IntervalTimerPage } from './interval-timer.page';
 import { CountdownModule } from 'ngx-countdown';
-import { ExerciseModule } from '../exercise/exercise.module';
+import { IntervalCountdownComponent } from './interval-countdown/interval-countdown.component';
 import { SharedModule } from '../shared/shared.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
+    'declarations': [
+        IntervalCountdownComponent,
+        IntervalExerciseListComponent,
+    ],
     'imports': [
         CommonModule,
-        FormsModule,
         IonicModule,
-        ExerciseModule,
         SharedModule,
+        RouterModule,
         CountdownModule,
-        IntervalTimerPageRoutingModule
     ],
-    'declarations': [IntervalTimerPage]
+    'exports': [
+        IntervalExerciseListComponent,
+        IntervalCountdownComponent,
+    ]
 })
-export class IntervalTimerPageModule {}
+export class IntervalTimerModule {}

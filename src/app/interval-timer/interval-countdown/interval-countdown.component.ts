@@ -1,50 +1,40 @@
-import { AfterViewInit, Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CountdownComponent } from 'ngx-countdown';
-import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
-import { ExerciseStoreDispatcher } from '../core/state/exercises/exercises.dispatcher';
-import { Exercise } from '../core/state/exercises/exercises.state';
+import { IntervalExerciseRoutine } from 'src/app/core/state/workouts/workouts.state';
+import { YoutubePlayerComponent } from 'src/app/shared/youtube-player/youtube-player.component';
 
 @Component({
-    'selector': 'app-interval-timer',
-    'templateUrl': './interval-timer.page.html',
-    'styleUrls': ['./interval-timer.page.scss'],
+    'selector': 'app-interval-countdown',
+    'templateUrl': './interval-countdown.component.html',
+    'styleUrls': ['./interval-countdown.component.scss'],
 })
-export class IntervalTimerPage implements OnInit, AfterViewInit {
+export class IntervalCountdownComponent implements OnInit {
     @ViewChild('cd', { 'static': false }) private countdown: CountdownComponent;
+    @ViewChild('ytPlayer') ytPlayer: YoutubePlayerComponent ;
     config: {
-        'leftTime': 30,
+        'leftTime': 0,
         'demand': false,
         'notify': [1],
     };
 
+    @Input() listOfRoutines: IntervalExerciseRoutine[] = [];
     exerciseIndex = 0;
-    exercises$: Observable < Exercise[] > ;
 
-    constructor(
-        public exerciseService: ExerciseStoreDispatcher,
-    ) {
-        this.exerciseService.loadAll();
-        this.exercises$ = this.exerciseService.selectAll().pipe(first(x => x.length > 0));
+    status = 1;
 
-        this.exercises$.toPromise().then(x => console.log(x));
-    }
+    constructor() {}
 
-    ngOnInit() {
+    ngOnInit(): void {
 
-    }
-
-    ngAfterViewInit() {
-        console.log(this.countdown);
     }
 
     handleEvent(event) {
-        console.log(event);
+        this.status = event.status;
+        console.log(event.action);
         switch (event.action) {
             case 'done':
-                this.exerciseIndex++;
                 setTimeout(() => {
-                    this.restart();
+                    this.next();
                 }, 200);
                 break;
             case 'start':
@@ -86,7 +76,13 @@ export class IntervalTimerPage implements OnInit, AfterViewInit {
 
     next() {
         this.exerciseIndex++;
-        this.restart();
+        const noMoreExercises = this.exerciseIndex >= this.listOfRoutines.length;
+        if (noMoreExercises) {
+            this.stop();
+        } else {
+            this.restart();
+        }
+
     }
 
     restart() {
@@ -100,15 +96,22 @@ export class IntervalTimerPage implements OnInit, AfterViewInit {
 
 
     async speak() {
-        const exercises = await this.exercises$.pipe(first()).toPromise();
         if (window.speechSynthesis) {
-            const name = exercises[this.exerciseIndex].name;
+            const exercise = this.listOfRoutines[this.exerciseIndex].exercise;
+            const name = exercise ? exercise.name : 'rest';
             const nameWithoutDashes = name.replace(/-/g, ' ');
 
             const utterance = new SpeechSynthesisUtterance(nameWithoutDashes);
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utterance);
+        }
+    }
 
+    getYoutubeThumbnail(youtubeID) {
+        if (youtubeID && youtubeID !== '') {
+            return `https://i3.ytimg.com/vi/${youtubeID}/default.jpg`;
+        } else {
+            return `assets/icon/rest.png`;
         }
     }
 

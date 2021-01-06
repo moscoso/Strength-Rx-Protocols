@@ -8,6 +8,7 @@ import { WorkoutDetailPageRoutingModule } from './workout-detail-routing.module'
 
 import { WorkoutDetailPage } from './workout-detail.page';
 import { ExerciseModule } from 'src/app/exercise/exercise.module';
+import { IntervalTimerModule } from 'src/app/interval-timer/interval-timer.module';
 
 @NgModule({
     'imports': [
@@ -15,6 +16,7 @@ import { ExerciseModule } from 'src/app/exercise/exercise.module';
         FormsModule,
         IonicModule,
         ExerciseModule,
+        IntervalTimerModule,
         WorkoutDetailPageRoutingModule
     ],
     'declarations': [WorkoutDetailPage]
