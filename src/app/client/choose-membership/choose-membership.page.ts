@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { first } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Component({
     'selector': 'app-choose-membership',
@@ -77,7 +78,7 @@ export class ChooseMembershipPage implements OnInit {
             const fun = this.functions.httpsCallable('stripeCreateCheckoutSession');
             fun({ 'priceID': this.chosenPlanID }).toPromise().then(response => {
                 console.log(response);
-                const stripe = Stripe('pk_live_T6qB2lI9q51daLjTsDEX5tPX00Hzpq5PY3');
+                const stripe = Stripe(environment.stripePK);
                 stripe.redirectToCheckout({ 'sessionId': response.id });
             });
             this.checkoutLoading = true;

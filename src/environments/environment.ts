@@ -3,10 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 import {firebase} from '../config/firebase';
+import {stripe} from '../config/stripe';
 
 export const environment = {
-    'production': true,
-    'firebase': firebase.staging
+    'production': false,
+    'firebase': firebase.staging,
+    'stripePK': stripe.staging,
+    'hostURL': 'http://localhost:8100'
 };
 
 

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { first } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 declare var StripeCheckout; // StripeCheckoutStatic;
 
 @Component({
@@ -28,7 +29,7 @@ export class BuySubscriptionComponent implements OnInit {
 
     ngOnInit() {
         this.checkout = StripeCheckout.configure({
-            'key': 'pk_live_T6qB2lI9q51daLjTsDEX5tPX00Hzpq5PY3',
+            'key': environment.stripePK,
             // 'image': '/assets/icon/logo.png',
             'locale': 'auto',
             'source': async (source) => {

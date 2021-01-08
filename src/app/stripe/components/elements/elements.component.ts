@@ -1,6 +1,7 @@
 import { Component, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { environment } from 'src/environments/environment';
 
 declare var Stripe: stripe.StripeStatic;
 
@@ -28,7 +29,7 @@ export class ElementsComponent implements AfterViewInit {
     ) {}
 
     ngAfterViewInit() {
-        this.stripe = Stripe('pk_live_T6qB2lI9q51daLjTsDEX5tPX00Hzpq5PY3');
+        this.stripe = Stripe(environment.stripePK);
         const elements = this.stripe.elements();
 
         this.card = elements.create('card');
