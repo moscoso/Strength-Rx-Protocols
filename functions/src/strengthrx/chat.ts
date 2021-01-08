@@ -10,10 +10,10 @@ export const onMessageCreated = functions.firestore.document(`conversations/{con
         const conversationID = context.params['conversationID'];
         const message = snapshot.data();
         const conversationDoc = await db.doc(`conversations/${conversationID}`).get();
-        if (conversationDoc.data() === undefined) {
-            await createConversationDocument(conversationID, message);
-        } else {
+        if (conversationDoc.data()) {
             await updateConversationDocument(conversationID, message);
+        } else {
+            await createConversationDocument(conversationID, message);
         }
         const senderID = message.senderID;
         const recepientID = getOtherIDFromConversationID(senderID, conversationID);
@@ -25,9 +25,11 @@ async function createConversationDocument(conversationID: string, message: any):
     const userIDs = getIDListFromConversationID(conversationID);
     const user1 = userIDs[0];
     const user2 = userIDs[1];
+    const userData1 = await getProfileData(user1);
+    const userData2 = await getProfileData(user2);
 
-    const name1 =  (await getProfileData(user1)).firstName
-    const name2 =  (await getProfileData(user2)).firstName
+    const name1 =  userData1 ? userData1.firstName : '';
+    const name2 =  userData2 ? userData2.firstName : '';
 
     const conversation = {
         user1,

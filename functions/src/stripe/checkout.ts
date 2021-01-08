@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 import { getOrCreateCustomer } from './customers';
 import { assertUID, catchErrors, assert } from '../helpers';
 
-async function createCheckoutSession(userID: string, priceID: string, idempotencyKey: string) {
+async function createCheckoutSession(userID: string, priceID: string, hostURL = 'https://strengthrx.pro', idempotencyKey: string) {
     const customer = await getOrCreateCustomer(userID);
     const lineItem: Stripe.Checkout.SessionCreateParams.LineItem = {
         'price': priceID,
@@ -14,9 +14,10 @@ async function createCheckoutSession(userID: string, priceID: string, idempotenc
         line_items: [lineItem],
         payment_method_types: ['card'],
         customer: customer.id,
+        
         mode: 'subscription',
-        success_url: 'http://strengthrx.pro/thank-you',
-        cancel_url: 'http://strengthrx.pro/start-membership',
+        success_url: `${hostURL}/thank-you`,
+        cancel_url: `${hostURL}/start-membership`,
     }
     // const options: Stripe.RequestOptions = { idempotencyKey }
     const session = await stripe.checkout.sessions.create(params);
@@ -26,6 +27,6 @@ async function createCheckoutSession(userID: string, priceID: string, idempotenc
 export const stripeCreateCheckoutSession = functions.https.onCall(async (data, context) => {
     const userID = assertUID(context);
     const priceID = assert(data, 'priceID')
-    // const returnURL = assert(data, 'returnURL');
-    return catchErrors(createCheckoutSession(userID, priceID, ''));
+    const hostURL = data.hostURL;
+    return catchErrors(createCheckoutSession(userID, priceID, hostURL, ''));
 });

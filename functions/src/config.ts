@@ -2,9 +2,11 @@
 import * as admin from 'firebase-admin';
 admin.initializeApp();
 
-// Set Firestore settings
+/** The Firebase Admin's Firestore database instance */
 export const db = admin.firestore();
+/** The Firebase Admin's Auth instance */
 export const auth = admin.auth();
+/** The Firebase Admin's Messaging instance */
 export const messaging = admin.messaging();
 const settings: FirebaseFirestore.Settings = { timestampsInSnapshots: true};
 db.settings(settings);

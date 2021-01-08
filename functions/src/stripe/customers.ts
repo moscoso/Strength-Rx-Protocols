@@ -1,10 +1,11 @@
 import { assert } from '../helpers';
-import { db, stripe, STRIPE_COLLECTION } from '../config';
+import { auth, db, stripe, STRIPE_COLLECTION } from '../config';
 import Stripe from 'stripe';
-import admin = require('firebase-admin');
+import * as functions from 'firebase-functions';
+import { getProfileData } from '../strengthrx/user';
 
 /**
- * Read the user's document from Firestore that defines Stripe data
+ * Read the user's account document from Firestore that defines Stripe data
  * @param userID the ID corresponding to the user
  */
 export async function getUser(userID: string) {
@@ -21,7 +22,8 @@ export async function updateUser(userID: string, data: Object) {
 }
 
 /**
- * Gets a customer ID that corresponds to a User from Firebase to be used for the Stripe API
+ * Gets a Customer ID provided by Stripe that corresponds to a User in Firebase.
+ * This ID is to be used as the customer's indentifier with the Stripe API
  * @param userID the ID corresponding to the user
  */
 export async function getCustomerID(userID: string): Promise < string >  {
@@ -34,13 +36,25 @@ export async function getCustomerID(userID: string): Promise < string >  {
  * @param userID the ID corresponding to the user
  */
 export async function createCustomer(userID: string): Promise < Stripe.Customer > {
-    const user = await admin.auth().getUser(userID);
+    const user = await auth.getUser(userID);
     const customer: Stripe.Customer = await stripe.customers.create({
         email: user.email,
         metadata: { firebaseUserID: userID }
     })
     await updateUser(userID, { 'stripeCustomerID': customer.id, email: user.email })
     return customer;
+}
+
+export async function updateCustomerName(userID: string): Promise < Stripe.Customer > {
+    const customerID = await getCustomerID(userID); 
+    const user = await getProfileData(userID);
+    if(user) {
+        const fullName = `${user.firstName} ${user.lastName}`;
+        return stripe.customers.update(customerID, {'name': fullName})
+    } else {
+        throw new functions.https.HttpsError('aborted', `profile document for userID ${userID} was undefined`);
+    }
+    
 }
 
 /**
