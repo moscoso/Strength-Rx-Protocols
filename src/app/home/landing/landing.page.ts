@@ -70,7 +70,7 @@ export class LandingPage implements OnInit, AfterViewInit {
      * @param slug the slug of the resource
      */
     getStorageURL(slug: string) {
-        const storageBucket = environment.firebase.storageBucket;
+        const storageBucket = `strengthrx-protocols.appspot.com`;
         return `https://firebasestorage.googleapis.com/v0/b/${storageBucket}/o/${slug}`;
     }
 
