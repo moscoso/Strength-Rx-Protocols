@@ -5,4 +5,5 @@ export const environment = {
     'production': true,
     'firebase': firebase.staging,
     'stripePK': stripe.staging,
+    'hostURL': 'https://strengthrx-pro-test.web.app'
 };
