@@ -25,7 +25,7 @@ import { SharedModule } from './shared/shared.module';
         ServiceWorkerModule.register('ngsw-worker.js', { 'enabled': environment.production })
     ],
     'providers': [
-        { 'provide': RouteReuseStrategy, 'useClass': IonicRouteStrategy },
+        // { 'provide': RouteReuseStrategy, 'useClass': IonicRouteStrategy },
     ],
     'bootstrap': [AppComponent],
 })
