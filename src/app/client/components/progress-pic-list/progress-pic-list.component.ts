@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
@@ -10,7 +10,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class ProgressPicListComponent implements OnInit {
 
     @Input() clientID: string;
-    progressPics$: Observable < any > ;
+    progressPics$: Observable < any > = of([]);
 
     constructor(
         public firestore: AngularFirestore,
