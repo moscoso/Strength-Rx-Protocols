@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "strengthrx-protocols"
+    "default": "strengthrx-protocols",
+    "staging": "strengthrx-pro-test"
   }
 }

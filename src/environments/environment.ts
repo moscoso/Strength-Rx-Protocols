@@ -5,9 +5,10 @@
 import {firebase} from '../config/firebase';
 
 export const environment = {
-    'production': false,
-    'firebase': firebase,
+    'production': true,
+    'firebase': firebase.staging
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file
