@@ -232,6 +232,7 @@ const routes: Routes = [
         RouterModule.forRoot(routes, {
             'preloadingStrategy': PreloadAllModules,
             'anchorScrolling': 'enabled',
+            'relativeLinkResolution': 'legacy'
         })
     ],
     'exports': [RouterModule]

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { HighlightSearchPipe } from './highlight-search.pipe';
 import { TimestampPipe } from './timestamp.pipe';
 
