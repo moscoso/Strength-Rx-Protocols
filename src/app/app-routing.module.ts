@@ -30,12 +30,12 @@ const routes: Routes = [
     },
     {
         'path': 'register',
-        'loadChildren': () => import('./account/register/register.module').then(m => m.RegisterPageModule),
+        'loadChildren': () => import('./account/join/join.module').then(m => m.JoinPageModule),
         'canActivate': [NoAuthGuard]
     },
     {
         'path': 'join',
-        'loadChildren': () => import('./account/register/register.module').then(m => m.RegisterPageModule),
+        'loadChildren': () => import('./account/join/join.module').then(m => m.JoinPageModule),
         'canActivate': [NoAuthGuard]
     },
     {
@@ -202,8 +202,16 @@ const routes: Routes = [
         'canActivate': [AuthGuard, ProfileGuard],
     },
     {
+        'path': 'terms',
+        'loadChildren': () => import('./home/terms-of-service/terms-of-service.module').then(m => m.TermsOfServicePageModule)
+    },
+    {
         'path': 'terms-of-service',
         'loadChildren': () => import('./home/terms-of-service/terms-of-service.module').then(m => m.TermsOfServicePageModule)
+    },
+    {
+        'path': 'privacy',
+        'loadChildren': () => import('./home/privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyPageModule)
     },
     {
         'path': 'privacy-policy',
@@ -225,6 +233,8 @@ const routes: Routes = [
         'path': '**',
         'redirectTo': ''
     },
+    
+
 ];
 
 @NgModule({
