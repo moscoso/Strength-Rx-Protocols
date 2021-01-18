@@ -15,6 +15,7 @@ import { EditCustomProgramComponent } from './components/assign-program/edit-cus
 import { SubscribeToProgramComponent } from './components/assign-program/subscribe-to-program/subscribe-to-program.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReviewListComponent } from './components/review-list/review-list.component';
+import { ChatModule } from '../chat/chat.module';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { ReviewListComponent } from './components/review-list/review-list.compon
     'imports': [
         CommonModule,
         IonicModule,
+        ChatModule,
         RouterModule,
         MaterialsModule,
         ProgramModule,

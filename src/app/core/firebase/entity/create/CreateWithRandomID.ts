@@ -1,5 +1,5 @@
 import { CreateMechanism } from './CreateMechanism';
-import { AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 /**
  * This creation mechanism creates an automatically generated random Firebase ID for each new document.
@@ -10,8 +10,9 @@ export class CreateWithRandomID < T > implements CreateMechanism < T > {
      * Constructs a  creation mechanism that creates an automatically generated random Firebase ID for each new document.
      */
     constructor(
-        public entityCollection: AngularFirestoreCollection < T >
-    ) {}
+        public entityCollection: AngularFirestoreCollection < T >,
+    ) {
+    }
 
     /**
      * Create a new Firestore document for the entity.
@@ -19,9 +20,14 @@ export class CreateWithRandomID < T > implements CreateMechanism < T > {
      * @param entity the entity being created
      */
     async create(entity: T): Promise < T > {
-        const newDoc = this.entityCollection.doc();
-        const randomID = newDoc.ref.id;
-        await this.entityCollection.add({...entity, ...{'id': randomID}});
+        const randomID = this.generateRandomID();
+        await this.entityCollection.doc(randomID).set({...entity, ...{'id': randomID}});
         return entity;
+    }
+
+    generateRandomID() {
+        var randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        var randomID = randLetter + Date.now();
+        return randomID;
     }
 }

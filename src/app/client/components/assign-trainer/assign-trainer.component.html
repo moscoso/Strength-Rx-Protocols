@@ -1,7 +1,7 @@
 <ng-container>
     <h3>Trainer</h3>
     <ion-item *ngIf="assignedTrainer">Assigned Trainer: 
-        <a [routerLink]="getProfileLink(assignedTrainer)">{{assignedTrainer.firstName}}</a></ion-item>
+        <a [routerLink]="getProfileLink(assignedTrainer)">{{assignedTrainer.firstName}}</a><go-to-chat-button slot="end" [userID]="assignedTrainer.id"></go-to-chat-button></ion-item>
     <ion-note *ngIf="!assignedTrainer">Unassigned ⚠️</ion-note>
     <ion-button *ngIf="!assignedTrainer && (iAmTrainer$ | async)" (click)="assignTrainer()">Assign to me</ion-button>
 </ng-container>

@@ -7,7 +7,7 @@ import {
 import {
     AngularFirestore
 } from '@angular/fire/firestore';
-import { Message, Conversation } from '../../state/chat/chat.state';
+import { Message } from '../../state/chat/chat.state';
 import { first } from 'rxjs/operators';
 
 @Injectable({
@@ -22,12 +22,6 @@ export class ChatService {
 
     getCurrentUser() {
         return this.auth.user;
-    }
-
-
-    getConversationWithFriend(friendID: string) {
-        const ourConversationId = this.calculateConversationID('', friendID);
-        return this.firestore.doc(`conversations/${ourConversationId}`).ref.get();
     }
 
     calculateConversationID(user1: string, user2: string) {

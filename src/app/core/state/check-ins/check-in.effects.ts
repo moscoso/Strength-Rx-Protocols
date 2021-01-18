@@ -15,7 +15,7 @@ export class CheckInEffects {
     @Effect({'dispatch': false}) error$: Observable<CheckInAction> = this.actions$.pipe(
         ofType(CheckInActionType.RequestFailed),
         tap((action: CheckIns.RequestFailed) => {
-            this.toaster.failed('Something went wrong', action.error.error.code);
+            this.toaster.failed('Something went wrong', action.error);
         })
     );
 
@@ -70,7 +70,7 @@ export class CheckInEffects {
     @Effect({ 'dispatch': false }) formCompleted$: Observable < CheckInAction > = this.actions$.pipe(
         ofType < CheckInAction > (CheckInActionType.Created, CheckInActionType.Updated),
         tap((action: CheckIns.CreateRequested) => {
-            this.modalController.dismiss();
+            this.toaster.success('Thanks for checking in!')
         })
     );
 

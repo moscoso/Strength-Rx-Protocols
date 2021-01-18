@@ -8,6 +8,7 @@ import { map, first } from 'rxjs/operators';
 import { CheckIn } from '../core/state/check-ins/check-in.state';
 import { CreateRequested } from '../core/state/check-ins/check-in.actions';
 import { ClientStoreDispatcher } from '../core/state/client/client.dispatcher';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
     'selector': 'app-check-in',
@@ -43,7 +44,8 @@ export class CheckInPage implements OnInit {
 
     constructor(
         public store: Store < AppState > ,
-        public clientService: ClientStoreDispatcher
+        public clientService: ClientStoreDispatcher,
+        public fb: AngularFirestore
     ) {
         this.clientService.loadAll();
         this.sex$ = this.clientService.selectUserAsClient().pipe(
@@ -76,14 +78,21 @@ export class CheckInPage implements OnInit {
     }
 
     async onSubmit(form) {
-        const userID = await this.store.select(selectUserID).pipe(first()).toPromise();
+        const userID = await this.store.select(selectUserID).pipe(first(userID => userID != null && userID != '')).toPromise();
         const checkIn: CheckIn = {
             ...form,
             userID,
+            'id': this.generateRandomID(),
             'timestamp': new Date(),
         };
-
+        
         this.store.dispatch(new CreateRequested(checkIn));
+    }
+
+    generateRandomID() {
+        var randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        var randomID = randLetter + Date.now();
+        return randomID;
     }
 
 }

@@ -9,6 +9,8 @@ import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatch
 import { ChatStoreDispatcher } from 'src/app/core/state/chat/chat.dispatcher';
 import { SetAvatarComponent } from '../set-avatar/set-avatar.component';
 import * as dayjs from 'dayjs';
+import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { Client } from 'src/app/core/state/client/client.state';
 @Component({
     'selector': 'app-view-profile',
     'templateUrl': './view-profile.page.html',
@@ -17,6 +19,7 @@ import * as dayjs from 'dayjs';
 export class ViewProfilePage implements OnInit {
 
     public profile$: Observable < Profile > ;
+    public client$: Observable < Client > ;
 
     public thisIsMe$: Observable < boolean > = of (false);
     public iAmTrainer$: Observable < boolean > = of (false);
@@ -25,6 +28,7 @@ export class ViewProfilePage implements OnInit {
     public dayjs = dayjs;
 
     constructor(
+        public clientService: ClientStoreDispatcher,
         public profileService: ProfileStoreDispatcher,
         public routerService: RouterStoreDispatcher,
         public modalController: ModalController,
@@ -62,6 +66,17 @@ export class ViewProfilePage implements OnInit {
             this.profile$ = this.profileService.selectProfile(routeID);
         } else {
             this.profile$ = this.profileService.selectUserAsProfile();
+        }
+    }
+
+    async fetchClient() {
+        this.profileService.loadAll();
+        const router = await this.routerService.selectState().pipe(first()).toPromise();
+        const routeID = router.state.params.id;
+        if (routeID) {
+            this.client$ = this.clientService.selectClient(routeID);
+        } else {
+            this.client$ = this.clientService.selectUserAsClient();
         }
     }
 
