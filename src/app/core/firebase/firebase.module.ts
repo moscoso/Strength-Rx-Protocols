@@ -18,6 +18,9 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 })
 export class FirebaseModule {
     constructor() {
-
-     }
+        const invalidStorageBucket = environment.firebase.storageBucket == null || environment.firebase.storageBucket === '';
+        if(invalidStorageBucket) {
+            console.error(`No Storage Bucket defined in Firebase Options. Storage upload services will fail`)
+        }
+    }
 }
