@@ -1,0 +1,46 @@
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ToastService } from 'src/app/shared/toast/toast.service';
+import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+
+/**
+ * A route guard that checks if the user has a valid profile before activating the route
+ */
+@Injectable({
+    'providedIn': 'root'
+})
+export class TrainerGuard implements CanActivate {
+    constructor(
+        private router: Router,
+        private toaster: ToastService,
+        private profileService: ProfileStoreDispatcher,
+        private authService: AuthStoreDispatcher,
+    ) {}
+    async canActivate(
+        next: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot
+    ): Promise < boolean | UrlTree > {
+        const authData = await this.authService.selectUserData().pipe(first(userData => userData != null)).toPromise();
+        this.profileService.refreshOne(authData.uid);
+        await this.profileService.selectRequestInProgress().pipe(first(requestInProgress => requestInProgress === false)).toPromise();
+        return this.profileService.selectUserAsProfile().pipe(first()).toPromise()
+            .then(async (profile) => {
+                if (profile) {
+                    if(profile.isTrainer){
+                        return true;
+                    } else {
+                        await this.toaster.primary('You have to be a trainer to see that!');
+                        return this.router.parseUrl('/profile');
+                    }
+                } else {
+                    await this.toaster.primary('Please create your profile to continue!');
+                    return this.router.parseUrl('/create-profile');
+                }
+            }).catch((reason) => {
+                this.toaster.failed('Profile failed to load. Check your internet connection and refresh the page', reason);
+                return false;
+            });
+    }
+}

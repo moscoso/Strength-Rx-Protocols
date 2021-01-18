@@ -5,6 +5,7 @@ import { ProfileGuard } from './guards/profile/profile.guard';
 import { NoProfileGuard } from './guards/no-profile/no-profile.guard';
 import { NoAuthGuard } from './guards/no-auth/no-auth.guard';
 import { ClientGuard } from './guards/client/client.guard';
+import { TrainerGuard } from './guards/trainer/trainer.guard';
 
 const routes: Routes = [
     {
@@ -21,7 +22,7 @@ const routes: Routes = [
         'path': 'exercises',
         'loadChildren': () => import('./exercise/exercise-list/exercise-list.module').then(m => m
             .ExerciseListPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
+        'canActivate': [AuthGuard, ProfileGuard, TrainerGuard],
     },
     {
         'path': 'login',
@@ -115,12 +116,12 @@ const routes: Routes = [
         'path': 'workouts',
         'loadChildren': () => import('./workout/workout-list/workout-list.module').then(m => m
             .WorkoutListPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
+        'canActivate': [AuthGuard, ProfileGuard, TrainerGuard],
     },
     {
         'path': 'clients',
         'loadChildren': () => import('./client/client-list/client-list.module').then(m => m.ClientListPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
+        'canActivate': [AuthGuard, ProfileGuard, TrainerGuard],
     },
     {
         'path': 'create-program',
@@ -138,7 +139,7 @@ const routes: Routes = [
         'path': 'programs',
         'loadChildren': () => import('./program/program-list/program-list.module').then(m => m
             .ProgramListPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
+        'canActivate': [AuthGuard, ProfileGuard, TrainerGuard],
     }, {
         'path': 'start-membership',
         'loadChildren': () => import('./client/choose-membership/choose-membership.module').then(m => m
