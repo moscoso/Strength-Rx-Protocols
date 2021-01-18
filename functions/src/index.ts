@@ -17,3 +17,4 @@ export { invoiceWebhookEndpoint, subscriptionCreatedWebhook } from './stripe/web
 export { onCreatedCheckIn, onCreatedClient, onWrittenClient, onCreatedProgressPics, onCreatedReview, updateMembershipStatus } from './strengthrx/clients';
 export { createEntity } from './strengthrx/entity';
 export { onMessageCreated } from './strengthrx/chat';
+export { createUserAndProfile } from './strengthrx/user';

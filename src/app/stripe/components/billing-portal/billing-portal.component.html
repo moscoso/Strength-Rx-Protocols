@@ -1,1 +1,1 @@
-<ion-button (click)="manageBilling()">Manage Billing</ion-button>
+<ion-button (click)="manageBilling()" [disabled]="loading"><ion-spinner [hidden]=!loading></ion-spinner>{{loading ? '': 'Manage Billing'}}</ion-button>

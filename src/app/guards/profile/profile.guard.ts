@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { first, timeout} from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';

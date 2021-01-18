@@ -9,7 +9,7 @@ export const environment = {
     'production': false,
     'firebase': firebase.staging,
     'stripePK': stripe.staging,
-    'hostURL': 'http://localhost:8100'
+    'hostURL': 'http://localhost:4200'
 };
 
 

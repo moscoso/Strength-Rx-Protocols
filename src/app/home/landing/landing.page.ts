@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { RegisterPage } from 'src/app/account/register/register.page';
-import { environment } from 'src/environments/environment';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
 import { Observable, of } from 'rxjs';
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
 import {
+    LoginWithEmailAsNewAccountAttempted,
     LoginWithEmailAttempted,
     SignupRequested,
     PasswordResetRequested,
@@ -43,6 +44,11 @@ export class AuthStoreDispatcher {
     /** Dispatch a LoginWithEmailAttempted action to the store */
     public login(email: string, password: string): void {
         this.store.dispatch(new LoginWithEmailAttempted(email, password));
+    }
+
+    /** Dispatch a LoginWithEmailAsNewAccountAttempted action to the store */
+    public loginAsNewAccount(email: string, password: string, plan: any): void {
+        this.store.dispatch(new LoginWithEmailAsNewAccountAttempted(email, password, plan));
     }
 
     /** Dispatch a SignUpRequested action to the store */

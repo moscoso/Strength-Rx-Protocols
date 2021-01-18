@@ -33,8 +33,16 @@ export async function updateSubscription(userID: string, subscription: Stripe.Su
     if (subscription.status === 'canceled') {
         return deactivateSubscription(userID, subscription.id);
     }
+    const data = subscription.items.data;
+    let planID; 
+    try{
+        planID = data && data[0] && data[0].price.id && data[0].price.id ? data[0].price.id : null;
+    } catch {
+        planID = null;
+    }
+
     const docData = {
-        'planID': subscription.plan ? subscription.plan.id : null,
+        'planID': planID,
         'cancel_at': subscription.cancel_at,
         'status': subscription.status,
     }

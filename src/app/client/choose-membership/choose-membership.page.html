@@ -81,7 +81,7 @@
     </section>
 
     <section *ngIf="chosenPlanID !== null && getChosenPrice()">
-        <ion-button (click)="goBack()">Go Back</ion-button>
+        <ion-button (click)="goBack()"><ion-icon slot="start" name="arrow-back"></ion-icon>Back</ion-button>
 
         <ion-card>
             <ion-card-header ion-text-center>
@@ -109,6 +109,5 @@
             </ion-footer>
         </ion-card>
         <ion-button (click)="checkout()" expand="full" [disabled]="checkoutLoading">{{checkoutLoading ? '...' : 'Checkout'}}</ion-button>
-        <!-- <buy-subscription></buy-subscription> -->
     </section>
 </ion-content>

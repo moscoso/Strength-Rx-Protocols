@@ -51,7 +51,7 @@ export const updateMembershipStatus = functions.firestore.document(`${STRIPE_COL
     })
 
 
-async function createClientEvent(clientID: string, timestamp: FirebaseFirestore.Timestamp, eventType: string) {
+async function createClientEvent(clientID: string, timestamp: FirebaseFirestore.Timestamp, eventType: string, docID: string) {
     const clientData = (await db.doc(`clients/${clientID}`).get()).data();
 
     if (clientData === null || clientData === undefined) {
@@ -59,10 +59,11 @@ async function createClientEvent(clientID: string, timestamp: FirebaseFirestore.
         throw new Error(errorMessage);
     } else {
         return db.collection('events').add({
-            userID: clientID,
+            'userID': clientID,
             'firstName': clientData.firstName,
             'timestamp': timestamp,
-            'type': 'review',
+            'docID': docID,
+            'type': eventType,
             'trainerID': clientData.assignedTrainer ? clientData.assignedTrainer.id : '',
         })
     }
@@ -71,7 +72,8 @@ async function createClientEvent(clientID: string, timestamp: FirebaseFirestore.
 export const onCreatedClient = functions.firestore.document(`clients/{clientID}`).onCreate(async (change, context) => {
     const createTime = change.createTime;
     const userID = change.data().userID;
-    return createClientEvent(userID, createTime, 'started-membership')
+    const clientID = context.params.clientID;
+    return createClientEvent(userID, createTime, 'started-membership', clientID)
 });
 
 
@@ -88,13 +90,13 @@ export const onWrittenClient = functions.firestore.document(`clients/{clientID}`
         } else {
             return db.doc(`clients/${clientID}/calendar/calendar`).delete();
         }
-    }
-    return;
+    } 
+    throw new functions.https.HttpsError('failed-precondition', `data does not exist for clientID ${clientID}`);
 });
 
 function buildCalendar(program: Program): any {
     const calendar: any = {};
-    const startDay: dayjs.Dayjs = dayjs(program.startDate);
+    const startDay: dayjs.Dayjs = dayjs(new Date());// dayjs(program.startDate);
     program.phases.forEach((phase, phaseIndex) => {
         let normalizedWeekIndex = 0;
         for (let i = 1; i <= phase.lengthInWeeks; i++) {
@@ -124,9 +126,10 @@ function buildWorkoutEvent(
     week: number,
     normalizedWeek: number
 ): WorkoutEvent {
+    assignedDate.getTime()
     return {
         id,
-        assignedDate,
+        'assignedDate': assignedDate.getTime(),
         workout,
         phase,
         week,
@@ -139,20 +142,23 @@ function buildWorkoutEvent(
 export const onCreatedCheckIn = functions.firestore.document(`check-ins/{docID}`).onCreate(async (change, context) => {
     const createTime = change.createTime;
     const userID = change.data().userID;
-    return createClientEvent(userID, createTime, 'check-in')
+    const docID = context.params.docID;
+    return createClientEvent(userID, createTime, 'check-in', docID)
 });
 
 export const onCreatedReview = functions.firestore.document(`clients/{clientID}/reviews/{docID}`).onCreate(async (change, context) => {
     const createTime = change.createTime;
     const clientID = context.params.clientID;
-    return createClientEvent(clientID, createTime, 'review');
+    const docID = context.params.docID;
+    return createClientEvent(clientID, createTime, 'review', docID);
 });
 
 export const onCreatedProgressPics = functions.firestore.document(`clients/{clientID}/progress-pics/{docID}`).onCreate(async (change,
     context) => {
     const createTime = change.createTime;
     const clientID = context.params.clientID;
-    return createClientEvent(clientID, createTime, 'progress-pic');
+    const docID = context.params.docID;
+    return createClientEvent(clientID, createTime, 'progress-pic', docID);
 });
 
 
@@ -233,9 +239,9 @@ interface Workout {
 
 interface WorkoutEvent {
     'id': string;
-    'assignedDate': Date;
+    'assignedDate': any;
     'workout': Workout;
-    'completed': Date | null;
+    'completed': any | null;
     'phase': number;
     'week': number;
     'normalizedWeek': number;

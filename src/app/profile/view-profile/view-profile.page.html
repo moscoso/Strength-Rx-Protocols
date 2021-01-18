@@ -36,7 +36,7 @@
                 <ion-icon [name]="profile.sex === 'M' ? 'male-outline' : 'female-outline'"></ion-icon>
                 Sex: {{profile.sex === 'M' ? 'Male' : 'Female'}}
             </ion-item>
-            <ion-item>Height: {{profile.height.feet}}" {{profile.height.inches}}"</ion-item>
+            <ion-item>Height: {{profile.height.feet}}' {{profile.height.inches}}"</ion-item>
             <ion-item *ngIf="getBirthday(profile)">Birthday: {{getBirthday(profile)}}</ion-item>
             <ion-item *ngIf="profile.goal && profile.goal != ''">Fitness Goal: {{profile.goal}}</ion-item>
             <assign-trainer *ngIf="profile.isTrainer === false" [clientID]="profile.id" [hidden]="(iAmTrainer$ | async) && (thisIsMe$ | async) && !profile.isTrainer">
@@ -47,11 +47,11 @@
 
         <ion-list *ngIf="(thisIsMe$ | async)">
             <h1>Join our online Communities!</h1>
-            <ion-item detail="true" href="https://discord.gg/VNMQpAsp" target="_blank">
-                <ion-label>Group Text & Video Chat <span style="color:gray">powered by Discord</span></ion-label>
+            <ion-item detail="true" href="https://discord.gg/ApByQeBHUM" target="_blank">
+                <ion-label>Group Text & Video Chat <span style="color:gray">powered by Discord</span>&nbsp;<ion-badge color="success">New</ion-badge></ion-label>
             </ion-item>
             <ion-item detail="true" href="https://www.reddit.com/r/StrengthRxProtocols/" target="_blank">
-                <ion-label>Forum <span style="color:gray">powered by Reddit</span></ion-label>
+                <ion-label>Forum <span style="color:gray">powered by Reddit</span>&nbsp;<ion-badge color="success">New</ion-badge></ion-label>
             </ion-item>
         </ion-list>
 

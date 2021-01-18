@@ -19,7 +19,7 @@ export const stripeCreateSubscriptionSignature = functions.config().stripe.scss;
 
 // Initialize Stripe
 import Stripe from 'stripe';
-export const stripe = new Stripe(stripeSecret, {apiVersion: '2020-03-02'});
+export const stripe = new Stripe(stripeSecret, {'apiVersion': '2020-08-27'});
 
 //Set Collection names
 export const STRIPE_COLLECTION = `accounts`;

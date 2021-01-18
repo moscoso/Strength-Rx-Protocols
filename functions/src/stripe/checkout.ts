@@ -10,15 +10,16 @@ async function createCheckoutSession(userID: string, priceID: string, hostURL = 
         'price': priceID,
         'quantity': 1,
     }
-    const params: Stripe.Checkout.SessionCreateParams = {
+    const params: any = {
         line_items: [lineItem],
         payment_method_types: ['card'],
         customer: customer.id,
-        
         mode: 'subscription',
+        allow_promotion_codes: true,
         success_url: `${hostURL}/thank-you`,
         cancel_url: `${hostURL}/start-membership`,
     }
+
     // const options: Stripe.RequestOptions = { idempotencyKey }
     const session = await stripe.checkout.sessions.create(params);
     return session;

@@ -15,13 +15,18 @@ export async function attachSource(userID: string, sourceID: string): Promise < 
     if (customer.deleted) {
         return undefined;
     } else {
-        const existingSource = customer.sources.data.filter(source => source.id === sourceID).pop();
-        if (existingSource) {
-            return existingSource;
-        } else {
-            await stripe.customers.createSource(customer.id, { source: sourceID });
-            return await stripe.customers.update(customer.id, { default_source: sourceID });
+        const sources = customer.sources;
+        if (sources) {
+            const existingSource = sources.data.filter(source => source.id === sourceID).pop();
+            if (existingSource) {
+                return existingSource;
+            } else {
+                await stripe.customers.createSource(customer.id, { source: sourceID });
+                return await stripe.customers.update(customer.id, { default_source: sourceID });
+            }
         }
+        await stripe.customers.createSource(customer.id, { source: sourceID });
+        return await stripe.customers.update(customer.id, { default_source: sourceID });
     }
 }
 
@@ -45,5 +50,3 @@ export const stripeAttachSource = functions.https.onCall(async (data, context: C
     const sourceID = assert(data, 'source');
     return catchErrors(attachSource(userID, sourceID));
 });
-
-

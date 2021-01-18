@@ -9,6 +9,8 @@ import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
 })
 export class BillingPortalComponent {
 
+    loading = false;
+
     constructor(
         public auth: AuthStoreDispatcher,
         public functions: AngularFireFunctions
@@ -19,14 +21,16 @@ export class BillingPortalComponent {
         const fun = this.functions.httpsCallable('stripeCreateBillingPortalLink');
         return fun({
             userID,
-            'returnURL': undefined
+            // 'returnURL': 
         }).toPromise().then(response => {
             return response;
         });
     }
 
     async manageBilling() {
+        this.loading = true;
         const session = await this.createBillingPortalLink();
+        this.loading = false;
         window.location = session.url;
     }
 }

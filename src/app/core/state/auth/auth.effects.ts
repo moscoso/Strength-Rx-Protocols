@@ -15,6 +15,8 @@ import {
     LoginWithEmailAttempted,
     SignupRequested,
     NotAuthenticated,
+    LoginAsNewAccountCompleted,
+    LoginWithEmailAsNewAccountAttempted,
 } from './auth.actions';
 import { FireAuthService } from '../../firebase/auth/auth.service';
 import { Router } from '@angular/router';
@@ -29,6 +31,16 @@ export class AuthEffects {
         tap(() => {
             this.toaster.dismiss();
             this.router.navigateByUrl('/dashboard');
+        })
+    );
+
+    @Effect({ 'dispatch': false }) loggedInAsNewAccount$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(
+            AuthActionType.LoginAsNewAccountCompleted,
+        ),
+        tap((action: LoginAsNewAccountCompleted) => {
+            this.toaster.dismiss();
+            this.router.navigateByUrl(`/start-membership?planType=${action.plan.planType}&planLength=${action.plan.planLength}`);
         })
     );
 
@@ -83,6 +95,16 @@ export class AuthEffects {
         switchMap((action: LoginWithEmailAttempted) => {
             return from(this.authService.signInWithEmailAndPassword(action.email, action.password)
                 .then(() => new LoginCompleted())
+                .catch(error => new LoginFailed(error))
+            );
+        })
+    );
+
+    @Effect() loginWithEmailAsNewAccount$: Observable < AuthAction > = this.actions$.pipe(
+        ofType(AuthActionType.LoginWithEmailAndPasswordAsNewAccountAttempted),
+        switchMap((action: LoginWithEmailAsNewAccountAttempted) => {
+            return from(this.authService.signInWithEmailAndPassword(action.email, action.password)
+                .then(() => new LoginAsNewAccountCompleted(action.plan))
                 .catch(error => new LoginFailed(error))
             );
         })

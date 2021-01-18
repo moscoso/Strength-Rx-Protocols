@@ -41,7 +41,7 @@ export async function createCustomer(userID: string): Promise < Stripe.Customer 
         email: user.email,
         metadata: { firebaseUserID: userID }
     })
-    await updateUser(userID, { 'stripeCustomerID': customer.id, email: user.email })
+    await updateUser(userID, { 'stripeCustomerID': customer.id, 'email': user.email})
     return customer;
 }
 

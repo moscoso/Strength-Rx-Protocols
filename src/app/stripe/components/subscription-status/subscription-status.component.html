@@ -3,12 +3,11 @@
         <ion-card-header>
             <ion-card-title>Subscription</ion-card-title>
         </ion-card-header>
-        <ion-spinner *ngIf="!subscription"></ion-spinner>
+        <ion-label *ngIf="!subscription">Give us a moment as we fetch your billing information</ion-label><ion-spinner *ngIf="!subscription"></ion-spinner>
         <ion-card-content *ngIf="hasSubscription">
             <ion-card-subtitle>You currently have access to <strong>Strength Rx Protocols!</strong></ion-card-subtitle>
             <ion-label>Membership valid thru: <strong>{{getDate(subscription.current_period_end)}}</strong></ion-label>
-
-            <ion-label>Note: Sit tight! We are going to be extending your membership so that your next billing cycle will begin on Feb 10th!</ion-label>
+            <br>
         </ion-card-content>
     </ion-card>
 

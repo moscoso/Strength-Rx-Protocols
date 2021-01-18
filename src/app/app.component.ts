@@ -88,11 +88,11 @@ export class AppComponent implements OnInit {
             'icon': 'checkbox-outline',
             'link': '/check-in',
         },
-        {
-            'label': 'Store',
-            'icon': 'shirt-outline',
-            'href': 'https://strength-rx.myshopify.com/collections/all'
-        },
+        // {
+        //     'label': 'Store',
+        //     'icon': 'shirt-outline',
+        //     'href': 'https://strength-rx.myshopify.com/collections/all'
+        // },
         {
             'label': 'Reviews',
             'icon': 'videocam-outline',

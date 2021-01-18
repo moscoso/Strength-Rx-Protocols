@@ -1,25 +1,27 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
-import { Profile } from 'src/app/core/state/profile/profile.state';
-import { ToastService } from 'src/app/shared/toast/toast.service';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { Profile } from 'src/app/core/state/profile/profile.state';
+import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ToastService } from 'src/app/shared/toast/toast.service';
 
 @Component({
-    'selector': 'profile-form',
-    'templateUrl': './profile-form.component.html',
-    'styleUrls': ['./profile-form.component.scss'],
+    selector: 'join-form',
+    templateUrl: './join-form.component.html',
+    styleUrls: ['./join-form.component.scss'],
 })
-export class ProfileFormComponent implements OnInit {
+export class JoinFormComponent implements OnInit {
 
-    @Input() buttonText = 'Submit';
     @Output() formSubmit = new EventEmitter < Partial < Profile >> ();
 
-    form: FormGroup;
-    requestInProgress$: Observable < boolean > ;
+    hidePassword = true;
 
+    form: FormGroup;
+
+    email = new FormControl('', [Validators.required, Validators.email]);
+    password = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(128)]);
+    confirmPassword = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(128)]);
     firstName = new FormControl('', Validators.required);
     lastName = new FormControl('', Validators.required);
     sex = new FormControl('', Validators.required);
@@ -37,6 +39,8 @@ export class ProfileFormComponent implements OnInit {
 
     ngOnInit() {
         this.form = new FormGroup({
+            'email': this.email,
+            'password': this.password,
             'firstName': this.firstName,
             'lastName': this.lastName,
             'sex': this.sex,
@@ -46,45 +50,26 @@ export class ProfileFormComponent implements OnInit {
             'goal': this.goal,
             'healthConditions': this.healthConditions,
         });
-        this.requestInProgress$ = this.profileService.selectRequestInProgress();
-        this.profileService.selectUserAsProfile().pipe(first(profile => profile != null))
-            .toPromise().then(this.initFormValues.bind(this));
     }
 
-    initFormValues(profile: Profile) {
-        this.firstName.setValue(profile.firstName);
-        this.lastName.setValue(profile.lastName);
-        this.sex.setValue(profile.sex);
-        this.feet.setValue(profile.height.feet);
-        this.inches.setValue(profile.height.inches);
-        /* Birthday objects loaded from Firebase are actually Timestamps,
-           while locally created Birthdays are just native javascript Dates */
-        const isTimestamp = typeof profile.birthday.toDate === 'function';
-        if(isTimestamp) {
-            this.birthday.setValue(profile.birthday.toDate());
-        } else {
-            this.birthday.setValue(profile.birthday);
-        }
-    }
 
     async onSubmit(form) {
-        const user = await this.authService.selectUserData().pipe(first()).toPromise();
         const profile = this.form.getRawValue();
         try {
-            let values: Partial < Profile > ;
+            let values: any;
             values = {
-                'id': user.uid,
-                'email': user.email,
+                'email': profile.email,
+                'password': profile.password,
                 'firstName': profile.firstName,
                 'lastName': profile.lastName,
-                'isClient': profile.isClient != null ? profile.isClient : true,
-                'isTrainer': profile.isTrainer != null ? profile.isTrainer : false ,
-                'joined': new Date(),
+                'isClient': true,
+                'isTrainer': false,
+                'joined': new Date().getTime(),
                 'photoURL': '',
                 'goal': profile.goal,
                 'healthConditions': profile.healthConditions,
                 'sex': profile.sex,
-                'birthday': profile.birthday,
+                'birthday': profile.birthday.getTime(),
                 'height': {
                     'feet': profile.feet,
                     'inches': profile.inches
@@ -95,4 +80,18 @@ export class ProfileFormComponent implements OnInit {
             this.toastService.failed(`Could not submit profile`, error);
         }
     }
+
+    /**
+     * If password and confirm password values do not match,
+     * return an error map with the passwordMismatch property.
+     *
+     * Otherwise if they do match return null,
+     * @param formGroup the form to validate
+     */
+    checkPasswords(formGroup: FormGroup): ValidationErrors | null {
+        const password = formGroup.get('password').value;
+        const confirmPassword = formGroup.get('confirmPassword').value;
+        return password === confirmPassword ? null : { 'passwordMismatch': true };
+    }
+
 }

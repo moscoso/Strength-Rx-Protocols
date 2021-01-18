@@ -1,0 +1,11 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{chosenPlan ? 'Create Your Account' : 'Choose a Coaching Plan!'}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <choose-membership [hidden]="chosenPlan" (membershipChosen)="onChosen($event)"></choose-membership>
+    <ion-button (click)="goBack()" [hidden]="!chosenPlan"><ion-icon slot="start" name="arrow-back"></ion-icon>Back</ion-button>
+    <join-form [hidden]="!chosenPlan" (formSubmit)="onSubmit($event)"></join-form>
+</ion-content>

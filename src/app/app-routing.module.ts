@@ -29,9 +29,13 @@ const routes: Routes = [
         'canActivate': [NoAuthGuard]
     },
     {
-        'path': 'register',
-        'loadChildren': () => import('./account/join/join.module').then(m => m.JoinPageModule),
+        'path': 'signup',
+        'loadChildren': () => import('./account/register/register.module').then(m => m.RegisterPageModule),
         'canActivate': [NoAuthGuard]
+    },
+    {
+        'path': 'register',
+        'redirectTo': 'join',
     },
     {
         'path': 'join',
@@ -47,6 +51,12 @@ const routes: Routes = [
     {
         'path': 'profile/program',
         'loadChildren': () => import('./program/program-detail/program-detail.module').then(m => m.ProgramDetailPageModule),
+        'canActivate': [AuthGuard, ProfileGuard],
+    },
+    {
+        'path': 'profile/program/:phase/:day',
+        'loadChildren': () => import('./workout/workout-detail/workout-detail.module').then(m => m
+            .WorkoutDetailPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
     },
     {
@@ -81,9 +91,7 @@ const routes: Routes = [
     },
     {
         'path': 'create-profile',
-        'loadChildren': () => import('./profile/create-profile/create-profile.module').then(m => m
-            .CreateProfilePageModule),
-        'canActivate': [AuthGuard, NoProfileGuard],
+        'redirectTo': 'join'
     },
     {
         'path': 'edit-profile',

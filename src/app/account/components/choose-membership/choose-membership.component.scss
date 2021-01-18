@@ -1,0 +1,55 @@
+h2 {
+    font-size: 30px;
+    font-family: 'Teko', sans-serif;
+}
+
+/* Style the list */
+.product {
+    list-style-type: none;
+    border: 1px solid #eee;
+    margin: 0;
+    padding: 0;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+}
+
+/* Add shadows on hover */
+.product:hover {
+    box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2)
+}
+
+/* Pricing header */
+.product .header {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 1) 0%, rgba(56, 128, 255, 1) 50%, rgba(0, 0, 0, 1) 100%);
+    color: white;
+    font-size: 25px;
+}
+
+/* List items */
+.product li {
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.product li.gradient {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(56, 128, 255, 1) 50%, rgba(0, 0, 0, 1) 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Grey list item */
+.product .grey {
+    background-color: #eee;
+    font-size: 20px;
+}
+
+
+.header-img {
+    max-height: 400px;
+    margin: 0 auto;
+    display: block;
+    border-radius: 25px;
+}

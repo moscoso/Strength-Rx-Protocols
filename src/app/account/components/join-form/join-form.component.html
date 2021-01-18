@@ -1,0 +1,149 @@
+<ion-grid>
+    <form [formGroup]=form (ngSubmit)=onSubmit(form.value) autocomplete="on">
+        <ion-row>
+            <mat-form-field>
+                <mat-label for='name'>Email</mat-label>
+                <input matInput type="email" [formControl]="email" name="email"
+                       autocomplete="email"
+                       clearInput="true" required
+                       color="primary" enterKeyHint="next">
+                <mat-error *ngIf="email.hasError('required') || email.hasError('email')">Please enter a valid email
+                </mat-error>
+            </mat-form-field>
+        </ion-row>
+        <ion-row>
+            <mat-form-field>
+                <mat-label for="password">Password </mat-label>
+
+                <input matInput [type]="hidePassword ? 'password' : 'text'" [formControl]="password" name="password"
+                        autocomplete="new-password"
+                       required clearInput="true"
+                       color="primary" enterKeyHint="next">
+                <div mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                        [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hidePassword">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </div>
+                <mat-hint *ngIf="!password.hasError('minlength')">Hint: Your password should be atleast 6 characters!</mat-hint>
+                <mat-error *ngIf="password.hasError('required')">Please choose a password</mat-error>
+                <mat-error *ngIf="password.hasError('minlength')">Password should be atleast 6 characters"
+                </mat-error>
+                <mat-error *ngIf="password.hasError('maxlength')">Password must be a maximum of 128 characters
+                </mat-error>
+            </mat-form-field>
+        </ion-row>
+        <ion-row>
+            <mat-form-field>
+                <mat-label for="confirmPassword">Confirm Password </mat-label>
+                <input matInput [type]="hidePassword ? 'password' : 'text'" [formControl]="confirmPassword" name="confirmPassword"
+                       required clearInput="true"
+                       autocomplete="new-password"
+                       color="primary" enterKeyHint="go">
+                <div mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                        [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hidePassword">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </div>
+                <mat-error *ngIf="confirmPassword.hasError('required')">Please confirm your password</mat-error>
+                <mat-error *ngIf="password.hasError('minlength')">Password should be atleast 6 characters"
+                </mat-error>
+                <mat-error *ngIf="confirmPassword.hasError('maxlength')">Password must be a maximum of 128 characters
+                </mat-error>
+            </mat-form-field>
+        </ion-row>
+        <mat-error *ngIf="form.hasError('passwordMismatch') && password.dirty && confirmPassword.dirty">The passwords do not match</mat-error>
+        <ion-row>
+            <mat-form-field>
+                <mat-label for='firstName'>First Name</mat-label>
+                <input matInput type="text" [formControl]="firstName" name="given-name"
+                       autocomplete="on"
+                       enterKeyHint="next"
+                       required>
+                <mat-error *ngIf="firstName.hasError('required')">Your first name is required.</mat-error>
+            </mat-form-field>
+        </ion-row>
+
+        <ion-row>
+            <mat-form-field>
+                <mat-label for='lastName'>Last Name</mat-label>
+                <input matInput type="text" [formControl]="lastName" name="family-name"
+                       autocomplete="on"
+                       enterKeyHint="next"
+                       required>
+                <mat-error *ngIf="lastName.hasError('required')">Your last name is required.</mat-error>
+            </mat-form-field>
+        </ion-row>
+
+        <ion-label>Height</ion-label>
+        <ion-row>
+            <ion-col>
+                <mat-form-field class="half-width">
+                    <mat-label for='feet'>Feet</mat-label>
+                    <input matInput type="number" [formControl]="feet" name="feet"
+                           enterKeyHint="next"
+                           required>
+                    <mat-error *ngIf="feet.hasError('required')">Required</mat-error>
+                    <mat-error *ngIf="feet.hasError('min') || feet.hasError('max')">Enter a number between 3 and 7
+                    </mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col>
+                <mat-form-field class="half-width">
+                    <mat-label for='inches'>Inches</mat-label>
+                    <input matInput type="number" [formControl]="inches" name="inches"
+                           enterKeyHint="next"
+                           required>
+                    <mat-error *ngIf="inches.hasError('required')">Required</mat-error>
+                    <mat-error *ngIf="inches.hasError('min') || feet.hasError('max')">Enter a number between 0 and 11
+                    </mat-error>
+                </mat-form-field>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <mat-form-field>
+                <mat-label>Birthday</mat-label>
+                <input matInput [matDatepicker]="picker" autocomplete="on" [formControl]="birthday" name="birthday"
+                       enterKeyHint="done">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="lastName.hasError('required')">Your birthday is required.</mat-error>
+            </mat-form-field>
+        </ion-row>
+
+        <ion-row>
+            <mat-radio-group aria-label="Select an option" formControlName="sex" autocomplete="sex">
+                <mat-radio-button value="M" autocomplete="sex">Male</mat-radio-button>
+                <mat-radio-button value="F" autocomplete="sex">Female</mat-radio-button>
+            </mat-radio-group>
+        </ion-row>
+
+
+
+        <ion-row>
+            <mat-form-field>
+                <mat-label for='healthCondtions'>Do you have an underlying health conditions that we should know about?</mat-label>
+                <input matInput type="text" [formControl]="healthConditions" name="healthConditions"
+                       autocomplete="off"
+                       enterKeyHint="next"
+                       >
+            </mat-form-field>
+        </ion-row>
+
+        <ion-row>
+            <mat-form-field>
+                <mat-label for='goal'>What is your Fitness Goal?</mat-label>
+                <input matInput type="text" [formControl]="goal" name="goal"
+                       autocomplete="off"
+                       enterKeyHint="next"
+                       >
+            </mat-form-field>
+        </ion-row>
+
+        <ion-button type="submit"
+                    expand="full"
+                    [disabled]="form.invalid">
+            <ion-icon name="people-outline"></ion-icon>&nbsp;Create Account
+        </ion-button>
+    </form>
+</ion-grid>

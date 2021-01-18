@@ -3,7 +3,9 @@ import { AuthState, AUTH_INIT_STATE } from './auth.state';
 
 export function authReducer(state = AUTH_INIT_STATE, action: AuthAction): AuthState {
     switch (action.type) {
-        case AuthActionType.LoginCompleted: {
+        case AuthActionType.LoginCompleted: 
+        case AuthActionType.LoginAsNewAccountCompleted:
+        {
             return { ...state, 'error': null, 'isInProgress': false };
         }
         case AuthActionType.Authenticated: {
@@ -24,6 +26,7 @@ export function authReducer(state = AUTH_INIT_STATE, action: AuthAction): AuthSt
             return { ...state, 'userData': null, 'isAuthenticated': false, 'isInProgress': false };
 
         case AuthActionType.LoginWithEmailAndPasswordAttempted:
+        case AuthActionType.LoginWithEmailAndPasswordAsNewAccountAttempted:
         case AuthActionType.LoginAsGuest:
         case AuthActionType.LoginWithFacebook:
         case AuthActionType.LoginWithGoogle:
