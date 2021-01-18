@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { IonContent, IonList } from '@ionic/angular';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
-import { first } from 'rxjs/operators';
+import { filter, first } from 'rxjs/operators';
 import { Message, Conversation } from 'src/app/core/state/chat/chat.state';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { sortByTimestamp } from 'src/app/core/state/chat/chat.reducer';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { getOtherIDFromConversationID } from 'functions/src/strengthrx/ConversationHelpers';
+import { getIDListFromConversationID, getOtherIDFromConversationID } from 'functions/src/strengthrx/ConversationHelpers';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { Profile } from 'src/app/core/state/profile/profile.state';
@@ -19,7 +19,7 @@ import { Profile } from 'src/app/core/state/profile/profile.state';
 export class ConversationPage implements OnInit, AfterViewInit {
 
     @ViewChild(IonContent) contentArea: IonContent;
-    @ViewChild(IonList, {'read': ElementRef}) chatList: ElementRef;
+    @ViewChild(IonList, { 'read': ElementRef }) chatList: ElementRef;
     mutationObserver: MutationObserver;
 
     messages: Message[] = [];
@@ -58,10 +58,26 @@ export class ConversationPage implements OnInit, AfterViewInit {
         const router = await this.routerService.selectState().pipe(first()).toPromise();
         const routeID = router.state.params.id;
         this.conversationID = routeID;
-        // this.messages$ = this.chatService.selectMessages();
-        this.firestore.collection(`conversations/${this.conversationID}/messages`).valueChanges().subscribe(messages => {
-            this.messages = messages.sort(sortByTimestamp) as Message[];
-        });
+
+        const list = getIDListFromConversationID(this.conversationID);
+
+        const ID1 = list[0] + '-' + list[1];
+        const ID2 = list[1] + '-' + list[0];
+
+        this.firestore.collection(`conversations/${ID1}/messages`)
+            .valueChanges().pipe(filter((messages: any) => messages != null && messages.length > 0)).subscribe(messages => {
+                this.messages = messages.sort(sortByTimestamp) as Message[];
+            });
+
+        this.firestore.collection(`conversations/${ID2}/messages`)
+            .valueChanges().pipe(filter((messages: any) => messages != null && messages.length > 0)).subscribe(messages => {
+                this.messages = messages.sort(sortByTimestamp) as Message[];
+            });
+
+        this.firestore.collection(`conversations/${this.conversationID}/messages`)
+            .valueChanges().pipe(filter((messages: any) => messages != null && messages.length > 0)).subscribe(messages => {
+                this.messages = messages.sort(sortByTimestamp) as Message[];
+            });
         this.myID = (await this.profileService.selectUserAsProfile().pipe(first(profile => profile != null)).toPromise()).id;
         this.friendID = getOtherIDFromConversationID(this.myID, this.conversationID);
     }
