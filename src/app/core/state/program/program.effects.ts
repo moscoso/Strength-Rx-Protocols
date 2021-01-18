@@ -74,7 +74,7 @@ export class ProgramEffects {
         ofType < ProgramAction > (ProgramActionType.Created, ProgramActionType.Updated),
         tap((action: Programs.CreateRequested) => {
             this.modalController.dismiss();
-            this.router.navigateByUrl('/programs');
+            // this.router.navigateByUrl('/programs');
         })
     );
 
