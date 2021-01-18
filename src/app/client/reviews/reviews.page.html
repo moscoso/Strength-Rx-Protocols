@@ -8,9 +8,6 @@
 </ion-header>
 
 <ion-content>
-    <upload-video [hidden]="hideUpload"></upload-video>
-    <!-- <ion-list>
-        <video controls *ngFor="let review of reviews$ | async" [src]="review.downloadURL"></video>
-    </ion-list> -->
+    <upload-video [hidden]="(iAmTrainer$ | async)"></upload-video>
     <review-list *ngIf="clientID" [clientID]="clientID"></review-list>
 </ion-content>

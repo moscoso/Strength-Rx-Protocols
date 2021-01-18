@@ -1,8 +1,8 @@
 <ion-list>
-    <ng-container *ngFor="let review of progressPics$ | async">
+    <ng-container *ngFor="let review of (progressPics$ | async)">
         <img [src]="review.downloadURL"/>
     </ng-container>
 </ion-list>
-<ion-card *ngIf="(progressPics$|async).length === 0">
-    <ion-card-header>Progress Pics will appear here!</ion-card-header>
+<ion-card *ngIf="(progressPics$|async) as progressPics">
+    <ion-card-header *ngIf="progressPics.length === 0">Progress Pics will appear here!</ion-card-header>
 </ion-card>

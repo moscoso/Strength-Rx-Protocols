@@ -8,6 +8,6 @@
 </ion-header>
 
 <ion-content>
-    <upload-progress-image [hidden]="hideUpload"></upload-progress-image>
+    <upload-progress-image [hidden]="(iAmTrainer$ | async)"></upload-progress-image>
     <app-progress-pic-list *ngIf="clientID" [clientID]="clientID"></app-progress-pic-list>
 </ion-content>

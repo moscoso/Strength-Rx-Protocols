@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { first, pluck } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { Profile } from 'src/app/core/state/profile/profile.state';
 
 @Component({
     'selector': 'reviews',
@@ -15,7 +16,7 @@ export class ReviewsPage implements OnInit {
     reviews$: Observable < any > ;
     clientID: string;
 
-    hideUpload = false;
+    public iAmTrainer$: Observable < boolean > = of (false);
 
     constructor(
         public firestore: AngularFirestore,
@@ -25,22 +26,19 @@ export class ReviewsPage implements OnInit {
 
     ngOnInit() {
         this.fetchClientID();
+        this.iAmTrainer$ = this.profileService.selectUserIsTrainer();
     }
 
     async fetchClientID() {
         this.profileService.loadAll();
         const router = await this.routerService.selectState().pipe(first()).toPromise();
         const routeID = router.state.params.id;
-        console.log(routeID);
-
-
+        let profile$: Observable<Profile>;
         if (routeID) {
-            this.clientID = await this.profileService.selectProfile(routeID)
-                .pipe(first(profile => profile != null), pluck('id')).toPromise();
-            this.hideUpload = true;
+            profile$ = this.profileService.selectProfile(routeID);
         } else {
-            this.clientID = await this.profileService.selectUserAsProfile()
-                .pipe(first(profile => profile != null), pluck('id')).toPromise();
+            profile$ = this.profileService.selectUserAsProfile();
         }
+        this.clientID = await profile$.pipe(first(profile => profile != null), pluck('id')).toPromise();
     }
 }
