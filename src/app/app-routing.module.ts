@@ -22,7 +22,7 @@ const routes: Routes = [
         'path': 'exercises',
         'loadChildren': () => import('./exercise/exercise-list/exercise-list.module').then(m => m
             .ExerciseListPageModule),
-        'canActivate': [AuthGuard, ProfileGuard, TrainerGuard],
+        'canActivate': [AuthGuard, ProfileGuard],
     },
     {
         'path': 'login',
@@ -116,12 +116,12 @@ const routes: Routes = [
         'path': 'workouts',
         'loadChildren': () => import('./workout/workout-list/workout-list.module').then(m => m
             .WorkoutListPageModule),
-        'canActivate': [AuthGuard, ProfileGuard, TrainerGuard],
+        'canActivate': [AuthGuard, ProfileGuard],
     },
     {
         'path': 'clients',
         'loadChildren': () => import('./client/client-list/client-list.module').then(m => m.ClientListPageModule),
-        'canActivate': [AuthGuard, ProfileGuard, TrainerGuard],
+        'canActivate': [AuthGuard, ProfileGuard],
     },
     {
         'path': 'create-program',
@@ -139,7 +139,7 @@ const routes: Routes = [
         'path': 'programs',
         'loadChildren': () => import('./program/program-list/program-list.module').then(m => m
             .ProgramListPageModule),
-        'canActivate': [AuthGuard, ProfileGuard, TrainerGuard],
+        'canActivate': [AuthGuard, ProfileGuard],
     }, {
         'path': 'start-membership',
         'loadChildren': () => import('./client/choose-membership/choose-membership.module').then(m => m

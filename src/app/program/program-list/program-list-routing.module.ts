@@ -2,13 +2,16 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/guards/auth/auth.guard';
 import { ProfileGuard } from 'src/app/guards/profile/profile.guard';
+import { TrainerGuard } from 'src/app/guards/trainer/trainer.guard';
 
 import { ProgramListPage } from './program-list.page';
 
 const routes: Routes = [
     {
         'path': '',
-        'component': ProgramListPage
+        'component': ProgramListPage,
+        'canActivate': [TrainerGuard]
+
     },
     {
         'path': ':programID',
