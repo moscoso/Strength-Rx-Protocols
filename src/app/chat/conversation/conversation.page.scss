@@ -37,7 +37,7 @@
     /* Messages */
 
     .message {
-        color: #000;
+        color: white;
         clear: both;
         line-height: 18px;
         font-size: 15px;
@@ -57,8 +57,7 @@
     }
 
     .metadata .time {
-        color: rgba(0, 0, 0, .45);
-        font-size: 11px;
+        font-size: 12px;
         display: inline-block;
     }
 
@@ -68,7 +67,8 @@
     }
 
     .message.received {
-        background: #bbb;
+        color:black;
+        background: rgb(228, 230, 235);
         border-radius: 0px 5px 5px 5px;
         float: left;
     }
@@ -78,7 +78,7 @@
     }
     
     .message.sent {
-        background: #e1ffc7;
+        background: rgb(0, 132, 255);
         border-radius: 5px 0px 5px 5px;
         float: right;
     }

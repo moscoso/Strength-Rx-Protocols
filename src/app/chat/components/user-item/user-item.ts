@@ -3,10 +3,6 @@ import {
     Input,
     OnInit
 } from '@angular/core';
-import {
-    AngularFirestore
-} from '@angular/fire/firestore';
-import { ProfileService } from 'src/app/core/firebase/profile/profile.service';
 import { Profile } from 'src/app/core/state/profile/profile.state';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { first } from 'rxjs/operators';

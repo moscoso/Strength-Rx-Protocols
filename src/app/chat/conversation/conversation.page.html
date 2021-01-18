@@ -20,12 +20,17 @@
 
     <!-- Chat list -->
     <ion-list class="conversation-container" #chatList>
-        <div *ngFor="let message of messages" class="message" [ngClass]='{sent: message.senderID === myID, received: message.senderID !== myID}'>
-            <user-item [id]="message.senderID"></user-item>
-            <div class="message">{{message.text}}</div>
-            <span class="metadata">
-                <!-- <p class="time">{{message.timestamp.toDate() | timestamp}}</p>:'h:m A' -->
-            </span>
+        <div *ngFor="let message of messages">
+            <!-- <ion-avatar item-start>
+                <img [src]="getAvatar(message.senderID) | async">
+            </ion-avatar> -->
+            <div class="message" [ngClass]='{sent: message.senderID === myID, received: message.senderID !== myID}'>
+                <div class="body">{{message.text}}</div>
+                <span class="metadata">
+                    <p class="time">{{message.timestamp.toDate() | timestamp}}</p>
+                </span>
+            </div>
+
         </div>
     </ion-list>
 
@@ -34,7 +39,8 @@
 <ion-footer>
     <!-- Message Box -->
     <ion-item>
-        <ion-input style="color:black" type="text" placeholder="Type your message" [(ngModel)]="messageInput" (keypress)="onType($event.keyCode)"></ion-input>
+        <ion-input style="color:black" type="text" placeholder="Type your message" [(ngModel)]="messageInput"
+                   (keypress)="onType($event.keyCode)"></ion-input>
         <ion-button id="send-message-btn" (click)="sendMessage()" [disabled]="!messageInput">
             <!-- <ion-icon src="assets/icon/send.svg"></ion-icon> -->
             <ion-icon name="send"></ion-icon>

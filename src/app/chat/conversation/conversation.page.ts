@@ -2,10 +2,14 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy, AfterViewInit } fr
 import { IonContent, IonList } from '@ionic/angular';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { first } from 'rxjs/operators';
-import { ChatStoreDispatcher } from 'src/app/core/state/chat/chat.dispatcher';
 import { Message, Conversation } from 'src/app/core/state/chat/chat.state';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { sortByTimestamp } from 'src/app/core/state/chat/chat.reducer';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { getOtherIDFromConversationID } from 'functions/src/strengthrx/ConversationHelpers';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
+import { Profile } from 'src/app/core/state/profile/profile.state';
 
 @Component({
     'selector': 'app-conversation',
@@ -32,7 +36,8 @@ export class ConversationPage implements OnInit, AfterViewInit {
     constructor(
         private profileService: ProfileStoreDispatcher,
         private routerService: RouterStoreDispatcher,
-        private chatService: ChatStoreDispatcher,
+        private firestore: AngularFirestore
+
     ) {}
 
     ngOnInit() {
@@ -53,13 +58,12 @@ export class ConversationPage implements OnInit, AfterViewInit {
         const router = await this.routerService.selectState().pipe(first()).toPromise();
         const routeID = router.state.params.id;
         this.conversationID = routeID;
-        this.chatService.loadMessages(this.conversationID);
         // this.messages$ = this.chatService.selectMessages();
-        this.chatService.selectScuffedMessages(this.conversationID).subscribe(messages => {
-            this.messages = messages.sort(sortByTimestamp);
+        this.firestore.collection(`conversations/${this.conversationID}/messages`).valueChanges().subscribe(messages => {
+            this.messages = messages.sort(sortByTimestamp) as Message[];
         });
         this.myID = (await this.profileService.selectUserAsProfile().pipe(first(profile => profile != null)).toPromise()).id;
-        this.friendID = this.chatService.getOtherIDFromConversationID(this.myID, this.conversationID);
+        this.friendID = getOtherIDFromConversationID(this.myID, this.conversationID);
     }
 
     sendMessage() {
@@ -67,15 +71,41 @@ export class ConversationPage implements OnInit, AfterViewInit {
         const message = this.messageInput;
         if (message.length > 0) {
             // Send Messages
-            this.chatService.sendMessage(this.conversationID, message);
-            this.messageInput = '';
+            this.sendMessageToFirebase(this.conversationID, message).then(messageSent => {
+                this.messageInput = '';
+            });
         }
     }
 
     // Check if 'return' button is pressed and send the message.
     onType(keyCode) {
-        if (keyCode === 13) {
+        const RETURN_KEY = 13;
+        const returnKeyPressed = keyCode === RETURN_KEY;
+        if (returnKeyPressed) {
             this.sendMessage();
         }
     }
+
+    public async sendMessageToFirebase(conversationID: string, text: string) {
+        const profile = await this.profileService.selectUserAsProfile().pipe(first()).toPromise();
+        const message: Message = {
+            'id': null,
+            conversationID,
+            'senderID': profile.id,
+            'senderName': `${profile.firstName} ${profile.lastName}`,
+            text,
+            'timestamp': firebase.firestore.Timestamp.now()
+        };
+
+        const doc = this.firestore.collection(`conversations/${message.conversationID}/messages`);
+        return doc.add(message).then((x) => {
+            x.update({ 'id': x.id });
+            return { ...message, 'id': x.id };
+        });
+    }
+
+    // async getAvatar(profileID: string): Promise<string> {
+    //     const profile = await this.profileService.selectProfile(profileID).pipe(first(profile => profile != null)).toPromise();
+    //     return this.profileService.getAvatar(profile);
+    // }
 }
