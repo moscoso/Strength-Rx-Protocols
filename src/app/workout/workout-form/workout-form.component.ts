@@ -88,23 +88,6 @@ export class WorkoutFormComponent implements OnInit {
         this.intervalPhaseEnabled = workout.intervalPhase != null;
     }
 
-    initExerciseRoutineFormControl(routine: StandardExerciseRoutine): FormGroup {
-        return new FormGroup({
-            'sets': new FormControl(routine.sets),
-            'reps': new FormControl(routine.reps),
-            '%1rm': new FormControl(routine.percentageOfOneRepMax),
-            'rpe': new FormControl(routine.rateOfPerceivedExertion),
-            'tempo': new FormControl(routine.tempo),
-            'rest': new FormControl(routine.rest),
-        });
-    }
-
-    initIntervalRoutineFormControl(routine: IntervalExerciseRoutine): FormGroup {
-        return new FormGroup({
-            'duration': new FormControl(routine.duration)
-        });
-    }
-
     onSubmit(form) {
         try {
             const values = this.createWorkoutFromForm();

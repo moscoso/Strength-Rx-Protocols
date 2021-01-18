@@ -105,10 +105,11 @@ export class StandardPhaseFormComponent implements OnInit {
         return new FormGroup({
             'sets': new FormControl(routine.sets),
             'reps': new FormControl(routine.reps),
-            '%1rm': new FormControl(routine.percentageOfOneRepMax),
-            'rpe': new FormControl(routine.rateOfPerceivedExertion),
+            '%1rm': new FormControl(routine['%1rm']),
+            'rpe': new FormControl(routine['rpe']),
             'tempo': new FormControl(routine.tempo),
             'rest': new FormControl(routine.rest),
+            'restAfterExercise': new FormControl(routine.restAfterExercise),
         });
     }
 

@@ -84,7 +84,7 @@ export class ExerciseEffects {
         ofType<ExerciseAction>(ExerciseActionType.Created, ExerciseActionType.Updated),
         tap(() => {
             this.modalController.dismiss();
-            this.router.navigateByUrl('/exercises');
+            // this.router.navigateByUrl('/exercises');
         })
     );
 

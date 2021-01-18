@@ -48,6 +48,7 @@ export class WorkoutDetailPage implements OnInit {
             this.workoutService.loadAll();
             this.workout$ = this.workoutService.selectWorkoutByRouteURL().pipe(first(workout => workout != null));
         } else {
+            console.log('yooo');
             this.findWorkoutInProgram();
         }
     }
@@ -78,12 +79,13 @@ export class WorkoutDetailPage implements OnInit {
     loadCustomProgram(routerState: CustomRouterReducerState): Observable < Program> {
         const clientIsUser = routerState.state.url === '/profile/program';
         this.clientService.loadAll();
+        const clientID = routerState.state.params.profileID;
+
         let client$: Observable < Client > ;
-        if (clientIsUser) {
-            client$ = this.clientService.selectUserAsClient();
-        } else {
-            const clientID = routerState.state.params.profileID;
+        if (clientID) {
             client$ = this.clientService.selectClient(clientID);
+        } else {
+            client$ = this.clientService.selectUserAsClient();
         }
         return client$.pipe(
             tap(x => console.log(x)),
@@ -106,7 +108,7 @@ export class WorkoutDetailPage implements OnInit {
         const modal = await this.modalCtrl.create({
             'id': 'edit-workout',
             'component': EditWorkoutPage,
-            'cssClass': 'modal-80-width'
+            'cssClass': 'modal-full'
         });
         await modal.present();
         return;
@@ -137,14 +139,13 @@ export class WorkoutDetailPage implements OnInit {
 
     getNotes(routine: StandardExerciseRoutine) {
         if (!routine) { console.warn('getNotes failed because routine is undefined'); return; }
-
         let note = '';
         if (routine.sets) { note += `Sets: ${routine.sets} `; }
         if (routine.reps) { note += `Reps: ${routine.reps} `; }
-        if (routine.percentageOfOneRepMax) { note += `%1RM: ${routine.percentageOfOneRepMax} `; }
-        if (routine.rateOfPerceivedExertion) { note += `RPE: ${routine.rateOfPerceivedExertion} `; }
-        if (routine.tempo) { note += `Tempo: ${routine.rateOfPerceivedExertion} `; }
-        if (routine.rest) { note += `Rest: ${routine.rateOfPerceivedExertion} `; }
+        if (routine['%1rm']) { note += `%1RM: ${routine['%1rm']} `; }
+        if (routine.rpe) { note += `RPE: ${routine.rpe} `; }
+        if (routine.tempo) { note += `Tempo: ${routine.tempo} `; }
+        if (routine.rest) { note += `Rest: ${routine.rest} `; }
 
         return note;
     }

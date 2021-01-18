@@ -55,7 +55,7 @@ export class WorkoutListPage implements OnInit {
         const modal = await this.modalController.create({
             'id': 'create-workout',
             'component': CreateWorkoutPage,
-            'cssClass': 'modal-80-width'
+            'cssClass': 'modal-full'
         });
         await modal.present();
         return;

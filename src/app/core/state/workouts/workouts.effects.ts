@@ -65,7 +65,7 @@ export class WorkoutEffects {
         ofType < WorkoutAction > (WorkoutActionType.Created, WorkoutActionType.Updated),
         tap((action: Workouts.CreateRequested) => {
             this.modalController.dismiss();
-            this.router.navigateByUrl('/workouts');
+            // this.router.navigateByUrl('/workouts');
         })
     );
 

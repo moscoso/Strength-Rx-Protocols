@@ -64,7 +64,7 @@ export interface StandardExerciseRoutine {
      */
     reps ?: string;
     /**
-     * The sets in a workout tell you how many times you will repeat a particular number of reps
+     * The sets in a workout specify how many times you will repeat a particular number of reps
      * of a given exercise.
      *
      * For example let's say you're doing triceps kickbacks.
@@ -78,24 +78,31 @@ export interface StandardExerciseRoutine {
      * One-repetition maximum (one rep maximum or 1RM) in weight training is the maximum amount of weight
      * that a person can possibly lift for one repetition.
      */
-    percentageOfOneRepMax ?: string;
+    '%1rm' ?: string;
     /**
+     * RPE = 'Rated Perceived Exertion' 
      * Perceived Exertion is a measurement from 1-10 that describes
      * how hard one feels like one's body is working.
      * It is based on the physical sensations a person
      * experiences during physical activity, including increased heart rate,
      * increased respiration or breathing rate, increased sweating, and muscle fatigue
      */
-    rateOfPerceivedExertion ?: string;
+    'rpe' ?: string;
     /**
      * Tempo in weight training refers to the speed that you lift the weight (the concentric phase of movement)
      * and how quickly you lower the weight (the eccentric phase of movement).
      */
     tempo ?: string;
     /**
-     * How long to cease work or movement in order to  refresh oneself and recover strength.
+     * How long to cease work or movement in order to refresh oneself and recover strength.
      */
     rest ?: string;
+
+    /**
+     * How long to rest after all the sets of the exercise are completed.
+     * Note: `A null would specify no rest period`
+     */
+    restAfterExercise : number | null;
 }
 
 /**
@@ -154,10 +161,11 @@ export const INIT_WORKOUT: Workout = {
 export const INIT_STANDARD_EXERCISE_ROUTINE: StandardExerciseRoutine = {
     'sets': null,
     'reps': null,
-    'percentageOfOneRepMax': null,
-    'rateOfPerceivedExertion': null,
+    '%1rm': null,
+    'rpe': null,
     'tempo': null,
     'rest': null,
+    'restAfterExercise': null,
 };
 
 export const INIT_INTERVAL_EXERCISE_ROUTINE: IntervalExerciseRoutine = {

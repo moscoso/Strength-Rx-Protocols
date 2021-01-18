@@ -20,10 +20,10 @@ export class WorkoutInfoComponent implements OnInit {
         let note = '';
         if (routine.sets) { note += `Sets: ${routine.sets} `; }
         if (routine.reps) { note += `Reps: ${routine.reps} `; }
-        if (routine.percentageOfOneRepMax) { note += `%1RM: ${routine.percentageOfOneRepMax} `; }
-        if (routine.rateOfPerceivedExertion) { note += `RPE: ${routine.rateOfPerceivedExertion} `; }
-        if (routine.tempo) { note += `Tempo: ${routine.rateOfPerceivedExertion} `; }
-        if (routine.rest) { note += `Rest: ${routine.rateOfPerceivedExertion} `; }
+        if (routine['%1rm']) { note += `%1RM: ${routine['%1rm']} `; }
+        if (routine.rpe) { note += `RPE: ${routine.rpe} `; }
+        if (routine.tempo) { note += `Tempo: ${routine.tempo} `; }
+        if (routine.rest) { note += `Rest: ${routine.rest} `; }
 
         return note;
     }
