@@ -9,9 +9,12 @@
     "build": "ng build",
     "build-prod": "ng build --prod",
     "build-staging": "ng build --configuration=staging",
+    "postbuild-prod": "node ./scripts/post-build.js",
+    "postbuild-staging": "node ./scripts/post-build.js",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "node ./scripts/version.js"
   },
   "private": true,
   "dependencies": {
@@ -45,7 +48,9 @@
     "file-drop-element": "^0.2.0",
     "firebase": "^7.16.0",
     "fuse.js": "^6.0.4",
+    "git-describe": "^4.0.4",
     "image-comparison": "^2.0.4",
+    "img-comparison-slider": "^3.0.1",
     "moment": "^2.27.0",
     "ng2-pdf-viewer": "^6.3.2",
     "ngx-countdown": "^10.0.1",

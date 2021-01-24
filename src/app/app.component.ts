@@ -7,6 +7,8 @@ import { ProfileStoreDispatcher } from './core/state/profile/profiles.dispatcher
 import { RouterStoreDispatcher } from './core/state/router/router.dispatcher';
 import { MenuItem } from './shared/menu-list/menu-list.component';
 import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
+import { SwUpdate } from '@angular/service-worker';
+import { ToastService } from './shared/toast/toast.service';
 
 @UntilDestroy()
 @Component({
@@ -132,6 +134,8 @@ export class AppComponent implements OnInit {
         private profileService: ProfileStoreDispatcher,
         private routerService: RouterStoreDispatcher,
         private authService: AuthStoreDispatcher,
+        private serviceWorkerUpdate: SwUpdate,
+        private toastService: ToastService,
     ) {
         this.initializeApp();
     }
@@ -151,6 +155,19 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.isAuthenticated$ = this.authService.selectAuthenticated();
         this.url$ = this.routerService.selectURL();
+        if (this.serviceWorkerUpdate.isEnabled) {
+            this.serviceWorkerUpdate.available.subscribe(() => {
+                if(confirm("New version available. Load New Version?")) {
+                    window.location.reload();
+                }
+            });
+        }       
+
+        this.serviceWorkerUpdate.activated.subscribe(() => {
+            this.toastService.primary('New Version Activated!');
+        })
+
+        
     }
 
     logout() {

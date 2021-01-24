@@ -132,31 +132,56 @@
     <section id="transformations" #transformations>
         <h1>Transformations</h1>
         <ion-row>
-            <ion-col sizeLg="4" sizeSm="12">
-                <app-image-comparison [imageSrcs]="getTransformationImages(1)" start=50>
-                </app-image-comparison>
+            <ion-col sizeLg="4" sizeMd="12" sizeSm="12" sizeXs="12">
+                <img-comparison-slider>
+                    <img slot="before" [src]="getTransformationImages(1)[0]" />
+                    <img slot="after" [src]="getTransformationImages(1)[1]" />
+                </img-comparison-slider>
+                <!-- <app-image-comparison [imageSrcs]="getTransformationImages(1)" start=50>
+                </app-image-comparison> -->
             </ion-col>
-            <ion-col sizeLg="4" sizeSm="12">
-                <app-image-comparison [imageSrcs]="getTransformationImages(3)">
-                </app-image-comparison>
+            <ion-col sizeLg="4" sizeMd="12" sizeSm="12" sizeXs="12">
+                <img-comparison-slider>
+                    <img slot="before" [src]="getTransformationImages(3)[0]" />
+                    <img slot="after" [src]="getTransformationImages(3)[1]" />
+                </img-comparison-slider>
+                <!-- <app-image-comparison [imageSrcs]="getTransformationImages(3)">
+                </app-image-comparison> -->
             </ion-col>
-            <ion-col sizeLg="4" sizeSm="12">
-                <app-image-comparison [imageSrcs]="getTransformationImages(4)" start=35>
-                </app-image-comparison>
+            <ion-col sizeLg="4" sizeMd="12" sizeSm="12" sizeXs="12">
+                <img-comparison-slider>
+                    <img slot="before" [src]="getTransformationImages(2)[0]" />
+                    <img slot="after" [src]="getTransformationImages(2)[1]" />
+                </img-comparison-slider>
+                <!-- <app-image-comparison [imageSrcs]="getTransformationImages(4)" start=35>
+                </app-image-comparison> -->
             </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col sizeLg="4" sizeSm="12">
-                <app-image-comparison [imageSrcs]="getTransformationImages(5)" start=45>
-                </app-image-comparison>
+            <ion-col sizeLg="4" sizeMd="12" sizeSm="12" sizeXs="12">
+                <img-comparison-slider>
+                    <img slot="before" [src]="getTransformationImages(5)[0]" />
+                    <img slot="after" [src]="getTransformationImages(5)[1]" />
+                </img-comparison-slider>
+                <!-- <app-image-comparison [imageSrcs]="getTransformationImages(5)" start=45>
+                </app-image-comparison> -->
             </ion-col>
-            <ion-col sizeLg="4" sizeSm="12">
-                <app-image-comparison [imageSrcs]="getTransformationImages(6)" start=45>
-                </app-image-comparison>
+            <ion-col sizeLg="4" sizeMd="12" sizeSm="12" sizeXs="12">
+                <img-comparison-slider>
+                    <img slot="before" [src]="getTransformationImages(6)[0]" />
+                    <img slot="after" [src]="getTransformationImages(6)[1]" />
+                </img-comparison-slider>
+                <!-- <app-image-comparison [imageSrcs]="getTransformationImages(6)" start=45>
+                </app-image-comparison> -->
             </ion-col>
-            <ion-col sizeLg="4" sizeSm="12">
-                <app-image-comparison [imageSrcs]="getTransformationImages(2)" start=25>
-                </app-image-comparison>
+            <ion-col sizeLg="4" sizeMd="12" sizeSm="12" sizeXs="12">
+                <!-- <img-comparison-slider>
+                    <img slot="before" [src]="getTransformationImages(4)[0]" />
+                    <img slot="after" [src]="getTransformationImages(4)[1]" />
+                </img-comparison-slider> -->
+
+                <!-- <app-image-comparison [imageSrcs]="getTransformationImages(2)" start=25>
+                </app-image-comparison> -->
             </ion-col>
         </ion-row>
     </section>

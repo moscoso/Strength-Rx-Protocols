@@ -1,0 +1,76 @@
+.slider {
+    position: relative;
+    overflow: hidden;
+
+    /* This is required to disable back and forth touch gestures */
+    touch-action: none;
+}
+
+.slider img {
+    width: 100%;
+    display: block;
+}
+
+.slider .resizer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 50%;
+    overflow: hidden;
+}
+
+.grip {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    margin-left: 0px;
+    background: lightgray;
+    cursor: ew-resize;
+}
+
+.grip:after {
+    position: absolute;
+    top: 50%;
+    width: 34px;
+    height: 34px;
+    margin: -18px 0 0 -18px;
+    content: '';
+    color: white;
+
+    /* content: '\27F7'; */
+    /* color: white;
+    font-size: 28px;
+    line-height: 31px;
+    font-weight: 700;
+    background: url(../../assets/chevron.svg) no-repeat center center; */
+
+    border: 3px;
+    border-style: solid;
+    border-color: #f47c22;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.grip.draggable:after {
+    width: 37px;
+    height: 37px;
+    margin: -20px 0 0 -20px;
+    line-height: 50px;
+    font-size: 30px;
+}
+
+img {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    -user-drag: none;
+}
