@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AppState } from '../core/state/app.state';
 import { Observable } from 'rxjs';
-import { selectUserID } from '../core/state/auth/auth.selector';
-import { map, first } from 'rxjs/operators';
-import { CheckIn } from '../core/state/check-ins/check-in.state';
-import { CreateRequested } from '../core/state/check-ins/check-in.actions';
-import { ClientStoreDispatcher } from '../core/state/client/client.dispatcher';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { first, map } from 'rxjs/operators';
+import { AppState } from 'src/app/core/state/app.state';
+import { selectUserID } from 'src/app/core/state/auth/auth.selector';
+import { CreateRequested } from 'src/app/core/state/check-ins/check-in.actions';
+import { CheckIn } from 'src/app/core/state/check-ins/check-in.state';
+import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
 
 @Component({
-    'selector': 'app-check-in',
-    'templateUrl': './check-in.page.html',
-    'styleUrls': ['./check-in.page.scss'],
+    selector: 'app-weekly-check-in',
+    templateUrl: './weekly-check-in.component.html',
+    styleUrls: ['./weekly-check-in.component.scss'],
 })
-export class CheckInPage implements OnInit {
+export class WeeklyCheckInComponent implements OnInit {
 
     form: FormGroup;
 
@@ -30,17 +30,10 @@ export class CheckInPage implements OnInit {
     requests = new FormControl('');
     questions = new FormControl('');
 
-    monday = new FormControl(0);
-    tuesday = new FormControl(0);
-    wednesday = new FormControl(0);
-    thursday = new FormControl(0);
-    friday = new FormControl(0);
-    saturday = new FormControl(0);
-    sunday = new FormControl(0);
 
 
     requestInProgress$: Observable < boolean > ;
-    sex$: Observable < 'M' | 'F' >;
+    sex$: Observable < 'M' | 'F' > ;
 
     constructor(
         public store: Store < AppState > ,
@@ -67,13 +60,6 @@ export class CheckInPage implements OnInit {
             'energyLevel': this.energyLevel,
             'requests': this.requests,
             'questions': this.questions,
-            'monday': this.monday,
-            'tuesday': this.tuesday,
-            'wednesday': this.wednesday,
-            'thursday': this.thursday,
-            'friday': this.friday,
-            'saturday': this.saturday,
-            'sunday': this.sunday,
         });
     }
 
@@ -85,7 +71,7 @@ export class CheckInPage implements OnInit {
             'id': this.generateRandomID(),
             'timestamp': new Date(),
         };
-        
+
         this.store.dispatch(new CreateRequested(checkIn));
     }
 

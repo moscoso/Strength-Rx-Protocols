@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { first, pluck } from 'rxjs/operators';
+import { nonNull } from 'src/util/predicate/Predicates';
 
 @Component({
     'selector': 'app-view-check-ins',
@@ -30,10 +30,10 @@ export class ViewCheckInsPage implements OnInit {
         const routeID = router.state.params.id;
         if (routeID) {
             this.clientID = await this.profileService.selectProfile(routeID)
-                .pipe(first(profile => profile != null), pluck('id')).toPromise();
+                .pipe(first(nonNull), pluck('id')).toPromise();
         } else {
             this.clientID = await this.profileService.selectUserAsProfile()
-                .pipe(first(profile => profile != null), pluck('id')).toPromise();
+                .pipe(first(nonNull), pluck('id')).toPromise();
         }
     }
 

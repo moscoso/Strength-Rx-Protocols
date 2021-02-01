@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { ProfileGuard } from './guards/profile/profile.guard';
-import { NoProfileGuard } from './guards/no-profile/no-profile.guard';
 import { NoAuthGuard } from './guards/no-auth/no-auth.guard';
 import { ClientGuard } from './guards/client/client.guard';
-import { TrainerGuard } from './guards/trainer/trainer.guard';
+import { CHECK_IN_ROUTES } from './check-in/check-in.routes';
+
+
 
 const routes: Routes = [
     {
@@ -178,24 +179,6 @@ const routes: Routes = [
         'loadChildren': () => import('./client/progress-pics/progress-pics.module').then(m => m.ProgressPicsPageModule)
     },
     {
-        'path': 'check-in',
-        'loadChildren': () => import('./check-in/check-in.module').then(m => m.CheckInPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
-    },
-    {
-        'path': 'check-in/:id',
-        'loadChildren': () => import('./check-in/check-in.module').then(m => m.CheckInPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
-    },
-    {
-        'path': 'clients/:id/check-in',
-        'loadChildren': () => import('./check-in/view-check-ins/view-check-ins.module').then(m => m.ViewCheckInsPageModule)
-    },
-    {
-        'path': 'clients/:id/check-ins',
-        'loadChildren': () => import('./check-in/view-check-ins/view-check-ins.module').then(m => m.ViewCheckInsPageModule)
-    },
-    {
         'path': 'reviews',
         'loadChildren': () => import('./client/reviews/reviews.module').then(m => m.ReviewsPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
@@ -238,17 +221,22 @@ const routes: Routes = [
         'path': 'interval-timer/:id',
         'loadChildren': () => import('./interval-timer/interval-timer-page/interval-timer.module').then(m => m.IntervalTimerPageModule)
     },
-    {
-        'path': '**',
-        'redirectTo': ''
-    },
+    
     
 
 ];
 
+
+const WILDCARD = [{
+    'path': '**',
+    'redirectTo': ''
+}]
+
+let appRoutes: Routes = [].concat(routes).concat(CHECK_IN_ROUTES).concat(WILDCARD);
+
 @NgModule({
     'imports': [
-        RouterModule.forRoot(routes, {
+        RouterModule.forRoot(appRoutes, {
             'preloadingStrategy': PreloadAllModules,
             'anchorScrolling': 'enabled',
             'relativeLinkResolution': 'legacy'

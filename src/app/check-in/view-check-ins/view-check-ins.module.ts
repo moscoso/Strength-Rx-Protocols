@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ViewCheckInsPageRoutingModule } from './view-check-ins-routing.module';
 import { ViewCheckInsPage } from './view-check-ins.page';
-import { ClientModule } from 'src/app/client/client.module';
+import { CheckInModule } from '../check-in.module';
 
 @NgModule({
     'imports': [
@@ -12,7 +12,7 @@ import { ClientModule } from 'src/app/client/client.module';
         FormsModule,
         IonicModule,
         ViewCheckInsPageRoutingModule,
-        ClientModule,
+        CheckInModule,
     ],
     'declarations': [ViewCheckInsPage]
 })

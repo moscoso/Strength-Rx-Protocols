@@ -1,0 +1,28 @@
+<form [formGroup]=form (ngSubmit)=onSubmit(form.value)>
+    <ion-row>
+        <!-- <ion-col>
+            <ion-button>Prev</ion-button>
+        </ion-col> -->
+        <ion-col>
+            <mat-form-field>
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="picker" autocomplete="on" [formControl]="date" name="date"
+                       enterKeyHint="done">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="date.hasError('required')">Date is required.</mat-error>
+            </mat-form-field>
+        </ion-col>
+        <!-- <ion-col>
+            <ion-button>Next</ion-button>
+        </ion-col> -->
+    </ion-row>
+
+    <mat-form-field>
+        <mat-label>Weight</mat-label>
+        <input matInput type="number" [formControl]="weight"
+               clearInput="true"
+               enterKeyHint="next">
+    </mat-form-field>
+    <ion-button expand="full" type="submit" [disabled]="form.invalid">Check In</ion-button>
+</form>

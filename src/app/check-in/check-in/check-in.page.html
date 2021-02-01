@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Check-In</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-segment (ionChange)="segmentChanged($event)" value="weight">
+        <ion-segment-button value="weight">
+            <ion-label>Weight Check-In</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="weekly">
+            <ion-label>Weekly Check-In</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+
+    <app-weight-check-in [hidden]="type !== 'weight'"></app-weight-check-in>
+    <app-weekly-check-in [hidden]="type !== 'weekly'"></app-weekly-check-in>
+</ion-content>

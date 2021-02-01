@@ -9,7 +9,7 @@
     "build": "ng build",
     "build-prod": "ng build --prod",
     "build-staging": "ng build --configuration=staging",
-    "postbuild-prod": "node ./scripts/post-build.js",
+     "postbuild-prod": "node ./scripts/post-build.js",
     "postbuild-staging": "node ./scripts/post-build.js",
     "test": "ng test",
     "lint": "ng lint",
