@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StandardExerciseRoutine, Workout } from 'src/app/core/state/workouts/workouts.state';
+import { StandardExerciseRoutine, Workout } from 'src/app/core/state/workout/workout.model';
 
 @Component({
     'selector': 'app-workout-info',

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Workout } from 'src/app/core/state/workouts/workouts.state';
+import { Workout } from 'src/app/core/state/workout/workout.model';
 import { ModalController } from '@ionic/angular';
 
 @Component({

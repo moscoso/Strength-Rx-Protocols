@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Workout } from 'src/app/core/state/workouts/workouts.state';
+import { Workout } from 'src/app/core/state/workout/workout.model';
 import { Observable, of } from 'rxjs';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
+import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
 import { ModalController } from '@ionic/angular';
 
 @Component({

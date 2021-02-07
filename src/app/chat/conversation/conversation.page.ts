@@ -2,14 +2,13 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy, AfterViewInit } fr
 import { IonContent, IonList } from '@ionic/angular';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { filter, first } from 'rxjs/operators';
-import { Message, Conversation } from 'src/app/core/state/chat/chat.state';
+import { Message, Conversation } from 'src/app/core/state/chat/chat.model';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
-import { sortByTimestamp } from 'src/app/core/state/chat/chat.reducer';
+import { sortByTimestamp } from 'src/app/core/state/chat/chat.state';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { getIDListFromConversationID, getOtherIDFromConversationID } from 'functions/src/strengthrx/ConversationHelpers';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
-import { Profile } from 'src/app/core/state/profile/profile.state';
 
 @Component({
     'selector': 'app-conversation',
@@ -110,7 +109,7 @@ export class ConversationPage implements OnInit, AfterViewInit {
             'senderID': profile.id,
             'senderName': `${profile.firstName} ${profile.lastName}`,
             text,
-            'timestamp': firebase.firestore.Timestamp.now()
+            'timestamp': new Date(),
         };
 
         const doc = this.firestore.collection(`conversations/${message.conversationID}/messages`);

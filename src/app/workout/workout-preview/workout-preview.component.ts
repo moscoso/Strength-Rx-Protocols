@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Exercise } from 'src/app/core/state/exercises/exercises.state';
-import { Workout } from 'src/app/core/state/workouts/workouts.state';
-import { StandardPhaseFormComponent } from '../workout-form/standard-phase-form/standard-phase-form.component';
+import { Exercise } from 'src/app/core/state/exercises/exercise.model';
+import { Workout } from 'src/app/core/state/workout/workout.model';
 
 @Component({
     'selector': 'workout-preview',

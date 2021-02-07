@@ -1,18 +1,13 @@
-import { createEntityAdapter } from '@ngrx/entity';
-import { WorkoutAction, WorkoutActionType } from './workouts.actions';
-import { Workout, WorkoutsState } from './workouts.state';
+import { WorkoutAction, WorkoutActionType } from './workout.actions';
+import { workoutsAdapter, WorkoutState, WORKOUT_INIT_STATE } from './workout.state';
 
-export const workoutsAdapter = createEntityAdapter < Workout > ({
-    'selectId': workout => workout.id,
-    'sortComparer': (workoutA, workoutB) => workoutA.name.localeCompare(workoutB.name)
-});
-const initialState: WorkoutsState = workoutsAdapter.getInitialState({
-    'requestInProgress': false,
-    'error': null,
-});
-export function workoutsReducer(state: WorkoutsState = initialState, action: WorkoutAction): WorkoutsState {
+
+export function workoutsReducer(state: WorkoutState = WORKOUT_INIT_STATE, action: WorkoutAction): WorkoutState {
     switch (action.type) {
         case WorkoutActionType.AllRequested:
+        case WorkoutActionType.CreateRequested:
+        case WorkoutActionType.UpdateRequested:
+        case WorkoutActionType.DeleteRequested:
             return {
                 ...state,
                 'requestInProgress': true,
@@ -23,14 +18,6 @@ export function workoutsReducer(state: WorkoutsState = initialState, action: Wor
                 ...state,
                 'requestInProgress': false,
             });
-        case WorkoutActionType.CreateRequested:
-        case WorkoutActionType.UpdateRequested:
-        case WorkoutActionType.DeleteRequested:
-            return {
-                ...state,
-                'requestInProgress': true,
-                'error': null,
-            };
         case WorkoutActionType.Created:
             return workoutsAdapter.addOne(action.workout, {
                 ...state,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
+import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
 
 @Component({
     'selector': 'app-edit-workout',

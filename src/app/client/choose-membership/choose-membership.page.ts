@@ -31,16 +31,16 @@ export class ChooseMembershipPage implements OnInit {
     ngOnInit() {
         this.fetchPrices().then(() => {
             this.fetchRoute();
-        })
+        });
     }
 
 
 
     async fetchRoute() {
-        const state = await this.routerService.selectState().pipe(first()).toPromise()
+        const state = await this.routerService.selectState().pipe(first()).toPromise();
         console.log(state);
         const planLength = state.state.queryParams.planLength;
-        if (planLength != null && planLength !== 'undefined') { this.planLength = planLength };
+        if (planLength != null && planLength !== 'undefined') { this.planLength = planLength; }
         const planType = state.state.queryParams.planType;
         console.log('bark', planLength, planType);
         if (planType != null && planType !== 'undefined') { this.choosePlan(planType); }
@@ -101,7 +101,7 @@ export class ChooseMembershipPage implements OnInit {
             }).catch(error => {
                 console.error(error);
                 this.checkoutLoading = false;
-            })
+            });
             this.checkoutLoading = true;
         } else {
             console.warn(`Cannot checkout with undefined plan ID`);

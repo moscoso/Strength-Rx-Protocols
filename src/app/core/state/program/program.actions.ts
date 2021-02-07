@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Program } from './program.state';
+import { Program } from './program.model';
 
 export enum ProgramActionType {
     AllRequested = '[Programs Page] Programs Requested',

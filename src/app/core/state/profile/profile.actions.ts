@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Profile } from './profile.state';
+import { Profile } from './profile.model';
 
 export enum ProfileActionType {
     AllRequested = '[Profiles Page] Profiles Requested',

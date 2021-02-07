@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { Exercise } from 'src/app/core/state/exercises/exercises.state';
+import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { EditExerciseComponent } from '../components/edit-exercise/edit-exercise.component';
 import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';

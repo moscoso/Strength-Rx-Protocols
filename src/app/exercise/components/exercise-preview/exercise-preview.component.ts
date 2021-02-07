@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Exercise } from 'src/app/core/state/exercises/exercises.state';
+import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 import { HighlightIndices } from 'src/app/pipes/highlight-search.pipe';
 
 @Component({

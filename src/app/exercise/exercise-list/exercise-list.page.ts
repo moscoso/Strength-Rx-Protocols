@@ -8,7 +8,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import Fuse from 'fuse.js';
 
-import { Exercise } from 'src/app/core/state/exercises/exercises.state';
+import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 import { CreateExerciseComponent } from '../components/create-exercise/create-exercise.component';
 import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
 import { HighlightIndicesMap, removeIndicesThatAreTypos } from 'src/app/pipes/highlight-search.pipe';

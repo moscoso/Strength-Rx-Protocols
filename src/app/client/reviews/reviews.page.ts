@@ -4,7 +4,7 @@ import { first, pluck } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
-import { Profile } from 'src/app/core/state/profile/profile.state';
+import { Profile } from 'src/app/core/state/profile/profile.model';
 
 @Component({
     'selector': 'reviews',

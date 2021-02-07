@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Program } from 'src/app/core/state/program/program.state';
+import { Program } from 'src/app/core/state/program/program.model';
 import { Observable, of } from 'rxjs';
 import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
 import { EditProgramPage } from '../edit-program/edit-program.page';
@@ -7,7 +7,7 @@ import { first, map } from 'rxjs/operators';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
-import { Client } from 'src/app/core/state/client/client.state';
+import { Client } from 'src/app/core/state/client/client.model';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 
 @Component({

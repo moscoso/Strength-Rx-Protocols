@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, from } from 'rxjs';
-import { switchMap, pluck, tap, take, map } from 'rxjs/operators';
+import { switchMap, pluck, tap } from 'rxjs/operators';
 import {
     AuthActionType,
     AuthAction,

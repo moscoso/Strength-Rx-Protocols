@@ -1,22 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from '../app.state';
-import { FireAuthService } from '../../firebase/auth/auth.service';
-import * as CheckInAction from './check-in.actions';
-import { StateModule } from '../state.module';
-import { CheckIn } from './check-in.state';
-import {
-    selectCheckInByID,
-    selectCheckInByRouteURL,
-    selectRequestInProgress,
-    selectAll,
-    selectEntities,
-    selectTotal,
-    selectIds
-} from './check-in.selector';
-import { AllRequested } from './check-in.actions';
 import { Observable } from 'rxjs';
 import { Dictionary } from '@ngrx/entity';
+import { Store } from '@ngrx/store';
+import { AppState } from '../app.state';
+import { StateModule } from '../state.module';
+import { CheckIn } from './check-in.model';
+import * as CheckInAction from './check-in.actions';
+import * as fromCheckIn from './check-in.selector';
+
 
 /**
  * This service is responsible for dispatching checkIn actions to the Store and selecting
@@ -26,7 +17,6 @@ import { Dictionary } from '@ngrx/entity';
 export class CheckInStoreDispatcher {
     constructor(
         protected store: Store < AppState > ,
-        protected fireAuth: FireAuthService
     ) {}
 
     /** Dispatch a CreateRequested action to the store */
@@ -48,34 +38,34 @@ export class CheckInStoreDispatcher {
      * Dispatch an AllRequested action to the store
      */
     public loadAll(): void {
-        this.store.dispatch(new AllRequested());
+        this.store.dispatch(new CheckInAction.AllRequested());
     }
 
     public selectCheckIn(id: string): Observable < CheckIn > {
-        return this.store.select(selectCheckInByID(id));
+        return this.store.select(fromCheckIn.selectCheckInByID(id));
     }
 
     public selectCheckInByRouteURL(): Observable < CheckIn > {
-        return this.store.select(selectCheckInByRouteURL);
+        return this.store.select(fromCheckIn.selectCheckInByRouteURL);
     }
 
     public selectRequestInProgress(): Observable < boolean > {
-        return this.store.select(selectRequestInProgress);
+        return this.store.select(fromCheckIn.selectRequestInProgress);
     }
 
     public selectAll(): Observable < CheckIn[] > {
-        return this.store.select(selectAll);
+        return this.store.select(fromCheckIn.selectAll);
     }
 
     public selectIDs(): Observable < string[] | number[] > {
-        return this.store.select(selectIds);
+        return this.store.select(fromCheckIn.selectIds);
     }
 
     public selectCheckIns(): Observable < Dictionary < CheckIn >> {
-        return this.store.select(selectEntities);
+        return this.store.select(fromCheckIn.selectEntities);
     }
 
     public selectTotal(): Observable < number > {
-        return this.store.select(selectTotal);
+        return this.store.select(fromCheckIn.selectTotal);
     }
 }

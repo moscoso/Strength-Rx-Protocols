@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { first, pluck } from 'rxjs/operators';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
-import { Profile } from 'src/app/core/state/profile/profile.state';
+import { Profile } from 'src/app/core/state/profile/profile.model';
 
 @Component({
     'selector': 'app-progress-pics',
@@ -22,7 +22,6 @@ export class ProgressPicsPage implements OnInit {
         public firestore: AngularFirestore,
         public profileService: ProfileStoreDispatcher,
         public routerService: RouterStoreDispatcher,
-        
     ) {}
 
     ngOnInit() {

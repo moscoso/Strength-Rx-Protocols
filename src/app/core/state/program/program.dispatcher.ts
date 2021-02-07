@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
 import * as ProgramAction from './program.actions';
 import { StateModule } from '../state.module';
-import { Program } from './program.state';
+import { Program } from './program.model';
 import {
     selectProgramByID,
     selectProgramByRouteURL,

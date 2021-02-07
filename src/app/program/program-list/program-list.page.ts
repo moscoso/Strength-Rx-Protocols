@@ -3,7 +3,7 @@ import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispa
 import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
 import { first, startWith } from 'rxjs/operators';
 import { CreateProgramPage } from '../create-program/create-program.page';
-import { Program } from 'src/app/core/state/program/program.state';
+import { Program } from 'src/app/core/state/program/program.model';
 import Fuse from 'fuse.js';
 import { Observable, of, Subject, combineLatest } from 'rxjs';
 import { ModalController } from '@ionic/angular';

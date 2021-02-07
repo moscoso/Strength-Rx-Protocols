@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { Profile } from 'src/app/core/state/profile/profile.state';
+import { Profile } from 'src/app/core/state/profile/profile.model';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
@@ -60,7 +60,7 @@ export class ProfileFormComponent implements OnInit {
         /* Birthday objects loaded from Firebase are actually Timestamps,
            while locally created Birthdays are just native javascript Dates */
         const isTimestamp = typeof profile.birthday.toDate === 'function';
-        if(isTimestamp) {
+        if (isTimestamp) {
             this.birthday.setValue(profile.birthday.toDate());
         } else {
             this.birthday.setValue(profile.birthday);

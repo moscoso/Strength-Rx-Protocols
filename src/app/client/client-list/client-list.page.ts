@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
-import { Client } from 'src/app/core/state/client/client.state';
+import { Client } from 'src/app/core/state/client/client.model';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({

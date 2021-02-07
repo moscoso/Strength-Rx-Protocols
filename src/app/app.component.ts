@@ -157,17 +157,17 @@ export class AppComponent implements OnInit {
         this.url$ = this.routerService.selectURL();
         if (this.serviceWorkerUpdate.isEnabled) {
             this.serviceWorkerUpdate.available.subscribe(() => {
-                if(confirm("New version available. Load New Version?")) {
+                if (confirm('New version available. Load New Version?')) {
                     window.location.reload();
                 }
             });
-        }       
+        }
 
         this.serviceWorkerUpdate.activated.subscribe(() => {
             this.toastService.primary('New Version Activated!');
-        })
+        });
 
-        
+
     }
 
     logout() {

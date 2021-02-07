@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl, Validators, FormGroup, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { Exercise } from 'src/app/core/state/exercises/exercises.state';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { first } from 'rxjs/operators';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
@@ -9,6 +8,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
 import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
 import { Delta } from 'src/util/delta/Delta';
+import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 
 @Component({
     'selector': 'exercise-form',

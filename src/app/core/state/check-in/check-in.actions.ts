@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CheckIn } from './check-in.state';
+import { CheckIn } from './check-in.model';
 
 export enum CheckInActionType {
     AllRequested = '[CheckIns Page] CheckIns Requested',

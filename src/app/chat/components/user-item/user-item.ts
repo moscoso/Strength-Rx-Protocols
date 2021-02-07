@@ -3,7 +3,7 @@ import {
     Input,
     OnInit
 } from '@angular/core';
-import { Profile } from 'src/app/core/state/profile/profile.state';
+import { Profile } from 'src/app/core/state/profile/profile.model';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { first } from 'rxjs/operators';
 

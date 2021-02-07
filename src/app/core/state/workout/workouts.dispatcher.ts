@@ -2,21 +2,13 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
 import { FireAuthService } from '../../firebase/auth/auth.service';
-import * as WorkoutAction from './workouts.actions';
+import * as WorkoutAction from './workout.actions';
 import { StateModule } from '../state.module';
-import { Workout } from './workouts.state';
-import {
-    selectWorkoutByID,
-    selectWorkoutByRouteURL,
-    selectRequestInProgress,
-    selectAll,
-    selectEntities,
-    selectTotal,
-    selectIds
-} from './workouts.selector';
-import { AllRequested } from './workouts.actions';
+import * as fromWorkout from './workout.selector';
+import { AllRequested } from './workout.actions';
 import { Observable } from 'rxjs';
 import { Dictionary } from '@ngrx/entity';
+import { Workout } from './workout.model';
 
 /**
  * This service is responsible for dispatching workout actions to the Store and selecting
@@ -52,30 +44,30 @@ export class WorkoutStoreDispatcher {
     }
 
     public selectWorkout(id: string): Observable < Workout > {
-        return this.store.select(selectWorkoutByID(id));
+        return this.store.select(fromWorkout.selectWorkoutByID(id));
     }
 
     public selectWorkoutByRouteURL(): Observable < Workout > {
-        return this.store.select(selectWorkoutByRouteURL);
+        return this.store.select(fromWorkout.selectWorkoutByRouteURL);
     }
 
     public selectRequestInProgress(): Observable < boolean > {
-        return this.store.select(selectRequestInProgress);
+        return this.store.select(fromWorkout.selectRequestInProgress);
     }
 
     public selectAll(): Observable < Workout[] > {
-        return this.store.select(selectAll);
+        return this.store.select(fromWorkout.selectAll);
     }
 
     public selectIDs(): Observable < string[] | number[] > {
-        return this.store.select(selectIds);
+        return this.store.select(fromWorkout.selectIds);
     }
 
     public selectWorkouts(): Observable < Dictionary < Workout >> {
-        return this.store.select(selectEntities);
+        return this.store.select(fromWorkout.selectEntities);
     }
 
     public selectTotal(): Observable < number > {
-        return this.store.select(selectTotal);
+        return this.store.select(fromWorkout.selectTotal);
     }
 }

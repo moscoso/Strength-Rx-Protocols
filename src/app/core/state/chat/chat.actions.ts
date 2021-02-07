@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Message, Conversation } from './chat.state';
+import { Conversation, Message } from './chat.model';
 
 export enum ChatActionType {
     ConversationListRequested = '[] Conversation List Requested',

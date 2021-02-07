@@ -1,16 +1,14 @@
 
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { programsAdapter } from './program.reducer';
 import { Dictionary } from '@ngrx/entity';
 import { RouterReducerState } from '@ngrx/router-store';
-import { ProgramsState, Program } from './program.state';
+import { ProgramsState, programsAdapter } from './program.state';
 import { selectRouterState } from '../router/router.selectors';
+import { Program } from './program.model';
+
 
 /**
- * Gets the top-level state property named 'programs' of the store tree.
- */
-/* Note: createFeatureSelector allows us to get a top-level feature state
- * property of the state tree simply by calling it out by its feature name.
+ * Selects the top-level state property 'programs' of the store tree.
  */
 export const selectState = createFeatureSelector < ProgramsState > ('programs');
 export const {
@@ -21,8 +19,8 @@ export const {
 } = programsAdapter.getSelectors(selectState);
 
 /**
- * Select an Program by ID
- * @param programID the ID of the program
+ * Select a Program by ID
+ * @param programID the unique identifier of the program
  */
 export const selectProgramByID = (programID: string) => createSelector(
     selectState,
@@ -30,7 +28,7 @@ export const selectProgramByID = (programID: string) => createSelector(
 );
 
 /**
- * Use the router state's URL to select an Program by ID.
+ * Use the router state's URL to select a Program by ID.
  */
 export const selectProgramByRouteURL = createSelector(
     selectEntities,
@@ -41,7 +39,7 @@ export const selectProgramByRouteURL = createSelector(
 );
 
 /**
- * Select a boolean that represents a Request is in progress
+ * Select a boolean that indicates a a request is in progress
  */
 export const selectRequestInProgress = createSelector(
     selectState,

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Exercise } from './exercises.state';
+import { Exercise } from './exercise.model';
 
 export enum ExerciseActionType {
     /* FetchAllFromServerRequested, // Try this after we check the cache

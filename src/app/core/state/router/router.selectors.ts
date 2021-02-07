@@ -1,8 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { CustomRouterReducerState } from './router.state';
 
+
 /**
- * Select the router state
+ * Selects the top-level state property 'router' of the store tree.
  */
 export const selectRouterState = createFeatureSelector < CustomRouterReducerState > ('router');
 

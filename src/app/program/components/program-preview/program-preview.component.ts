@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Exercise } from 'src/app/core/state/exercises/exercises.state';
-import { Program } from 'src/app/core/state/program/program.state';
+import { Exercise } from 'src/app/core/state/exercises/exercise.model';
+import { Program } from 'src/app/core/state/program/program.model';
 
 @Component({
     'selector': 'program-preview',

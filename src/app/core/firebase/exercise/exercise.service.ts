@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { EntityService } from '../entity/entity.service';
-import { Exercise, INIT_EXERCISE } from '../../state/exercises/exercises.state';
+import { EntityService } from '../entity/EntityService';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FirebaseModule } from '../firebase.module';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { Exercise, EXERCISE_INIT_MODEL } from '../../state/exercises/exercise.model';
 
 @Injectable({'providedIn': FirebaseModule, })
 export class ExerciseService extends EntityService < Exercise > {
@@ -11,6 +11,6 @@ export class ExerciseService extends EntityService < Exercise > {
         public firestore: AngularFirestore,
         public functions: AngularFireFunctions,
     ) {
-        super(firestore, functions, 'exercises', {'defaultEntity': INIT_EXERCISE, 'IDSource': 'name'});
+        super(firestore, functions, 'exercises', {'defaultEntity': EXERCISE_INIT_MODEL, 'IDSource': 'name'});
     }
 }

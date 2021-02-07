@@ -1,29 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
-import {
-    LoginWithEmailAsNewAccountAttempted,
-    LoginWithEmailAttempted,
-    SignupRequested,
-    PasswordResetRequested,
-    LogoutRequested,
-    LoginAsGuestRequested,
-    LoginWithFacebookRequested,
-    LoginWithGoogleRequested,
-    Authenticated,
-    NotAuthenticated
-} from './auth.actions';
+import * as AuthActions from './auth.actions';
 import { FireAuthService } from '../../firebase/auth/auth.service';
 import { pluck, first, distinct } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserInfo } from 'firebase';
 import { selectUserData, selectAuthenticated, selectState, selectUserID } from './auth.selector';
-import { AuthState } from './auth.state';
+import { AuthModel } from './auth.model';
 import { StateModule } from '../state.module';
+import { firstNonNull } from 'src/util/operator/Operators';
 
 /**
- * This service is responsible for dispatching auth actions to the Store and selecting
- * auth data from the Store
+ * This service is responsible for dispatching actions to the Store
+ * and selecting data from the Store related to Auth
+ * @see https://thomasburlesonia.medium.com/ngrx-facades-better-state-management-82a04b9a1e39
  */
 @Injectable({ 'providedIn': StateModule })
 export class AuthStoreDispatcher {
@@ -34,55 +25,55 @@ export class AuthStoreDispatcher {
         this.fireAuth.getUser().pipe(distinct()).subscribe(async (authenticatedUser: firebase.User) => {
             if (authenticatedUser) {
                 const userInfo = this.scrapeUserInfo(authenticatedUser);
-                this.store.dispatch(new Authenticated(userInfo));
+                this.store.dispatch(new AuthActions.Authenticated(userInfo));
             } else {
-                this.store.dispatch(new NotAuthenticated());
+                this.store.dispatch(new AuthActions.NotAuthenticated());
             }
         });
     }
 
     /** Dispatch a LoginWithEmailAttempted action to the store */
     public login(email: string, password: string): void {
-        this.store.dispatch(new LoginWithEmailAttempted(email, password));
+        this.store.dispatch(new AuthActions.LoginWithEmailAttempted(email, password));
     }
 
     /** Dispatch a LoginWithEmailAsNewAccountAttempted action to the store */
     public loginAsNewAccount(email: string, password: string, plan: any): void {
-        this.store.dispatch(new LoginWithEmailAsNewAccountAttempted(email, password, plan));
+        this.store.dispatch(new AuthActions.LoginWithEmailAsNewAccountAttempted(email, password, plan));
     }
 
     /** Dispatch a SignUpRequested action to the store */
     public signup(email: string, password: string): void {
-        this.store.dispatch(new SignupRequested(email, password));
+        this.store.dispatch(new AuthActions.SignupRequested(email, password));
     }
 
     /** Dispatch a PasswordResetRequested action to the store */
     public resetPassword(email: string): void {
-        this.store.dispatch(new PasswordResetRequested(email));
+        this.store.dispatch(new AuthActions.PasswordResetRequested(email));
     }
 
     /** Dispatch a LogoutRequested action to the store */
     public logout(): void {
-        this.store.dispatch(new LogoutRequested());
+        this.store.dispatch(new AuthActions.LogoutRequested());
     }
 
     /** Dispatch a LoginAsGuestRequested action to the store */
     public signInAnonymously(): void {
-        this.store.dispatch(new LoginAsGuestRequested());
+        this.store.dispatch(new AuthActions.LoginAsGuestRequested());
     }
 
     /** Dispatch a LoginWithFacebookRequested action to the store */
     public loginWithFacebook(): void {
-        this.store.dispatch(new LoginWithFacebookRequested());
+        this.store.dispatch(new AuthActions.LoginWithFacebookRequested());
     }
 
     /** Dispatch a LoginWithGoogleRequested action to the store */
     public loginWithGoogle(): void {
-        this.store.dispatch(new LoginWithGoogleRequested());
+        this.store.dispatch(new AuthActions.LoginWithGoogleRequested());
     }
 
     public getUserID(): Promise < string > {
-        return this.selectUserData().pipe(first(userData => userData != null), pluck('uid')).toPromise();
+        return this.selectUserData().pipe(firstNonNull, pluck('uid')).toPromise();
     }
 
     public selectUserData(): Observable < UserInfo > {
@@ -97,7 +88,7 @@ export class AuthStoreDispatcher {
         return this.store.select(selectAuthenticated);
     }
 
-    public selectState(): Observable < AuthState > {
+    public selectState(): Observable < AuthModel > {
         return this.store.select(selectState);
     }
 

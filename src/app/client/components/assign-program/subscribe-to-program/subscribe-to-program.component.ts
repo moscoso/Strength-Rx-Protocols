@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
 import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
-import { Program } from 'src/app/core/state/program/program.state';
+import { Program } from 'src/app/core/state/program/program.model';
 
 @Component({
     'selector': 'app-subscribe-to-program',

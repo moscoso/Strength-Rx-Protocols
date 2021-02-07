@@ -6,8 +6,8 @@ dayjs.extend(weekOfYear);
 import { first } from 'rxjs/operators';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
-import { Program } from 'src/app/core/state/program/program.state';
-import { Workout } from 'src/app/core/state/workouts/workouts.state';
+import { Program } from 'src/app/core/state/program/program.model';
+import { Workout } from 'src/app/core/state/workout/workout.model';
 
 @Component({
     'selector': 'app-calendar',
@@ -44,7 +44,7 @@ export class CalendarPage implements OnInit {
             this.program = x.assignedProgram;
 
             const clientID = x.id;
-            // tslint:disable-next-line: max-line-length
+            // eslint-disable-next-line max-len
             this.events = await (await this.angularFirestore.doc(`clients/${clientID}/calendar/calendar`).get().pipe(
                 first()).toPromise()).data().calendar;
             this.renderCalendar();

@@ -13,7 +13,7 @@ export const firstRequestComplete: OperatorFunction<any, boolean> = first(reques
 
 /**
  * Emits only the first string emitted when the string is defined and not empty
- * 
+ *
  */
 export const firstValidString: OperatorFunction<string, string | boolean> = first(validString);
 
@@ -27,5 +27,5 @@ export const firstNonNull: OperatorFunction<any, any> = first(nonNull);
  * @param observable a stream of data that may emit multiple values
  */
 export function whenRequestCompletes(observable: Observable<boolean> ): Promise<boolean> {
-    return observable.pipe(firstRequestComplete).toPromise()
+    return observable.pipe(firstRequestComplete).toPromise();
 }

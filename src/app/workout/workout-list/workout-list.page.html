@@ -14,7 +14,7 @@
 </ion-header>
 
 <ion-content>
-    <span class="ion-text-center" [hidden]="!(requestInProgress$ | async)">
+    <span class="ion-text-center" [hidden]="(requestInProgress$ | async) === false">
         <ion-spinner></ion-spinner>
     </span>
     <!-- <ion-searchbar (ionChange)='search($event)' autocorrect="off" [hidden]="workoutList.length <= 1"></ion-searchbar> -->

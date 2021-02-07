@@ -1,41 +1,10 @@
-import { EntityState } from '@ngrx/entity';
-import { Timestamp } from 'src/util/timestamp/timestamp';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { Profile } from './profile.model';
 
 /**
- * The main data model for a Profile
- */
-export interface Profile {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    birthday: Timestamp;
-    goal: string;
-    healthConditions: string;
-    joined: Date;
-    height: Height;
-    isClient: boolean;
-    isTrainer: boolean;
-    photoURL: string;
-    sex: 'M' | 'F';
-}
-
-export type Height = ImperialHeight;
-/**
- * A measurement of height in Imperial units of feet and inches
- */
-export interface ImperialHeight { 'feet': number; 'inches': number; }
-/**
- * A measurement of height in Metric units of centimeter
- */
-export interface MetricHeight { 'cm': number; }
-
-export enum ClientApplicationStatus { 'NOT_STARTED', 'PENDING', 'APPROVED' }
-
-/**
- * Profiles are represented by an EntityState that
- * includes a dictionary of profiles and the
- * list of ids that corresponds to each profile
+ * ProfilesState is expressed as an EntityState
+ * which includes a dictionary of profiles and
+ * a list of ids that identifies each profile
  */
 export interface ProfilesState extends EntityState < Profile > {
     requestInProgress: boolean;
@@ -43,18 +12,13 @@ export interface ProfilesState extends EntityState < Profile > {
     initialized: boolean;
 }
 
-export const INIT_PROFILE: Profile = {
-    'id': '',
-    'email': '',
-    'photoURL': null,
-    'firstName': '',
-    'lastName': '',
-    'birthday': undefined,
-    'goal': '',
-    'joined': new Date(),
-    'healthConditions': '',
-    'height': { 'feet': 0, 'inches': 0 },
-    'isClient': false,
-    'isTrainer': false,
-    'sex': 'M',
-};
+export const profilesAdapter = createEntityAdapter < Profile > ({
+    'selectId': profile => profile.id,
+    'sortComparer': (profileA, profileB) => profileA.lastName.localeCompare(profileB.lastName)
+});
+
+export const PROFILES_INIT_STATE: ProfilesState = profilesAdapter.getInitialState({
+    'requestInProgress': false,
+    'error': null,
+    'initialized': false,
+});

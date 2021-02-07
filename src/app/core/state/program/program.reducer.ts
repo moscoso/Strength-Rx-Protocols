@@ -1,18 +1,13 @@
-import { createEntityAdapter } from '@ngrx/entity';
 import { ProgramAction, ProgramActionType } from './program.actions';
-import { Program, ProgramsState } from './program.state';
+import { programsAdapter, ProgramsState, PROGRAMS_INIT_STATE } from './program.state';
 
-export const programsAdapter = createEntityAdapter < Program > ({
-    'selectId': program => program.id,
-    'sortComparer': (programA, programB) => programA.name.localeCompare(programB.name)
-});
-const initialState: ProgramsState = programsAdapter.getInitialState({
-    'requestInProgress': false,
-    'error': null,
-});
-export function programsReducer(state: ProgramsState = initialState, action: ProgramAction): ProgramsState {
+
+export function programsReducer(state: ProgramsState = PROGRAMS_INIT_STATE, action: ProgramAction): ProgramsState {
     switch (action.type) {
         case ProgramActionType.AllRequested:
+        case ProgramActionType.CreateRequested:
+        case ProgramActionType.UpdateRequested:
+        case ProgramActionType.DeleteRequested:
             return {
                 ...state,
                 'requestInProgress': true,
@@ -23,14 +18,6 @@ export function programsReducer(state: ProgramsState = initialState, action: Pro
                 ...state,
                 'requestInProgress': false,
             });
-        case ProgramActionType.CreateRequested:
-        case ProgramActionType.UpdateRequested:
-        case ProgramActionType.DeleteRequested:
-            return {
-                ...state,
-                'requestInProgress': true,
-                'error': null,
-            };
         case ProgramActionType.Created:
             return programsAdapter.addOne(action.program, {
                 ...state,
@@ -50,11 +37,9 @@ export function programsReducer(state: ProgramsState = initialState, action: Pro
             return {
                 ...state,
                 'error': action.error,
-                'requestInProgress': false,
+                    'requestInProgress': false,
             };
         default:
             return state;
     }
 }
-
-

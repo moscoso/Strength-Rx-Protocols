@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Program } from 'src/app/core/state/program/program.state';
+import { Program } from 'src/app/core/state/program/program.model';
 
 @Component({
     'selector': 'app-edit-custom-program',

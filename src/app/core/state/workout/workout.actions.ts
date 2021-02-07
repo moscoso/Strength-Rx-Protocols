@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Workout } from './workouts.state';
+import { Workout } from './workout.model';
 
 export enum WorkoutActionType {
     AllRequested = '[Workouts Page] Workouts Requested',

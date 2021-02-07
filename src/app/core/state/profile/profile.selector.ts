@@ -2,19 +2,15 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { selectRouterState } from '../router/router.selectors';
 import { Dictionary } from '@ngrx/entity';
-import { profilesAdapter } from './profile.reducer';
-import { ProfilesState, Profile } from './profile.state';
+import { profilesAdapter, ProfilesState } from './profile.state';
 import * as fromAuth from '../auth/auth.selector';
-import { AuthState } from '../auth/auth.state';
 import * as fromRouter from '../router/router.selectors';
 import { CustomRouterReducerState } from '../router/router.state';
-
+import { Profile } from './profile.model';
+import { AuthModel } from '../auth/auth.model';
 
 /**
- * Gets the top-level state property named 'profiles' of the store tree.
- */
-/* Note: createFeatureSelector allows us to get a top-level feature state
- * property of the state tree simply by calling it out by its feature name.
+ * Selects the top-level state property 'profile' of the store tree.
  */
 export const selectState = createFeatureSelector < ProfilesState > ('profiles');
 export const {
@@ -26,14 +22,12 @@ export const {
 
 /**
  * Select a Profile by ID
- * @param profileID the ID of the profile
+ * @param profileID the unique identifier of the profile
  */
 export const selectProfileByID = (profileID: string) => createSelector(
     selectState,
     (state: ProfilesState) => state.entities[profileID]
 );
-
-
 
 /**
  * Select the authenticated user's profile
@@ -41,18 +35,18 @@ export const selectProfileByID = (profileID: string) => createSelector(
 export const selectUserProfile = createSelector(
     fromAuth.selectState,
     selectState,
-    (auth: AuthState, profiles: ProfilesState) => profiles.entities[auth.userID]
+    (auth: AuthModel, profiles: ProfilesState) => profiles.entities[auth.userID]
 );
 
 /**
- * Select whether or not the currently viewed profile (based by route URL)
+ * Select a boolean indicating whether or not the currently viewed profile (based by route URL)
  * belongs to the currently authorized user
  */
 export const selectProfileBelongsToUser = createSelector(
     fromAuth.selectState,
     fromRouter.selectRouterState,
     selectState,
-    (auth: AuthState, router: CustomRouterReducerState, profiles: ProfilesState) => {
+    (auth: AuthModel, router: CustomRouterReducerState, profiles: ProfilesState) => {
         const routeID = router.state.params.id;
         const userID = auth.userID;
         return userID === routeID || routeID == null;
@@ -98,7 +92,7 @@ export const selectProfileByRouteURL = createSelector(
 );
 
 /**
- * Select a boolean that represents a Request is in progress
+ * Select a flag that indicates a request is in progress
  */
 export const selectRequestInProgress = createSelector(
     selectState,

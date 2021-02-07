@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Workout, StandardExerciseRoutine } from 'src/app/core/state/workouts/workouts.state';
+import { Workout, StandardExerciseRoutine } from 'src/app/core/state/workout/workout.model';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { first, map, tap } from 'rxjs/operators';
 import { EditWorkoutPage } from '../edit-workout/edit-workout.page';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
+import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
-import { Program } from 'src/app/core/state/program/program.state';
+import { Program } from 'src/app/core/state/program/program.model';
 import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
-import { Client } from 'src/app/core/state/client/client.state';
+import { Client } from 'src/app/core/state/client/client.model';
 import { CustomRouterReducerState } from 'src/app/core/state/router/router.state';
 
 @Component({
@@ -36,11 +36,11 @@ export class WorkoutDetailPage implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.initWOrkout();
+        this.initWorkout();
         this.isTrainer$ = this.profileService.selectUserIsTrainer();
     }
 
-    async initWOrkout() {
+    async initWorkout() {
         const routerState = await this.routerService.selectState().pipe(first()).toPromise();
         const url = routerState.state.url;
         this.isMasterWorkout = url.indexOf('/workouts') === 0;
@@ -48,7 +48,6 @@ export class WorkoutDetailPage implements OnInit {
             this.workoutService.loadAll();
             this.workout$ = this.workoutService.selectWorkoutByRouteURL().pipe(first(workout => workout != null));
         } else {
-            console.log('yooo');
             this.findWorkoutInProgram();
         }
     }

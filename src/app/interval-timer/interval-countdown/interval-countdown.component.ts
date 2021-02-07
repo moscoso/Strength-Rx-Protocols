@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CountdownComponent } from 'ngx-countdown';
-import { IntervalExerciseRoutine } from 'src/app/core/state/workouts/workouts.state';
+import { IntervalExerciseRoutine } from 'src/app/core/state/workout/workout.model';
 import { YoutubePlayerComponent } from 'src/app/shared/youtube-player/youtube-player.component';
 
 @Component({

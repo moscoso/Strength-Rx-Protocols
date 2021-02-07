@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { EntityService } from '../entity/entity.service';
+import { EntityService } from '../entity/EntityService';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FirebaseModule } from '../firebase.module';
-import { Program, INIT_PROGRAM } from '../../state/program/program.state';
+import { Program, PROGRAM_INIT_MODEL } from '../../state/program/program.model';
 import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Injectable({'providedIn': FirebaseModule, })
@@ -11,6 +11,6 @@ export class ProgramService extends EntityService<Program> {
         public firestore: AngularFirestore,
         public functions: AngularFireFunctions,
     ) {
-        super(firestore, functions, 'programs', {'defaultEntity': INIT_PROGRAM, 'IDSource': 'name'});
+        super(firestore, functions, 'programs', {'defaultEntity': PROGRAM_INIT_MODEL, 'IDSource': 'name'});
     }
 }

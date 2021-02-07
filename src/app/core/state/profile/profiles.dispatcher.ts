@@ -4,25 +4,12 @@ import { AppState } from '../app.state';
 import { FireAuthService } from '../../firebase/auth/auth.service';
 import * as ProfileAction from './profile.actions';
 import { StateModule } from '../state.module';
-import {
-    selectProfileByID,
-    selectProfileByRouteURL,
-    selectRequestInProgress,
-    selectAll,
-    selectEntities,
-    selectTotal,
-    selectIds,
-    selectUserProfile,
-    selectUserIsTrainer,
-    selectAllClients,
-    selectAllTrainers,
-    selectProfileBelongsToUser
-} from './profile.selector';
+import * as fromProfile from './profile.selector';
 import { Observable } from 'rxjs';
 import { Dictionary } from '@ngrx/entity';
-import { Profile } from './profile.state';
 import { AllRequested, RefreshAllRequested, RefreshOneRequested } from './profile.actions';
 import { first } from 'rxjs/operators';
+import { Profile } from './profile.model';
 
 /**
  * This service is responsible for dispatching profile actions to the Store and selecting
@@ -72,38 +59,38 @@ export class ProfileStoreDispatcher {
     }
 
     public selectProfile(id: string): Observable < Profile > {
-        return this.store.select(selectProfileByID(id));
+        return this.store.select(fromProfile.selectProfileByID(id));
     }
 
     public selectProfileByRouteURL(): Observable < Profile > {
-        return this.store.select(selectProfileByRouteURL);
+        return this.store.select(fromProfile.selectProfileByRouteURL);
     }
 
     public selectRequestInProgress(): Observable < boolean > {
-        return this.store.select(selectRequestInProgress);
+        return this.store.select(fromProfile.selectRequestInProgress);
     }
 
     public selectAll(): Observable < Profile[] > {
-        return this.store.select(selectAll);
+        return this.store.select(fromProfile.selectAll);
     }
 
     public selectIDs(): Observable < string[] | number[] > {
-        return this.store.select(selectIds);
+        return this.store.select(fromProfile.selectIds);
     }
 
     public selectProfiles(): Observable < Dictionary < Profile >> {
-        return this.store.select(selectEntities);
+        return this.store.select(fromProfile.selectEntities);
     }
 
     public selectTotal(): Observable < number > {
-        return this.store.select(selectTotal);
+        return this.store.select(fromProfile.selectTotal);
     }
 
     /**
      * Select the authenticated user's profile
      */
     public selectUserAsProfile(): Observable < Profile > {
-        return this.store.select(selectUserProfile);
+        return this.store.select(fromProfile.selectUserProfile);
     }
 
     /**
@@ -121,22 +108,22 @@ export class ProfileStoreDispatcher {
      * authenticated user
      */
     public selectProfileBelongsToUser(): Observable < boolean > {
-        return this.store.select(selectProfileBelongsToUser);
+        return this.store.select(fromProfile.selectProfileBelongsToUser);
     }
 
     /**
      * Select a flag indicating whether the user is a trainer
      */
     public selectUserIsTrainer(): Observable < boolean > {
-        return this.store.select(selectUserIsTrainer);
+        return this.store.select(fromProfile.selectUserIsTrainer);
     }
 
     public selectAllClients(): Observable < Profile[] > {
-        return this.store.select(selectAllClients);
+        return this.store.select(fromProfile.selectAllClients);
     }
 
     public selectAllTrainers(): Observable < Profile[] > {
-        return this.store.select(selectAllTrainers);
+        return this.store.select(fromProfile.selectAllTrainers);
     }
 
     /**

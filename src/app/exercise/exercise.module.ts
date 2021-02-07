@@ -34,6 +34,7 @@ import { PipeModule } from '../pipes/pipe.module';
     'exports': [
         ExerciseFormComponent,
         ExercisePreviewComponent,
+        SharedModule,
     ]
 })
 export class ExerciseModule {}

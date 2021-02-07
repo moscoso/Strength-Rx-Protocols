@@ -2,14 +2,14 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
-import { Program } from 'src/app/core/state/program/program.state';
+import { Program } from 'src/app/core/state/program/program.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { filter } from 'rxjs/operators';
 import { ModalController } from '@ionic/angular';
 import { CreateCustomProgramComponent } from './create-custom-program/create-custom-program.component';
 import { SubscribeToProgramComponent } from './subscribe-to-program/subscribe-to-program.component';
 import { EditCustomProgramComponent } from './edit-custom-program/edit-custom-program.component';
-import { Client } from 'src/app/core/state/client/client.state';
+import { Client } from 'src/app/core/state/client/client.model';
 
 @Component({
     'selector': 'assign-program',

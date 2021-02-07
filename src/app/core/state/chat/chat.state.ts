@@ -1,39 +1,26 @@
-import { Timestamp } from 'src/util/timestamp/timestamp';
-import { EntityState } from '@ngrx/entity';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { Conversation, Message } from './chat.model';
 
-/**
- * Messages are represented by an EntityState that
- * includes a dictionary of messages and the
- * list of ids that corresponds to each messages
- */
 export interface ChatState extends EntityState < Message > {
     conversationList: Conversation[];
     requestInProgress: boolean;
     error: any | null;
 }
 
-export interface Conversation {
-    user1: string;
-    user2: string;
-    latest: Date;
-    lastReadByUser1: Date;
-    lastReadByUser2: Date;
-    preview: string;
-    userIDs: [];
-    name1: string;
-    name2: string;
-    error?: any;
+export const chatAdapter = createEntityAdapter < Message > ({
+    'selectId': message => message.id,
+    'sortComparer': sortByTimestamp,
+});
+
+export const CHAT_INIT_STATE: ChatState = chatAdapter.getInitialState({
+    'conversationList': [],
+    'requestInProgress': false,
+    'error': null,
+});
+
+
+
+export function sortByTimestamp(a: Message, b: Message): number {
+    const dateA = a.timestamp, dateB = b.timestamp;
+    return dateA.toLocaleTimeString().localeCompare(dateB.toLocaleTimeString());
 }
-
-export interface Message {
-    id: string | null;
-    conversationID: string;
-    // imageURL: string;
-    // profilePhoto: string;
-    senderID: string;
-    senderName: string;
-    text: string;
-    timestamp: Timestamp;
-}
-
-

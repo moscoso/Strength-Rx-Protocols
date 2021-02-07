@@ -2,19 +2,16 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { selectRouterState } from '../router/router.selectors';
 import { Dictionary } from '@ngrx/entity';
-import { clientsAdapter } from './client.reducer';
-import { ClientsState, Client } from './client.state';
+import { clientsAdapter, ClientsState,  } from './client.state';
 import * as fromAuth from '../auth/auth.selector';
-import { AuthState } from '../auth/auth.state';
 import * as fromRouter from '../router/router.selectors';
 import { CustomRouterReducerState } from '../router/router.state';
+import { AuthModel } from '../auth/auth.model';
+import { Client } from './client.model';
 
 
 /**
- * Gets the top-level state property named 'clients' of the store tree.
- */
-/* Note: createFeatureSelector allows us to get a top-level feature state
- * property of the state tree simply by calling it out by its feature name.
+ * Selects the top-level state property 'clients' of the store tree.
  */
 export const selectState = createFeatureSelector < ClientsState > ('clients');
 export const {
@@ -26,7 +23,7 @@ export const {
 
 /**
  * Select a Client by ID
- * @param clientID the ID of the client
+ * @param clientID the unique identifier of the client
  */
 export const selectClientByID = (clientID: string) => createSelector(
     selectState,
@@ -39,7 +36,7 @@ export const selectClientByID = (clientID: string) => createSelector(
 export const selectUserAsClient = createSelector(
     fromAuth.selectState,
     selectState,
-    (auth: AuthState, clients: ClientsState) => clients.entities[auth.userID]
+    (auth: AuthModel, clients: ClientsState) => clients.entities[auth.userID]
 );
 
 /**
@@ -49,10 +46,13 @@ export const selectClientBelongsToUser = createSelector(
     fromAuth.selectState,
     fromRouter.selectRouterState,
     selectState,
-    (auth: AuthState, router: CustomRouterReducerState, clients: ClientsState) => {
+    (auth: AuthModel, router: CustomRouterReducerState, clients: ClientsState) => {
         const routeID = router.state.params.id;
         const userID = auth.userID;
-        return userID === routeID || routeID == null;
+        const clientExists = clients[userID] != null;
+        const matchesID = routeID === userID;
+        const routeIDMissing = routeID == null;
+        return  clientExists && (matchesID || routeIDMissing);
     }
 );
 
@@ -86,7 +86,7 @@ export const selectClientByRouteURL = createSelector(
 );
 
 /**
- * Select a boolean that represents a Request is in progress
+ * Select a boolean that indicates a request is in progress
  */
 export const selectRequestInProgress = createSelector(
     selectState,

@@ -6,9 +6,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { ClientAction, ClientActionType } from './client.actions';
 import * as Clients from './client.actions';
 import { ClientService } from '../../firebase/client/client.service';
-import { Router } from '@angular/router';
 import { ToastService } from 'src/app/shared/toast/toast.service';
-import { ModalController } from '@ionic/angular';
 
 @Injectable()
 export class ClientEffects {

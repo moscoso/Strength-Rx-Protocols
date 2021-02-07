@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 
 @NgModule({
@@ -12,7 +11,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
         CommonModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
-        // AngularFirestoreModule.enablePersistence({'synchronizeTabs': true}),
+        // AngularFirestoreModule.enablePersistence({'synchronizeTabs': true}), // TODO: Enable Firestore cache
     ],
     'providers': []
 })
@@ -20,7 +19,7 @@ export class FirebaseModule {
     constructor() {
         const invalidStorageBucket = environment.firebase.storageBucket == null || environment.firebase.storageBucket === '';
         if(invalidStorageBucket) {
-            console.error(`No Storage Bucket defined in Firebase Options. Storage upload services will fail`)
+            console.error(`No storageBucket defined in environment Firebase config object. Storage upload services will fail`)
         }
     }
 }

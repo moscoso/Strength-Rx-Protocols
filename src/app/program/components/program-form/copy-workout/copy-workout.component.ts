@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { Client } from 'src/app/core/state/client/client.state';
+import { Client } from 'src/app/core/state/client/client.model';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
 import { ModalController } from '@ionic/angular';
 import { map } from 'rxjs/operators';
-import { Workout } from 'src/app/core/state/workouts/workouts.state';
+import { Workout } from 'src/app/core/state/workout/workout.model';
 
 @Component({
     'selector': 'app-copy-workout',

@@ -1,35 +1,7 @@
 import { ChatAction, ChatActionType } from './chat.actions';
-import { ChatState, Message } from './chat.state';
-import { createEntityAdapter } from '@ngrx/entity';
+import { chatAdapter, ChatState, CHAT_INIT_STATE } from './chat.state';
 
-export const chatAdapter = createEntityAdapter < Message > ({
-    'selectId': message => message.id,
-    'sortComparer': sortByTimestamp,
-});
-
-export function sortByTimestamp(a: Message, b: Message): number {
-    let dateA, dateB;
-    if (typeof a.timestamp.toDate === 'function') {
-        dateA = a.timestamp.toDate();
-    } else {
-        dateA = a.timestamp;
-    }
-    if (typeof b.timestamp.toDate === 'function') {
-        dateB = b.timestamp.toDate();
-    } else {
-        dateB = b.timestamp;
-    }
-    return dateA.toLocaleTimeString().localeCompare(dateB.toLocaleTimeString());
-}
-
-const INIT_STATE: ChatState = chatAdapter.getInitialState({
-    'conversationList': [],
-    'requestInProgress': false,
-    'error': null,
-});
-
-
-export function chatReducer(state: ChatState = INIT_STATE, action: ChatAction): ChatState {
+export function chatReducer(state: ChatState = CHAT_INIT_STATE, action: ChatAction): ChatState {
     switch (action.type) {
         case ChatActionType.ConversationListRequested:
         case ChatActionType.MessagesRequested:

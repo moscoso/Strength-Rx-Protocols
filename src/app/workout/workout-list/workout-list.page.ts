@@ -3,10 +3,10 @@ import { ModalController } from '@ionic/angular';
 import { Observable, of , Subject, combineLatest } from 'rxjs';
 import { startWith, first } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Workout } from 'src/app/core/state/workouts/workouts.state';
 import { CreateWorkoutPage } from '../create-workout/create-workout.page';
 import Fuse from 'fuse.js';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
+import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
+import { Workout } from 'src/app/core/state/workout/workout.model';
 
 @UntilDestroy()
 @Component({

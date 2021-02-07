@@ -1,15 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
-import { Profile } from 'src/app/core/state/profile/profile.state';
+import { Profile } from 'src/app/core/state/profile/profile.model';
 import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 
 @Component({
-    selector: 'join-form',
-    templateUrl: './join-form.component.html',
-    styleUrls: ['./join-form.component.scss'],
+    'selector': 'join-form',
+    'templateUrl': './join-form.component.html',
+    'styleUrls': ['./join-form.component.scss'],
 })
 export class JoinFormComponent implements OnInit {
 

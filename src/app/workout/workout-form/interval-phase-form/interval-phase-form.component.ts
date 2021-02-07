@@ -3,16 +3,16 @@ import { FormGroup, FormControl, Validators, FormArray, AbstractControl } from '
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
-import { Exercise } from 'src/app/core/state/exercises/exercises.state';
-import { Program } from 'src/app/core/state/program/program.state';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
+import { Exercise } from 'src/app/core/state/exercises/exercise.model';
+import { Program } from 'src/app/core/state/program/program.model';
+import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
 import {
     INIT_INTERVAL_SUPERSET,
     IntervalExerciseRoutine,
     IntervalPhase,
     IntervalSuperSet,
     Workout
-} from 'src/app/core/state/workouts/workouts.state';
+} from 'src/app/core/state/workout/workout.model';
 
 @Component({
     'selector': 'app-interval-phase-form',

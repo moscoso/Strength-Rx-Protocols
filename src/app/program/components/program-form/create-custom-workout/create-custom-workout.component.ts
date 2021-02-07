@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Workout } from 'src/app/core/state/workouts/workouts.state';
+import { Workout } from 'src/app/core/state/workout/workout.model';
 
 @Component({
     'selector': 'app-create-custom-workout',

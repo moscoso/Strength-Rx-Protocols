@@ -6,14 +6,15 @@ import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { AppState } from 'src/app/core/state/app.state';
 import { selectUserID } from 'src/app/core/state/auth/auth.selector';
-import { CreateRequested } from 'src/app/core/state/check-ins/check-in.actions';
-import { CheckIn } from 'src/app/core/state/check-ins/check-in.state';
+import { CreateRequested } from 'src/app/core/state/check-in/check-in.actions';
+import { CheckIn } from 'src/app/core/state/check-in/check-in.model';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { firstValidString } from 'src/util/operator/Operators';
 
 @Component({
-    selector: 'app-weekly-check-in',
-    templateUrl: './weekly-check-in.component.html',
-    styleUrls: ['./weekly-check-in.component.scss'],
+    'selector': 'app-weekly-check-in',
+    'templateUrl': './weekly-check-in.component.html',
+    'styleUrls': ['./weekly-check-in.component.scss'],
 })
 export class WeeklyCheckInComponent implements OnInit {
 
@@ -64,7 +65,7 @@ export class WeeklyCheckInComponent implements OnInit {
     }
 
     async onSubmit(form) {
-        const userID = await this.store.select(selectUserID).pipe(first(userID => userID != null && userID != '')).toPromise();
+        const userID = await this.store.select(selectUserID).pipe(firstValidString).toPromise();
         const checkIn: CheckIn = {
             ...form,
             userID,
@@ -76,8 +77,8 @@ export class WeeklyCheckInComponent implements OnInit {
     }
 
     generateRandomID() {
-        var randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
-        var randomID = randLetter + Date.now();
+        const randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        const randomID = randLetter + Date.now();
         return randomID;
     }
 

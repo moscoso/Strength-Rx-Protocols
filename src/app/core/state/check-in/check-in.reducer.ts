@@ -1,26 +1,7 @@
-import { createEntityAdapter } from '@ngrx/entity';
-import { CheckIn, CheckInsState } from './check-in.state';
+import { checkInsAdapter, CheckInsState, CHECK_INS_INIT_STATE } from './check-in.state';
 import { CheckInAction, CheckInActionType } from './check-in.actions';
 
-
-export const checkInsAdapter = createEntityAdapter < CheckIn > ({
-    'selectId': checkIn => checkIn.id,
-    'sortComparer': sortByTimestamp,
-});
-
-export function sortByTimestamp(a: CheckIn, b: CheckIn): number {
-    const aTimestamp = a.timestamp.toISOString();
-    const bTimestamp = b.timestamp.toISOString();
-    return aTimestamp.localeCompare(bTimestamp);
-}
-
-
-
-const initialState: CheckInsState = checkInsAdapter.getInitialState({
-    'requestInProgress': false,
-    'error': null,
-});
-export function checkInsReducer(state: CheckInsState = initialState, action: CheckInAction): CheckInsState {
+export function checkInsReducer(state: CheckInsState = CHECK_INS_INIT_STATE, action: CheckInAction): CheckInsState {
     switch (action.type) {
         case CheckInActionType.AllRequested:
         case CheckInActionType.CreateRequested:
@@ -55,7 +36,7 @@ export function checkInsReducer(state: CheckInsState = initialState, action: Che
             return {
                 ...state,
                 'error': action.error,
-                    'requestInProgress': false,
+                'requestInProgress': false,
             };
         default:
             return state;

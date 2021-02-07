@@ -1,18 +1,18 @@
 import { Action } from '@ngrx/store';
-import { Client } from './client.state';
-import { Profile } from '../profile/profile.state';
-import { Program } from '../program/program.state';
+import { Client } from './client.model';
+import { Profile } from '../profile/profile.model';
+import { Program } from '../program/program.model';
 
 export enum ClientActionType {
     AllRequested = '[Clients Page] All Clients Requested',
-        AllLoaded = '[Client Service] All Clients Loaded',
-        AssignTrainerRequested = '[Client Service] Assign Trainer to Client Requested',
-        TrainerAssigned = '[Assign Trainer Component] Assigned Trainer to Client',
-        AssignProgramRequested = '[Client Service] Assign Program to Client Requested',
-        ProgramAssigned = '[Assign Program Component] Assigned Program to Client',
-        ClearProgramRequested = '[Assign Program Component] Clear Program Requested',
-        ProgramCleared = '[Assign Program Component] Client Program Cleared',
-        RequestFailed = '[Client Service] Request Failed',
+    AllLoaded = '[Client Service] All Clients Loaded',
+    AssignTrainerRequested = '[Client Service] Assign Trainer to Client Requested',
+    TrainerAssigned = '[Assign Trainer Component] Assigned Trainer to Client',
+    AssignProgramRequested = '[Client Service] Assign Program to Client Requested',
+    ProgramAssigned = '[Assign Program Component] Assigned Program to Client',
+    ClearProgramRequested = '[Assign Program Component] Clear Program Requested',
+    ProgramCleared = '[Assign Program Component] Client Program Cleared',
+    RequestFailed = '[Client Service] Request Failed',
 }
 
 export class AllRequested implements Action {

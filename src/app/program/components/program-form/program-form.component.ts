@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output, } from '@angular/core';
-import { Program, ProgramPhase, INIT_PROGRAM_PHASE } from 'src/app/core/state/program/program.state';
+import { Program, ProgramPhase, PROGRAM_PHASE_INIT_MODEL } from 'src/app/core/state/program/program.model';
 import { FormGroup, FormControl, Validators, FormArray, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ToastService } from 'src/app/shared/toast/toast.service';
@@ -12,7 +12,6 @@ import { ModalController } from '@ionic/angular';
 import { SubscribeToWorkoutComponent } from './subscribe-to-workout/subscribe-to-workout.component';
 import { CopyWorkoutComponent } from './copy-workout/copy-workout.component';
 import { CreateCustomWorkoutComponent } from './create-custom-workout/create-custom-workout.component';
-import { Workout } from 'src/app/core/state/workouts/workouts.state';
 import { EditCustomWorkoutComponent } from './edit-custom-workout/edit-custom-workout.component';
 import { Delta } from 'src/util/delta/Delta';
 
@@ -83,7 +82,7 @@ export class ProgramFormComponent implements OnInit {
         }
     }
 
-    initPhaseFormControl(phase: ProgramPhase = INIT_PROGRAM_PHASE): FormGroup {
+    initPhaseFormControl(phase: ProgramPhase = PROGRAM_PHASE_INIT_MODEL): FormGroup {
         return new FormGroup({
             'lengthInWeeks': new FormControl(phase.lengthInWeeks, [Validators.required, Validators.min(1), Validators.max(52)]),
             'schedule': new FormGroup({
@@ -98,7 +97,7 @@ export class ProgramFormComponent implements OnInit {
         });
     }
 
-    addPhaseFormcontrol(phase: ProgramPhase = INIT_PROGRAM_PHASE): void {
+    addPhaseFormcontrol(phase: ProgramPhase = PROGRAM_PHASE_INIT_MODEL): void {
         const formGroup: FormGroup = this.initPhaseFormControl(phase);
         const length = this.phases.length;
         this.phases.insert(length, formGroup);

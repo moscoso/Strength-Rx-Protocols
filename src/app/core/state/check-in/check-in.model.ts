@@ -1,5 +1,3 @@
-import { EntityState } from '@ngrx/entity';
-
 /**
  * The main data model for a Check-In
  */
@@ -26,7 +24,7 @@ export interface CheckIn {
     'timestamp': Date;
 }
 
-export const INIT_CHECK_IN: CheckIn = {
+export const CHECK_IN_INIT_MODEL: CheckIn = {
     'id': null,
     'macros': '',
     'cardioProtocol': '',
@@ -48,13 +46,3 @@ export const INIT_CHECK_IN: CheckIn = {
     'userID': null,
     'timestamp': new Date (),
 };
-
-/**
- * Exercises are represented by an EntityState that
- * includes a dictionary of exercises and the
- * list of ids that corresponds to each exercise
- */
-export interface CheckInsState extends EntityState < CheckIn > {
-    requestInProgress: boolean;
-    error: any | null;
-}

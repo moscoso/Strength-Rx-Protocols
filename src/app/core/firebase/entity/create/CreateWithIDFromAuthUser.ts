@@ -1,14 +1,11 @@
-import { CreateMechanism } from './CreateMechanism';
+import { CreateStrategy } from './CreateStrategy';
 import { AngularFireFunctions } from '@angular/fire/functions';
 
 /**
- * This creation mechanism creates an ID based on the ID of the authorized user
+ * This strategy creates an ID based on the unique identifier of the authorized user
  */
-export class CreateIDFromAuthUser < T > implements CreateMechanism < T > {
+export class CreateIDFromAuthUser < T > implements CreateStrategy < T > {
 
-    /**
-     * Constructs a creation mechanism that creates an ID based on the ID of the authorized user
-     */
     constructor(
         protected functions: AngularFireFunctions,
         protected collectionName: string,
@@ -22,7 +19,7 @@ export class CreateIDFromAuthUser < T > implements CreateMechanism < T > {
 
     /**
      * Create a new Firestore document for the entity.
-     * The ID of the entity will be a slug of the entity name.
+     * @note the unique identifier of the entity will correspond with the unique identifier of the authorized user.
      * @param entity the entity being created
      */
     async create(entity: any): Promise < T > {

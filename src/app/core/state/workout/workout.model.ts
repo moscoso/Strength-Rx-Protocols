@@ -1,8 +1,7 @@
-import { EntityState } from '@ngrx/entity';
-import { Exercise } from '../exercises/exercises.state';
+import { Exercise } from '../exercises/exercise.model';
 
 /**
- * The main data model for an Workout
+ * The main data model specifying an Workout
  */
 export interface Workout {
     /**
@@ -80,7 +79,7 @@ export interface StandardExerciseRoutine {
      */
     '%1rm' ?: string;
     /**
-     * RPE = 'Rated Perceived Exertion' 
+     * RPE = 'Rated Perceived Exertion'
      * Perceived Exertion is a measurement from 1-10 that describes
      * how hard one feels like one's body is working.
      * It is based on the physical sensations a person
@@ -102,7 +101,7 @@ export interface StandardExerciseRoutine {
      * How long to rest after all the sets of the exercise are completed.
      * Note: `A null would specify no rest period`
      */
-    restAfterExercise : number | null;
+    restAfterExercise: number | null;
 }
 
 /**
@@ -148,7 +147,7 @@ export interface IntervalExerciseRoutine {
     duration: number;
 }
 
-export const INIT_WORKOUT: Workout = {
+export const WORKOUT_INIT_MODEL: Workout = {
     'id': '',
     'name': '',
     'description': '',
@@ -178,16 +177,6 @@ export const INIT_INTERVAL_SUPERSET: IntervalSuperSet = {
     'exerciseRoutines': [],
     'sets': 1,
 };
-
-/**
- * Workouts are represented by an EntityState that
- * includes a dictionary of workouts and the
- * list of ids that corresponds to each workouts
- */
-export interface WorkoutsState extends EntityState < Workout > {
-    requestInProgress: boolean;
-    error: any | null;
-}
 
 /**
  * A unique identifier for a workout

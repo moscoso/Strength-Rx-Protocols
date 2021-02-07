@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Profile } from 'src/app/core/state/profile/profile.state';
+import { Profile } from 'src/app/core/state/profile/profile.model';
 import { Observable, of } from 'rxjs';
 import { take, first } from 'rxjs/operators';
 import { ModalController } from '@ionic/angular';
@@ -10,7 +10,7 @@ import { ChatStoreDispatcher } from 'src/app/core/state/chat/chat.dispatcher';
 import { SetAvatarComponent } from '../set-avatar/set-avatar.component';
 import * as dayjs from 'dayjs';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
-import { Client } from 'src/app/core/state/client/client.state';
+import { Client } from 'src/app/core/state/client/client.model';
 @Component({
     'selector': 'app-view-profile',
     'templateUrl': './view-profile.page.html',

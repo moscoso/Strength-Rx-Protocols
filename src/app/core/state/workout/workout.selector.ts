@@ -1,18 +1,16 @@
 
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { workoutsAdapter } from './workouts.reducer';
 import { Dictionary } from '@ngrx/entity';
 import { RouterReducerState } from '@ngrx/router-store';
-import { WorkoutsState, Workout } from './workouts.state';
+import { workoutsAdapter, WorkoutState } from './workout.state';
 import { selectRouterState } from '../router/router.selectors';
+import { Workout } from './workout.model';
+
 
 /**
- * Gets the top-level state property named 'workouts' of the store tree.
+ * Selects the top-level state property 'workouts' of the store tree.
  */
-/* Note: createFeatureSelector allows us to get a top-level feature state
- * property of the state tree simply by calling it out by its feature name.
- */
-export const selectState = createFeatureSelector < WorkoutsState > ('workouts');
+export const selectState = createFeatureSelector < WorkoutState > ('workouts');
 export const {
     selectIds,
     selectEntities,
@@ -22,11 +20,11 @@ export const {
 
 /**
  * Select an Workout by ID
- * @param workoutID the ID of the workout
+ * @param workoutID the unique identifier of the workout
  */
 export const selectWorkoutByID = (workoutID: string) => createSelector(
     selectState,
-    (state: WorkoutsState) => state.entities[workoutID]
+    (state: WorkoutState) => state.entities[workoutID]
 );
 
 /**
@@ -42,9 +40,9 @@ export const selectWorkoutByRouteURL = createSelector(
 
 
 /**
- * Select a boolean that represents a Request is in progress
+ * Select a boolean that indicates a request is in progress
  */
 export const selectRequestInProgress = createSelector(
     selectState,
-    (state: WorkoutsState) => state.requestInProgress
+    (state: WorkoutState) => state.requestInProgress
 );

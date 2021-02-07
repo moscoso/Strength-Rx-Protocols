@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { setServers } from 'dns';
 import { first } from 'rxjs/operators';
+import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
+import { IntervalExerciseRoutine, IntervalPhase } from 'src/app/core/state/workout/workout.model';
+import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
 import { ExerciseStoreDispatcher } from '../../core/state/exercises/exercises.dispatcher';
-import { Exercise } from '../../core/state/exercises/exercises.state';
-import { IntervalExerciseRoutine, IntervalPhase } from '../../core/state/workouts/workouts.state';
+
 import { IntervalCountdownComponent } from '../interval-countdown/interval-countdown.component';
 
 @Component({

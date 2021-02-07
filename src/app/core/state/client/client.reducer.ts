@@ -1,20 +1,11 @@
-import { createEntityAdapter } from '@ngrx/entity';
-import { Client, ClientsState } from './client.state';
+import { clientsAdapter, ClientsState, CLIENTS_INIT_STATE } from './client.state';
 import { ClientAction, ClientActionType } from './client.actions';
 
-
-export const clientsAdapter = createEntityAdapter < Client > ({
-    'selectId': client => client.id,
-    'sortComparer': (clientA, clientB) => clientA.lastName.localeCompare(clientB.lastName)
-});
-const initialState: ClientsState = clientsAdapter.getInitialState({
-    'requestInProgress': false,
-    'error': null,
-    'initialized': false,
-});
-export function clientsReducer(state: ClientsState = initialState, action: ClientAction): ClientsState {
+export function clientsReducer(state: ClientsState = CLIENTS_INIT_STATE, action: ClientAction): ClientsState {
     switch (action.type) {
         case ClientActionType.AllRequested:
+        case ClientActionType.AssignProgramRequested:
+        case ClientActionType.AssignTrainerRequested:
             return {
                 ...state,
                 'requestInProgress': true,
@@ -26,13 +17,6 @@ export function clientsReducer(state: ClientsState = initialState, action: Clien
                 'requestInProgress': false,
                 'initialized': true,
             });
-        case ClientActionType.AssignProgramRequested:
-        case ClientActionType.AssignTrainerRequested:
-            return {
-                ...state,
-                'requestInProgress': true,
-                'error': null,
-            };
         case ClientActionType.ProgramAssigned:
             return clientsAdapter.updateOne({ 'id': action.id, 'changes': { 'assignedProgram': action.program } }, {
                 ...state,
@@ -52,7 +36,7 @@ export function clientsReducer(state: ClientsState = initialState, action: Clien
             return {
                 ...state,
                 'error': action.error,
-                    'requestInProgress': false,
+                'requestInProgress': false,
             };
         default:
             return state;

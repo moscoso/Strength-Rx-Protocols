@@ -3,8 +3,8 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, from } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { ExerciseAction, ExerciseActionType} from './exercises.actions';
-import * as Exercises from './exercises.actions';
+import { ExerciseAction, ExerciseActionType} from './exercise.actions';
+import * as Exercises from './exercise.actions';
 import { ExerciseService } from '../../firebase/exercise/exercise.service';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { ModalController } from '@ionic/angular';

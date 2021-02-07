@@ -7,26 +7,31 @@ import { IonicModule } from '@ionic/angular';
 import { MenuListComponent } from './menu-list/menu-list.component';
 import { RouterModule } from '@angular/router';
 import { ImageComparisonModule } from './image-comparison/image-comparison.module';
+import { EntityListRefresherComponent } from './entity-list-refresher/entity-list-refresher.component';
+
 
 @NgModule({
     'imports': [
         IonicModule,
         RouterModule,
         CommonModule,
-        YouTubePlayerModule,
         ImageComparisonModule,
+        YouTubePlayerModule,
     ],
     'declarations': [
-        YoutubePlayerComponent,
         DismissModalButtonComponent,
+        EntityListRefresherComponent,
         MenuListComponent,
+        YoutubePlayerComponent,
+
     ],
     'exports': [
+        DismissModalButtonComponent,
+        EntityListRefresherComponent,
+        ImageComparisonModule,
+        MenuListComponent,
         YouTubePlayerModule,
         YoutubePlayerComponent,
-        DismissModalButtonComponent,
-        MenuListComponent,
-        ImageComparisonModule
     ]
 })
 export class SharedModule {}

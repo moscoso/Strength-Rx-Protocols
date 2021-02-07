@@ -1,22 +1,17 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { AuthState } from './auth.state';
-
-
- /* Note: createFeatureSelector allows us to get a top-level feature state
- * property of the state tree simply by calling it out by its feature name.
- */
+import { AuthModel } from './auth.model';
 
 /**
- * Gets the top-level state property named 'exercises' of the store tree.
+ * Selects the top-level state property 'auth' of the store tree.
  */
-export const selectState = createFeatureSelector < AuthState > ('auth');
+export const selectState = createFeatureSelector < AuthModel > ('auth');
 
 /**
  * Select the user ID
  */
 export const selectUserID = createSelector(
     selectState,
-    (state: AuthState) => state.userID
+    (state: AuthModel) => state.userID
 );
 
 /**
@@ -24,7 +19,7 @@ export const selectUserID = createSelector(
  */
 export const selectUserData = createSelector(
     selectState,
-    (state: AuthState) => state.userData
+    (state: AuthModel) => state.userData
 );
 
 /**
@@ -32,5 +27,5 @@ export const selectUserData = createSelector(
  */
 export const selectAuthenticated = createSelector(
     selectState,
-    (state: AuthState) => state.isAuthenticated
+    (state: AuthModel) => state.isAuthenticated
 );

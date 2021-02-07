@@ -70,7 +70,7 @@ export class CheckInEffects {
     @Effect({ 'dispatch': false }) formCompleted$: Observable < CheckInAction > = this.actions$.pipe(
         ofType < CheckInAction > (CheckInActionType.Created, CheckInActionType.Updated),
         tap((action: CheckIns.CreateRequested) => {
-            this.toaster.success('Thanks for checking in!')
+            this.toaster.success('Thanks for checking in!');
         })
     );
 

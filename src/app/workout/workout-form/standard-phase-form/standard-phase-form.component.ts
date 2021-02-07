@@ -3,15 +3,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
-import { Exercise } from 'src/app/core/state/exercises/exercises.state';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
-import {
-    INIT_STANDARD_EXERCISE_ROUTINE,
-    StandardExerciseRoutine,
-    StandardPhase,
-    Workout
-} from 'src/app/core/state/workouts/workouts.state';
+import { INIT_STANDARD_EXERCISE_ROUTINE, StandardExerciseRoutine, StandardPhase, Workout } from 'src/app/core/state/workout/workout.model';
+import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
+
 
 @Component({
     'selector': 'app-standard-phase-form',
@@ -106,7 +102,7 @@ export class StandardPhaseFormComponent implements OnInit {
             'sets': new FormControl(routine.sets),
             'reps': new FormControl(routine.reps),
             '%1rm': new FormControl(routine['%1rm']),
-            'rpe': new FormControl(routine['rpe']),
+            'rpe': new FormControl(routine.rpe),
             'tempo': new FormControl(routine.tempo),
             'rest': new FormControl(routine.rest),
             'restAfterExercise': new FormControl(routine.restAfterExercise),

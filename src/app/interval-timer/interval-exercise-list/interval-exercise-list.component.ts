@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IntervalExerciseRoutine, IntervalPhase } from 'src/app/core/state/workouts/workouts.state';
+import { IntervalExerciseRoutine, IntervalPhase } from 'src/app/core/state/workout/workout.model';
 
 @Component({
     'selector': 'app-interval-exercise-list',

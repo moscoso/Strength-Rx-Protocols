@@ -1,22 +1,8 @@
-import { createEntityAdapter } from '@ngrx/entity';
-import { ExerciseAction, ExerciseActionType } from './exercises.actions';
-import { ExercisesState, Exercise } from './exercises.state';
-
-export const exerciseAdapter = createEntityAdapter < Exercise > ({
-    'selectId': exercise => exercise.id,
-    'sortComparer': sortByName,
-});
-
-export function sortByName(a: Exercise, b: Exercise): number {
-    return a.name.localeCompare(b.name);
-}
+import { ExerciseAction, ExerciseActionType } from './exercise.actions';
+import { exerciseAdapter, ExercisesState, EXERCISES_INIT_STATE } from './exercise.state';
 
 
-const initialState: ExercisesState = exerciseAdapter.getInitialState({
-    'requestInProgress': false,
-    'error': null,
-});
-export function exercisesReducer(state: ExercisesState = initialState, action: ExerciseAction): ExercisesState {
+export function exercisesReducer(state: ExercisesState = EXERCISES_INIT_STATE, action: ExerciseAction): ExercisesState {
     switch (action.type) {
         case ExerciseActionType.AllRequested:
         case ExerciseActionType.CreateRequested:

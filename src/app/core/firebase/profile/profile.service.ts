@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FirebaseModule } from '../firebase.module';
-import { EntityService } from '../entity/entity.service';
+import { EntityService } from '../entity/EntityService';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Profile, INIT_PROFILE } from '../../state/profile/profile.state';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { PROFILE_INIT_MODEL, Profile } from '../../state/profile/profile.model';
 
 @Injectable({ 'providedIn': FirebaseModule, })
 export class ProfileService extends EntityService < Profile > {
@@ -11,6 +11,6 @@ export class ProfileService extends EntityService < Profile > {
         public firestore: AngularFirestore,
         public functions: AngularFireFunctions,
     ) {
-        super(firestore, functions, 'profiles', {'defaultEntity': INIT_PROFILE, 'IDSource': 'authorizedUser'});
+        super(firestore, functions, 'profiles', {'defaultEntity': PROFILE_INIT_MODEL, 'IDSource': 'authorizedUser'});
     }
 }

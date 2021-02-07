@@ -1,24 +1,13 @@
-import {
-    Component,
-    OnInit,
-    Input,
-    Output,
-    EventEmitter,
-    ViewChild,
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, } from '@angular/core';
 import { FormControl, Validators, FormGroup, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
-import {
-    Workout,
-    StandardExerciseRoutine,
-    IntervalExerciseRoutine
-} from 'src/app/core/state/workouts/workouts.state';
+import { Workout } from 'src/app/core/state/workout/workout.model';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
 import { first } from 'rxjs/operators';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workouts/workouts.dispatcher';
+import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
 import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
 import { StandardPhaseFormComponent } from './standard-phase-form/standard-phase-form.component';
 import { IntervalPhaseFormComponent } from './interval-phase-form/interval-phase-form.component';

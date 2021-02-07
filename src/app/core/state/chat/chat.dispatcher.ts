@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
 import { MessagesRequested, SendMessageRequested } from './chat.actions';
-import { Message } from './chat.state';
+import { Message } from './chat.model';
 import { ProfileStoreDispatcher } from '../profile/profiles.dispatcher';
 import { first } from 'rxjs/operators';
 import { ChatService } from '../../firebase/chat/chat.service';
-import * as firebase from 'firebase/app';
-import 'firebase/firestore';
 import { StateModule } from '../state.module';
 import { selectAll } from './chat.selector';
 import { Observable } from 'rxjs';
@@ -52,7 +50,7 @@ export class ChatStoreDispatcher {
             'senderID': profile.id,
             'senderName': `${profile.firstName} ${profile.lastName}`,
             text,
-            'timestamp': firebase.firestore.Timestamp.now()
+            'timestamp': new Date()
         };
         this.store.dispatch(new SendMessageRequested(message));
     }

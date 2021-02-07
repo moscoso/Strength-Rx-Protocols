@@ -1,10 +1,10 @@
 
-import { ExercisesState, Exercise } from './exercises.state';
+import { exerciseAdapter, ExercisesState } from './exercise.state';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { exerciseAdapter } from './exercises.reducer';
 import { Dictionary } from '@ngrx/entity';
 import { selectParams } from '../router/router.selectors';
 import { Params } from '@angular/router';
+import { Exercise } from './exercise.model';
 
 /**
  * Gets the top-level state property named 'exercises' of the store tree.
@@ -19,7 +19,7 @@ export const {
 
 /**
  * Select an Exercise by ID
- * @param exerciseID the ID of the exercise
+ * @param exerciseID the unique identifier of the exercise
  */
 export const selectExerciseByID = (exerciseID: string) => createSelector(
     selectState,
@@ -40,7 +40,7 @@ export const selectExerciseByRouteURL = createSelector(
 );
 
 /**
- * Select a boolean that represents a Request is in progress
+ * Select a boolean that indicates a request is in progress
  */
 export const selectRequestInProgress = createSelector(
     selectState,

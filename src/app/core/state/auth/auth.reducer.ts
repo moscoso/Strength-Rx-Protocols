@@ -1,9 +1,9 @@
 import { AuthAction, AuthActionType } from './auth.actions';
-import { AuthState, AUTH_INIT_STATE } from './auth.state';
+import { AuthModel, AUTH_INIT_MODEL } from './auth.model';
 
-export function authReducer(state = AUTH_INIT_STATE, action: AuthAction): AuthState {
+export function authReducer(state = AUTH_INIT_MODEL, action: AuthAction): AuthModel {
     switch (action.type) {
-        case AuthActionType.LoginCompleted: 
+        case AuthActionType.LoginCompleted:
         case AuthActionType.LoginAsNewAccountCompleted:
         {
             return { ...state, 'error': null, 'isInProgress': false };

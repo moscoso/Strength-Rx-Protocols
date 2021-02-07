@@ -1,18 +1,7 @@
-import { createEntityAdapter } from '@ngrx/entity';
-import { Profile, ProfilesState } from './profile.state';
+import { profilesAdapter, ProfilesState, PROFILES_INIT_STATE } from './profile.state';
 import { ProfileAction, ProfileActionType } from './profile.actions';
 
-
-export const profilesAdapter = createEntityAdapter < Profile > ({
-    'selectId': profile => profile.id,
-    'sortComparer': (profileA, profileB) => profileA.lastName.localeCompare(profileB.lastName)
-});
-const initialState: ProfilesState = profilesAdapter.getInitialState({
-    'requestInProgress': false,
-    'error': null,
-    'initialized': false,
-});
-export function profilesReducer(state: ProfilesState = initialState, action: ProfileAction): ProfilesState {
+export function profilesReducer(state: ProfilesState = PROFILES_INIT_STATE, action: ProfileAction): ProfilesState {
     switch (action.type) {
         case ProfileActionType.AllRequested:
         case ProfileActionType.CreateRequested:

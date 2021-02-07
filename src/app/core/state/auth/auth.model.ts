@@ -1,8 +1,8 @@
 import { UserInfo } from 'firebase';
 
-export interface AuthState {
+export interface AuthModel {
     /**
-     * The ID that uniquely identifies the user
+     * The ID that uniquely identifies the authenticated user
      */
     userID: string | null;
     /**
@@ -27,7 +27,7 @@ export interface AuthState {
     error ?: any;
 }
 
-export const AUTH_INIT_STATE: AuthState = {
+export const AUTH_INIT_MODEL: AuthModel = {
     'userID': null,
     'userData': null,
     'isAuthenticated': false,
@@ -49,7 +49,7 @@ export interface UserData extends UserInfo {
     photoURL: string | null;
     providerId: string;
     /**
-     * The user's unique ID.
+     * The user's unique identifier.
      */
     uid: string;
 }

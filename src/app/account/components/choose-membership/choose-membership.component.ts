@@ -43,7 +43,7 @@ export class ChooseMembershipComponent implements OnInit {
         this.chosenPlanID = this.plans[type][this.planLength].priceID;
         this.membershipChosen.emit({
             'planType': type,
-            'planLength': this.planLength 
+            'planLength': this.planLength
         });
     }
 
