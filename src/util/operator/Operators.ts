@@ -29,3 +29,11 @@ export const firstNonNull: OperatorFunction<any, any> = first(nonNull);
 export function whenRequestCompletes(observable: Observable<boolean> ): Promise<boolean> {
     return observable.pipe(firstRequestComplete).toPromise();
 }
+
+/**
+ * Converts an observable to a promise that delivers once a non null value is emitted
+ * @param observable a stream of data that may emit multiple values
+ */
+export function whenNonNull<T>(observable: Observable<T> ): Promise<T> {
+    return observable.pipe<T>(firstNonNull).toPromise();
+}

@@ -6,7 +6,7 @@ import { ModalController } from '@ionic/angular';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
-import { ChatStoreDispatcher } from 'src/app/core/state/chat/chat.dispatcher';
+import { ChatFacade } from 'src/app/core/state/chat/chat.facade';
 import { SetAvatarComponent } from '../set-avatar/set-avatar.component';
 import * as dayjs from 'dayjs';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
@@ -32,7 +32,7 @@ export class ViewProfilePage implements OnInit {
         public profileService: ProfileFacade,
         public routerService: RouterStoreDispatcher,
         public modalController: ModalController,
-        public chatService: ChatStoreDispatcher,
+        public chatService: ChatFacade,
     ) {}
 
     ngOnInit() {

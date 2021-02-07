@@ -14,11 +14,11 @@ import { getOtherIDFromConversationID } from 'src/util/chat/ConversationHelpers'
 
 
 /**
- * This service is responsible for dispatching Chat actions to the Store and selecting
- * chat data from the Store
+ * This service is responsible for dispatching actions to the Store
+ * and selecting data from the Store related to Chat
  */
 @Injectable({ 'providedIn': StateModule })
-export class ChatStoreDispatcher {
+export class ChatFacade {
     constructor(
         private store: Store < AppState > ,
         private profileService: ProfileFacade,

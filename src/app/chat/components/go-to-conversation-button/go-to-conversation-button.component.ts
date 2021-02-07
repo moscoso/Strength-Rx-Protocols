@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
-import { ChatStoreDispatcher } from 'src/app/core/state/chat/chat.dispatcher';
-import { first } from 'rxjs/operators';
+import { ChatFacade } from 'src/app/core/state/chat/chat.facade';
+import { whenNonNull } from 'src/util/operator/Operators';
 
 @Component({
     'selector': 'go-to-chat-button',
@@ -16,7 +16,7 @@ export class GoToConversationButtonComponent implements OnInit {
 
     constructor(
         private profileService: ProfileFacade,
-        private chatService: ChatStoreDispatcher,
+        private chatService: ChatFacade,
     ) {}
 
     ngOnInit() {
@@ -26,7 +26,7 @@ export class GoToConversationButtonComponent implements OnInit {
     async setConversationLink() {
         const errorMessage = `GoToConversationButtonComponent expected ${this.userID}`;
         if (!this.userID) { throw new Error(errorMessage); }
-        const myProfile = await this.profileService.selectUserAsProfile().pipe(first(profile => profile != null)).toPromise();
+        const myProfile = await whenNonNull(this.profileService.selectUserAsProfile());
         const conversationID = this.chatService.calculateConversationID(this.userID, myProfile.id);
         this.conversationLink = `/chat/${conversationID}`;
     }
