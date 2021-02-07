@@ -7,7 +7,7 @@ import { transformToSlug } from 'src/util/slug/transformToSlug';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
 import { first } from 'rxjs/operators';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
+import { WorkoutFacade } from 'src/app/core/state/workout/workouts.facade';
 import { ExerciseFacade } from 'src/app/core/state/exercises/exercises.facade';
 import { StandardPhaseFormComponent } from './standard-phase-form/standard-phase-form.component';
 import { IntervalPhaseFormComponent } from './interval-phase-form/interval-phase-form.component';
@@ -47,7 +47,7 @@ export class WorkoutFormComponent implements OnInit {
     intervalPhaseEnabled = false;
 
     constructor(
-        public workoutService: WorkoutStoreDispatcher,
+        public workoutService: WorkoutFacade,
         public exerciseService: ExerciseFacade,
         public toastService: ToastService,
         public firestore: AngularFirestore,

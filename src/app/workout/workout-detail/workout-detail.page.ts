@@ -4,7 +4,7 @@ import { Workout, StandardExerciseRoutine } from 'src/app/core/state/workout/wor
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { first, map, tap } from 'rxjs/operators';
 import { EditWorkoutPage } from '../edit-workout/edit-workout.page';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
+import { WorkoutFacade } from 'src/app/core/state/workout/workouts.facade';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { Program } from 'src/app/core/state/program/program.model';
@@ -27,7 +27,7 @@ export class WorkoutDetailPage implements OnInit {
 
     constructor(
         public profileService: ProfileFacade,
-        public workoutService: WorkoutStoreDispatcher,
+        public workoutService: WorkoutFacade,
         public programService: ProgramFacade,
         public clientService: ClientFacade,
         public modalCtrl: ModalController,

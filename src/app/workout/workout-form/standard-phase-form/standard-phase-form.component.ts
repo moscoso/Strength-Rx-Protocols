@@ -6,7 +6,7 @@ import { first } from 'rxjs/operators';
 import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 import { ExerciseFacade } from 'src/app/core/state/exercises/exercises.facade';
 import { INIT_STANDARD_EXERCISE_ROUTINE, StandardExerciseRoutine, StandardPhase, Workout } from 'src/app/core/state/workout/workout.model';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
+import { WorkoutFacade } from 'src/app/core/state/workout/workouts.facade';
 
 
 @Component({
@@ -30,7 +30,7 @@ export class StandardPhaseFormComponent implements OnInit {
     orderedList: Exercise[] = [];
 
     constructor(
-        public workoutService: WorkoutStoreDispatcher,
+        public workoutService: WorkoutFacade,
         public exerciseService: ExerciseFacade,
     ) {}
 

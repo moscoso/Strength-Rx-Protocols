@@ -3,7 +3,7 @@ import { first } from 'rxjs/operators';
 import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { IntervalExerciseRoutine, IntervalPhase } from 'src/app/core/state/workout/workout.model';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
+import { WorkoutFacade } from 'src/app/core/state/workout/workouts.facade';
 import { ExerciseFacade } from '../../core/state/exercises/exercises.facade';
 
 import { IntervalCountdownComponent } from '../interval-countdown/interval-countdown.component';
@@ -23,7 +23,7 @@ export class IntervalTimerPage implements OnInit, AfterViewInit {
 
     constructor(
         public exerciseService: ExerciseFacade,
-        public workoutService: WorkoutStoreDispatcher,
+        public workoutService: WorkoutFacade,
         public routerService: RouterStoreDispatcher,
     ) {}
 

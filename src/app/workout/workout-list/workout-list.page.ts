@@ -5,7 +5,7 @@ import { startWith, first } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { CreateWorkoutPage } from '../create-workout/create-workout.page';
 import Fuse from 'fuse.js';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
+import { WorkoutFacade } from 'src/app/core/state/workout/workouts.facade';
 import { Workout } from 'src/app/core/state/workout/workout.model';
 
 @UntilDestroy()
@@ -24,7 +24,7 @@ export class WorkoutListPage implements OnInit {
 
     constructor(
         public modalController: ModalController,
-        public workoutService: WorkoutStoreDispatcher,
+        public workoutService: WorkoutFacade,
         public changeDetector: ChangeDetectorRef
     ) {}
 

@@ -5,7 +5,7 @@ import { first } from 'rxjs/operators';
 import { ExerciseFacade } from 'src/app/core/state/exercises/exercises.facade';
 import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 import { Program } from 'src/app/core/state/program/program.model';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
+import { WorkoutFacade } from 'src/app/core/state/workout/workouts.facade';
 import {
     INIT_INTERVAL_SUPERSET,
     IntervalExerciseRoutine,
@@ -33,7 +33,7 @@ export class IntervalPhaseFormComponent implements OnInit {
     defaultValue: Program;
 
     constructor(
-        public workoutService: WorkoutStoreDispatcher,
+        public workoutService: WorkoutFacade,
         public exerciseService: ExerciseFacade,
     ) {}
 

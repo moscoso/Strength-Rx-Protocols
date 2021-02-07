@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
+import { WorkoutFacade } from 'src/app/core/state/workout/workouts.facade';
 
 @Component({
     'selector': 'app-create-workout',
@@ -9,7 +9,7 @@ import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.disp
 export class CreateWorkoutPage implements OnInit {
 
     constructor(
-        public workoutService: WorkoutStoreDispatcher
+        public workoutService: WorkoutFacade
     ) {}
 
     ngOnInit() {}

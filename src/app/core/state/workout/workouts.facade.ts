@@ -11,11 +11,11 @@ import { Dictionary } from '@ngrx/entity';
 import { Workout } from './workout.model';
 
 /**
- * This service is responsible for dispatching workout actions to the Store and selecting
- * auth data from the Store
+ * This service is responsible for dispatching actions to the Store
+ * and selecting data from the Store related to Program
  */
 @Injectable({ 'providedIn': StateModule })
-export class WorkoutStoreDispatcher {
+export class WorkoutFacade {
     constructor(
         protected store: Store < AppState > ,
         protected fireAuth: FireAuthService
