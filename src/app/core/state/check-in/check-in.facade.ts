@@ -14,7 +14,7 @@ import * as fromCheckIn from './check-in.selector';
  * auth data from the Store
  */
 @Injectable({ 'providedIn': StateModule })
-export class CheckInStoreDispatcher {
+export class CheckInFacade {
     constructor(
         protected store: Store < AppState > ,
     ) {}
