@@ -24,10 +24,8 @@
 
     <ion-searchbar (ionChange)='search($event)' autocorrect="off" [hidden]="(exercises$ | async).length <= 1">
     </ion-searchbar>
-
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
+ 
+    <entity-list-refresher></entity-list-refresher>
 
     <ion-grid *ngIf="(exercises$ | async).length > 0 || (requestInProgress$ | async); else noExercises;">
         <ion-row [hidden]="loading">

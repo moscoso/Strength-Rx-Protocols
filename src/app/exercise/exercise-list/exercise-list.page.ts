@@ -40,9 +40,7 @@ export class ExerciseListPage implements OnInit {
     async initExerciseList() {
         this.exerciseService.loadAll();
         this.requestInProgress$ = this.exerciseService.selectRequestInProgress();
-        this.exerciseService.selectRequestInProgress().pipe(
-            first(requestInProgress => requestInProgress === false),
-        ).toPromise().then(() => { this.loading = false; });
+        this.exerciseService.whenRequestCompletes().then(() => { this.loading = false; });
         this.exercises$ = this.exerciseService.selectAll();
         this.exercises$.pipe(untilDestroyed(this)).subscribe();
         combineLatest([this.exercises$, this.searchTerm$.pipe(startWith(''))]).subscribe(
@@ -50,12 +48,6 @@ export class ExerciseListPage implements OnInit {
         );
         this.filteredExerciseList = await this.exercises$.pipe(first(exercises => exercises.length > 0))
             .toPromise();
-    }
-
-    doRefresh(event): void {
-        this.exerciseService.selectRequestInProgress().pipe(
-            first(requestInProgress => requestInProgress === false),
-        ).toPromise().then(() => { event.target.complete(); });
     }
 
     refresh(): void {
