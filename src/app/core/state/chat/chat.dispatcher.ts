@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
 import { MessagesRequested, SendMessageRequested } from './chat.actions';
 import { Message } from './chat.model';
-import { ProfileStoreDispatcher } from '../profile/profiles.dispatcher';
+import { ProfileFacade } from '../profile/profile.facade';
 import { first } from 'rxjs/operators';
 import { ChatService } from '../../firebase/chat/chat.service';
 import { StateModule } from '../state.module';
@@ -21,7 +21,7 @@ import { getOtherIDFromConversationID } from 'src/util/chat/ConversationHelpers'
 export class ChatStoreDispatcher {
     constructor(
         private store: Store < AppState > ,
-        private profileService: ProfileStoreDispatcher,
+        private profileService: ProfileFacade,
         private chatService: ChatService,
         private firestore: AngularFirestore
     ) {}

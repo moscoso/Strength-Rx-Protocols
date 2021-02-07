@@ -14,7 +14,6 @@ import { firstNonNull } from 'src/util/operator/Operators';
 /**
  * This service is responsible for dispatching actions to the Store
  * and selecting data from the Store related to Auth
- * @see https://thomasburlesonia.medium.com/ngrx-facades-better-state-management-82a04b9a1e39
  */
 @Injectable({ 'providedIn': StateModule })
 export class AuthStoreDispatcher {

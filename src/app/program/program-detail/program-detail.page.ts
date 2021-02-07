@@ -8,7 +8,7 @@ import { ModalController, ActionSheetController } from '@ionic/angular';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
 import { Client } from 'src/app/core/state/client/client.model';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 
 @Component({
     'selector': 'app-program-detail',
@@ -24,7 +24,7 @@ export class ProgramDetailPage implements OnInit {
     constructor(
         public programService: ProgramStoreDispatcher,
         public modalCtrl: ModalController,
-        public profileService: ProfileStoreDispatcher,
+        public profileService: ProfileFacade,
         public clientService: ClientStoreDispatcher,
         public actionSheetCtrl: ActionSheetController,
         public routerService: RouterStoreDispatcher,

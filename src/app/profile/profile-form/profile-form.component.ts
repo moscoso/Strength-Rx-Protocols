@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Profile } from 'src/app/core/state/profile/profile.model';
 import { ToastService } from 'src/app/shared/toast/toast.service';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
 
 @Component({
@@ -30,7 +30,7 @@ export class ProfileFormComponent implements OnInit {
     inches = new FormControl('', [Validators.required, Validators.min(0), Validators.max(11)]);
 
     constructor(
-        public profileService: ProfileStoreDispatcher,
+        public profileService: ProfileFacade,
         public authService: AuthStoreDispatcher,
         public toastService: ToastService,
     ) {}

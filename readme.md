@@ -1,4 +1,4 @@
-h1 align="center">Angular - One framework. Mobile & desktop.</h1>
+<h1 align="center">Angular - One framework. Mobile & desktop.</h1>
 
 <p align="center">
   <img src="aio/src/assets/images/logos/angular/angular.png" alt="angular-logo" width="120px" height="120px"/>
@@ -43,6 +43,11 @@ Get started with Angular, learn the fundamentals and explore advanced topics on 
 
 - [Getting Started][quickstart]
 - [Architecture][architecture]
+
+ Our NgRx State Management interacts with Components using the Facade Pattern
+ * @see https://thomasburlesonia.medium.com/ngrx-facades-better-state-management-82a04b9a1e39
+
+
 - [Components and Templates][componentstemplates]
 - [Forms][forms]
 - [API][api]

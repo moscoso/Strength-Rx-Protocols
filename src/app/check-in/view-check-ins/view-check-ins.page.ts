@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { first, pluck } from 'rxjs/operators';
 import { nonNull } from 'src/util/predicate/Predicates';
@@ -16,7 +16,7 @@ export class ViewCheckInsPage implements OnInit {
 
     constructor(
         public firestore: AngularFirestore,
-        public profileService: ProfileStoreDispatcher,
+        public profileService: ProfileFacade,
         public routerService: RouterStoreDispatcher,
     ) {}
 

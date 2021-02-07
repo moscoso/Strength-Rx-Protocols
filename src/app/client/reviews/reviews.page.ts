@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { first, pluck } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { Profile } from 'src/app/core/state/profile/profile.model';
 
 @Component({
@@ -20,7 +20,7 @@ export class ReviewsPage implements OnInit {
 
     constructor(
         public firestore: AngularFirestore,
-        public profileService: ProfileStoreDispatcher,
+        public profileService: ProfileFacade,
         public routerService: RouterStoreDispatcher,
     ) {}
 

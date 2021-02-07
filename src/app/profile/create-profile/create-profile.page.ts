@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.disp
 export class CreateProfilePage implements OnInit {
 
     constructor(
-        public profileService: ProfileStoreDispatcher,
+        public profileService: ProfileFacade,
     ) {}
 
     ngOnInit() {}

@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { take, first } from 'rxjs/operators';
 import { ModalController } from '@ionic/angular';
 import { EditProfilePage } from '../edit-profile/edit-profile.page';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { ChatStoreDispatcher } from 'src/app/core/state/chat/chat.dispatcher';
 import { SetAvatarComponent } from '../set-avatar/set-avatar.component';
@@ -29,7 +29,7 @@ export class ViewProfilePage implements OnInit {
 
     constructor(
         public clientService: ClientStoreDispatcher,
-        public profileService: ProfileStoreDispatcher,
+        public profileService: ProfileFacade,
         public routerService: RouterStoreDispatcher,
         public modalController: ModalController,
         public chatService: ChatStoreDispatcher,

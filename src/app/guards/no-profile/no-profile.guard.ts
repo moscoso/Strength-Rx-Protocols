@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { first, timeout } from 'rxjs/operators';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 /**
@@ -12,7 +12,7 @@ import { ToastService } from 'src/app/shared/toast/toast.service';
 })
 export class NoProfileGuard implements CanActivate {
     constructor(
-        private profileService: ProfileStoreDispatcher,
+        private profileService: ProfileFacade,
         private authService: AuthStoreDispatcher,
         private router: Router,
         private toaster: ToastService

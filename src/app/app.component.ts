@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
 import { AuthStoreDispatcher } from './core/state/auth/auth.dispatcher';
-import { ProfileStoreDispatcher } from './core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from './core/state/profile/profile.facade';
 import { RouterStoreDispatcher } from './core/state/router/router.dispatcher';
 import { MenuItem } from './shared/menu-list/menu-list.component';
 import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
@@ -131,7 +131,7 @@ export class AppComponent implements OnInit {
 
     constructor(
         private platform: Platform,
-        private profileService: ProfileStoreDispatcher,
+        private profileService: ProfileFacade,
         private routerService: RouterStoreDispatcher,
         private authService: AuthStoreDispatcher,
         private serviceWorkerUpdate: SwUpdate,

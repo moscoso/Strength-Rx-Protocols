@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Profile } from 'src/app/core/state/profile/profile.model';
 import { Observable, of } from 'rxjs';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { first } from 'rxjs/operators';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
 
@@ -18,7 +18,7 @@ export class AssignTrainerComponent implements OnInit {
     public iAmTrainer$: Observable < boolean > = of (false);
 
     constructor(
-        public profileService: ProfileStoreDispatcher,
+        public profileService: ProfileFacade,
         public clientService: ClientStoreDispatcher,
     ) {}
 

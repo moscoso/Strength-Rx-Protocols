@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { Profile } from 'src/app/core/state/profile/profile.model';
 import { ImageInputComponent } from 'src/app/storage/image-input/image-input.component';
 
@@ -19,7 +19,7 @@ export class SetAvatarComponent implements OnInit {
 
     constructor(
         public routerService: RouterStoreDispatcher,
-        public profileService: ProfileStoreDispatcher,
+        public profileService: ProfileFacade,
     ) {}
 
     ngOnInit(): void {

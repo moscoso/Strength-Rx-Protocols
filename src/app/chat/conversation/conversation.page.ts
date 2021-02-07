@@ -3,7 +3,7 @@ import { IonContent, IonList } from '@ionic/angular';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { filter, first } from 'rxjs/operators';
 import { Message, Conversation } from 'src/app/core/state/chat/chat.model';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { sortByTimestamp } from 'src/app/core/state/chat/chat.state';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { getIDListFromConversationID, getOtherIDFromConversationID } from 'functions/src/strengthrx/ConversationHelpers';
@@ -33,7 +33,7 @@ export class ConversationPage implements OnInit, AfterViewInit {
     myID: string;
 
     constructor(
-        private profileService: ProfileStoreDispatcher,
+        private profileService: ProfileFacade,
         private routerService: RouterStoreDispatcher,
         private firestore: AngularFirestore
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { first, pluck } from 'rxjs/operators';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { Profile } from 'src/app/core/state/profile/profile.model';
 
@@ -20,7 +20,7 @@ export class ProgressPicsPage implements OnInit {
 
     constructor(
         public firestore: AngularFirestore,
-        public profileService: ProfileStoreDispatcher,
+        public profileService: ProfileFacade,
         public routerService: RouterStoreDispatcher,
     ) {}
 

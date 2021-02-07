@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
 import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
 import { Profile } from 'src/app/core/state/profile/profile.model';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class JoinFormComponent implements OnInit {
     inches = new FormControl('', [Validators.required, Validators.min(0), Validators.max(11)]);
 
     constructor(
-        public profileService: ProfileStoreDispatcher,
+        public profileService: ProfileFacade,
         public authService: AuthStoreDispatcher,
         public toastService: ToastService,
     ) {}

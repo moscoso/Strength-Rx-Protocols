@@ -4,7 +4,7 @@ import {
     OnInit
 } from '@angular/core';
 import { Profile } from 'src/app/core/state/profile/profile.model';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { first } from 'rxjs/operators';
 
 /**
@@ -24,7 +24,7 @@ export class UserItemComponent implements OnInit {
     profile: Profile;
 
     constructor(
-        private profileService: ProfileStoreDispatcher,
+        private profileService: ProfileFacade,
     ) {
 
     }

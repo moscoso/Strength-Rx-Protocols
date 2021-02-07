@@ -3,7 +3,7 @@ import { AngularFireUploadTask, AngularFireStorage } from '@angular/fire/storage
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { finalize, first } from 'rxjs/operators';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 
 @Component({
     'selector': 'upload-review',
@@ -29,7 +29,7 @@ export class UploadReviewComponent implements OnInit {
     constructor(
         private storage: AngularFireStorage,
         private firestore: AngularFirestore,
-        private profileService: ProfileStoreDispatcher,
+        private profileService: ProfileFacade,
     ) {}
 
     ngOnInit() {

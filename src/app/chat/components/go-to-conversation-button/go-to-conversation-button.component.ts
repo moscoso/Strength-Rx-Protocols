@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { ChatStoreDispatcher } from 'src/app/core/state/chat/chat.dispatcher';
 import { first } from 'rxjs/operators';
 
@@ -15,7 +15,7 @@ export class GoToConversationButtonComponent implements OnInit {
     public conversationLink: string;
 
     constructor(
-        private profileService: ProfileStoreDispatcher,
+        private profileService: ProfileFacade,
         private chatService: ChatStoreDispatcher,
     ) {}
 

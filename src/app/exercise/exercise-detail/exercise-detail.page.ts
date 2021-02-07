@@ -5,7 +5,7 @@ import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { EditExerciseComponent } from '../components/edit-exercise/edit-exercise.component';
 import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
 
 @UntilDestroy()
@@ -23,7 +23,7 @@ export class ExerciseDetailPage implements OnInit {
     loading = true;
 
     constructor(
-        public profileService: ProfileStoreDispatcher,
+        public profileService: ProfileFacade,
         public exerciseService: ExerciseStoreDispatcher,
         public modalCtrl: ModalController,
         public actionSheetCtrl: ActionSheetController,

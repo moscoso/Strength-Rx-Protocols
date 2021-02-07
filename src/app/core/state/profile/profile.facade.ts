@@ -12,11 +12,11 @@ import { first } from 'rxjs/operators';
 import { Profile } from './profile.model';
 
 /**
- * This service is responsible for dispatching profile actions to the Store and selecting
- * auth data from the Store
+ * This service is responsible for dispatching actions to the Store
+ * and selecting data from the Store related to Auth
  */
 @Injectable({ 'providedIn': StateModule })
-export class ProfileStoreDispatcher {
+export class ProfileFacade {
     constructor(
         protected store: Store < AppState > ,
         protected fireAuth: FireAuthService

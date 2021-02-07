@@ -5,7 +5,7 @@ import { ModalController, ActionSheetController } from '@ionic/angular';
 import { first, map, tap } from 'rxjs/operators';
 import { EditWorkoutPage } from '../edit-workout/edit-workout.page';
 import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
-import { ProfileStoreDispatcher } from 'src/app/core/state/profile/profiles.dispatcher';
+import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { Program } from 'src/app/core/state/program/program.model';
 import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
@@ -26,7 +26,7 @@ export class WorkoutDetailPage implements OnInit {
     isMasterWorkout = false;
 
     constructor(
-        public profileService: ProfileStoreDispatcher,
+        public profileService: ProfileFacade,
         public workoutService: WorkoutStoreDispatcher,
         public programService: ProgramStoreDispatcher,
         public clientService: ClientStoreDispatcher,
