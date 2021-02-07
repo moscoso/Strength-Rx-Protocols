@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Program } from 'src/app/core/state/program/program.model';
 import { Observable, of } from 'rxjs';
-import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
+import { ProgramFacade } from 'src/app/core/state/program/program.facade';
 import { EditProgramPage } from '../edit-program/edit-program.page';
 import { first, map } from 'rxjs/operators';
 import { ModalController, ActionSheetController } from '@ionic/angular';
@@ -22,7 +22,7 @@ export class ProgramDetailPage implements OnInit {
     isTrainer$: Observable < boolean > = of(false);
 
     constructor(
-        public programService: ProgramStoreDispatcher,
+        public programService: ProgramFacade,
         public modalCtrl: ModalController,
         public profileService: ProfileFacade,
         public clientService: ClientFacade,

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
-import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
+import { ProgramFacade } from 'src/app/core/state/program/program.facade';
 import { Program } from 'src/app/core/state/program/program.model';
 
 @Component({
@@ -19,7 +19,7 @@ export class SubscribeToProgramComponent implements OnInit {
 
 
     constructor(
-        public programService: ProgramStoreDispatcher,
+        public programService: ProgramFacade,
         public modalController: ModalController,
     ) {}
 

@@ -4,25 +4,17 @@ import { AppState } from '../app.state';
 import * as ProgramAction from './program.actions';
 import { StateModule } from '../state.module';
 import { Program } from './program.model';
-import {
-    selectProgramByID,
-    selectProgramByRouteURL,
-    selectRequestInProgress,
-    selectAll,
-    selectEntities,
-    selectTotal,
-    selectIds,
-} from './program.selector';
+import * as fromProgram from './program.selector';
 import { AllRequested } from './program.actions';
 import { Observable } from 'rxjs';
 import { Dictionary } from '@ngrx/entity';
 
 /**
- * This service is responsible for dispatching program actions to the Store and selecting
- * program data from the Store
+ * This service is responsible for dispatching actions to the Store
+ * and selecting data from the Store related to Program
  */
 @Injectable({ 'providedIn': StateModule })
-export class ProgramStoreDispatcher {
+export class ProgramFacade {
     constructor(
         protected store: Store < AppState > ,
     ) {}
@@ -50,30 +42,30 @@ export class ProgramStoreDispatcher {
     }
 
     public selectProgram(id: string): Observable < Program > {
-        return this.store.select(selectProgramByID(id));
+        return this.store.select(fromProgram.selectProgramByID(id));
     }
 
     public selectProgramByRouteURL(): Observable < Program > {
-        return this.store.select(selectProgramByRouteURL);
+        return this.store.select(fromProgram.selectProgramByRouteURL);
     }
 
     public selectRequestInProgress(): Observable < boolean > {
-        return this.store.select(selectRequestInProgress);
+        return this.store.select(fromProgram.selectRequestInProgress);
     }
 
     public selectAll(): Observable < Program[] > {
-        return this.store.select(selectAll);
+        return this.store.select(fromProgram.selectAll);
     }
 
     public selectIDs(): Observable < string[] | number[] > {
-        return this.store.select(selectIds);
+        return this.store.select(fromProgram.selectIds);
     }
 
     public selectPrograms(): Observable < Dictionary < Program >> {
-        return this.store.select(selectEntities);
+        return this.store.select(fromProgram.selectEntities);
     }
 
     public selectTotal(): Observable < number > {
-        return this.store.select(selectTotal);
+        return this.store.select(fromProgram.selectTotal);
     }
 }

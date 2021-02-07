@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
+import { ProgramFacade } from 'src/app/core/state/program/program.facade';
 
 @Component({
     'selector': 'app-create-program',
@@ -9,7 +9,7 @@ import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispa
 export class CreateProgramPage implements OnInit {
 
     constructor(
-        public programService: ProgramStoreDispatcher
+        public programService: ProgramFacade
     ) {}
 
     ngOnInit() {}

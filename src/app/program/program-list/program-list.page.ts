@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
+import { ProgramFacade } from 'src/app/core/state/program/program.facade';
 import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
 import { first, startWith } from 'rxjs/operators';
 import { CreateProgramPage } from '../create-program/create-program.page';
@@ -23,7 +23,7 @@ export class ProgramListPage implements OnInit {
 
     constructor(
         public modalController: ModalController,
-        public programService: ProgramStoreDispatcher,
+        public programService: ProgramFacade,
     ) {}
 
     ngOnInit(): void {

@@ -7,7 +7,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { first } from 'rxjs/operators';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
-import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
+import { ProgramFacade } from 'src/app/core/state/program/program.facade';
 import { ModalController } from '@ionic/angular';
 import { SubscribeToWorkoutComponent } from './subscribe-to-workout/subscribe-to-workout.component';
 import { CopyWorkoutComponent } from './copy-workout/copy-workout.component';
@@ -40,7 +40,7 @@ export class ProgramFormComponent implements OnInit {
     defaultValue: Program;
 
     constructor(
-        public programService: ProgramStoreDispatcher,
+        public programService: ProgramFacade,
         public modalController: ModalController,
         public toastService: ToastService,
         public firestore: AngularFirestore,

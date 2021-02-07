@@ -8,7 +8,7 @@ import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.disp
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { Program } from 'src/app/core/state/program/program.model';
-import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
+import { ProgramFacade } from 'src/app/core/state/program/program.facade';
 import { ClientFacade } from 'src/app/core/state/client/client.facade';
 import { Client } from 'src/app/core/state/client/client.model';
 import { CustomRouterReducerState } from 'src/app/core/state/router/router.state';
@@ -28,7 +28,7 @@ export class WorkoutDetailPage implements OnInit {
     constructor(
         public profileService: ProfileFacade,
         public workoutService: WorkoutStoreDispatcher,
-        public programService: ProgramStoreDispatcher,
+        public programService: ProgramFacade,
         public clientService: ClientFacade,
         public modalCtrl: ModalController,
         public actionSheetCtrl: ActionSheetController,
