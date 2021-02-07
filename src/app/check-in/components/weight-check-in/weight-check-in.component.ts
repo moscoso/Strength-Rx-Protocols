@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { ClientFacade } from 'src/app/core/state/client/client.facade';
 import { nonNull } from 'src/util/predicate/Predicates';
 import { generateRandomID } from 'src/util/randomID/randomID';
 
 @Component({
-    selector: 'app-weight-check-in',
-    templateUrl: './weight-check-in.component.html',
-    styleUrls: ['./weight-check-in.component.scss'],
+    'selector': 'app-weight-check-in',
+    'templateUrl': './weight-check-in.component.html',
+    'styleUrls': ['./weight-check-in.component.scss'],
 })
 export class WeightCheckInComponent implements OnInit {
 
@@ -18,7 +18,7 @@ export class WeightCheckInComponent implements OnInit {
     weight = new FormControl(100, Validators.required);
 
     constructor(
-        private clientService: ClientStoreDispatcher,
+        private clientService: ClientFacade,
         private firestore: AngularFirestore,
     ) {}
 

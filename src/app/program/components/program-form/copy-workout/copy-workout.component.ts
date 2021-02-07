@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { Client } from 'src/app/core/state/client/client.model';
-import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { ClientFacade } from 'src/app/core/state/client/client.facade';
 import { ModalController } from '@ionic/angular';
 import { map } from 'rxjs/operators';
 import { Workout } from 'src/app/core/state/workout/workout.model';
@@ -27,7 +27,7 @@ export class CopyWorkoutComponent implements OnInit {
     workoutOptions = [];
 
     constructor(
-        public clientService: ClientStoreDispatcher,
+        public clientService: ClientFacade,
         public modalController: ModalController,
     ) {}
 

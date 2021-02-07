@@ -16,7 +16,7 @@ import { Client } from './client.model';
  * and selecting Client state data from the Store
  */
 @Injectable({ 'providedIn': StateModule })
-export class ClientStoreDispatcher {
+export class ClientFacade {
     constructor(
         protected store: Store < AppState > ,
     ) {}

@@ -9,7 +9,7 @@ import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatch
 import { ChatFacade } from 'src/app/core/state/chat/chat.facade';
 import { SetAvatarComponent } from '../set-avatar/set-avatar.component';
 import * as dayjs from 'dayjs';
-import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { ClientFacade } from 'src/app/core/state/client/client.facade';
 import { Client } from 'src/app/core/state/client/client.model';
 @Component({
     'selector': 'app-view-profile',
@@ -28,7 +28,7 @@ export class ViewProfilePage implements OnInit {
     public dayjs = dayjs;
 
     constructor(
-        public clientService: ClientStoreDispatcher,
+        public clientService: ClientFacade,
         public profileService: ProfileFacade,
         public routerService: RouterStoreDispatcher,
         public modalController: ModalController,

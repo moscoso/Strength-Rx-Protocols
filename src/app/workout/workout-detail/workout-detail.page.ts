@@ -9,7 +9,7 @@ import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { Program } from 'src/app/core/state/program/program.model';
 import { ProgramStoreDispatcher } from 'src/app/core/state/program/program.dispatcher';
-import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { ClientFacade } from 'src/app/core/state/client/client.facade';
 import { Client } from 'src/app/core/state/client/client.model';
 import { CustomRouterReducerState } from 'src/app/core/state/router/router.state';
 
@@ -29,7 +29,7 @@ export class WorkoutDetailPage implements OnInit {
         public profileService: ProfileFacade,
         public workoutService: WorkoutStoreDispatcher,
         public programService: ProgramStoreDispatcher,
-        public clientService: ClientStoreDispatcher,
+        public clientService: ClientFacade,
         public modalCtrl: ModalController,
         public actionSheetCtrl: ActionSheetController,
         public routerService: RouterStoreDispatcher,
@@ -76,7 +76,6 @@ export class WorkoutDetailPage implements OnInit {
     }
 
     loadCustomProgram(routerState: CustomRouterReducerState): Observable < Program> {
-        const clientIsUser = routerState.state.url === '/profile/program';
         this.clientService.loadAll();
         const clientID = routerState.state.params.profileID;
 
@@ -87,10 +86,8 @@ export class WorkoutDetailPage implements OnInit {
             client$ = this.clientService.selectUserAsClient();
         }
         return client$.pipe(
-            tap(x => console.log(x)),
             first(client => client != null),
             map(client => client.assignedProgram),
-            tap(x => console.log(x))
         );
     }
 

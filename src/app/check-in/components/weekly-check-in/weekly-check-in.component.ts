@@ -8,7 +8,7 @@ import { AppState } from 'src/app/core/state/app.state';
 import { selectUserID } from 'src/app/core/state/auth/auth.selector';
 import { CreateRequested } from 'src/app/core/state/check-in/check-in.actions';
 import { CheckIn } from 'src/app/core/state/check-in/check-in.model';
-import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { ClientFacade } from 'src/app/core/state/client/client.facade';
 import { firstValidString } from 'src/util/operator/Operators';
 
 @Component({
@@ -38,7 +38,7 @@ export class WeeklyCheckInComponent implements OnInit {
 
     constructor(
         public store: Store < AppState > ,
-        public clientService: ClientStoreDispatcher,
+        public clientService: ClientFacade,
         public fb: AngularFirestore
     ) {
         this.clientService.loadAll();

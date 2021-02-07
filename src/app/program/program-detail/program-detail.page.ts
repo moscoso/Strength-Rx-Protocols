@@ -6,7 +6,7 @@ import { EditProgramPage } from '../edit-program/edit-program.page';
 import { first, map } from 'rxjs/operators';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
-import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { ClientFacade } from 'src/app/core/state/client/client.facade';
 import { Client } from 'src/app/core/state/client/client.model';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 
@@ -25,7 +25,7 @@ export class ProgramDetailPage implements OnInit {
         public programService: ProgramStoreDispatcher,
         public modalCtrl: ModalController,
         public profileService: ProfileFacade,
-        public clientService: ClientStoreDispatcher,
+        public clientService: ClientFacade,
         public actionSheetCtrl: ActionSheetController,
         public routerService: RouterStoreDispatcher,
     ) {}

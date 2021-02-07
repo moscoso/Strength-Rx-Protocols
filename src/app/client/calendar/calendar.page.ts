@@ -4,7 +4,7 @@ import * as dayjs from 'dayjs';
 import * as weekOfYear from 'dayjs/plugin/weekOfYear';
 dayjs.extend(weekOfYear);
 import { first } from 'rxjs/operators';
-import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { ClientFacade } from 'src/app/core/state/client/client.facade';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { Program } from 'src/app/core/state/program/program.model';
 import { Workout } from 'src/app/core/state/workout/workout.model';
@@ -32,7 +32,7 @@ export class CalendarPage implements OnInit {
     constructor(
         public af: AngularFirestore,
         public profile: ProfileFacade,
-        public client: ClientStoreDispatcher,
+        public client: ClientFacade,
         public angularFirestore: AngularFirestore,
     ) {}
 

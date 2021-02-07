@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { first } from 'rxjs/operators';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
-import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { ClientFacade } from 'src/app/core/state/client/client.facade';
 
 /**
  * A route guard that checks if the user is a valid Client before activating the route
@@ -15,7 +15,7 @@ export class ClientGuard implements CanActivate {
     constructor(
         private router: Router,
         private toaster: ToastService,
-        private clientService: ClientStoreDispatcher,
+        private clientService: ClientFacade,
         private authService: AuthFacade,
     ) {}
     async canActivate(

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
-import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { ClientFacade } from 'src/app/core/state/client/client.facade';
 import { Program } from 'src/app/core/state/program/program.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { filter } from 'rxjs/operators';
@@ -30,7 +30,7 @@ export class AssignProgramComponent implements OnInit {
 
     constructor(
         public profileService: ProfileFacade,
-        public clientService: ClientStoreDispatcher,
+        public clientService: ClientFacade,
         public modalController: ModalController,
     ) {}
 

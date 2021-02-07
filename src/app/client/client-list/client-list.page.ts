@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { ClientFacade } from 'src/app/core/state/client/client.facade';
 import { Client } from 'src/app/core/state/client/client.model';
 import { AngularFirestore } from '@angular/fire/firestore';
 
@@ -14,7 +14,7 @@ export class ClientListPage implements OnInit {
     clientList$: Observable < any[] > = of ([]);
     events = [];
 
-    constructor(public clientService: ClientStoreDispatcher, public firestore: AngularFirestore) {}
+    constructor(public clientService: ClientFacade, public firestore: AngularFirestore) {}
 
     ngOnInit() {
         this.clientService.loadAll();

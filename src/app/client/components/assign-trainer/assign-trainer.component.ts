@@ -3,7 +3,7 @@ import { Profile } from 'src/app/core/state/profile/profile.model';
 import { Observable, of } from 'rxjs';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { first } from 'rxjs/operators';
-import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
+import { ClientFacade } from 'src/app/core/state/client/client.facade';
 
 @Component({
     'selector': 'assign-trainer',
@@ -19,7 +19,7 @@ export class AssignTrainerComponent implements OnInit {
 
     constructor(
         public profileService: ProfileFacade,
-        public clientService: ClientStoreDispatcher,
+        public clientService: ClientFacade,
     ) {}
 
     ngOnInit() {
