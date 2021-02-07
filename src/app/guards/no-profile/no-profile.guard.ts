@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { first, timeout } from 'rxjs/operators';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
-import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 /**
  * A route guard that checks to make sure the user does not already have a valid profile before activating the route
@@ -13,7 +13,7 @@ import { ToastService } from 'src/app/shared/toast/toast.service';
 export class NoProfileGuard implements CanActivate {
     constructor(
         private profileService: ProfileFacade,
-        private authService: AuthStoreDispatcher,
+        private authService: AuthFacade,
         private router: Router,
         private toaster: ToastService
     ) {}

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
-import { AuthStoreDispatcher } from './core/state/auth/auth.dispatcher';
+import { AuthFacade } from './core/state/auth/auth.facade';
 import { ProfileFacade } from './core/state/profile/profile.facade';
 import { RouterStoreDispatcher } from './core/state/router/router.dispatcher';
 import { MenuItem } from './shared/menu-list/menu-list.component';
@@ -133,7 +133,7 @@ export class AppComponent implements OnInit {
         private platform: Platform,
         private profileService: ProfileFacade,
         private routerService: RouterStoreDispatcher,
-        private authService: AuthStoreDispatcher,
+        private authService: AuthFacade,
         private serviceWorkerUpdate: SwUpdate,
         private toastService: ToastService,
     ) {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { ToastService } from 'src/app/shared/toast/toast.service';
-import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 import { ClientStoreDispatcher } from 'src/app/core/state/client/client.dispatcher';
 
 /**
@@ -16,7 +16,7 @@ export class ClientGuard implements CanActivate {
         private router: Router,
         private toaster: ToastService,
         private clientService: ClientStoreDispatcher,
-        private authService: AuthStoreDispatcher,
+        private authService: AuthFacade,
     ) {}
     async canActivate(
         next: ActivatedRouteSnapshot,

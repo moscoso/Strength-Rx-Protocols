@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 
 @Component({
     'selector': 'logout-button',
@@ -8,7 +8,7 @@ import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
 })
 export class LogoutButtonComponent implements OnInit {
 
-    constructor(public authService: AuthStoreDispatcher) {}
+    constructor(public authService: AuthFacade) {}
 
     ngOnInit() {}
 

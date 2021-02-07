@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { RegisterPage } from 'src/app/account/register/register.page';
-import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 import { Observable, of } from 'rxjs';
 
 @Component({
@@ -26,7 +26,7 @@ export class LandingPage implements OnInit, AfterViewInit {
 
     constructor(
         public modalController: ModalController,
-        public authService: AuthStoreDispatcher,
+        public authService: AuthFacade,
     ) {}
 
     ngOnInit() {

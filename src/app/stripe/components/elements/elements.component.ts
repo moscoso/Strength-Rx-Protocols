@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 import { environment } from 'src/environments/environment';
 
 declare var Stripe: stripe.StripeStatic;
@@ -24,7 +24,7 @@ export class ElementsComponent implements AfterViewInit {
     confirmation: any;
 
     constructor(
-        private authService: AuthStoreDispatcher,
+        private authService: AuthFacade,
         private functions: AngularFireFunctions,
     ) {}
 

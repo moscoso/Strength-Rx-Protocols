@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
-import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 import { Profile } from 'src/app/core/state/profile/profile.model';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { ToastService } from 'src/app/shared/toast/toast.service';
@@ -32,7 +32,7 @@ export class JoinFormComponent implements OnInit {
 
     constructor(
         public profileService: ProfileFacade,
-        public authService: AuthStoreDispatcher,
+        public authService: AuthFacade,
         public toastService: ToastService,
     ) {}
 

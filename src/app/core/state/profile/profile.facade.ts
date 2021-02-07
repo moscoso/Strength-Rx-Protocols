@@ -13,7 +13,7 @@ import { Profile } from './profile.model';
 
 /**
  * This service is responsible for dispatching actions to the Store
- * and selecting data from the Store related to Auth
+ * and selecting data from the Store related to Profile
  */
 @Injectable({ 'providedIn': StateModule })
 export class ProfileFacade {

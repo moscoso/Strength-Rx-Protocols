@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 
 @Component({
-    selector: 'app-join',
-    templateUrl: './join.page.html',
-    styleUrls: ['./join.page.scss'],
+    'selector': 'app-join',
+    'templateUrl': './join.page.html',
+    'styleUrls': ['./join.page.scss'],
 })
 export class JoinPage implements OnInit {
 
@@ -14,7 +14,7 @@ export class JoinPage implements OnInit {
 
     constructor(
         public functions: AngularFireFunctions,
-        public authService: AuthStoreDispatcher,
+        public authService: AuthFacade,
         public toastService: ToastService,
     ) {}
 
@@ -26,7 +26,7 @@ export class JoinPage implements OnInit {
         const profile = Object.assign({}, data);
         console.log(profile);
         const password = profile.password;
-        delete profile.password
+        delete profile.password;
         const createUser = this.functions.httpsCallable('createUserAndProfile');
         createUser({profile, password}).toPromise().then(x => {
             console.log('chosenPlan', this.chosenPlan);

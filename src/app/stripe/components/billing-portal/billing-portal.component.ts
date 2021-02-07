@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 
 @Component({
     'selector': 'billing-portal',
@@ -12,7 +12,7 @@ export class BillingPortalComponent {
     loading = false;
 
     constructor(
-        public auth: AuthStoreDispatcher,
+        public auth: AuthFacade,
         public functions: AngularFireFunctions
     ) {}
 
@@ -21,7 +21,7 @@ export class BillingPortalComponent {
         const fun = this.functions.httpsCallable('stripeCreateBillingPortalLink');
         return fun({
             userID,
-            // 'returnURL': 
+            // 'returnURL':
         }).toPromise().then(response => {
             return response;
         });

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup, ValidationErrors } from '@angular/forms';
-import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 
 @Component({
     'selector': 'app-register',
@@ -18,7 +18,7 @@ export class RegisterPage implements OnInit {
     form: FormGroup;
 
     constructor(
-        public authDispatch: AuthStoreDispatcher,
+        public authDispatch: AuthFacade,
     ) {}
 
     ngOnInit() {

@@ -5,7 +5,7 @@ import { first } from 'rxjs/operators';
 import { Profile } from 'src/app/core/state/profile/profile.model';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
-import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 
 @Component({
     'selector': 'profile-form',
@@ -31,7 +31,7 @@ export class ProfileFormComponent implements OnInit {
 
     constructor(
         public profileService: ProfileFacade,
-        public authService: AuthStoreDispatcher,
+        public authService: AuthFacade,
         public toastService: ToastService,
     ) {}
 

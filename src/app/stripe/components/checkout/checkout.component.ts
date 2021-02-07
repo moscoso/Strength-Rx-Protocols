@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 import { first } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
@@ -14,7 +14,7 @@ declare var StripeCheckout; // StripeCheckoutStatic;
 export class CheckoutComponent implements OnInit {
 
     constructor(
-        private auth: AuthStoreDispatcher,
+        private auth: AuthFacade,
         private functions: AngularFireFunctions
     ) {}
 

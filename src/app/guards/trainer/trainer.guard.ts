@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { first } from 'rxjs/operators';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { ToastService } from 'src/app/shared/toast/toast.service';
-import { AuthStoreDispatcher } from 'src/app/core/state/auth/auth.dispatcher';
+import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 
 /**
  * A route guard that checks if the user has a valid profile before activating the route
@@ -16,7 +16,7 @@ export class TrainerGuard implements CanActivate {
         private router: Router,
         private toaster: ToastService,
         private profileService: ProfileFacade,
-        private authService: AuthStoreDispatcher,
+        private authService: AuthFacade,
     ) {}
     async canActivate(
         next: ActivatedRouteSnapshot,
@@ -28,7 +28,7 @@ export class TrainerGuard implements CanActivate {
         return this.profileService.selectUserAsProfile().pipe(first()).toPromise()
             .then(async (profile) => {
                 if (profile) {
-                    if(profile.isTrainer){
+                    if (profile.isTrainer){
                         return true;
                     } else {
                         await this.toaster.primary('You have to be a trainer to see that!');

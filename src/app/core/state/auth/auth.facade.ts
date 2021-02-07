@@ -16,7 +16,7 @@ import { firstNonNull } from 'src/util/operator/Operators';
  * and selecting data from the Store related to Auth
  */
 @Injectable({ 'providedIn': StateModule })
-export class AuthStoreDispatcher {
+export class AuthFacade {
     constructor(
         protected store: Store < AppState > ,
         protected fireAuth: FireAuthService
