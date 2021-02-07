@@ -4,7 +4,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Exercise } from 'src/app/core/state/exercises/exercise.model';
-import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
+import { ExerciseFacade } from 'src/app/core/state/exercises/exercises.facade';
 import { INIT_STANDARD_EXERCISE_ROUTINE, StandardExerciseRoutine, StandardPhase, Workout } from 'src/app/core/state/workout/workout.model';
 import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
 
@@ -31,7 +31,7 @@ export class StandardPhaseFormComponent implements OnInit {
 
     constructor(
         public workoutService: WorkoutStoreDispatcher,
-        public exerciseService: ExerciseStoreDispatcher,
+        public exerciseService: ExerciseFacade,
     ) {}
 
     ngOnInit() {

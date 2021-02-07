@@ -12,8 +12,8 @@ import { Program } from '../program/program.model';
 import { Client } from './client.model';
 
 /**
- * This service is responsible for dispatching client actions to the state store
- * and selecting Client state data from the Store
+ * This service is responsible for dispatching actions to the Store
+ * and selecting data from the Store related to Client
  */
 @Injectable({ 'providedIn': StateModule })
 export class ClientFacade {

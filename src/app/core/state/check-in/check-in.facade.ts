@@ -10,8 +10,8 @@ import * as fromCheckIn from './check-in.selector';
 
 
 /**
- * This service is responsible for dispatching checkIn actions to the Store and selecting
- * auth data from the Store
+ * This service is responsible for dispatching actions to the Store
+ * and selecting data from the Store related to Check-In
  */
 @Injectable({ 'providedIn': StateModule })
 export class CheckInFacade {

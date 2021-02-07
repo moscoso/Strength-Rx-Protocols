@@ -4,7 +4,7 @@ import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { IntervalExerciseRoutine, IntervalPhase } from 'src/app/core/state/workout/workout.model';
 import { WorkoutStoreDispatcher } from 'src/app/core/state/workout/workouts.dispatcher';
-import { ExerciseStoreDispatcher } from '../../core/state/exercises/exercises.dispatcher';
+import { ExerciseFacade } from '../../core/state/exercises/exercises.facade';
 
 import { IntervalCountdownComponent } from '../interval-countdown/interval-countdown.component';
 
@@ -22,7 +22,7 @@ export class IntervalTimerPage implements OnInit, AfterViewInit {
     @ViewChild('myCD') countdownComponent: IntervalCountdownComponent;
 
     constructor(
-        public exerciseService: ExerciseStoreDispatcher,
+        public exerciseService: ExerciseFacade,
         public workoutService: WorkoutStoreDispatcher,
         public routerService: RouterStoreDispatcher,
     ) {}

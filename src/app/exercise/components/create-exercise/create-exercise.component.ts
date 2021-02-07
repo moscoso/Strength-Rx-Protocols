@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
+import { ExerciseFacade } from 'src/app/core/state/exercises/exercises.facade';
 
 @Component({
     'selector': 'app-create-exercise',
@@ -9,7 +9,7 @@ import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.
 export class CreateExerciseComponent implements OnInit {
 
     constructor(
-        public exerciseService: ExerciseStoreDispatcher
+        public exerciseService: ExerciseFacade
     ) {}
 
     ngOnInit() {}

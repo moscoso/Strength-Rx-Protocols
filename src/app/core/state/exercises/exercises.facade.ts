@@ -11,11 +11,11 @@ import { whenRequestCompletes } from 'src/util/operator/Operators';
 import { Exercise } from './exercise.model';
 
 /**
- * This service is responsible for dispatching exercise actions to the Store and selecting
- * auth data from the Store
+ * This service is responsible for dispatching actions to the Store
+ * and selecting data from the Store related to Exercise
  */
 @Injectable({ 'providedIn': StateModule })
-export class ExerciseStoreDispatcher {
+export class ExerciseFacade {
     constructor(
         protected store: Store < AppState > ,
         protected fireAuth: FireAuthService

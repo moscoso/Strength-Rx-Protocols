@@ -6,7 +6,7 @@ import { first } from 'rxjs/operators';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
-import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
+import { ExerciseFacade } from 'src/app/core/state/exercises/exercises.facade';
 import { Delta } from 'src/util/delta/Delta';
 import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 
@@ -43,7 +43,7 @@ export class ExerciseFormComponent implements OnInit {
 
 
     constructor(
-        public exerciseService: ExerciseStoreDispatcher,
+        public exerciseService: ExerciseFacade,
         public toastService: ToastService,
         public firestore: AngularFirestore,
     ) {}

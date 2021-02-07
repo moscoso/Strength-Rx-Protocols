@@ -4,7 +4,7 @@ import { first } from 'rxjs/operators';
 import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { EditExerciseComponent } from '../components/edit-exercise/edit-exercise.component';
-import { ExerciseStoreDispatcher } from 'src/app/core/state/exercises/exercises.dispatcher';
+import { ExerciseFacade } from 'src/app/core/state/exercises/exercises.facade';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
 
@@ -24,7 +24,7 @@ export class ExerciseDetailPage implements OnInit {
 
     constructor(
         public profileService: ProfileFacade,
-        public exerciseService: ExerciseStoreDispatcher,
+        public exerciseService: ExerciseFacade,
         public modalCtrl: ModalController,
         public actionSheetCtrl: ActionSheetController,
     ) {}
