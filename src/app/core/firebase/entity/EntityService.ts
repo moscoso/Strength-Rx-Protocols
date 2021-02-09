@@ -35,7 +35,7 @@ export abstract class EntityService < T > {
         protected firestore: AngularFirestore,
         protected functions: AngularFireFunctions,
         private collectionName: string,
-        options ?: EntityServiceOptions < T >,
+        options ?: EntityServiceOptions < T > ,
     ) {
         this.options = options ? { ...DEFAULT_OPTIONS, ...options } : DEFAULT_OPTIONS;
         this.entityCollection = firestore.collection < T > (collectionName);
@@ -77,7 +77,7 @@ export abstract class EntityService < T > {
     async getAll(): Promise < T[] > {
         const entities: T[] = await this.entityCollection.valueChanges({ 'idField': 'id' })
             .pipe(first()).toPromise();
-        return entities.map(this.wrangleIntoEntity);
+        return entities.map(this.wrangleIntoEntity.bind(this));
     }
 
     /**
@@ -176,7 +176,7 @@ export abstract class EntityService < T > {
      *
      * @param data an Object containing all fields of a Firestore document
      */
-    private wrangleIntoEntity(data: any): T {
+    protected wrangleIntoEntity(data: any): T {
         let entity = this.addDefaults(data);
         entity = this.transformTimestamps(entity);
         return entity;
@@ -188,7 +188,7 @@ export abstract class EntityService < T > {
      * @note if defaultEntity is configured to null, it just returns the data as is
      * @param data the object to transform
      */
-    private addDefaults(data: any): T {
+    protected addDefaults(data: any): T {
         const defaultEntity = this.options.defaultEntity;
         if (defaultEntity) {
             return { ...defaultEntity, ...data };
@@ -201,10 +201,10 @@ export abstract class EntityService < T > {
      * Finds all properties that are Firebase Timestamps and transforms them into Javascript Dates
      * @param data the object to transform
      */
-    private transformTimestamps(data: any): T {
+    protected transformTimestamps(data: any): T {
         const entity = { ...data };
         for (const property of Object.keys(entity)) {
-            const isTimestamp = entity[property].toDate === 'function';
+            const isTimestamp = typeof entity[property]?.toDate === 'function';
             if (isTimestamp) {
                 entity[property] = entity[property].toDate();
             }
