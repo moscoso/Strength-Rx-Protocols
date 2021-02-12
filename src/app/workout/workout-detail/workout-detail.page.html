@@ -25,7 +25,7 @@
         <ion-row *ngIf="workout.intervalPhase">
             <h2 style="width:100%">Interval Phase</h2><br>
             <app-interval-exercise-list [intervalPhase]="workout.intervalPhase"
-                                        [routerLink]="'/interval-timer/'+workout.id"></app-interval-exercise-list>
+                                        routerLink="./interval-timer/"></app-interval-exercise-list>
         </ion-row>
 
 

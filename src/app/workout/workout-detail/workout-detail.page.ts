@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Workout, StandardExerciseRoutine } from 'src/app/core/state/workout/workout.model';
 import { ModalController, ActionSheetController } from '@ionic/angular';
-import { first, map, tap } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { EditWorkoutPage } from '../edit-workout/edit-workout.page';
 import { WorkoutFacade } from 'src/app/core/state/workout/workouts.facade';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
@@ -12,6 +12,7 @@ import { ProgramFacade } from 'src/app/core/state/program/program.facade';
 import { ClientFacade } from 'src/app/core/state/client/client.facade';
 import { Client } from 'src/app/core/state/client/client.model';
 import { CustomRouterReducerState } from 'src/app/core/state/router/router.state';
+import { firstNonNullValue } from 'src/util/operator/Operators';
 
 @Component({
     'selector': 'app-workout-detail',
@@ -46,7 +47,7 @@ export class WorkoutDetailPage implements OnInit {
         this.isMasterWorkout = url.indexOf('/workouts') === 0;
         if (this.isMasterWorkout) {
             this.workoutService.loadAll();
-            this.workout$ = this.workoutService.selectWorkoutByRouteURL().pipe(first(workout => workout != null));
+            this.workout$ = this.workoutService.selectWorkoutByRouteURL().pipe(firstNonNullValue);
         } else {
             this.findWorkoutInProgram();
         }
@@ -77,8 +78,7 @@ export class WorkoutDetailPage implements OnInit {
 
     loadCustomProgram(routerState: CustomRouterReducerState): Observable < Program> {
         this.clientService.loadAll();
-        const clientID = routerState.state.params.profileID;
-
+        const clientID = routerState.state.params.profileID ?? routerState.state.params.id;
         let client$: Observable < Client > ;
         if (clientID) {
             client$ = this.clientService.selectClient(clientID);

@@ -108,7 +108,7 @@ export abstract class EntityService < T > {
      * @param IDSource describes how the ID will be created
      */
     setCreationStrategy(IDSource: IDCreateBehavior) {
-        return CreateStrategyFactory.make(IDSource, this.entityCollection, this.functions, this.collectionName);
+        this.creationStrategy = CreateStrategyFactory.make(IDSource, this.entityCollection, this.functions, this.collectionName);
     }
 
     /**

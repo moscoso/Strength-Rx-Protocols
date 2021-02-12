@@ -3,7 +3,7 @@ import { Program } from 'src/app/core/state/program/program.model';
 import { Observable, of } from 'rxjs';
 import { ProgramFacade } from 'src/app/core/state/program/program.facade';
 import { EditProgramPage } from '../edit-program/edit-program.page';
-import { first, map } from 'rxjs/operators';
+import { first, map, tap } from 'rxjs/operators';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { ClientFacade } from 'src/app/core/state/client/client.facade';
@@ -58,7 +58,7 @@ export class ProgramDetailPage implements OnInit {
             }
             this.program$ = client$.pipe(
                 first(client => client != null),
-                map(client => client.assignedProgram)
+                map(client => client.assignedProgram),
             );
         }
     }

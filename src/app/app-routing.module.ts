@@ -50,10 +50,23 @@ const routes: Routes = [
             .ViewProfilePageModule),
         'canActivate': [AuthGuard, ProfileGuard],
     },
+
+     // {
+    //     'path': 'programs/:phase/:day/interval-timer',
+    //     'loadChildren': () => import('./interval-timer/interval-timer-page/interval-timer.module').then(m => m.IntervalTimerPageModule),
+    // },
     {
-        'path': 'profile/program',
-        'loadChildren': () => import('./program/program-detail/program-detail.module').then(m => m.ProgramDetailPageModule),
+        'path': 'programs/:profileID/program/:phase/:day',
+        'loadChildren': () => import('./workout/workout-detail/workout-detail.module').then(m => m
+            .WorkoutDetailPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
+    },
+    // PUKE
+
+    /** FROM CLIENT PERSPECTIVE */
+    {
+        'path': 'profile/program/:phase/:day/interval-timer',
+        'loadChildren': () => import('./interval-timer/interval-timer-page/interval-timer.module').then(m => m.IntervalTimerPageModule),
     },
     {
         'path': 'profile/program/:phase/:day',
@@ -61,18 +74,24 @@ const routes: Routes = [
             .WorkoutDetailPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
     },
-    {
-        'path': 'profile/program/:programID/:phase/:day',
-        'loadChildren': () => import('./workout/workout-detail/workout-detail.module').then(m => m
-            .WorkoutDetailPageModule),
-        'canActivate': [AuthGuard, ProfileGuard],
-    },
 
+    /** FROM Trainer PERSPECTIVE */
+    {
+        'path': 'profile/:profileID/program/:phase/:day/interval-timer',
+        'loadChildren': () => import('./interval-timer/interval-timer-page/interval-timer.module').then(m => m.IntervalTimerPageModule),
+    },
     {
         'path': 'profile/:profileID/program/:phase/:day',
         'loadChildren': () => import('./workout/workout-detail/workout-detail.module').then(m => m
             .WorkoutDetailPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
+    },
+
+
+    /** FROM MASTER PROGRAM PERSPECTIVE */
+    {
+        'path': 'programs/:programID/:phase/:day/interval-timer',
+        'loadChildren': () => import('./interval-timer/interval-timer-page/interval-timer.module').then(m => m.IntervalTimerPageModule),
     },
     {
         'path': 'programs/:programID/:phase/:day',
@@ -80,6 +99,17 @@ const routes: Routes = [
             .WorkoutDetailPageModule),
         'canActivate': [AuthGuard, ProfileGuard],
     },
+
+
+
+
+    {
+        'path': 'profile/program',
+        'loadChildren': () => import('./program/program-detail/program-detail.module').then(m => m.ProgramDetailPageModule),
+        'canActivate': [AuthGuard, ProfileGuard],
+    },
+
+
     {
         'path': 'profile/:id',
         'loadChildren': () => import('./profile/view-profile/view-profile.module').then(m => m
@@ -213,16 +243,17 @@ const routes: Routes = [
         'path': 'calendar',
         'loadChildren': () => import('./client/calendar/calendar.module').then(m => m.CalendarPageModule)
     },
+
     {
         'path': 'interval-timer',
         'loadChildren': () => import('./interval-timer/interval-timer-page/interval-timer.module').then(m => m.IntervalTimerPageModule)
     },
     {
-        'path': 'interval-timer/:id',
+        'path': 'interval-timer/:workoutID',
         'loadChildren': () => import('./interval-timer/interval-timer-page/interval-timer.module').then(m => m.IntervalTimerPageModule)
     },
-    
-    
+
+
 
 ];
 
@@ -230,9 +261,9 @@ const routes: Routes = [
 const WILDCARD = [{
     'path': '**',
     'redirectTo': ''
-}]
+}];
 
-let appRoutes: Routes = [].concat(routes).concat(CHECK_IN_ROUTES).concat(WILDCARD);
+const appRoutes: Routes = [].concat(routes).concat(CHECK_IN_ROUTES).concat(WILDCARD);
 
 @NgModule({
     'imports': [

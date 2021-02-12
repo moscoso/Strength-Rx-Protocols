@@ -9,7 +9,7 @@ import { UserInfo } from 'firebase';
 import { selectUserData, selectAuthenticated, selectState, selectUserID } from './auth.selector';
 import { AuthModel } from './auth.model';
 import { StateModule } from '../state.module';
-import { firstNonNull } from 'src/util/operator/Operators';
+import { firstNonNullValue } from 'src/util/operator/Operators';
 
 /**
  * This service is responsible for dispatching actions to the Store
@@ -72,7 +72,7 @@ export class AuthFacade {
     }
 
     public getUserID(): Promise < string > {
-        return this.selectUserData().pipe(firstNonNull, pluck('uid')).toPromise();
+        return this.selectUserData().pipe(firstNonNullValue, pluck('uid')).toPromise();
     }
 
     public selectUserData(): Observable < UserInfo > {

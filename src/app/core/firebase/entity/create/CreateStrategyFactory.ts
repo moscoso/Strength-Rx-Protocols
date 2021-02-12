@@ -2,8 +2,8 @@ import { AngularFirestoreCollection } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { IDCreateBehavior } from '../EntityServiceOptions';
 import { CreateStrategy } from './CreateStrategy';
-import { CreateIDFromAuthUser } from './CreateWithIDFromAuthUser';
-import { CreateIDFromName } from './CreateWithIDFromName';
+import { CreateIDFromAuthUser as CreateWithIDFromAuthUser } from './CreateWithIDFromAuthUser';
+import { CreateIDFromName as CreateWithIDFromName } from './CreateWithIDFromName';
 import { CreateWithRandomID } from './CreateWithRandomID';
 
 export class CreateStrategyFactory {
@@ -11,19 +11,18 @@ export class CreateStrategyFactory {
     private constructor() {}
 
     public static make(
-        IDSource: IDCreateBehavior, 
-        entityCollection: AngularFirestoreCollection < any >, 
-        functions: AngularFireFunctions, 
+        IDSource: IDCreateBehavior,
+        entityCollection: AngularFirestoreCollection < any >,
+        functions: AngularFireFunctions,
         collectionName: string,
     ): CreateStrategy<any> {
         switch (IDSource) {
             case 'name':
-                return new CreateIDFromName(entityCollection);
+                return new CreateWithIDFromName(entityCollection);
             case 'authorizedUser':
-                return new CreateIDFromAuthUser(functions, collectionName);
+                return new CreateWithIDFromAuthUser(functions, collectionName);
             default:
                 return new CreateWithRandomID(entityCollection);
-                
         }
     }
 }
