@@ -6,9 +6,9 @@ import { first } from 'rxjs/operators';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
-import { ExerciseFacade } from 'src/app/core/state/exercises/exercises.facade';
+import { ExerciseFacade } from 'src/app/core/state/exercise/exercise.facade';
 import { Delta } from 'src/util/delta/Delta';
-import { Exercise } from 'src/app/core/state/exercises/exercise.model';
+import { Exercise } from 'src/app/core/state/exercise/exercise.model';
 
 @Component({
     'selector': 'exercise-form',

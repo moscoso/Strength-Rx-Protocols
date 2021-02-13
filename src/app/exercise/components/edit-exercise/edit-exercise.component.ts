@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ExerciseFacade } from 'src/app/core/state/exercises/exercises.facade';
+import { ExerciseFacade } from 'src/app/core/state/exercise/exercise.facade';
 
 @Component({
     'selector': 'app-edit-exercise',

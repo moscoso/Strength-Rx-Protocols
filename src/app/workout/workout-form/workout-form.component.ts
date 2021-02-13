@@ -8,7 +8,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
 import { first } from 'rxjs/operators';
 import { WorkoutFacade } from 'src/app/core/state/workout/workout.facade';
-import { ExerciseFacade } from 'src/app/core/state/exercises/exercises.facade';
+import { ExerciseFacade } from 'src/app/core/state/exercise/exercise.facade';
 import { StandardPhaseFormComponent } from './standard-phase-form/standard-phase-form.component';
 import { IntervalPhaseFormComponent } from './interval-phase-form/interval-phase-form.component';
 import { Delta } from 'src/util/delta/Delta';

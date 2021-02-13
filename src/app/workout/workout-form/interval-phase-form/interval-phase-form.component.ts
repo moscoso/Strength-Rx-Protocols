@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { ExerciseFacade } from 'src/app/core/state/exercises/exercises.facade';
-import { Exercise } from 'src/app/core/state/exercises/exercise.model';
+import { ExerciseFacade } from 'src/app/core/state/exercise/exercise.facade';
+import { Exercise } from 'src/app/core/state/exercise/exercise.model';
 import { Program } from 'src/app/core/state/program/program.model';
 import { WorkoutFacade } from 'src/app/core/state/workout/workout.facade';
 import {
