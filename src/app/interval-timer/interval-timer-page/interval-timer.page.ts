@@ -8,7 +8,7 @@ import { Program } from 'src/app/core/state/program/program.model';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { CustomRouterReducerState } from 'src/app/core/state/router/router.state';
 import { IntervalExerciseRoutine, IntervalPhase, Workout } from 'src/app/core/state/workout/workout.model';
-import { WorkoutFacade } from 'src/app/core/state/workout/workouts.facade';
+import { WorkoutFacade } from 'src/app/core/state/workout/workout.facade';
 import { first, firstNonNullValue, map, pluck, whenNonNull } from 'src/util/operator/Operators';
 import { ExerciseFacade } from '../../core/state/exercises/exercises.facade';
 

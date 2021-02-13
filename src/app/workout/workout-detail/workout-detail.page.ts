@@ -4,7 +4,7 @@ import { Workout, StandardExerciseRoutine } from 'src/app/core/state/workout/wor
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { first, map } from 'rxjs/operators';
 import { EditWorkoutPage } from '../edit-workout/edit-workout.page';
-import { WorkoutFacade } from 'src/app/core/state/workout/workouts.facade';
+import { WorkoutFacade } from 'src/app/core/state/workout/workout.facade';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { Program } from 'src/app/core/state/program/program.model';

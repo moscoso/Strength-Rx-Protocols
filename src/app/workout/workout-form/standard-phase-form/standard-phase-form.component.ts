@@ -6,7 +6,7 @@ import { first } from 'rxjs/operators';
 import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 import { ExerciseFacade } from 'src/app/core/state/exercises/exercises.facade';
 import { INIT_STANDARD_EXERCISE_ROUTINE, StandardExerciseRoutine, StandardPhase, Workout } from 'src/app/core/state/workout/workout.model';
-import { WorkoutFacade } from 'src/app/core/state/workout/workouts.facade';
+import { WorkoutFacade } from 'src/app/core/state/workout/workout.facade';
 
 
 @Component({

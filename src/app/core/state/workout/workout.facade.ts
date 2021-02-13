@@ -12,7 +12,7 @@ import { Workout } from './workout.model';
 
 /**
  * This service is responsible for dispatching actions to the Store
- * and selecting data from the Store related to Program
+ * and selecting data from the Store related to Workout
  */
 @Injectable({ 'providedIn': StateModule })
 export class WorkoutFacade {

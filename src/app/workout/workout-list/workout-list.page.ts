@@ -5,7 +5,7 @@ import { startWith, first } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { CreateWorkoutPage } from '../create-workout/create-workout.page';
 import Fuse from 'fuse.js';
-import { WorkoutFacade } from 'src/app/core/state/workout/workouts.facade';
+import { WorkoutFacade } from 'src/app/core/state/workout/workout.facade';
 import { Workout } from 'src/app/core/state/workout/workout.model';
 
 @UntilDestroy()

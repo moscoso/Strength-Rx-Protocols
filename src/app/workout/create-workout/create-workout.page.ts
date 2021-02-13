@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WorkoutFacade } from 'src/app/core/state/workout/workouts.facade';
+import { WorkoutFacade } from 'src/app/core/state/workout/workout.facade';
 
 @Component({
     'selector': 'app-create-workout',

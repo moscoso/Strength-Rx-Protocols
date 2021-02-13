@@ -5,7 +5,7 @@ import { first } from 'rxjs/operators';
 import { ExerciseFacade } from 'src/app/core/state/exercises/exercises.facade';
 import { Exercise } from 'src/app/core/state/exercises/exercise.model';
 import { Program } from 'src/app/core/state/program/program.model';
-import { WorkoutFacade } from 'src/app/core/state/workout/workouts.facade';
+import { WorkoutFacade } from 'src/app/core/state/workout/workout.facade';
 import {
     INIT_INTERVAL_SUPERSET,
     IntervalExerciseRoutine,
