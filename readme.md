@@ -46,16 +46,16 @@ Install the Angular CLI globally:
 npm install -g @angular/cli
 ```
 
-Create workspace:
+Install dependencies:
 
 ```
-ng new [PROJECT NAME]
+cd strength-rx-protocols
+npm install
 ```
 
 Run the application:
 
 ```
-cd [PROJECT NAME]
 ng serve
 ```
 
