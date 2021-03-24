@@ -1,4 +1,4 @@
-import { ExercisesState } from './exercises/exercise.state';
+import { ExercisesState } from './exercise/exercise.state';
 import { WorkoutState } from './workout/workout.state';
 import { CustomRouterReducerState } from './router/router.state';
 import { ProfilesState } from './profile/profile.state';

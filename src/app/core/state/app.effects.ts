@@ -1,5 +1,5 @@
 import { AuthEffects } from './auth/auth.effects';
-import { ExerciseEffects } from './exercises/exercise.effects';
+import { ExerciseEffects } from './exercise/exercise.effects';
 import { WorkoutEffects } from './workout/workout.effects';
 import { ProfileEffects } from './profile/profile.effects';
 import { CheckInEffects } from './check-in/check-in.effects';

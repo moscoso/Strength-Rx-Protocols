@@ -2,7 +2,7 @@ import { ActionReducerMap } from '@ngrx/store';
 import { routerReducer } from '@ngrx/router-store';
 import { AppState } from './app.state';
 import { authReducer } from './auth/auth.reducer';
-import { exercisesReducer } from './exercises/exercise.reducer';
+import { exercisesReducer } from './exercise/exercise.reducer';
 import { workoutsReducer } from './workout/workout.reducer';
 import { profilesReducer } from './profile/profile.reducer';
 import { checkInsReducer } from './check-in/check-in.reducer';

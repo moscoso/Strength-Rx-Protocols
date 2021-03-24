@@ -1,4 +1,4 @@
-import { Exercise } from '../exercises/exercise.model';
+import { Exercise } from '../exercise/exercise.model';
 
 /**
  * The main data model specifying an Workout
