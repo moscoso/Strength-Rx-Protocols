@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Exercise } from 'src/app/core/state/exercises/exercise.model';
+import { Exercise } from 'src/app/core/state/exercise/exercise.model';
 import { Workout } from 'src/app/core/state/workout/workout.model';
 
 @Component({

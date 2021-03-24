@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Exercise } from 'src/app/core/state/exercises/exercise.model';
+import { Exercise } from 'src/app/core/state/exercise/exercise.model';
 import { Program } from 'src/app/core/state/program/program.model';
 
 @Component({

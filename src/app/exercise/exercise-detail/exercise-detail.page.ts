@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { Exercise } from 'src/app/core/state/exercises/exercise.model';
+import { Exercise } from 'src/app/core/state/exercise/exercise.model';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { EditExerciseComponent } from '../components/edit-exercise/edit-exercise.component';
-import { ExerciseFacade } from 'src/app/core/state/exercises/exercises.facade';
+import { ExerciseFacade } from 'src/app/core/state/exercise/exercise.facade';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { untilDestroyed, UntilDestroy } from '@ngneat/until-destroy';
 
