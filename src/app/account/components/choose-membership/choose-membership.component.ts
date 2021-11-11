@@ -3,9 +3,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { first } from 'rxjs/operators';
 
 @Component({
-    selector: 'choose-membership',
-    templateUrl: './choose-membership.component.html',
-    styleUrls: ['./choose-membership.component.scss'],
+    'selector': 'choose-membership',
+    'templateUrl': './choose-membership.component.html',
+    'styleUrls': ['./choose-membership.component.scss'],
 })
 export class ChooseMembershipComponent implements OnInit {
 

@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from '../app.state';
-import { FireAuthService } from '../../firebase/auth/auth.service';
-import * as ProfileAction from './profile.actions';
-import { StateModule } from '../state.module';
-import * as fromProfile from './profile.selector';
-import { Observable } from 'rxjs';
-import { Dictionary } from '@ngrx/entity';
 import { AllRequested, RefreshAllRequested, RefreshOneRequested } from './profile.actions';
-import { first } from 'rxjs/operators';
+import { AppState } from '../app.state';
+import { Dictionary } from '@ngrx/entity';
+import { FireAuthService } from '../../firebase/auth/auth.service';
+import { firstNonNullValue } from 'src/util/operator/Operators';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Profile } from './profile.model';
+import { StateModule } from '../state.module';
+import { Store } from '@ngrx/store';
+import * as fromProfile from './profile.selector';
+import * as ProfileAction from './profile.actions';
 
 /**
  * This service is responsible for dispatching actions to the Store
@@ -17,6 +17,11 @@ import { Profile } from './profile.model';
  */
 @Injectable({ 'providedIn': StateModule })
 export class ProfileFacade {
+
+    selectAll$: Observable < Profile[] > = this.store.select(fromProfile.selectAll);
+    selectIDs$: Observable < string[] | number[] > = this.store.select(fromProfile.selectIds);
+    selectTotal$: Observable < number > = this.store.select(fromProfile.selectTotal);
+
     constructor(
         protected store: Store < AppState > ,
         protected fireAuth: FireAuthService
@@ -70,20 +75,8 @@ export class ProfileFacade {
         return this.store.select(fromProfile.selectRequestInProgress);
     }
 
-    public selectAll(): Observable < Profile[] > {
-        return this.store.select(fromProfile.selectAll);
-    }
-
-    public selectIDs(): Observable < string[] | number[] > {
-        return this.store.select(fromProfile.selectIds);
-    }
-
     public selectProfiles(): Observable < Dictionary < Profile >> {
         return this.store.select(fromProfile.selectEntities);
-    }
-
-    public selectTotal(): Observable < number > {
-        return this.store.select(fromProfile.selectTotal);
     }
 
     /**
@@ -94,11 +87,11 @@ export class ProfileFacade {
     }
 
     /**
-     * Select the Avatar that belongs to the authenticated user
+     * Select the profile picture that belongs to the authenticated user
      */
-    public async getUserAvatar(): Promise < string > {
+    public async getProfilePic(): Promise < string > {
         const profile = await this.selectUserAsProfile()
-            .pipe(first(user => user != null)).toPromise();
+            .pipe(firstNonNullValue).toPromise();
         return this.getAvatar(profile);
     }
 

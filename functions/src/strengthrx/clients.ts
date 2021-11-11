@@ -65,7 +65,7 @@ async function createClientEvent(clientID: string, timestamp: FirebaseFirestore.
             'docID': docID,
             'type': eventType,
             'trainerID': clientData.assignedTrainer ? clientData.assignedTrainer.id : '',
-        })
+        });
     }
 }
 

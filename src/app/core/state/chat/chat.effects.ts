@@ -6,7 +6,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { ChatAction, ChatActionType} from './chat.actions';
 import * as ChatActions from './chat.actions';
 import { ToastService } from 'src/app/shared/toast/toast.service';
-import { ChatService } from '../../firebase/chat/chat.service';
+import { ChatService } from '../../firebase/auth/chat/chat.service';
 import { Conversation, Message } from './chat.model';
 
 @Injectable()

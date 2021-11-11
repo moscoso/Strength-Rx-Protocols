@@ -263,7 +263,7 @@ const WILDCARD = [{
     'redirectTo': ''
 }];
 
-const appRoutes: Routes = [].concat(routes).concat(CHECK_IN_ROUTES).concat(WILDCARD);
+const appRoutes: Routes = [].concat(routes, CHECK_IN_ROUTES, WILDCARD);
 
 @NgModule({
     'imports': [

@@ -8,13 +8,11 @@ import { Component } from '@angular/core';
 })
 export class CheckInPage {
 
-    type: 'weight' | 'weekly' = 'weight'
+    type: 'weight' | 'weekly' = 'weight';
 
-    constructor() {
-
-    }
+    constructor() {}
 
     segmentChanged(e) {
-        this.type = e.detail.value
+        this.type = e.detail.value;
     }
 }

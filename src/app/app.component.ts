@@ -175,7 +175,7 @@ export class AppComponent implements OnInit {
     }
 
     async addAvatarToMenu() {
-        const avatar = await this.profileService.getUserAvatar();
+        const avatar = await this.profileService.getProfilePic();
         delete this.mainPages[0].icon;
         this.mainPages[0].img = avatar;
         delete this.clientPages[0].icon;

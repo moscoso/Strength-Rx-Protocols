@@ -8,7 +8,7 @@ import {
     AngularFirestore
 } from '@angular/fire/firestore';
 import { first } from 'rxjs/operators';
-import { Message } from '../../state/chat/chat.model';
+import { Message } from '../../../state/chat/chat.model';
 
 @Injectable({
     'providedIn': 'root'

@@ -41,3 +41,6 @@ npm-debug.log*
 
 # Auto-Generated Environment Version file
 /src/environments/version.ts
+
+functions/node_modules
+functions/lib

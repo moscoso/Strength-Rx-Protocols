@@ -5,7 +5,7 @@ import { MessagesRequested, SendMessageRequested } from './chat.actions';
 import { Message } from './chat.model';
 import { ProfileFacade } from '../profile/profile.facade';
 import { first } from 'rxjs/operators';
-import { ChatService } from '../../firebase/chat/chat.service';
+import { ChatService } from '../../firebase/auth/chat/chat.service';
 import { StateModule } from '../state.module';
 import { selectAll } from './chat.selector';
 import { Observable } from 'rxjs';
