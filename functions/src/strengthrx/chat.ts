@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 import { db } from '../config';
 import { getProfileData } from './user';
-import { sendMessageNotification } from '../notification/message';
+import { sendMessageNotification } from '../notification/notification';
 import { getOtherIDFromConversationID, getIDListFromConversationID } from './ConversationHelpers';
 
 export const onMessageCreated = functions.firestore.document(`conversations/{conversationID}/messages/{messageID}`)
@@ -57,35 +57,3 @@ function updateConversationDocument(conversationID: string, message: any): Promi
     }
     return db.doc(`conversations/${conversationID}`).set(conversation, {'merge': true});
 }
-
-
-
-
-
-
-
-
-// interface Message {
-//     id: string | null;
-//     conversationID: string;
-//     // imageURL: string;
-//     // profilePhoto: string;
-//     senderID: string;
-//     senderName: string;
-//     text: string;
-//     timestamp: Timestamp;
-// }
-
-
-// export interface Conversation {
-//     user1: string;
-//     user2: string;
-//     latest: Date;
-//     lastReadByUser1: Date;
-//     lastReadByUser2: Date;
-//     preview: string;
-//     userIDs: [];
-//     name1: string;
-//     name2: string;
-//     error?: any;
-// }

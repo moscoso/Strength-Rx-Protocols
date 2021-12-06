@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, DebugElement } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { Platform } from '@ionic/angular';
@@ -55,6 +55,6 @@ describe('AppComponent', () => {
 
     it('has labels for each menu item', async () => {
         const menuItems = element.querySelectorAll('ion-label');
-        expect(menuItems.length).toEqual(component.mainPages.length);
+        expect(menuItems.length).toEqual(component.trainerFeatures.length);
     });
 });

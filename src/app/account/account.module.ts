@@ -5,9 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { ChooseMembershipComponent } from './components/choose-membership/choose-membership.component';
 import { JoinFormComponent } from './components/join-form/join-form.component';
 import { MaterialsModule } from '../materials.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     'declarations': [

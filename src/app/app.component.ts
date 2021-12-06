@@ -33,15 +33,15 @@ export class AppComponent implements OnInit {
             'icon': 'people',
             'scrollID': 'services'
         },
-        // {
-        //     'label': 'Store',
-        //     'icon': 'shirt-outline',
-        //     'href': 'https://strength-rx.myshopify.com/collections/all'
-        // }
+        {
+            'label': 'Store',
+            'icon': 'shirt-outline',
+            'href': 'https://strength-rx.myshopify.com/collections/all'
+        }
 
     ];
 
-    public mainPages: MenuItem[] = [
+    public trainerFeatures: MenuItem[] = [
         {
             'label': 'Profile',
             'icon': 'people-outline',
@@ -74,7 +74,7 @@ export class AppComponent implements OnInit {
         // },
     ];
 
-    public clientPages: MenuItem[] = [
+    public clientFeatures: MenuItem[] = [
         {
             'label': 'Profile',
             'icon': 'people-outline',
@@ -90,11 +90,11 @@ export class AppComponent implements OnInit {
             'icon': 'checkbox-outline',
             'link': '/check-in',
         },
-        // {
-        //     'label': 'Store',
-        //     'icon': 'shirt-outline',
-        //     'href': 'https://strength-rx.myshopify.com/collections/all'
-        // },
+        {
+            'label': 'Store',
+            'icon': 'shirt-outline',
+            'href': 'https://strength-rx.myshopify.com/collections/all'
+        },
         {
             'label': 'Reviews',
             'icon': 'videocam-outline',
@@ -166,8 +166,6 @@ export class AppComponent implements OnInit {
         this.serviceWorkerUpdate.activated.subscribe(() => {
             this.toastService.primary('New Version Activated!');
         });
-
-
     }
 
     logout() {
@@ -176,9 +174,9 @@ export class AppComponent implements OnInit {
 
     async addAvatarToMenu() {
         const avatar = await this.profileService.getProfilePic();
-        delete this.mainPages[0].icon;
-        this.mainPages[0].img = avatar;
-        delete this.clientPages[0].icon;
-        this.clientPages[0].img = avatar;
+        delete this.trainerFeatures[0].icon;
+        this.trainerFeatures[0].img = avatar;
+        delete this.clientFeatures[0].icon;
+        this.clientFeatures[0].img = avatar;
     }
 }

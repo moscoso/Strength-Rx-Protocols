@@ -1,4 +1,3 @@
-
 import { getDeviceTokens } from './fcmUtility';
 import { messaging } from '../config';
 

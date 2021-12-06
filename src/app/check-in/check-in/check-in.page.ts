@@ -10,8 +10,6 @@ export class CheckInPage {
 
     type: 'weight' | 'weekly' = 'weight';
 
-    constructor() {}
-
     segmentChanged(e) {
         this.type = e.detail.value;
     }

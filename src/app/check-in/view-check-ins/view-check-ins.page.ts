@@ -6,7 +6,7 @@ import { first, pluck } from 'rxjs/operators';
 import { nonNull } from 'src/util/predicate/Predicates';
 
 @Component({
-    'selector': 'app-view-check-ins',
+    'selector': 'view-check-ins',
     'templateUrl': './view-check-ins.page.html',
     'styleUrls': ['./view-check-ins.page.scss'],
 })
@@ -28,6 +28,7 @@ export class ViewCheckInsPage implements OnInit {
         this.profileService.loadAll();
         const router = await this.routerService.selectState().pipe(first()).toPromise();
         const routeID = router.state.params.id;
+
         if (routeID) {
             this.clientID = await this.profileService.selectProfile(routeID)
                 .pipe(first(nonNull), pluck('id')).toPromise();

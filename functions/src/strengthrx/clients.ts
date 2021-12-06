@@ -96,7 +96,7 @@ export const onWrittenClient = functions.firestore.document(`clients/{clientID}`
 
 function buildCalendar(program: Program): any {
     const calendar: any = {};
-    const startDay: dayjs.Dayjs = dayjs(new Date());// dayjs(program.startDate);
+    const startDay: dayjs.Dayjs = dayjs(new Date());
     program.phases.forEach((phase, phaseIndex) => {
         let normalizedWeekIndex = 0;
         for (let i = 1; i <= phase.lengthInWeeks; i++) {
@@ -126,7 +126,6 @@ function buildWorkoutEvent(
     week: number,
     normalizedWeek: number
 ): WorkoutEvent {
-    assignedDate.getTime()
     return {
         id,
         'assignedDate': assignedDate.getTime(),

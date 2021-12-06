@@ -8,8 +8,8 @@
                         <img class="logo" src="/assets/icon/logo.png" routerLink="/"
                              title="Click to go to landing page">
                     </ion-list-header>
-                    <menu-list [items]="mainPages" *ngIf="(url$ | async) !== '/' && (isAuthenticated$ | async) && (iAmTrainer$ | async)"></menu-list>
-                    <menu-list [items]="clientPages" *ngIf="(url$ | async) !== '/' && (isAuthenticated$ | async)&& !(iAmTrainer$ | async) "></menu-list>
+                    <menu-list [items]="trainerFeatures" *ngIf="(url$ | async) !== '/' && (isAuthenticated$ | async) && (iAmTrainer$ | async)"></menu-list>
+                    <menu-list [items]="clientFeatures" *ngIf="(url$ | async) !== '/' && (isAuthenticated$ | async)&& !(iAmTrainer$ | async) "></menu-list>
                     <menu-list [items]="landingPages" *ngIf="(url$ | async) === '/'"></menu-list>
                     <ion-item *ngIf="(isAuthenticated$ | async) && (url$ | async) === '/'" routerLink="/dashboard">
                         <ion-icon size="large" slot="start" icon="speedometer-outline"></ion-icon>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { IonContent, IonList } from '@ionic/angular';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { filter, first } from 'rxjs/operators';
@@ -7,11 +7,10 @@ import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { sortByTimestamp } from 'src/app/core/state/chat/chat.state';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { getIDListFromConversationID, getOtherIDFromConversationID } from 'functions/src/strengthrx/ConversationHelpers';
-import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 
 @Component({
-    'selector': 'app-conversation',
+    'selector': 'conversation',
     'templateUrl': './conversation.page.html',
     'styleUrls': ['./conversation.page.scss'],
 })

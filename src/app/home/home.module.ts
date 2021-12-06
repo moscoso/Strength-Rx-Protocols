@@ -16,6 +16,5 @@ import { ImageComparisonSliderComponent } from './image-comparison/image-compari
     'exports': [
         ImageComparisonSliderComponent
     ],
-    
 })
 export class HomeModule {}

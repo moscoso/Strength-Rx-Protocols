@@ -10,7 +10,7 @@ async function createUserAndSetProfile(profile: any, password: string): Promise<
     return auth.createUser({'email': profile.email, password}).then(authorizedUser => {
         profile.id = authorizedUser.uid;
         return db.collection(`profiles`).doc(authorizedUser.uid).set(profile);
-    })
+    });
 }
 
 export const createUserAndProfile = functions.https.onCall(async (data, context) => {

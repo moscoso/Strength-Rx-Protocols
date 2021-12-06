@@ -37,7 +37,7 @@ export function assertUID(context: CallableContext): string {
 export async function catchErrors(promise: Promise < any > ): Promise < any > {
     try {
         return await promise;
-    } catch (err) {
-        throw new functions.https.HttpsError('unknown', err)
+    } catch (err: any) {
+        throw new functions.https.HttpsError('unknown', err);
     }
 }
