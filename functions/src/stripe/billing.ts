@@ -20,6 +20,5 @@ async function createBillingSession(userID: string, returnURL?: string): Promise
 
 export const stripeCreateBillingPortalLink = functions.https.onCall(async (data, context) => {
     const userID = assertUID(context);
-    // const returnURL = assert(data, 'returnURL');
     return catchErrors(createBillingSession(userID));
 });

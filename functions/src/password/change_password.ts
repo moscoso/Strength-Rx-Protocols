@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions';
-import { auth } from '../config/index';
+import { auth } from '../config';
 
 /**
  * Change the user's password
@@ -8,10 +8,9 @@ import { auth } from '../config/index';
  * @param confirmNewPassword 
  */
 export const change_password = functions.https.onCall(async (data, context) => {
-	return auth.createUser({'email': profile.email, password}).then(authorizedUser => {
-        profile.id = authorizedUser.uid;
-        return db.collection(`profiles`).doc(authorizedUser.uid).set(profile);
+	return auth.createUser({'email': data.profile.email, 'password': data.password}).then(authorizedUser => {
+        data.profile.id = authorizedUser.uid;
+		return auth.generatePasswordResetLink(data.profile.email);
     });
-
-	// return catchErrors(createUserAndSetProfile(profile, password));
 });
+

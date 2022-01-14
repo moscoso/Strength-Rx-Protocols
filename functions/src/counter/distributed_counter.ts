@@ -57,8 +57,6 @@ export async function getCount(name: string): Promise < number > {
         });
     } else {
         await createCounter(name);
-        return await getCount(name);
+        return getCount(name);
     }
-
-
 }
