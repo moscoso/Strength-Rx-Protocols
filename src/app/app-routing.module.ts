@@ -51,7 +51,7 @@ const routes: Routes = [
         'canActivate': [AuthGuard, ProfileGuard],
     },
 
-     // {
+    // {
     //     'path': 'programs/:phase/:day/interval-timer',
     //     'loadChildren': () => import('./interval-timer/interval-timer-page/interval-timer.module').then(m => m.IntervalTimerPageModule),
     // },
@@ -252,6 +252,11 @@ const routes: Routes = [
         'path': 'interval-timer/:workoutID',
         'loadChildren': () => import('./interval-timer/interval-timer-page/interval-timer.module').then(m => m.IntervalTimerPageModule)
     },
+    // {
+    //     path: 'conversation-list',
+    //     loadChildren: () => import('./chat/conversation-list/conversation-list.module').then(m => m.ConversationListPageModule)
+    // },
+
 
 
 
