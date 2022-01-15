@@ -1,0 +1,36 @@
+name: Deploy cloud functions
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  deploy_cloud_functions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: cd functions/ && npm install
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF##*/})"
+        id: extract_branch
+      - name: Deploy functions to production
+        if: steps.extract_branch.outputs.branch == 'master'
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only functions -P default
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Deploy functions to staging
+        if: steps.extract_branch.outputs.branch == 'develop'
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only functions -P staging
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          
+          
+          

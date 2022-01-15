@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@types/stripe": "^7.13.24",
+    "codelyzer": "^6.0.2",
     "firebase-functions-test": "^0.1.6",
     "tslint": "^5.12.0",
     "typescript": "^4.1.3"
