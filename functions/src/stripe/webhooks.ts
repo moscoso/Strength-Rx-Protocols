@@ -2,6 +2,7 @@ import { stripe, stripeWebhookSignature, stripeCreateSubscriptionSignature } fro
 import * as functions from 'firebase-functions';
 import { updateSubscription, activateSubscription } from './subscriptions';
 import { createClient } from '../strengthrx/clients';
+import Stripe from 'stripe';
 
 /**
  * This file contains webhooks called by Stripe that can be configured here: 
@@ -18,9 +19,9 @@ export async function webhookHandler(data: any): Promise < FirebaseFirestore.Wri
     } else {
         const userID = customer.metadata.firebaseUserID;
         const subscription = await stripe.subscriptions.retrieve(subscriptionID);
-        return await updateSubscription(userID, subscription)
+        return updateSubscription(userID, subscription)
     }
-};
+}
 
 export async function subscriptionCreatedHandler(data: any): Promise < FirebaseFirestore.WriteResult > {
     const customerID = data.customer;
@@ -41,27 +42,43 @@ export async function subscriptionCreatedHandler(data: any): Promise < FirebaseF
             planID = null;
         }
         if (subscription.id === null) { throw new Error(`Subscription plan was null`) }
-        return await activateSubscription(userID, planID, subscription.id)
+        return activateSubscription(userID, planID, subscription.id)
     }
-};
+}
 
-/////// DEPLOYABLE FUNCTIONS ////////
+
+/**
+ * Constructs and verifies the signature of a Stripe Event from the provided details.
+ * @param req - the http request to verify
+ * @param 
+ * @returns - Stripe object containing the API resource relevant to the event. 
+ * @throws - Stripe.errors.StripeSignatureVerificationError if the signature can't be verified
+ */
+function verifyStripeEvent(req: functions.https.Request, signature: string): Stripe.Event.Data.Object {
+    const sigHeader = req.headers['stripe-signature'];
+    if (sigHeader === undefined) {
+        throw new Error(`Stripe signature was undefined`);
+    }
+
+    const event = stripe.webhooks.constructEvent(
+        (req as any).rawBody,
+        sigHeader,
+        signature
+    );
+    return event.data.object;
+}
+
+
+/////// CLOUD FUNCTIONS ////////
+
 export const invoiceWebhookEndpoint = functions.https.onRequest(
     async (req, res) => {
         try {
-            const sig = req.headers['stripe-signature'];
-            if (sig === undefined) {
-                throw new Error(`Stripe signature was undefined`);
-            }
-            const event = stripe.webhooks.constructEvent(
-                (req as any).rawBody,
-                sig,
-                stripeWebhookSignature
-            );
-            const data = event.data.object;
+            const data = verifyStripeEvent(req, stripeWebhookSignature);
             await webhookHandler(data);
             res.sendStatus(200);
         } catch (err) {
+            console.log(err);
             res.status(400).send(err);
         }
     }
@@ -71,16 +88,7 @@ export const subscriptionCreatedWebhook = functions.https.onRequest(
     async (req, res) => {
         console.log(`Subscription Created Invoked`);
         try {
-            const sig = req.headers['stripe-signature'];
-            if (sig === undefined) {
-                throw new Error(`Stripe signature was undefined`);
-            }
-            const event = stripe.webhooks.constructEvent(
-                (req as any).rawBody,
-                sig,
-                stripeCreateSubscriptionSignature
-            );
-            const data = event.data.object;
+            const data = verifyStripeEvent(req, stripeCreateSubscriptionSignature);
             subscriptionCreatedHandler(data).then((result) => {
                 res.status(200).send(result);
             }).catch((reason) => {
@@ -89,6 +97,7 @@ export const subscriptionCreatedWebhook = functions.https.onRequest(
             });
         } catch (err) {
             console.log(err);
+            res.status(400).send(err);
         }
     }
 );

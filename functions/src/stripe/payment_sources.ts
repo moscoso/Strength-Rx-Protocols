@@ -22,11 +22,11 @@ export async function attachSource(userID: string, sourceID: string): Promise < 
                 return existingSource;
             } else {
                 await stripe.customers.createSource(customer.id, { source: sourceID });
-                return await stripe.customers.update(customer.id, { default_source: sourceID });
+                return stripe.customers.update(customer.id, { default_source: sourceID });
             }
         }
         await stripe.customers.createSource(customer.id, { source: sourceID });
-        return await stripe.customers.update(customer.id, { default_source: sourceID });
+        return stripe.customers.update(customer.id, { default_source: sourceID });
     }
 }
 
@@ -40,7 +40,7 @@ type StripeSource =
     Stripe.Source;
 
 
-/////// DEPLOYABLE FUNCTIONS ////////
+/////// CLOUD FUNCTIONS ////////
 
 /**
  * Attach a stripe source to the authorized User

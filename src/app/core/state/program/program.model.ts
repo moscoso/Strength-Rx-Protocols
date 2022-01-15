@@ -27,6 +27,8 @@ export interface WeeklySchedule {
     day7: Workout | null;
 }
 
+export type WeeklyScheduleIndex = 'day1'| 'day2' | 'day3' | 'day4' | 'day5' | 'day6' | 'day7';
+
 export const PROGRAM_INIT_MODEL: Program = {
     'id': '',
     'name': '',

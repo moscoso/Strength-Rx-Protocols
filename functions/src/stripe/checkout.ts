@@ -4,13 +4,20 @@ import Stripe from 'stripe';
 import { getOrCreateCustomer } from './customers';
 import { assertUID, catchErrors, assert } from '../helpers';
 
-async function createCheckoutSession(userID: string, priceID: string, hostURL = 'https://strengthrx.pro', idempotencyKey: string) {
+/**
+ * 
+ * @param userID the unique identifier corresponding to the user in Firebase
+ * @param priceID The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object.
+ * @param hostURL the host URL of the app initiating the checkout session
+ * @returns a Stripe checkout session object
+ */
+async function createCheckoutSession(userID: string, priceID: string, hostURL: string) {
     const customer = await getOrCreateCustomer(userID);
     const lineItem: Stripe.Checkout.SessionCreateParams.LineItem = {
         'price': priceID,
         'quantity': 1,
     }
-    const params: any = {
+    const params: Stripe.Checkout.SessionCreateParams = {
         line_items: [lineItem],
         payment_method_types: ['card'],
         customer: customer.id,
@@ -20,14 +27,16 @@ async function createCheckoutSession(userID: string, priceID: string, hostURL = 
         cancel_url: `${hostURL}/start-membership`,
     }
 
-    // const options: Stripe.RequestOptions = { idempotencyKey }
-    const session = await stripe.checkout.sessions.create(params);
+    const session: Promise<Stripe.Response<Stripe.Checkout.Session>> = stripe.checkout.sessions.create(params);
     return session;
 }
 
-export const stripeCreateCheckoutSession = functions.https.onCall(async (data, context) => {
+/////// CLOUD FUNCTIONS ////////
+
+export const checkout = functions.https.onCall(async (data, context) => {
     const userID = assertUID(context);
     const priceID = assert(data, 'priceID')
-    const hostURL = data.hostURL;
-    return catchErrors(createCheckoutSession(userID, priceID, hostURL, ''));
+	// Optional
+    const hostURL = data.hostURL ? data.hostURL : 'https://strengthrx.pro';
+    return catchErrors(createCheckoutSession(userID, priceID, hostURL));
 });

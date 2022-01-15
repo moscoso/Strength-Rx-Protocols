@@ -1,14 +1,18 @@
 import { db, auth, STRIPE_COLLECTION } from '../config';
 import Stripe from 'stripe';
 import { getCount, incrementCounter } from '../counter/distributed_counter';
-// tslint:disable-next-line: no-implicit-dependencies
 import { Transaction, DocumentReference } from '@google-cloud/firestore';
+
 import * as functions from 'firebase-functions';
 import * as dayjs from 'dayjs';
 
+import { Program, WeeklyScheduleIndex } from '../../../src/app/core/state/program/program.model'
+import { Workout } from '../../../src/app/core/state/workout/workout.model'
+
+
 /**
  * Creates a Firebase document in the clients collection with 
- * @param userID the ID corresponding to the user
+ * @param userID the unique identifier corresponding to the user in Firebase
  * @param subscription the Subscription created to start a membership for the client 
  */
 export async function createClient(userID: string, subscription: Stripe.Subscription) {
@@ -80,6 +84,7 @@ export const onCreatedClient = functions.firestore.document(`clients/{clientID}`
 export const onWrittenClient = functions.firestore.document(`clients/{clientID}`).onWrite(async (change, context) => {
     const clientID = context.params.clientID;
     const data = change.after.data();
+
     if (data) {
         const assignedProgram = data.assignedProgram;
         if (assignedProgram) {
@@ -90,8 +95,9 @@ export const onWrittenClient = functions.firestore.document(`clients/{clientID}`
         } else {
             return db.doc(`clients/${clientID}/calendar/calendar`).delete();
         }
-    } 
-    throw new functions.https.HttpsError('failed-precondition', `data does not exist for clientID ${clientID}`);
+    } else {
+		throw new functions.https.HttpsError('failed-precondition', `data does not exist for clientID ${clientID}`);
+	}
 });
 
 function buildCalendar(program: Program): any {
@@ -101,14 +107,13 @@ function buildCalendar(program: Program): any {
         let normalizedWeekIndex = 0;
         for (let i = 1; i <= phase.lengthInWeeks; i++) {
             Object.keys(phase.schedule).sort().forEach((day, dayIndex) => {
-                const workout = phase.schedule[day];
+				const workout = phase.schedule[day as WeeklyScheduleIndex];
                 if (workout) {
                     const DAYS_IN_A_WEEK = 7;
                     const adjustment = dayIndex + (normalizedWeekIndex * DAYS_IN_A_WEEK)
                     const assignedDay = dayjs(startDay).add(adjustment, 'day');
                     const dayID = assignedDay.format('MM-DD-YYYY');
-                    const event = buildWorkoutEvent(dayID, assignedDay.toDate(), workout, phaseIndex, i,
-                        normalizedWeekIndex + 1)
+                    const event = buildWorkoutEvent(dayID, assignedDay.toDate(), workout, phaseIndex, i, normalizedWeekIndex + 1)
                     calendar[dayID] = event;
                 }
             });
@@ -159,82 +164,6 @@ export const onCreatedProgressPics = functions.firestore.document(`clients/{clie
     const docID = context.params.docID;
     return createClientEvent(clientID, createTime, 'progress-pic', docID);
 });
-
-
-interface Program {
-    id: string;
-    name: string;
-    totalLengthInWeeks: number;
-    phases: ProgramPhase[];
-    photoURL: string;
-    startDate: Date;
-    dateCreated: Date;
-}
-
-/**
- * A distinct stage in a training Program.
- * Each phase is broken up into a weekly schedule and each phase typically lasts for several weeks.
- */
-interface ProgramPhase {
-    name: string;
-    schedule: WorkoutSchedule;
-    lengthInWeeks: number;
-}
-
-/**
- * Initialize a Program Phase with default values
- */
-// const INIT_PROGRAM_PHASE: ProgramPhase = {
-//     'name': 'unnamed phase',
-//     'lengthInWeeks': 1,
-//     'schedule': {
-//         'day1': null,
-//         'day2': null,
-//         'day3': null,
-//         'day4': null,
-//         'day5': null,
-//         'day6': null,
-//         'day7': null,
-//     },
-// };
-
-/**
- * The workout schedule for a week of a Program's phase
- */
-type WorkoutSchedule = any
-
-
-/**
- * The main data model for an Workout
- */
-interface Workout {
-    /**
-     * The unique identifier for a workout
-     */
-    id: string;
-    /**
-     * The name of the workout
-     */
-    name: string;
-    /**
-     * A standard phase of a workout describes a normal exercise routine.
-     *
-     * Note: A value of Null indicates that this workout does not include a StandardPhase
-     */
-    standardPhase: any | null;
-    /**
-     * An interval phase describes an interval training routine.
-     *
-     * Note: A value of Null indicates that this workout does not include a IntervalPhase
-     */
-    intervalPhase: any | null;
-    photoURL: string;
-    /**
-     * A timestamp denoting when this workout was created
-     */
-    dateCreated: Date;
-}
-
 
 interface WorkoutEvent {
     'id': string;

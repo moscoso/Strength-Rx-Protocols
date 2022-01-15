@@ -5,35 +5,38 @@ import * as functions from 'firebase-functions';
 import { getProfileData } from '../strengthrx/user';
 
 /**
- * Read the user's account document from Firestore that defines Stripe data
- * @param userID the ID corresponding to the user
+ * Retrieve a Stripe account stored in Firestore
+ * @param userID the unique identifier corresponding to the user in Firebase in Firebase
  */
-export async function getUser(userID: string) {
-    return await db.collection(STRIPE_COLLECTION).doc(userID).get().then(doc => doc.data());
+export async function getAccount(userID: string) {
+	const doc = await db.collection(STRIPE_COLLECTION).doc(userID).get();
+	if(doc.exists) return doc.data() as FirebaseFirestore.DocumentData;
+	else throw new functions.https.HttpsError('not-found', `userID '${userID}' does not exist in ${STRIPE_COLLECTION}`);
 }
 
 /**
- * Updates the user document in Firestore non-destructively
- * @param userID the ID corresponding to the user
+ * Updates a Stripe account in Firestore non-destructively
+ * @param userID the unique identifier corresponding to the user in Firebase
  * @param data a payload object to merge to the document
  */
-export async function updateUser(userID: string, data: Object) {
-    return await db.collection(STRIPE_COLLECTION).doc(userID).set(data, { merge: true })
+export async function updateAccount(userID: string, data: object) {
+    return db.collection(STRIPE_COLLECTION).doc(userID).set(data, { merge: true })
 }
 
 /**
- * Gets a Customer ID provided by Stripe that corresponds to a User in Firebase.
- * This ID is to be used as the customer's indentifier with the Stripe API
- * @param userID the ID corresponding to the user
+ * Retrieves the user's Customer ID that is to be used with the Stripe API.
+ * @param userID the unique identifier corresponding to the User in Firebase
+ * @returns the customer's unique indentifier provided by Stripe
  */
 export async function getCustomerID(userID: string): Promise < string >  {
-    const user = await getUser(userID);
+    const user = await getAccount(userID);
     return assert(user, 'stripeCustomerID');
 }
 
 /**
- * Takes a Firebase user and creates a Stripe customer account
- * @param userID the ID corresponding to the user
+ * Creates a Stripe customer account for a user
+ * @param userID the unique identifier corresponding to the User in Firebase
+ * @returns the Stripe Customer object of the user.
  */
 export async function createCustomer(userID: string): Promise < Stripe.Customer > {
     const user = await auth.getUser(userID);
@@ -41,10 +44,15 @@ export async function createCustomer(userID: string): Promise < Stripe.Customer 
         email: user.email,
         metadata: { firebaseUserID: userID }
     })
-    await updateUser(userID, { 'stripeCustomerID': customer.id, 'email': user.email})
+    await updateAccount(userID, { 'stripeCustomerID': customer.id, 'email': user.email})
     return customer;
 }
 
+/**
+ * Updates the user's customer account name in Stripe
+ * @param userID the unique identifier corresponding to the user in Firebase
+ * @returns the Stripe Customer object of the user.
+ */
 export async function updateCustomerName(userID: string): Promise < Stripe.Customer > {
     const customerID = await getCustomerID(userID); 
     const user = await getProfileData(userID);
@@ -58,11 +66,12 @@ export async function updateCustomerName(userID: string): Promise < Stripe.Custo
 }
 
 /**
- * Retrieves the details of an existing customer ID from firestore, or create a new one if missing
- * @param userID the ID corresponding to the user of Firebase
+ * Retrieves the user's customer account or creates a new one if it does not already exist.
+ * @param userID the unique identifier corresponding to the user in Firebase
+ * @returns the Stripe Customer object of the user.
  */
-export async function getOrCreateCustomer(userID: string) {
-    const user = await getUser(userID);
+export async function getOrCreateCustomer(userID: string): Promise<Stripe.Customer | Stripe.DeletedCustomer> {
+    const user = await getAccount(userID);
     if (user && user.stripeCustomerID) {
         const customerID = user.stripeCustomerID;
         return stripe.customers.retrieve(customerID);

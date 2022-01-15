@@ -6,13 +6,13 @@ import Stripe from 'stripe';
 
 
 /**
-Returns a coupon from Stripe
-*/
+ *	Returns a coupon from Stripe
+ */
 export function getCoupon(coupon: string): Promise<Stripe.Coupon> {
     return stripe.coupons.retrieve(coupon);
 }
 
-/////// DEPLOYABLE FUNCTIONS ////////
+/////// CLOUD FUNCTIONS ////////
 export const stripeGetCoupon= functions.https.onCall( async (data, context) => {
     const coupon = assert(data, 'coupon');
     return catchErrors(getCoupon(coupon));

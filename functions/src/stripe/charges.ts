@@ -6,11 +6,11 @@ import Stripe from 'stripe';
 import { getOrCreateCustomer } from './customers';
 
 /** 
- * Gets a user's charge history
- * @param userID the ID that corresponds to the user in Firebase
- * @param limit a limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+ * Gets a list of a Firebase users' charges
+ * @param userID the unique identifier corresponding to the user in Firebase
+ * @param limit an optional limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
  */
-export async function getUserCharges(userID: string, limit ? : number) {
+export async function listCharges(userID: string, limit? : number) {
     const account = await db.collection(STRIPE_COLLECTION).doc(userID).get();
     const data = account.data();
     if(data){
@@ -19,20 +19,20 @@ export async function getUserCharges(userID: string, limit ? : number) {
             limit,
             customer: customerID
         }
-        return await stripe.charges.list(params);
+        return stripe.charges.list(params);
     } else {
-        throw new Error(`Could not find Stripe account for ${userID}`);
+        throw new functions.https.HttpsError(`not-found`,`Could not find Stripe document for: '${userID}'`);
     }
 }
 
 /**
- * Creates a charge for a specific amount
- * @param userID the ID that corresponds to the customer in Stripe
+ * Charges a Firebase user for a specific amount of $
+ * @param userID the unique identifier corresponding to the user in Firebase
  * @param source the payment source to charge
- * @param amount the payment amount in pennies or the currenciey's lowest common deominator. (i.e 2501 === $25.01)
- * @param idempotency_key a key used by Stripe to ensure that a charge called more than once will only be executed once
+ * @param amount the amount to collect in pennies. For example, 2499 === $24.99
+ * @param idempotencyKey an optional key used by Stripe to ensure that a charge called more than once will only be executed once
  */
-export async function createCharge(userID: string, source: string, amount: number, idempotency_key ? : string) {
+export async function charge(userID: string, source: string, amount: number, idempotencyKey ? : string) {
     const customer = await getOrCreateCustomer(userID);
     const params: Stripe.ChargeCreateParams = {
         amount,
@@ -40,23 +40,23 @@ export async function createCharge(userID: string, source: string, amount: numbe
         source,
         currency: 'usd',
     };
-    const options: Stripe.RequestOptions = { idempotency_key }
+    const options: Stripe.RequestOptions = { idempotencyKey }
     await attachSource(userID, source);
     return stripe.charges.create(params, options);
 }
 
-/////// DEPLOYABLE FUNCTIONS ////////
+/////// CLOUD FUNCTIONS ////////
 
-export const stripeCreateCharge = functions.https.onCall(async (data, context) => {
+export const createCharge = functions.https.onCall(async (data, context) => {
     const uid = assertUID(context);
     const source = assert(data, 'source');
     const amount = assert(data, 'amount');
     // Optional
     const idempotency_key = data.itempotency_key;
-    return catchErrors(createCharge(uid, source, amount, idempotency_key));
+    return catchErrors(charge(uid, source, amount, idempotency_key));
 });
 
-export const stripeGetCharges = functions.https.onCall(async (data, context) => {
+export const getCharges = functions.https.onCall(async (data, context) => {
     const uid = assertUID(context);
-    return catchErrors(getUserCharges(uid, 100));
+    return catchErrors(listCharges(uid, 100));
 });

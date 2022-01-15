@@ -2,10 +2,12 @@ import * as functions from 'firebase-functions';
 import { CallableContext } from 'firebase-functions/lib/providers/https';
 
 /**
- * Validates that a key-value pair exists in the data payload object of a Firebase Functions callable function
- * @throws an error when a specified key is missing from the data object
- * @param data the data passed through the callable function
+ * Validates that a key-value pair exists in the data payload
+ * 
+ * @param data the data payload to verified
  * @param key the variable name of the key-value pair to validate
+ * 
+ * @throws an `invalid-argument` error when a specified key is missing from the `data` object
  */
 export function assert(data: any, key: string) {
     if (data[key]) {
@@ -16,9 +18,13 @@ export function assert(data: any, key: string) {
 }
 
 /**
- * Validate the auth context of the callable function. In other words, the user calling this function must be authorized.
- * @throws an error when the function is called by an unauthorized user
+ * Validates the auth context of the callable function. In other words, the user calling this function must be authorized.
+ * 
+ * @param context the callable context
+ * 
  * @returns the unique ID corresponding to the the authorized user
+ * 
+ * @throws an error when the function is called by an unauthorized user
  */
 export function assertUID(context: CallableContext): string {
     const userIsAuthorized = context.auth;
@@ -38,6 +44,10 @@ export async function catchErrors(promise: Promise < any > ): Promise < any > {
     try {
         return await promise;
     } catch (err: any) {
-        throw new functions.https.HttpsError('unknown', err);
+		if(err.code) {
+			throw err
+		} else {
+			throw new functions.https.HttpsError('unknown', err);
+		} 
     }
 }

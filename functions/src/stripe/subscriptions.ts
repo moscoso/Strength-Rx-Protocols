@@ -9,7 +9,7 @@ import { createClient } from '../strengthrx/clients';
 
 /**
  * Add the Stripe Subscription data to a Firestore document in the subscriptions subcollection of a user's account
- * @param userID the ID corresponding to the user
+ * @param userID the unique identifier corresponding to the user in Firebase
  * @param planID the ID corresponding to the Plan of the subscription. (https://stripe.com/docs/api/plans)
  * @param subscriptionID the ID corresponding to the Subscription instance belonging to this customer
  */
@@ -26,7 +26,7 @@ export async function activateSubscription(userID: string, planID: string, subsc
 
 /**
  * Update the Stripe Subscription data to a Firestore document in the subscriptions subcollection of a user's account
- * @param userID the ID corresponding to the user
+ * @param userID the unique identifier corresponding to the user in Firebase
  * @param subscriptionID the ID corresponding to the Subscription instance belonging to this customer
  */
 export async function updateSubscription(userID: string, subscription: Stripe.Subscription): Promise<FirebaseFirestore.WriteResult> {
@@ -51,7 +51,7 @@ export async function updateSubscription(userID: string, subscription: Stripe.Su
 
 /**
  * Deactivate the Stripe Subscription data stored in a Firestore document in the subscriptions subcollection of a user's account
- * @param userID the ID corresponding to the user
+ * @param userID the unique identifier corresponding to the user in Firebase
  * @param subscriptionID the ID corresponding to the Subscription instance belonging to this customer
  */
 async function deactivateSubscription(userID: string, subscriptionID: string): Promise<FirebaseFirestore.WriteResult> {
@@ -65,16 +65,16 @@ async function deactivateSubscription(userID: string, subscriptionID: string): P
 
 /**
  * Gets a user's subscriptions
- * @param userID the ID corresponding to the user
+ * @param userID the unique identifier corresponding to the user in Firebase
  */
-export async function getSubscriptions(userID: string): Promise < Stripe.ApiList < Stripe.Subscription >> {
+export async function listSubscriptions(userID: string): Promise < Stripe.ApiList < Stripe.Subscription >> {
     const customer = await getOrCreateCustomer(userID);
     return stripe.subscriptions.list({ 'customer': customer.id });
 }
 
 /**
  * Creates and charges user for a new subscription
- * @param userID the ID corresponding to the user
+ * @param userID the unique identifier corresponding to the user in Firebase
  * @param source the payment source to charge
  * @param plan the ID corresponding to the Plan of the subscription. (https://stripe.com/docs/api/plans)
  * @param coupon the ID corresponding to the Coupon (generated in the Stripe dashboard) 
@@ -104,22 +104,22 @@ export async function deleteSubscription(userID: string, subID: string): Promise
     return subscription;
 }
 
-/////// DEPLOYABLE FUNCTIONS ////////
+/////// CLOUD FUNCTIONS ////////
 
-export const stripeCreateSubscription = functions.https.onCall(async (data, context) => {
+export const startSubscription = functions.https.onCall(async (data, context) => {
     const uid = assertUID(context);
     const source = assert(data, 'source');
     const plan = assert(data, 'plan');
     return catchErrors(createSubscription(uid, source, plan, data.coupon));
 });
 
-export const stripeCancelSubscription = functions.https.onCall(async (data, context) => {
+export const cancelSubscription = functions.https.onCall(async (data, context) => {
     const uid = assertUID(context);
     const plan = assert(data, 'plan');
     return catchErrors(deleteSubscription(uid, plan));
 });
 
-export const stripeGetSubscriptions = functions.https.onCall(async (data, context) => {
+export const getSubscriptions = functions.https.onCall(async (data, context) => {
     const uid = assertUID(context);
-    return catchErrors(getSubscriptions(uid));
+    return catchErrors(listSubscriptions(uid));
 });

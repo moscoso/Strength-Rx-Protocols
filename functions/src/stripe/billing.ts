@@ -5,7 +5,11 @@ import { stripe } from '../config';
 import Stripe from 'stripe';
 
 /**
- * Create a billing portal link
+ * Creates a session of the customer portal.
+ * 
+ * @param userID the unique identifier corresponding to the user in Firebase
+ * @param returnURL the URL to which Stripe should send customers when they click on the link to return to your website.
+ * @returns a billing session object
  */
 async function createBillingSession(userID: string, returnURL?: string): Promise<Stripe.BillingPortal.Session> {
     const customer = await getCustomerID(userID);
@@ -16,9 +20,11 @@ async function createBillingSession(userID: string, returnURL?: string): Promise
     const session = await stripe.billingPortal.sessions.create(params);
     console.log(`✅Created billing portal link for user [${userID}].`);
     return session
-};
+}
 
-export const stripeCreateBillingPortalLink = functions.https.onCall(async (data, context) => {
+/////// CLOUD FUNCTIONS ////////
+
+export const createBillingPortal = functions.https.onCall(async (data, context) => {
     const userID = assertUID(context);
     return catchErrors(createBillingSession(userID));
 });
