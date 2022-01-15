@@ -1,0 +1,36 @@
+name: Deploy cloud functions
+
+on:
+  push:
+    branches:
+      - main
+      - development
+
+jobs:
+  deploy_to_production:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: install dependencies
+        run: cd functions/ && npm install
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: deploy functions to production
+        if: steps.extract_branch.outputs.branch === 'master'
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only functions
+        env:
+          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_STRENGTHRX_PROTOCOLS }}
+      - name: deploy functions to staging
+        if: steps.extract_branch.outputs.branch === 'master'
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only functions
+        env:
+          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_STRENGTHRX_PRO_TEST }}
+          
+          
+          
