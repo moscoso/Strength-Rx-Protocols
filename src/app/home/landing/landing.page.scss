@@ -6,7 +6,7 @@
 
     ion-header {
         position: fixed;
-        transform: translate3d(0,0,0);
+        transform: translate3d(0, 0, 0);
     }
 
     video {
@@ -27,7 +27,7 @@
     }
 
     .landing-splash {
-        width:100%
+        width: 100%
     }
 
     /**
@@ -115,7 +115,7 @@
     .product {
         list-style-type: none;
         border: 1px solid #eee;
-        background:white;
+        background: white;
         margin: 0;
         padding: 0;
         -webkit-transition: 0.3s;
@@ -162,7 +162,7 @@
 
     #about-us p {
         // background: rgba(255, 255, 255, 0.5);
-        font-size:16px;
+        font-size: 16px;
         margin: 0;
         padding-bottom: 12px;
     }
@@ -171,6 +171,14 @@
 
     img-comparison-slider {
         max-height: 750px;
-        width:100%;
+        width: 100%;
+    }
+
+    .footer {
+        width: 100%;
+        text-align: center;
+		a {
+			color: white;
+		}
     }
 }
