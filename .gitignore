@@ -33,6 +33,9 @@ npm-debug.log*
 # Firebase hosting cache
 /.firebase
 
+# Angular cache
+/.angular
+
 # Auto-Generated Environment Version file
 /src/environments/version.ts
 

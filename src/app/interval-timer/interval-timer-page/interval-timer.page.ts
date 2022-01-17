@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ClientFacade } from 'src/app/core/state/client/client.facade';
 import { Client } from 'src/app/core/state/client/client.model';
@@ -19,7 +19,7 @@ import { IntervalCountdownComponent } from '../interval-countdown/interval-count
     'templateUrl': './interval-timer.page.html',
     'styleUrls': ['./interval-timer.page.scss'],
 })
-export class IntervalTimerPage implements OnInit, AfterViewInit {
+export class IntervalTimerPage implements OnInit {
 
     intervalPhase: IntervalPhase;
     listOfRoutines: IntervalExerciseRoutine[] = [];
@@ -98,9 +98,6 @@ export class IntervalTimerPage implements OnInit, AfterViewInit {
         );
     }
 
-    ngAfterViewInit() {
-        // console.log(this.countdown);
-    }
 
     build(exercises: Exercise[], i: number, duration = 10, reps = 'AMRAP'): IntervalExerciseRoutine {
         return {

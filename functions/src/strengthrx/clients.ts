@@ -1,14 +1,9 @@
 import { db, auth, STRIPE_COLLECTION } from '../config';
 import Stripe from 'stripe';
 import { getCount, incrementCounter } from '../counter/distributed_counter';
-import { Transaction, DocumentReference } from '@google-cloud/firestore';
 
 import * as functions from 'firebase-functions';
 import * as dayjs from 'dayjs';
-
-import { Program, WeeklyScheduleIndex } from '../../../src/app/core/state/program/program.model'
-import { Workout } from '../../../src/app/core/state/workout/workout.model'
-
 
 /**
  * Creates a Firebase document in the clients collection with 
@@ -17,7 +12,7 @@ import { Workout } from '../../../src/app/core/state/workout/workout.model'
  */
 export async function createClient(userID: string, subscription: Stripe.Subscription) {
     const shortID: number = await getCount(`clients`) + 1;
-    return db.runTransaction(async (transaction: Transaction) => {
+    return db.runTransaction(async (transaction: FirebaseFirestore.Transaction) => {
         await incrementCounter(`clients`, transaction);
         const user = await auth.getUser(userID);
         const profile = (await db.collection(`profiles`).doc(userID).get()).data()
@@ -26,14 +21,14 @@ export async function createClient(userID: string, subscription: Stripe.Subscrip
             throw new Error(errorMessage);
         }
 
-        const clientRef: DocumentReference = db.doc(`clients/${userID}`);
+        const clientRef: FirebaseFirestore.DocumentReference = db.doc(`clients/${userID}`);
         return transaction.set(clientRef, {
             ...profile,
             ...{
                 userID,
                 clientID: shortID,
                 email: user.email,
-                subscription: subscription.status,
+                subscription: subscription.status
             }
         });
     })
@@ -68,7 +63,7 @@ async function createClientEvent(clientID: string, timestamp: FirebaseFirestore.
             'timestamp': timestamp,
             'docID': docID,
             'type': eventType,
-            'trainerID': clientData.assignedTrainer ? clientData.assignedTrainer.id : '',
+            'trainerID': clientData.assignedTrainer ? clientData.assignedTrainer.id : ''
         });
     }
 }
@@ -100,14 +95,14 @@ export const onWrittenClient = functions.firestore.document(`clients/{clientID}`
 	}
 });
 
-function buildCalendar(program: Program): any {
+function buildCalendar(program: any): any {
     const calendar: any = {};
     const startDay: dayjs.Dayjs = dayjs(new Date());
-    program.phases.forEach((phase, phaseIndex) => {
+    program.phases.forEach((phase: any, phaseIndex: any) => {
         let normalizedWeekIndex = 0;
         for (let i = 1; i <= phase.lengthInWeeks; i++) {
             Object.keys(phase.schedule).sort().forEach((day, dayIndex) => {
-				const workout = phase.schedule[day as WeeklyScheduleIndex];
+				const workout = phase.schedule[day];
                 if (workout) {
                     const DAYS_IN_A_WEEK = 7;
                     const adjustment = dayIndex + (normalizedWeekIndex * DAYS_IN_A_WEEK)
@@ -126,7 +121,7 @@ function buildCalendar(program: Program): any {
 function buildWorkoutEvent(
     id: string,
     assignedDate: Date,
-    workout: Workout,
+    workout: any,
     phase: number,
     week: number,
     normalizedWeek: number
@@ -138,7 +133,7 @@ function buildWorkoutEvent(
         phase,
         week,
         normalizedWeek,
-        completed: null,
+        completed: null
     }
 }
 
@@ -168,7 +163,7 @@ export const onCreatedProgressPics = functions.firestore.document(`clients/{clie
 interface WorkoutEvent {
     'id': string;
     'assignedDate': any;
-    'workout': Workout;
+    'workout': any;
     'completed': any | null;
     'phase': number;
     'week': number;

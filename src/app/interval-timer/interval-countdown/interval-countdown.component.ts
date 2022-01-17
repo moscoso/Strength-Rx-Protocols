@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { CountdownComponent } from 'ngx-countdown';
 import { IntervalExerciseRoutine } from 'src/app/core/state/workout/workout.model';
 import { YoutubePlayerComponent } from 'src/app/shared/youtube-player/youtube-player.component';
@@ -8,7 +8,7 @@ import { YoutubePlayerComponent } from 'src/app/shared/youtube-player/youtube-pl
     'templateUrl': './interval-countdown.component.html',
     'styleUrls': ['./interval-countdown.component.scss'],
 })
-export class IntervalCountdownComponent implements OnInit {
+export class IntervalCountdownComponent {
     @ViewChild('cd', { 'static': false }) private countdown: CountdownComponent;
     @ViewChild('ytPlayer') ytPlayer: YoutubePlayerComponent ;
     config: {
@@ -23,10 +23,6 @@ export class IntervalCountdownComponent implements OnInit {
     status = 1;
 
     constructor() {}
-
-    ngOnInit(): void {
-
-    }
 
     handleEvent(event) {
         this.status = event.status;

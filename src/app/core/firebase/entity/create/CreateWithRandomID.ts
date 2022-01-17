@@ -1,5 +1,5 @@
 import { CreateStrategy } from './CreateStrategy';
-import { AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { generateRandomID } from 'src/util/randomID/randomID';
 
 

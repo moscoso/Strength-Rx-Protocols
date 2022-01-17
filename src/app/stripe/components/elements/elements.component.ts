@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { AngularFireFunctions } from '@angular/fire/functions';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 import { environment } from 'src/environments/environment';
 
@@ -65,7 +65,6 @@ export class ElementsComponent implements AfterViewInit {
 
     async charge(source: stripe.Source) {
         this.loading = true;
-        const userID = await this.authService.getUserID();
         const fun = this.functions.httpsCallable('stripeCreateCharge');
         this.confirmation = await fun({'source': source.id, 'amount': this.amount}).toPromise();
         this.loading = false;
@@ -73,7 +72,6 @@ export class ElementsComponent implements AfterViewInit {
 
     async subscription(source: stripe.Source) {
         this.loading = true;
-        const userID = await this.authService.getUserID();
         const fun = this.functions.httpsCallable('stripeCreateSubscription');
         this.confirmation = await fun({'source': source.id, 'plan': 'price_1H2LZhCezgWh4f2jSudGs6zy'}).toPromise();
         this.loading = false;

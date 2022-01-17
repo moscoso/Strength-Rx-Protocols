@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IntervalExerciseRoutine, IntervalPhase } from 'src/app/core/state/workout/workout.model';
 
 @Component({
@@ -6,15 +6,13 @@ import { IntervalExerciseRoutine, IntervalPhase } from 'src/app/core/state/worko
     'templateUrl': './interval-exercise-list.component.html',
     'styleUrls': ['./interval-exercise-list.component.scss'],
 })
-export class IntervalExerciseListComponent implements OnInit {
+export class IntervalExerciseListComponent {
 
     @Input() exercises: any[];
 
     @Input() intervalPhase: IntervalPhase;
 
     constructor() {}
-
-    ngOnInit() {}
 
     build(i: number, duration = 10, reps = 'AMRAP'): IntervalExerciseRoutine {
         return {

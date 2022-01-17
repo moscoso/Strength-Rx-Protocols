@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialsModule } from '../../../materials.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Store } from '@ngrx/store';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ExerciseFormComponent } from './exercise-form.component';
 
 describe('ExerciseFormComponent', () => {

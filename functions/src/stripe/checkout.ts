@@ -15,7 +15,7 @@ async function createCheckoutSession(userID: string, priceID: string, hostURL: s
     const customer = await getOrCreateCustomer(userID);
     const lineItem: Stripe.Checkout.SessionCreateParams.LineItem = {
         'price': priceID,
-        'quantity': 1,
+        'quantity': 1
     }
     const params: Stripe.Checkout.SessionCreateParams = {
         line_items: [lineItem],
@@ -24,7 +24,7 @@ async function createCheckoutSession(userID: string, priceID: string, hostURL: s
         mode: 'subscription',
         allow_promotion_codes: true,
         success_url: `${hostURL}/thank-you`,
-        cancel_url: `${hostURL}/start-membership`,
+        cancel_url: `${hostURL}/start-membership`
     }
 
     const session: Promise<Stripe.Response<Stripe.Checkout.Session>> = stripe.checkout.sessions.create(params);

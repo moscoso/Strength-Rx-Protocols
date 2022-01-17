@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProgramFacade } from 'src/app/core/state/program/program.facade';
 
 @Component({
@@ -6,13 +6,11 @@ import { ProgramFacade } from 'src/app/core/state/program/program.facade';
     'templateUrl': './edit-program.page.html',
     'styleUrls': ['./edit-program.page.scss'],
 })
-export class EditProgramPage implements OnInit {
+export class EditProgramPage {
 
     constructor(
         public programService: ProgramFacade
     ) {}
-
-    ngOnInit() {}
 
     onSubmit(program) {
         this.programService.update(program.id, program);

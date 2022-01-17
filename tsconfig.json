@@ -1,26 +1,30 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "module": "es2020",
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "es2015",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ]
-  },
-  "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
-  }
+    "compileOnSave": false,
+    "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "./dist/out-tsc",
+        "sourceMap": true,
+        "declaration": false,
+        "module": "es2020",
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+		"skipLibCheck": true,
+        "target": "es2015",
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "lib": [
+            "es2018",
+            "dom"
+        ],
+        "paths": {
+            "tslib": ["path/to/node_modules/tslib/tslib.d.ts"]
+        },
+    },
+    "angularCompilerOptions": {
+        "fullTemplateTypeCheck": true,
+        "strictInjectionParameters": true
+    }
 }

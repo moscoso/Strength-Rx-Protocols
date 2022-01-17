@@ -1,13 +1,13 @@
-import { Component, Input, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer2, Self, HostListener } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild, ElementRef, Renderer2, HostListener } from '@angular/core';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { mergeMap, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
-    selector: 'image-comparison',
+    selector: 'app-image-comparison',
     templateUrl: './image-comparison.component.html',
     styleUrls: ['./image-comparison.component.scss']
 })
-export class ImageComparisonSliderComponent implements OnInit, AfterViewInit {
+export class ImageComparisonSliderComponent implements AfterViewInit {
     @Input() start = 50; // Position of division to start with
     @Input() imageSrcs: string[];
     @Input() preImageUrl: string;
@@ -34,8 +34,6 @@ export class ImageComparisonSliderComponent implements OnInit, AfterViewInit {
     sliderHeight = 0;
 
     constructor(private renderer: Renderer2) {}
-
-    ngOnInit() {}
 
     ngAfterViewInit() {
         // Override styles with optional setting

@@ -6,11 +6,9 @@ import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
     'templateUrl': './logout-button.component.html',
     'styleUrls': ['./logout-button.component.scss'],
 })
-export class LogoutButtonComponent implements OnInit {
+export class LogoutButtonComponent {
 
     constructor(public authService: AuthFacade) {}
-
-    ngOnInit() {}
 
     logout() {
         this.authService.logout();

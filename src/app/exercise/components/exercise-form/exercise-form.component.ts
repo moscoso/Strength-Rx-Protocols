@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { first } from 'rxjs/operators';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
 import { ExerciseFacade } from 'src/app/core/state/exercise/exercise.facade';
 import { Delta } from 'src/util/delta/Delta';

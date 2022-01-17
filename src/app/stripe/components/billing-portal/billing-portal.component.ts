@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AngularFireFunctions } from '@angular/fire/functions';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 
 @Component({

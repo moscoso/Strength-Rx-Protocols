@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireFunctions } from '@angular/fire/functions';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 import { AuthFacade } from 'src/app/core/state/auth/auth.facade';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 
@@ -8,7 +8,7 @@ import { ToastService } from 'src/app/shared/toast/toast.service';
     'templateUrl': './join.page.html',
     'styleUrls': ['./join.page.scss'],
 })
-export class JoinPage implements OnInit {
+export class JoinPage {
 
     chosenPlan = null;
 
@@ -16,11 +16,7 @@ export class JoinPage implements OnInit {
         public functions: AngularFireFunctions,
         public authService: AuthFacade,
         public toastService: ToastService,
-    ) {}
-
-    ngOnInit() {
-
-    }
+    ) {}    
 
     async onSubmit(data) {
         const profile = Object.assign({}, data);

@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-    <section id="services" *ngIf="plans != null && chosenPlanID === null">
+    <section id="services" *ngIf="plans !== null && chosenPlanID === null">
         <!-- DefaultSegment -->
         <ion-segment (ionChange)="segmentChanged($event)" value="monthly">
             <ion-segment-button value="2week">

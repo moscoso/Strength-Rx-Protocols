@@ -3,7 +3,7 @@ import { Program, ProgramPhase, PROGRAM_PHASE_INIT_MODEL } from 'src/app/core/st
 import { FormGroup, FormControl, Validators, FormArray, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ToastService } from 'src/app/shared/toast/toast.service';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { first } from 'rxjs/operators';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';

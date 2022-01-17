@@ -20,14 +20,14 @@
     <ion-grid *ngIf="profile$ | async as profile else noProfile" text-center>
         <ion-avatar (click)="presentAvatar()" [ngClass]="(thisIsMe$ | async) ? 'thisIsMe' : 'thisIsNotMe'">
             <img [src]='getAvatar(profile)' />
-            <ion-icon [hidden]="!(thisIsMe$ | async)" name="camera" size="large" [color]="'white'"></ion-icon>
+            <ion-icon [hidden]="(thisIsMe$ | async) === false" name="camera" size="large" [color]="'white'"></ion-icon>
         </ion-avatar>
 
 
         <h1 class="name">{{profile.firstName}} {{profile.lastName}}</h1>
         <h2 *ngIf="(thisIsMe$ | async) && (iAmTrainer$ | async)">Trainer 💪🏼 </h2>
         <ion-note>USER ID: {{profile.id}}</ion-note>
-        <go-to-chat-button *ngIf="!(thisIsMe$ | async) && (iAmTrainer$)" [userID]="profile.id"></go-to-chat-button>
+        <go-to-chat-button *ngIf="(thisIsMe$ | async) === false && (iAmTrainer$)" [userID]="profile.id"></go-to-chat-button>
         <ion-list>
             <ion-item>
                 <ion-icon [name]="profile.sex === 'M' ? 'male-outline' : 'female-outline'"></ion-icon>
@@ -35,7 +35,7 @@
             </ion-item>
             <ion-item>Height: {{profile.height.feet}}' {{profile.height.inches}}"</ion-item>
             <ion-item *ngIf="getBirthday(profile)">Birthday: {{getBirthday(profile)}}</ion-item>
-            <ion-item *ngIf="profile.goal && profile.goal != ''">Fitness Goal: {{profile.goal}}</ion-item>
+            <ion-item *ngIf="profile.goal && profile.goal !== ''">Fitness Goal: {{profile.goal}}</ion-item>
             <assign-trainer *ngIf="profile.isTrainer === false" [clientID]="profile.id" [hidden]="(iAmTrainer$ | async) && (thisIsMe$ | async) && !profile.isTrainer">
             </assign-trainer>
             <assign-program *ngIf="profile.isTrainer === false"  [clientID]="profile.id" [hidden]="(iAmTrainer$ | async) && (thisIsMe$ | async) && !profile.isTrainer">
@@ -52,7 +52,7 @@
             </ion-item>
         </ion-list>
 
-        <ion-list *ngIf="!(thisIsMe$ | async) && (iAmTrainer$ | async)">
+        <ion-list *ngIf="(thisIsMe$ | async) === false && (iAmTrainer$ | async)">
             <h1>Client Links</h1>
             <ion-item><a [routerLink]="'/progress-pics/' +profile.id">Progress Pics</a></ion-item>
             <ion-item><a [routerLink]="'/reviews/' +profile.id">Reviews</a></ion-item>
@@ -76,7 +76,7 @@
 
             </ion-grid>
         </ng-container>
-        <ng-container *ngIf="!(requestInProgress$ | async)">
+        <ng-container *ngIf="(requestInProgress$ | async) === false">
             <h1>Profile Failed to load</h1>
             <ion-button (click)="fetchProfile()">Click to retry</ion-button>
         </ng-container>

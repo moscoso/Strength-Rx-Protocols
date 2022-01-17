@@ -18,14 +18,14 @@
             </mat-select>
             <mat-error *ngIf="clientControl.hasError('required')">A workout is required</mat-error>
         </mat-form-field>
-        <mat-form-field class="client-form-field" *ngIf="clientControl.value != null">
+        <mat-form-field class="client-form-field" *ngIf="clientControl.value !== null">
             <mat-label>Choose a Phase</mat-label>
             <mat-select [formControl]="phaseControl">
                 <mat-option *ngFor="let phase of clientControl.value['assignedProgram']['phases']; let i = index;"
                             [value]="i">Phase {{i + 1}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field class="client-form-field" *ngIf="phaseControl.value != null">
+        <mat-form-field class="client-form-field" *ngIf="phaseControl.value !== null">
             <mat-label>Choose a Workout</mat-label>
             <mat-select [formControl]="workoutControl">
                 <mat-option *ngFor="let workout of workoutOptions;"

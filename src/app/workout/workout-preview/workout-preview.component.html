@@ -1,5 +1,5 @@
 <ion-card>
-    <ng-container *ngIf="extractExercise(workout) != null">
+    <ng-container *ngIf="extractExercise(workout) !== null">
         <img [src]="getYoutubeThumbnail()"/>
     </ng-container>
     <ng-template #noVideoURL>

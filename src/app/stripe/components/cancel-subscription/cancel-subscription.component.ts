@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { AngularFireFunctions } from '@angular/fire/functions';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 
 @Component({
     'selector': 'cancel-subscription',

@@ -1,6 +1,5 @@
 import {
     Component,
-    OnInit,
     AfterViewInit,
     ViewChild,
     ElementRef,
@@ -15,7 +14,7 @@ import 'style-loader!image-comparison/src/ImageComparison.css';
     'templateUrl': `image-comparison.component.html`,
     'styleUrls': [`image-comparison.component.scss`]
 })
-export class ImageComparisonComponent implements OnInit, AfterViewInit {
+export class ImageComparisonComponent implements AfterViewInit {
     @Input() imageSrcs: string[] = [];
     @Input() before = 'BEFORE';
     @Input() after = 'AFTER';
@@ -29,16 +28,12 @@ export class ImageComparisonComponent implements OnInit, AfterViewInit {
     isShow = false;
     constructor(private renderer: Renderer2) {}
 
-    ngOnInit() {}
     public show(data: string[], before ? , after ? ) {
         this.imageSrcs = data;
         this.after = after;
         this.before = before;
         this.createImageComparison();
         this.isShow = true;
-
-
-
     }
     ngAfterViewInit() {
         if (this.imageSrcs.length > 0) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { ExerciseFacade } from 'src/app/core/state/exercise/exercise.facade';
 
@@ -7,12 +7,10 @@ import { ExerciseFacade } from 'src/app/core/state/exercise/exercise.facade';
     'templateUrl': './edit-exercise.component.html',
     'styleUrls': ['./edit-exercise.component.scss'],
 })
-export class EditExerciseComponent implements OnInit {
+export class EditExerciseComponent {
     constructor(
         public exerciseService: ExerciseFacade
     ) {}
-
-    ngOnInit() {}
 
     onSubmit(exercise: any) {
         this.exerciseService.update(exercise.id, exercise);

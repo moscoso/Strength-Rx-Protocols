@@ -1,5 +1,5 @@
-import { AngularFirestoreCollection } from '@angular/fire/firestore';
-import { AngularFireFunctions } from '@angular/fire/functions';
+import { AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 import { IDCreateBehavior } from '../EntityServiceOptions';
 import { CreateStrategy } from './CreateStrategy';
 import { CreateIDFromAuthUser as CreateWithIDFromAuthUser } from './CreateWithIDFromAuthUser';

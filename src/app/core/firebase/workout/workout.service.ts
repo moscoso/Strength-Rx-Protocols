@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { EntityService } from '../entity/EntityService';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FirebaseModule } from '../firebase.module';
-import { AngularFireFunctions } from '@angular/fire/functions';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 import { WORKOUT_INIT_MODEL, Workout } from '../../state/workout/workout.model';
 
 @Injectable({'providedIn': FirebaseModule, })

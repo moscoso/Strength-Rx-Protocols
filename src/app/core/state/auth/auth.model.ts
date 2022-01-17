@@ -1,5 +1,3 @@
-import { UserInfo } from 'firebase';
-
 export interface AuthModel {
     /**
      * The ID that uniquely identifies the authenticated user
@@ -39,10 +37,8 @@ export const AUTH_INIT_MODEL: AuthModel = {
  *  User profile information, visible only to the Firebase project's apps.
  *  https://firebase.google.com/docs/reference/node/firebase.UserInfo
  *
- *  Note: This is just a re-export of Firebase's UserInfo type.
- *  It is essential to this project's state management for auth
  */
-export interface UserData extends UserInfo {
+export interface UserData {
     displayName: string | null;
     email: string | null;
     phoneNumber: string | null;

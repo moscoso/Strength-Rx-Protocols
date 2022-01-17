@@ -6,13 +6,11 @@ import { ExerciseFacade } from 'src/app/core/state/exercise/exercise.facade';
     'templateUrl': './create-exercise.component.html',
     'styleUrls': ['./create-exercise.component.scss'],
 })
-export class CreateExerciseComponent implements OnInit {
+export class CreateExerciseComponent {
 
     constructor(
         public exerciseService: ExerciseFacade
     ) {}
-
-    ngOnInit() {}
 
     onSubmit(exercise: any) {
         this.exerciseService.create(exercise);

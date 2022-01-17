@@ -10,7 +10,7 @@
         <mat-error *ngIf="exercises.hasError('required')">At least one Exercise is required.</mat-error>
     </mat-form-field>
 </ion-row>
-<ion-col sizeXs=12 sizeSm=12 sizeMd=4 [hidden]="orderedList.length == 0">
+<ion-col sizeXs=12 sizeSm=12 sizeMd=4 [hidden]="orderedList.length === 0">
     <ion-label>Exercise Order:</ion-label>
     <div cdkDropList (cdkDropListDropped)="drop($event)" class="ordered-list">
         <div *ngFor="let exercise of orderedList" cdkDrag class="ordered-box">

@@ -1,15 +1,20 @@
 // Initialize Firebase Admin SDK
-import * as admin from 'firebase-admin';
-admin.initializeApp();
+import {initializeApp} from 'firebase-admin/app';
+initializeApp();
+
+/** The Firebase Admin's Auth instance */
+import {getAuth} from 'firebase-admin/auth';
+export const auth = getAuth();
 
 /** The Firebase Admin's Firestore database instance */
-export const db = admin.firestore();
-/** The Firebase Admin's Auth instance */
-export const auth = admin.auth();
-/** The Firebase Admin's Messaging instance */
-export const messaging = admin.messaging();
+import {getFirestore} from 'firebase-admin/firestore';
+export const db: FirebaseFirestore.Firestore = getFirestore();
 const settings: FirebaseFirestore.Settings = { timestampsInSnapshots: true};
 db.settings(settings);
+
+/** The Firebase Admin's Messaging instance */
+import {getMessaging} from 'firebase-admin/messaging';
+export const messaging = getMessaging();
 
 // Initialize ENV Variables for Firebase Functions
 import * as functions from 'firebase-functions';

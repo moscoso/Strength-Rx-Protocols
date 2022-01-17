@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { StandardExerciseRoutine, Workout } from 'src/app/core/state/workout/workout.model';
 
 @Component({
@@ -6,13 +6,11 @@ import { StandardExerciseRoutine, Workout } from 'src/app/core/state/workout/wor
     'templateUrl': './workout-info.component.html',
     'styleUrls': ['./workout-info.component.scss'],
 })
-export class WorkoutInfoComponent implements OnInit {
+export class WorkoutInfoComponent {
 
     @Input() workout: Workout;
 
     constructor() {}
-
-    ngOnInit() {}
 
     getNotes(routine: StandardExerciseRoutine) {
         if (!routine) { console.warn('getNotes failed because routine is undefined'); return; }

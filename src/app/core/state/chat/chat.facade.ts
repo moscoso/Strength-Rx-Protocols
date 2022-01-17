@@ -9,7 +9,7 @@ import { ChatService } from '../../firebase/auth/chat/chat.service';
 import { StateModule } from '../state.module';
 import { selectAll } from './chat.selector';
 import { Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getOtherIDFromConversationID } from 'src/util/chat/ConversationHelpers';
 
 

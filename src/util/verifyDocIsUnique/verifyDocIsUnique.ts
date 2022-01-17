@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/firestore/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 /**
  * Validate that the document ID for a given collection does not already exist

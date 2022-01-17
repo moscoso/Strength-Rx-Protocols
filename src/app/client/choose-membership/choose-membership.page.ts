@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireFunctions } from '@angular/fire/functions';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 import { first } from 'rxjs/operators';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { environment } from 'src/environments/environment';
@@ -48,7 +48,7 @@ export class ChooseMembershipPage implements OnInit {
 
     async fetchPrices() {
         const x = await this.firestore.doc(`products/stripe_subscriptions`).get().pipe(first()).toPromise();
-        this.plans = x.data().plans;
+        this.plans = (x.data() as any).plans;
         return;
     }
 

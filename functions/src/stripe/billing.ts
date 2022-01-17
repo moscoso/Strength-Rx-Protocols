@@ -14,7 +14,7 @@ import Stripe from 'stripe';
 async function createBillingSession(userID: string, returnURL?: string): Promise<Stripe.BillingPortal.Session> {
     const customer = await getCustomerID(userID);
     const params: Stripe.BillingPortal.SessionCreateParams = {
-        customer,
+        customer
         // return_url: returnURL
     };
     const session = await stripe.billingPortal.sessions.create(params);

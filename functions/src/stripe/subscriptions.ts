@@ -19,7 +19,7 @@ export async function activateSubscription(userID: string, planID: string, subsc
             planID,
             subscriptionID,
             'created': new Date(),
-            'status': 'active',
+            'status': 'active'
         }
     return db.doc(`${STRIPE_COLLECTION}/${userID}/subscriptions/${subscriptionID}`).set(docData, { merge: true });
 }
@@ -44,7 +44,7 @@ export async function updateSubscription(userID: string, subscription: Stripe.Su
     const docData = {
         'planID': planID,
         'cancel_at': subscription.cancel_at,
-        'status': subscription.status,
+        'status': subscription.status
     }
     return db.doc(`${STRIPE_COLLECTION}/${userID}/subscriptions/${subscription.id}`).set(docData, { merge: true });
 }
@@ -57,7 +57,7 @@ export async function updateSubscription(userID: string, subscription: Stripe.Su
 async function deactivateSubscription(userID: string, subscriptionID: string): Promise<FirebaseFirestore.WriteResult> {
     const docData: { 'status': Stripe.Subscription.Status, 'canceled': Date } = {
         'status': 'canceled',
-        'canceled': new Date(),
+        'canceled': new Date()
     }
     return db.doc(`${STRIPE_COLLECTION}/${userID}/subscriptions/${subscriptionID}`).set(docData, { merge: true });
 }
@@ -87,8 +87,8 @@ export async function createSubscription(userID: string, source: string, plan: s
             customer: customer.id,
             coupon,
             items: [{
-                plan,
-            }, ],
+                plan
+            } ]
         });
         await createClient(userID, subscription);
         await activateSubscription(userID, plan, subscription.id);

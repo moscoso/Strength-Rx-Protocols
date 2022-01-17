@@ -20,7 +20,7 @@
     </ion-refresher>
 
     <ion-grid *ngIf="programList as programs">
-        <ng-template *ngIf="(requestInProgress$ | async) && programs.length == 0; else loaded">
+        <ng-template *ngIf="(requestInProgress$ | async) && programs.length === 0; else loaded">
             <ion-spinner></ion-spinner>
         </ng-template>
         <ng-template #loaded>

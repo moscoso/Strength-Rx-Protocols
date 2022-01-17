@@ -1,4 +1,4 @@
-import { AngularFirestore, AngularFirestoreCollection, QuerySnapshot, DocumentData } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, QuerySnapshot, DocumentData } from '@angular/fire/compat/firestore';
 import { first } from 'rxjs/operators';
 import { CreateStrategy } from './create/CreateStrategy';
 import {
@@ -6,7 +6,7 @@ import {
     DEFAULT_ENTITY_SERVICE_OPTIONS as DEFAULT_OPTIONS,
     IDCreateBehavior
 } from './EntityServiceOptions';
-import { AngularFireFunctions } from '@angular/fire/functions';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
 import { CreateStrategyFactory } from './create/CreateStrategyFactory';
 
@@ -147,7 +147,7 @@ export abstract class EntityService < T > {
             if (!oldDoc.exists) {
                 throw new Error(`UpdateAndMove failed. Cannot find entity at ${this.collectionName}/${oldDoc.ref.id}`);
             }
-            const currentData = oldDoc.data();
+            const currentData = oldDoc.data() as any;
             transaction.set(newRef, { ...currentData, ...changes, ...{ 'id': newSlugID } });
             transaction.delete(oldRef);
             return changes;

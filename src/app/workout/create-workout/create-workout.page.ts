@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { WorkoutFacade } from 'src/app/core/state/workout/workout.facade';
 
 @Component({
@@ -6,13 +6,11 @@ import { WorkoutFacade } from 'src/app/core/state/workout/workout.facade';
     'templateUrl': './create-workout.page.html',
     'styleUrls': ['./create-workout.page.scss'],
 })
-export class CreateWorkoutPage implements OnInit {
+export class CreateWorkoutPage {
 
     constructor(
         public workoutService: WorkoutFacade
     ) {}
-
-    ngOnInit() {}
 
     onSubmit(workout) {
         this.workoutService.create(workout);

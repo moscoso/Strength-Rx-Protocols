@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Exercise } from 'src/app/core/state/exercise/exercise.model';
 import { Workout } from 'src/app/core/state/workout/workout.model';
 
@@ -7,13 +7,11 @@ import { Workout } from 'src/app/core/state/workout/workout.model';
     'templateUrl': './workout-preview.component.html',
     'styleUrls': ['./workout-preview.component.scss'],
 })
-export class WorkoutPreviewComponent implements OnInit {
+export class WorkoutPreviewComponent {
 
     @Input() workout: Workout;
 
     constructor() {}
-
-    ngOnInit() {}
 
     getYoutubeThumbnail() {
         const exercise = this.extractExercise(this.workout);

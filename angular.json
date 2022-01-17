@@ -14,7 +14,6 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "aot": true,
                         "outputPath": "www",
                         "index": "src/index.html",
                         "main": "src/main.ts",
@@ -42,7 +41,13 @@
                                 "input": "src/global.scss"
                             }
                         ],
-                        "scripts": []
+                        "scripts": [],
+                        "vendorChunk": true,
+                        "extractLicenses": false,
+                        "buildOptimizer": false,
+                        "sourceMap": true,
+                        "optimization": false,
+                        "namedChunks": true
                     },
                     "configurations": {
                         "production": {
@@ -55,7 +60,6 @@
                             "outputHashing": "all",
                             "sourceMap": false,
                             "namedChunks": false,
-                            "aot": true,
                             "extractLicenses": true,
                             "vendorChunk": false,
                             "buildOptimizer": true,
@@ -82,7 +86,6 @@
                             "outputHashing": "all",
                             "sourceMap": false,
                             "namedChunks": false,
-                            "aot": true,
                             "extractLicenses": true,
                             "vendorChunk": false,
                             "buildOptimizer": true,
@@ -107,7 +110,8 @@
                             }],
                             "progress": false
                         }
-                    }
+                    },
+                    "defaultConfiguration": ""
                 },
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
@@ -163,15 +167,11 @@
                     }
                 },
                 "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
+                    "builder": "@angular-eslint/builder:lint",
                     "options": {
-                        "tsConfig": [
-                            "tsconfig.app.json",
-                            "tsconfig.spec.json",
-                            "e2e/tsconfig.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**"
+                        "lintFilePatterns": [
+                            "src/**/*.ts",
+                            "src/**/*.html"
                         ]
                     }
                 },
@@ -222,7 +222,7 @@
         }
     },
     "cli": {
-        "defaultCollection": "@ionic/angular-toolkit"
+        "defaultCollection": "@angular-eslint/schematics"
     },
     "schematics": {
         "@ionic/angular-toolkit:component": {

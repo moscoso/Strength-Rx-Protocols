@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FirebaseModule } from '../firebase.module';
 import { EntityService } from '../entity/EntityService';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireFunctions } from '@angular/fire/functions';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 import { Client, CLIENT_INIT_MODEL } from '../../state/client/client.model';
 
 @Injectable({ 'providedIn': FirebaseModule, })

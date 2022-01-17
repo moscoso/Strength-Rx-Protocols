@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -31,7 +31,7 @@ export class ChooseMembershipComponent implements OnInit {
     async fetchPrices() {
         const x = await this.firestore.doc(`products/stripe_subscriptions`).get().pipe(first()).toPromise();
         console.log(x.data());
-        this.plans = x.data().plans;
+        this.plans = (x.data() as any).plans;
     }
 
     segmentChanged(e) {

@@ -1,12 +1,6 @@
-import {
-    Injectable
-} from '@angular/core';
-import {
-    AngularFireAuth
-} from '@angular/fire/auth';
-import {
-    AngularFirestore
-} from '@angular/fire/firestore';
+import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { first } from 'rxjs/operators';
 import { Message } from '../../../state/chat/chat.model';
 
@@ -50,9 +44,8 @@ export class ChatService {
     }
 
     async requestMessages(conversationID: string): Promise < any[] > {
-        const messages = await this.firestore.collection(`conversations/${conversationID}/messages`).valueChanges()
+        return this.firestore.collection(`conversations/${conversationID}/messages`).valueChanges()
             .pipe(first()).toPromise();
-        return messages;
     }
 
     async requestConversationList(userID: string): Promise < any[] > {

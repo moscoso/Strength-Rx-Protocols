@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
     'selector': 'app-check-in-list',

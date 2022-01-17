@@ -1,4 +1,4 @@
-<section id="services" *ngIf="plans != null">
+<section id="services" *ngIf="plans !== null">
     <ion-segment (ionChange)="segmentChanged($event)" value="monthly">
         <ion-segment-button value="2week">
             <ion-label>2 Week Plan</ion-label>

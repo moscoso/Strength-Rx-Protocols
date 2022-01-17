@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { AngularFireUploadTask, AngularFireStorage } from '@angular/fire/storage';
+import { AngularFireUploadTask, AngularFireStorage } from '@angular/fire/compat/storage';
 import { Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { finalize, first } from 'rxjs/operators';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 

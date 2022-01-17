@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { ClientFacade } from 'src/app/core/state/client/client.facade';

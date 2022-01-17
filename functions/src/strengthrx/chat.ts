@@ -40,7 +40,7 @@ async function createConversationDocument(conversationID: string, message: any):
         preview: message.text,
         userIDs,
         name1,
-        name2,
+        name2
     }
     return db.doc(`conversations/${conversationID}`).set(conversation);
 }
@@ -53,7 +53,7 @@ function updateConversationDocument(conversationID: string, message: any): Promi
         latest: message.timestamp,
         lastReadByUser1: message.senderID === user1 ? message.timestamp : null,
         lastReadByUser2: message.senderID === user2 ? message.timestamp : null,
-        preview: message.text,
+        preview: message.text
     }
     return db.doc(`conversations/${conversationID}`).set(conversation, {'merge': true});
 }

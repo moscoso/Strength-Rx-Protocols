@@ -1,19 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireFunctions } from '@angular/fire/functions';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 
 @Component({
     'selector': 'my-sources',
     'templateUrl': './my-sources.component.html',
     'styleUrls': ['./my-sources.component.scss'],
 })
-export class MySourcesComponent implements OnInit {
+export class MySourcesComponent {
 
     constructor(
         public functions: AngularFireFunctions
     ) {}
-
-    ngOnInit() {}
-
 
     getSources() {
         const fun = this.functions.httpsCallable('stripeGetSources');

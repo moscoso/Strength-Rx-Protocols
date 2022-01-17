@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { EntityService } from '../entity/EntityService';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FirebaseModule } from '../firebase.module';
 import { Program, PROGRAM_INIT_MODEL } from '../../state/program/program.model';
-import { AngularFireFunctions } from '@angular/fire/functions';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 
 @Injectable({'providedIn': FirebaseModule, })
 export class ProgramService extends EntityService<Program> {

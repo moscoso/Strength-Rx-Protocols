@@ -5,7 +5,7 @@ import { filter, first } from 'rxjs/operators';
 import { Message, Conversation } from 'src/app/core/state/chat/chat.model';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { sortByTimestamp } from 'src/app/core/state/chat/chat.state';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getIDListFromConversationID, getOtherIDFromConversationID } from 'functions/src/strengthrx/ConversationHelpers';
 import 'firebase/firestore';
 

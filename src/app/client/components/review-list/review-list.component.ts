@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { filter, startWith, tap } from 'rxjs/operators';
 
 @Component({

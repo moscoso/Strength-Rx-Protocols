@@ -1,5 +1,5 @@
 <ng-container *ngIf="listOfRoutines[exerciseIndex] as routine">
-    <app-youtube-player *ngIf="routine.exercise != null; else rest"
+    <app-youtube-player *ngIf="routine.exercise !== null; else rest"
                         [videoID]="routine.exercise.youtubeID"
                         [autoplay]="true"
                         #ytPlayer
@@ -21,7 +21,7 @@
         <ion-label class="ion-padding-start">
             <p style="font-weight: 500;">{{nextRoutine.exercise ? nextRoutine.exercise.name : 'REST'}}</p>
             <p>{{nextRoutine.duration}} seconds</p>
-            <p [hidden]="nextRoutine.exercise == null">{{nextRoutine.reps}}</p>
+            <p [hidden]="nextRoutine.exercise === null">{{nextRoutine.reps}}</p>
         </ion-label>
     </ng-container>
     <ng-template #done>

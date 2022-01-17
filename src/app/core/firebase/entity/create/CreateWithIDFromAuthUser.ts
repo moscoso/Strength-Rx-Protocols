@@ -1,5 +1,5 @@
 import { CreateStrategy } from './CreateStrategy';
-import { AngularFireFunctions } from '@angular/fire/functions';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 
 /**
  * This strategy creates an ID based on the unique identifier of the authorized user

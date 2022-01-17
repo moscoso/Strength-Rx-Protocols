@@ -15,8 +15,8 @@ export async function sendMessageNotification(userID: string, message: any) {
         const payload = {
             notification: {
                 title: `You got a message`,
-                body: `${message.text}`,
-            },
+                body: `${message.text}`
+            }
         };
 
         // Send notifications to all tokens.

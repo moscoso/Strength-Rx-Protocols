@@ -1,5 +1,5 @@
 <ion-card *ngIf="program">
-    <ng-container *ngIf="getYoutubeThumbnail != null">
+    <ng-container *ngIf="getYoutubeThumbnail !== null">
         <img [src]="getYoutubeThumbnail()"/>
     </ng-container>
     <ng-template #noVideoURL>

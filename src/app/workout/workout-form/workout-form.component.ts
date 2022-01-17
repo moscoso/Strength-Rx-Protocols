@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Workout } from 'src/app/core/state/workout/workout.model';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { transformToSlug } from 'src/util/slug/transformToSlug';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { validateDocIDIsUnique } from 'src/util/verifyDocIsUnique/verifyDocIsUnique';
 import { first } from 'rxjs/operators';
 import { WorkoutFacade } from 'src/app/core/state/workout/workout.facade';

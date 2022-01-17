@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 import { RouterStoreDispatcher } from 'src/app/core/state/router/router.dispatcher';
 import { first, pluck } from 'rxjs/operators';

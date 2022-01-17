@@ -158,12 +158,12 @@ export const WORKOUT_INIT_MODEL: Workout = {
 };
 
 export const INIT_STANDARD_EXERCISE_ROUTINE: StandardExerciseRoutine = {
-    'sets': null,
-    'reps': null,
-    '%1rm': null,
-    'rpe': null,
-    'tempo': null,
-    'rest': null,
+    'sets': undefined,
+    'reps': undefined,
+    '%1rm': undefined,
+    'rpe': undefined,
+    'tempo': undefined,
+    'rest': undefined,
     'restAfterExercise': null,
 };
 

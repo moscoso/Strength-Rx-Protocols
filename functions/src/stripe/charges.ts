@@ -38,7 +38,7 @@ export async function charge(userID: string, source: string, amount: number, ide
         amount,
         customer: customer.id,
         source,
-        currency: 'usd',
+        currency: 'usd'
     };
     const options: Stripe.RequestOptions = { idempotencyKey }
     await attachSource(userID, source);

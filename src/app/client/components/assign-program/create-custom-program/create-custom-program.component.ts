@@ -7,13 +7,11 @@ import { Program } from 'src/app/core/state/program/program.model';
     'templateUrl': './create-custom-program.component.html',
     'styleUrls': ['./create-custom-program.component.scss'],
 })
-export class CreateCustomProgramComponent implements OnInit {
+export class CreateCustomProgramComponent {
 
     constructor(
         public modalController: ModalController
     ) {}
-
-    ngOnInit() {}
 
     onSubmit(program: Program) {
         this.modalController.dismiss({ 'program': program }, undefined, 'create-custom-program');

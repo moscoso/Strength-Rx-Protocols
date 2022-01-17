@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ClientFacade } from 'src/app/core/state/client/client.facade';
 import { Client } from 'src/app/core/state/client/client.model';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
     'selector': 'app-client-list',

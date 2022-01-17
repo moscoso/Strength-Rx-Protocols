@@ -5,7 +5,6 @@ import * as AuthActions from './auth.actions';
 import { FireAuthService } from '../../firebase/auth/auth.service';
 import { pluck, first, distinct } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { UserInfo } from 'firebase';
 import { selectUserData, selectAuthenticated, selectState, selectUserID } from './auth.selector';
 import { AuthModel } from './auth.model';
 import { StateModule } from '../state.module';
@@ -21,7 +20,7 @@ export class AuthFacade {
         protected store: Store < AppState > ,
         protected fireAuth: FireAuthService
     ) {
-        this.fireAuth.getUser().pipe(distinct()).subscribe(async (authenticatedUser: firebase.User) => {
+        this.fireAuth.getUser().pipe(distinct()).subscribe(async (authenticatedUser) => {
             if (authenticatedUser) {
                 const userInfo = this.scrapeUserInfo(authenticatedUser);
                 this.store.dispatch(new AuthActions.Authenticated(userInfo));
@@ -75,7 +74,7 @@ export class AuthFacade {
         return this.selectUserData().pipe(firstNonNullValue, pluck('uid')).toPromise();
     }
 
-    public selectUserData(): Observable < UserInfo > {
+    public selectUserData(): Observable < any > {
         return this.store.select(selectUserData);
     }
 
@@ -99,8 +98,8 @@ export class AuthFacade {
      * Scrape the provided firebase.User object into a POJO matching the UserData interface.
      * @param authenticatedUser an authenticated user account
      */
-    private scrapeUserInfo(authenticatedUser: firebase.User): UserInfo {
-        const userInfo: UserInfo = {
+    private scrapeUserInfo(authenticatedUser): any {
+        const userInfo: any = {
             'displayName': authenticatedUser.displayName,
             'email': authenticatedUser.email,
             'phoneNumber': authenticatedUser.phoneNumber,

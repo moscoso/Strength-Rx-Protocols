@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 
 @Component({
@@ -6,7 +6,7 @@ import { MenuController } from '@ionic/angular';
     'templateUrl': './menu-list.component.html',
     'styleUrls': ['./menu-list.component.scss'],
 })
-export class MenuListComponent implements OnInit {
+export class MenuListComponent {
 
     @Input() items: MenuItem[] = [];
 
@@ -14,7 +14,6 @@ export class MenuListComponent implements OnInit {
         public menuController: MenuController
     ) {}
 
-    ngOnInit() {}
 
     scrollPage(s: string) {
         // const options: ScrollIntoViewOptions = { 'behavior': 'smooth', 'block': 'start', 'inline': 'nearest' };

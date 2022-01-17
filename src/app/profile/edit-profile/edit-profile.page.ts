@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
 
 @Component({
@@ -6,13 +6,11 @@ import { ProfileFacade } from 'src/app/core/state/profile/profile.facade';
     'templateUrl': './edit-profile.page.html',
     'styleUrls': ['./edit-profile.page.scss'],
 })
-export class EditProfilePage implements OnInit {
+export class EditProfilePage {
 
     constructor(
         public profileService: ProfileFacade,
     ) {}
-
-    ngOnInit() {}
 
     onSubmit(profile) {
         this.profileService.update(profile.id, profile);

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import * as dayjs from 'dayjs';
 import * as weekOfYear from 'dayjs/plugin/weekOfYear';
 dayjs.extend(weekOfYear);
@@ -45,8 +45,8 @@ export class CalendarPage implements OnInit {
 
             const clientID = x.id;
             // eslint-disable-next-line max-len
-            this.events = await (await this.angularFirestore.doc(`clients/${clientID}/calendar/calendar`).get().pipe(
-                first()).toPromise()).data().calendar;
+            this.events = await ((await this.angularFirestore.doc(`clients/${clientID}/calendar/calendar`).get().pipe(
+                first()).toPromise()).data() as any).calendar;
             this.renderCalendar();
         });
     }
