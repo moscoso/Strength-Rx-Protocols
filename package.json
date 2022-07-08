@@ -51,7 +51,7 @@
     "git-describe": "^4.0.4",
     "image-comparison": "^2.0.4",
     "img-comparison-slider": "^3.0.1",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "ng2-pdf-viewer": "^6.3.2",
     "ngx-countdown": "^10.0.1",
     "ngx-file-drop": "^9.0.1",
